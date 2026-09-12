@@ -1,5 +1,31 @@
 [
   {
+    "id": "mboxttq",
+    "codice": "hol246a",
+    "codiceBrickLink": "hol246a",
+    "nome": "Santa - Fur Lined Jacket with Candy Cane on Back, Red Legs with Black Boots, Santa Hat with Printed Red Top",
+    "categoria": "Holiday & Event > Christmas",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hol246a.png",
+    "prezzoAvgUsato": 2.94,
+    "prezzoVendita": 2.94,
+    "variante": "Hol246a → hol246a",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 3.32,
+      "soldUsed": 2.94,
+      "currentNew": 4.36,
+      "currentUsed": 3.85,
+      "listinoUsato": 2.94
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209210046,
+    "created": 1789209210046
+  },
+  {
     "id": "1of9fgr",
     "codice": "hol204",
     "codiceBrickLink": "hol204",
