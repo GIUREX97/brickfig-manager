@@ -60,7 +60,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Più recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ↓</option></select>
   <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
   <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
-  <button onclick="openPhotoWizard()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
+  <button id="btnPhotoWizard" onclick="openPhotoWizard()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
   <button onclick="document.getElementById('bulkPhotoInput').click()" class="hidden px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-900 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Massivo</button>
   <input type="file" id="bulkPhotoInput" accept="image/*" multiple class="hidden" onchange="handleBulkUpload(event)">
 </div>
@@ -1254,10 +1254,10 @@ async function checkoutCart(){
 }
 // Aggiorna conteggio carrello all'avvio
 updateCartCount();
-// Nascondi AVG e banda rapida su Vercel (online), mostrali solo in locale (tu)
+// Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu)
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
