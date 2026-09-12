@@ -599,25 +599,18 @@
     "codiceBrickLink": "njo0195",
     "nome": "Nadakhan",
     "categoria": "NINJAGO > Skybound",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0195.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 23.91,
-    "prezzoVendita": 23.91,
+    "prezzoVendita": 16.99,
     "variante": "Njo0195 ? njo0195",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 38.3,
-      "soldUsed": 23.91,
-      "currentNew": 62.71,
-      "currentUsed": 31.98,
-      "listinoUsato": 23.91
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252151534,
+    "updated": 1789252595303,
     "created": 1789252151534
   },
   {
