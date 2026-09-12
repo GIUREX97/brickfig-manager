@@ -626,25 +626,18 @@
     "codiceBrickLink": "njo0153",
     "nome": "Kai (Deepstone Armor) - Possession, Shoulder Armor, Wrap",
     "categoria": "NINJAGO > Possession",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0153.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 11.86,
-    "prezzoVendita": 11.86,
+    "prezzoVendita": 10.19,
     "variante": "Njo0153 ? njo0153",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 17.27,
-      "soldUsed": 11.86,
-      "currentNew": 30.22,
-      "currentUsed": 15.16,
-      "listinoUsato": 11.86
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252149065,
+    "updated": 1789252591290,
     "created": 1789252149065
   },
   {
