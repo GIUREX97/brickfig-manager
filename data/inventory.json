@@ -1,32 +1,5 @@
 [
   {
-    "id": "vdfnirs",
-    "codice": "njo0001",
-    "codiceBrickLink": "njo0001",
-    "nome": "Zane - The Golden Weapons",
-    "categoria": "NINJAGO > The Golden Weapons",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0001.png",
-    "fotoExtra": [],
-    "prezzoAvgUsato": 17.58,
-    "prezzoVendita": 17.58,
-    "variante": "Njo0001 ? njo0001",
-    "note": "",
-    "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 28.32,
-      "soldUsed": 17.58,
-      "currentNew": 48.35,
-      "currentUsed": 23.53,
-      "listinoUsato": 17.58
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789252070935,
-    "created": 1789252070935
-  },
-  {
     "id": "qfuk2g5",
     "codice": "nex054",
     "codiceBrickLink": "nex054",
