@@ -1159,25 +1159,18 @@
     "codiceBrickLink": "tlm012",
     "nome": "Taco Tuesday Guy, The LEGO Movie (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > The LEGO Movie",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/tlm012.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 4.73,
-    "prezzoVendita": 4.73,
+    "prezzoVendita": 4.49,
     "variante": "Tlm012 ? tlm012",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 9.44,
-      "soldUsed": 4.73,
-      "currentNew": 13.34,
-      "currentUsed": 5.73,
-      "listinoUsato": 4.73
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252043285,
+    "updated": 1789252408495,
     "created": 1789252043285
   },
   {
