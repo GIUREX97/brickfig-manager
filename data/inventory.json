@@ -1132,25 +1132,18 @@
     "codiceBrickLink": "tlm124",
     "nome": "Sweet Mayhem - Angry",
     "categoria": "The LEGO Movie 2",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/tlm124.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 3.84,
-    "prezzoVendita": 3.84,
+    "prezzoVendita": 3.49,
     "variante": "Tlm124 ? tlm124",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4.22,
-      "soldUsed": 3.84,
-      "currentNew": 6.41,
-      "currentUsed": 4.26,
-      "listinoUsato": 3.84
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252047382,
+    "updated": 1789252413331,
     "created": 1789252047382
   },
   {
