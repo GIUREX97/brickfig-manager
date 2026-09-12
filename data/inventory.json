@@ -1537,25 +1537,18 @@
     "codiceBrickLink": "iaj034",
     "nome": "Temple Guard 1",
     "categoria": "Indiana Jones > Temple of Doom",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/iaj034.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 36.41,
-    "prezzoVendita": 36.41,
+    "prezzoVendita": 36.19,
     "variante": "Iaj034 ? iaj034",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 60.71,
-      "soldUsed": 36.41,
-      "currentNew": 115.06,
-      "currentUsed": 54.88,
-      "listinoUsato": 36.41
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789251987107,
+    "updated": 1789252311745,
     "created": 1789251987107
   },
   {
