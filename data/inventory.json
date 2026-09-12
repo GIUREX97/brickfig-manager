@@ -1078,25 +1078,18 @@
     "codiceBrickLink": "vik007",
     "nome": "Viking Warrior 3c",
     "categoria": "Vikings",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/vik007.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 6.07,
-    "prezzoVendita": 6.07,
+    "prezzoVendita": 5.99,
     "variante": "Vik007 ? vik007",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 11.62,
-      "soldUsed": 6.07,
-      "currentNew": 30.61,
-      "currentUsed": 6.55,
-      "listinoUsato": 6.07
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252054116,
+    "updated": 1789252423602,
     "created": 1789252054116
   },
   {
