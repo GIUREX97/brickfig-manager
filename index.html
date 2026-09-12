@@ -60,7 +60,9 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Più recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ↓</option></select>
   <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
   <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
-  <button onclick="updateAllPhotos()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold"><i class="fa-solid fa-images mr-1"></i> Aggiorna foto</button>
+  <button onclick="updateAllPhotos()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold hidden sm:inline-flex"><i class="fa-solid fa-images mr-1"></i> Aggiorna foto BL</button>
+  <button onclick="document.getElementById('bulkPhotoInput').click()" class="px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-900 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Carica foto massivo</button>
+  <input type="file" id="bulkPhotoInput" accept="image/*" multiple class="hidden" onchange="handleBulkUpload(event)">
 </div>
 
 <div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
@@ -931,6 +933,23 @@ async function updateAllPhotos(){
     await new Promise(r=>setTimeout(r,600));
   }
   save(); render(); toast(`Aggiornate ${ok}/${figs.length} foto`);
+}
+async function handleBulkUpload(e){
+  const files=[...e.target.files];
+  if(!files.length) return;
+  let ok=0, notFound=[];
+  for(const file of files){
+    const code=file.name.replace(/\.[^.]+$/,'').toLowerCase().trim();
+    const fig=figs.find(f=>f.codice.toLowerCase()===code || (f.codiceBrickLink&&f.codiceBrickLink.toLowerCase()===code));
+    if(!fig){ notFound.push(file.name); continue; }
+    const dataUrl=await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); });
+    fig.foto=dataUrl;
+    fig.updated=Date.now();
+    ok++;
+  }
+  if(ok){ save(); render(); toast(`Caricate ${ok} foto` + (notFound.length? ` — non trovati: ${notFound.join(', ')}`:'')); }
+  else toast('Nessuna foto associata. Rinomina i file come il codice (es. col001.jpg, 3001.png)');
+  e.target.value='';
 }
 function loadDemo(){
   const demo=[
