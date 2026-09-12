@@ -491,25 +491,18 @@
     "codiceBrickLink": "njo0259",
     "nome": "Master Yang - Neck Bracket, Modified Tile",
     "categoria": "NINJAGO > Day of the Departed",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0259.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 13.67,
-    "prezzoVendita": 13.67,
+    "prezzoVendita": 12.49,
     "variante": "Njo0259 ? njo0259",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 20.91,
-      "soldUsed": 13.67,
-      "currentNew": 30.74,
-      "currentUsed": 15.27,
-      "listinoUsato": 13.67
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252170098,
+    "updated": 1789252617905,
     "created": 1789252170098
   },
   {
