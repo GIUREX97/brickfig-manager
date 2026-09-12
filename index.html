@@ -60,8 +60,8 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Più recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ↓</option></select>
   <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
   <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
-  <button onclick="updateAllPhotos()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold hidden sm:inline-flex"><i class="fa-solid fa-images mr-1"></i> Aggiorna foto BL</button>
-  <button onclick="document.getElementById('bulkPhotoInput').click()" class="px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-900 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Carica foto massivo</button>
+  <button onclick="openPhotoWizard()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
+  <button onclick="document.getElementById('bulkPhotoInput').click()" class="hidden px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-900 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Massivo</button>
   <input type="file" id="bulkPhotoInput" accept="image/*" multiple class="hidden" onchange="handleBulkUpload(event)">
 </div>
 
@@ -259,6 +259,46 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         <input id="loginPassword" required type="password" placeholder="Password" class="w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm">
         <button type="submit" class="w-full py-3 rounded-xl bg-zinc-900 text-white font-bold">Entra</button>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- WIZARD FOTO A STEP (cronologico) -->
+<div id="photoWizard" class="fixed inset-0 z-[55] hidden">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closePhotoWizard()"></div>
+  <div class="absolute inset-0 flex items-center justify-center p-4">
+    <div class="bg-white rounded-[24px] w-full max-w-[560px] shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 bg-zinc-900 text-white flex items-center justify-between">
+        <div>
+          <h2 class="font-display font-bold text-lg">Carica foto — <span id="wizardCounter">1 / 10</span></h2>
+          <p class="text-xs text-zinc-300">Ordine cronologico di caricamento — scorri e carica</p>
+        </div>
+        <button onclick="closePhotoWizard()" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-6 space-y-4">
+        <div class="flex gap-4">
+          <div class="w-32 h-32 bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-2xl overflow-hidden flex items-center justify-center shrink-0 relative">
+            <img id="wizardImg" src="" alt="" class="w-full h-full object-contain p-2 hidden">
+            <div id="wizardPlaceholder" class="text-center p-2"><i class="fa-regular fa-image text-2xl text-zinc-400"></i><div class="text-[10px] text-zinc-500 mt-1">Foto attuale</div></div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="text-xs font-mono font-bold text-zinc-500" id="wizardCode">col001 • M</div>
+            <div class="font-bold text-sm leading-tight mt-1" id="wizardName">Nome</div>
+            <div class="text-xs text-zinc-500" id="wizardCat">Categoria</div>
+            <div class="mt-2 flex gap-2">
+              <button onclick="document.getElementById('wizardFile').click()" class="flex-1 py-2.5 rounded-xl bg-zinc-900 text-white text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Carica foto</button>
+              <button onclick="useWizardBricklink()" class="px-4 py-2.5 rounded-xl bg-amber-400 text-sm font-bold">BrickLink</button>
+            </div>
+            <input type="file" id="wizardFile" accept="image/*" class="hidden" onchange="handleWizardUpload(event)">
+          </div>
+        </div>
+        <div class="w-full bg-zinc-100 rounded-full h-2 overflow-hidden"><div id="wizardProgress" class="h-2 bg-emerald-500 transition-all" style="width:10%"></div></div>
+        <div class="flex gap-2">
+          <button onclick="wizardPrev()" id="wizardPrevBtn" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">← Precedente</button>
+          <button onclick="wizardNext()" id="wizardNextBtn" class="flex-1 py-3 rounded-xl bg-zinc-900 text-white font-bold text-sm">Successivo →</button>
+        </div>
+        <p class="text-[11px] text-center text-zinc-500">Le foto restano salvate anche se chiudi — puoi riprendere dopo</p>
+      </div>
     </div>
   </div>
 </div>
@@ -958,6 +998,74 @@ function loadDemo(){
     {id:uid(), codice:'sw1159', nome:'Fennec Shand - Helmet', categoria:'Star Wars > The Mandalorian', tipo:'Minifigure', tipoCode:'M', foto:'https://img.bricklink.com/ItemImage/MN/0/sw1159.png', prezzoAvgUsato:10.12, prezzoVendita:14.00, qta:1, stato:'Prenotato', updated:Date.now(), created:Date.now()},
   ];
   figs=demo.concat(figs); save(); render(); toast('Demo caricate');
+}
+let wizardIndex=0;
+let wizardList=[];
+function openPhotoWizard(){
+  if(!figs.length) return toast('Inventario vuoto');
+  // Ordine cronologico di caricamento (created asc: vecchi prima, nuovi dopo — come da richiesta "nuovi in alto" invertito per wizard)
+  wizardList=[...figs].sort((a,b)=>a.created-b.created);
+  wizardIndex=0;
+  document.getElementById('photoWizard').classList.remove('hidden');
+  renderWizard();
+}
+function closePhotoWizard(){ document.getElementById('photoWizard').classList.add('hidden'); save(); render(); }
+function renderWizard(){
+  const total=wizardList.length;
+  const fig=wizardList[wizardIndex];
+  if(!fig) return;
+  document.getElementById('wizardCounter').textContent=(wizardIndex+1)+' / '+total;
+  document.getElementById('wizardProgress').style.width=((wizardIndex+1)/total*100)+'%';
+  document.getElementById('wizardCode').textContent=fig.codice+' • '+fig.tipoCode;
+  document.getElementById('wizardName').textContent=fig.nome;
+  document.getElementById('wizardCat').textContent=fig.categoria||'';
+  const img=document.getElementById('wizardImg');
+  const ph=document.getElementById('wizardPlaceholder');
+  const src=getImageSrc(fig.foto);
+  if(fig.foto){
+    img.src=src; img.classList.remove('hidden'); ph.classList.add('hidden');
+    img.onerror=()=>{ img.classList.add('hidden'); ph.classList.remove('hidden'); };
+  } else { img.classList.add('hidden'); ph.classList.remove('hidden'); }
+  document.getElementById('wizardPrevBtn').disabled=wizardIndex===0;
+  document.getElementById('wizardNextBtn').textContent=wizardIndex===total-1?'Fine ✓':'Successivo →';
+  document.getElementById('wizardPrevBtn').classList.toggle('opacity-40', wizardIndex===0);
+}
+function wizardPrev(){ if(wizardIndex>0){ wizardIndex--; renderWizard(); } }
+function wizardNext(){
+  if(wizardIndex<wizardList.length-1){ wizardIndex++; renderWizard(); }
+  else { closePhotoWizard(); toast('Foto completate'); }
+}
+function handleWizardUpload(e){
+  const file=e.target.files[0]; if(!file) return;
+  if(file.size>4*1024*1024) return toast('Max 4MB');
+  const fig=wizardList[wizardIndex];
+  const reader=new FileReader();
+  reader.onload=()=>{
+    fig.foto=reader.result;
+    fig.updated=Date.now();
+    const globalIdx=figs.findIndex(x=>x.id===fig.id);
+    if(globalIdx>=0) figs[globalIdx]=fig;
+    save(); render(); renderWizard();
+    toast('Foto salvata per '+fig.codice);
+  };
+  reader.readAsDataURL(file);
+  e.target.value='';
+}
+function useWizardBricklink(){
+  const fig=wizardList[wizardIndex];
+  // Ripristina foto BrickLink originale (rifetch)
+  fetchBricklink(fig.codice, fig.tipoCode, fig.coloreId||null).then(d=>{
+    fig.foto=d.foto;
+    fig.updated=Date.now();
+    const gi=figs.findIndex(x=>x.id===fig.id);
+    if(gi>=0) figs[gi]=fig;
+    save(); render(); renderWizard();
+    toast('Ripristinata BrickLink');
+  }).catch(()=>toast('Errore BrickLink'));
+}
+function openPhotoWizardFromCard(id){
+  const idx=wizardList.findIndex(x=>x.id===id);
+  if(idx>=0){ wizardIndex=idx; renderWizard(); document.getElementById('photoWizard').classList.remove('hidden'); }
 }
 (async()=>{
   load();
