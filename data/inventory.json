@@ -1,5 +1,32 @@
 [
   {
+    "id": "je0rrlx",
+    "codice": "njo0724",
+    "codiceBrickLink": "njo0724",
+    "nome": "Python Dynamite",
+    "categoria": "NINJAGO > Core",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0724.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 2.47,
+    "prezzoVendita": 2.39,
+    "variante": "Njo0724 ? njo0724",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 2.9,
+      "soldUsed": 2.47,
+      "currentNew": 4.37,
+      "currentUsed": 2.88,
+      "listinoUsato": 2.47
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252832041,
+    "created": 1789252832041
+  },
+  {
     "id": "n7p6xdz",
     "codice": "njo0717",
     "codiceBrickLink": "njo0717",
