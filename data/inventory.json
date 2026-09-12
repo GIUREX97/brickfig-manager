@@ -5,24 +5,17 @@
     "codiceBrickLink": "col455",
     "nome": "Longboarder, Series 27 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 27 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col455.png",
     "prezzoAvgUsato": 1.65,
-    "prezzoVendita": 1.65,
+    "prezzoVendita": 1.69,
     "variante": "Col455 → col455",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 2.32,
-      "soldUsed": 1.65,
-      "currentNew": 3.62,
-      "currentUsed": 1.95,
-      "listinoUsato": 1.65
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207193216,
+    "updated": 1789207199548,
     "created": 1789207193216
   },
   {
