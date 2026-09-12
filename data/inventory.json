@@ -5,24 +5,17 @@
     "codiceBrickLink": "jw078",
     "nome": "Maisie Lockwood - Olive Green Jacket, Black Beanie",
     "categoria": "Jurassic World > Dominion",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/jw078.png",
     "prezzoAvgUsato": 1.94,
-    "prezzoVendita": 1.94,
+    "prezzoVendita": 1.89,
     "variante": "Jw078 → jw078",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 2.86,
-      "soldUsed": 1.94,
-      "currentNew": 3.66,
-      "currentUsed": 2.47,
-      "listinoUsato": 1.94
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208754700,
+    "updated": 1789208759982,
     "created": 1789208754700
   },
   {
