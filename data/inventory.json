@@ -25,25 +25,18 @@
     "codiceBrickLink": "njo0640",
     "nome": "Lloyd - 10th Anniversary Golden Ninja",
     "categoria": "NINJAGO > Legacy",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0640.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 3.84,
-    "prezzoVendita": 3.84,
+    "prezzoVendita": 3.79,
     "variante": "Njo0640 ? njo0640",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 5.96,
-      "soldUsed": 3.84,
-      "currentNew": 8.72,
-      "currentUsed": 4.75,
-      "listinoUsato": 3.84
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252228085,
+    "updated": 1789252715696,
     "created": 1789252228085
   },
   {
