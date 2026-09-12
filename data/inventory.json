@@ -5,24 +5,17 @@
     "codiceBrickLink": "col099",
     "nome": "Bunny Suit Guy, Series 7 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 7 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col099.png",
     "prezzoAvgUsato": 7.47,
-    "prezzoVendita": 7.47,
+    "prezzoVendita": 7.99,
     "variante": "Col099 → col099",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 11.23,
-      "soldUsed": 7.47,
-      "currentNew": 26.53,
-      "currentUsed": 10.86,
-      "listinoUsato": 7.47
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207082765,
+    "updated": 1789207089062,
     "created": 1789207082765
   },
   {
