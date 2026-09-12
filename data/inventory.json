@@ -5,24 +5,17 @@
     "codiceBrickLink": "adv056",
     "nome": "Ngan Pa (Yeti Hunter)",
     "categoria": "Adventurers > Orient Expedition",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/adv056.png",
     "prezzoAvgUsato": 6.42,
-    "prezzoVendita": 6.42,
+    "prezzoVendita": 6.09,
     "variante": "Adv056 → adv056",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 13.13,
-      "soldUsed": 6.42,
-      "currentNew": 44.44,
-      "currentUsed": 7.44,
-      "listinoUsato": 6.42
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208955124,
+    "updated": 1789208958494,
     "created": 1789208955124
   },
   {
