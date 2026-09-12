@@ -1,5 +1,31 @@
 [
   {
+    "id": "npxmuql",
+    "codice": "col09-10",
+    "codiceBrickLink": "col09-10",
+    "nome": "Judge, Series 9 (Complete Set with Stand and Accessories) : Set",
+    "categoria": "Collectible Minifigures > Series 9 Minifigures > 2013",
+    "tipo": "Minifigure",
+    "tipoCode": "S",
+    "foto": "https://img.bricklink.com/ItemImage/SN/0/col09-10.png",
+    "prezzoAvgUsato": 9.94,
+    "prezzoVendita": 9.94,
+    "variante": "Col09-10 → col09-10",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 14.21,
+      "soldUsed": 9.94,
+      "currentNew": 21.5,
+      "currentUsed": 11.84,
+      "listinoUsato": 9.94
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789206872431,
+    "created": 1789206872431
+  },
+  {
     "id": "uukzfm0",
     "codice": "col09-7",
     "codiceBrickLink": "col09-7",
