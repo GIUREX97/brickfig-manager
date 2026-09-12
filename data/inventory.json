@@ -1,5 +1,32 @@
 [
   {
+    "id": "im12g0d",
+    "codice": "njo0014",
+    "codiceBrickLink": "njo0014",
+    "nome": "Samukai (Skulkin)",
+    "categoria": "NINJAGO > The Golden Weapons",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0014.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 56.16,
+    "prezzoVendita": 56.16,
+    "variante": "Njo0014 ? njo0014",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 133.26,
+      "soldUsed": 56.16,
+      "currentNew": 161.63,
+      "currentUsed": 85.88,
+      "listinoUsato": 56.16
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252091917,
+    "created": 1789252091917
+  },
+  {
     "id": "qfuk2g5",
     "codice": "nex054",
     "codiceBrickLink": "nex054",
