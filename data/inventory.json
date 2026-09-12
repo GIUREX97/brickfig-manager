@@ -1,5 +1,31 @@
 [
   {
+    "id": "2o0qx16",
+    "codice": "col28-9",
+    "codiceBrickLink": "col28-9",
+    "nome": "Dolphin Costume Fan, Series 28 (Complete Set with Stand and Accessories) : Set",
+    "categoria": "Collectible Minifigures > Series 28 Minifigures > 2026",
+    "tipo": "Minifigure",
+    "tipoCode": "S",
+    "foto": "https://img.bricklink.com/ItemImage/SN/0/col28-9.png",
+    "prezzoAvgUsato": 3.3,
+    "prezzoVendita": 3.3,
+    "variante": "Col28-9 → col28-9",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 3.83,
+      "soldUsed": 3.3,
+      "currentNew": 4.59,
+      "currentUsed": 3.98,
+      "listinoUsato": 3.3
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789206928474,
+    "created": 1789206928474
+  },
+  {
     "id": "fn29re7",
     "codice": "col025",
     "codiceBrickLink": "col025",
