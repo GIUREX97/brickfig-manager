@@ -1,5 +1,31 @@
 [
   {
+    "id": "0bu3td2",
+    "codice": "cty1845",
+    "codiceBrickLink": "cty1845",
+    "nome": "Hospital Bed Soapbox Race Car Driver (Patient) - Male, Bright Light Blue Hospital Gown and Legs, White Head Bandage, Scuff Mark",
+    "categoria": "Town > City > Race",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cty1845.png",
+    "prezzoAvgUsato": 2.45,
+    "prezzoVendita": 2.45,
+    "variante": "Cty1845 → cty1845",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 3.1,
+      "soldUsed": 2.45,
+      "currentNew": 3.47,
+      "currentUsed": 2.6,
+      "listinoUsato": 2.45
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209119798,
+    "created": 1789209119798
+  },
+  {
     "id": "x4ypqif",
     "codice": "cty0989",
     "codiceBrickLink": "cty0989",
