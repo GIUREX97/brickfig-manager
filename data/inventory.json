@@ -5,24 +5,17 @@
     "codiceBrickLink": "hp137",
     "nome": "Oliver Wood - Quidditch Uniform",
     "categoria": "Harry Potter > Sorcerer's Stone",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/hp137.png",
     "prezzoAvgUsato": 2.84,
-    "prezzoVendita": 2.84,
+    "prezzoVendita": 2.79,
     "variante": "Hp137 → hp137",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4.47,
-      "soldUsed": 2.84,
-      "currentNew": 6.9,
-      "currentUsed": 3.53,
-      "listinoUsato": 2.84
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208545565,
+    "updated": 1789208553204,
     "created": 1789208545565
   },
   {
