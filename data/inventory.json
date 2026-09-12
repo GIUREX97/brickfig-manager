@@ -1,5 +1,31 @@
 [
   {
+    "id": "1j3dfna",
+    "codice": "hol325",
+    "codiceBrickLink": "hol325",
+    "nome": "Mrs. Claus - Red Jacket, Black Boots",
+    "categoria": "Holiday & Event > Christmas",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hol325.png",
+    "prezzoAvgUsato": 3.08,
+    "prezzoVendita": 3.08,
+    "variante": "Hol325 → hol325",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 4.22,
+      "soldUsed": 3.08,
+      "currentNew": 3.98,
+      "currentUsed": 3.2,
+      "listinoUsato": 3.08
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209221893,
+    "created": 1789209221893
+  },
+  {
     "id": "mboxttq",
     "codice": "hol246a",
     "codiceBrickLink": "hol246a",
