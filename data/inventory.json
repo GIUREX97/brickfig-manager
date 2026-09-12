@@ -1402,25 +1402,18 @@
     "codiceBrickLink": "mnn017",
     "nome": "Minion Pit Crew Ron",
     "categoria": "Despicable Me & Minions > Despicable Me 4",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/mnn017.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 4.12,
-    "prezzoVendita": 4.12,
+    "prezzoVendita": 3.99,
     "variante": "Mnn017 ? mnn017",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4.13,
-      "soldUsed": 4.12,
-      "currentNew": 5.23,
-      "currentUsed": 4.87,
-      "listinoUsato": 4.12
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252016287,
+    "updated": 1789252335462,
     "created": 1789252016287
   },
   {
