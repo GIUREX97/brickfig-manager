@@ -5,24 +5,17 @@
     "codiceBrickLink": "hp402",
     "nome": "Cho Chang - Blue Ravenclaw Quidditch Sweater, Tan Legs",
     "categoria": "Harry Potter",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/hp402.png",
     "prezzoAvgUsato": 3.2,
-    "prezzoVendita": 3.2,
+    "prezzoVendita": 3.19,
     "variante": "Hp402 → hp402",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.44,
-      "soldUsed": 3.2,
-      "currentNew": 4.51,
-      "currentUsed": 3.56,
-      "listinoUsato": 3.2
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208566151,
+    "updated": 1789208570401,
     "created": 1789208566151
   },
   {
