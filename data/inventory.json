@@ -5,25 +5,18 @@
     "codiceBrickLink": "njo0610",
     "nome": "Statue - Dungeons of Shintaro",
     "categoria": "NINJAGO > Master of the Mountain",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0610.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.33,
-    "prezzoVendita": 610,
+    "prezzoVendita": 2.09,
     "variante": "Njo0610 ? njo0610",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.24,
-      "soldUsed": 2.33,
-      "currentNew": 4.11,
-      "currentUsed": 2.85,
-      "listinoUsato": 2.33
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252247111,
+    "updated": 1789252705145,
     "created": 1789252247111
   },
   {
