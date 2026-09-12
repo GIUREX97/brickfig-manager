@@ -5,24 +5,17 @@
     "codiceBrickLink": "dp127",
     "nome": "Belle - Mini Doll, Bright Light Yellow Dress, Skirt Wide with Red Roses, Open Mouth Smile",
     "categoria": "Disney > Disney Princess > Beauty and the Beast",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/dp127.png",
     "prezzoAvgUsato": 5.23,
-    "prezzoVendita": 5.23,
+    "prezzoVendita": 4.59,
     "variante": "Dp127 → dp127",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 6.65,
-      "soldUsed": 5.23,
-      "currentNew": 7.69,
-      "currentUsed": 6.22,
-      "listinoUsato": 5.23
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209139471,
+    "updated": 1789209147577,
     "created": 1789209139471
   },
   {
