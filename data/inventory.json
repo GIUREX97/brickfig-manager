@@ -5,24 +5,17 @@
     "codiceBrickLink": "hp121",
     "nome": "Hermione Granger - Light Bluish Gray Sweater",
     "categoria": "Harry Potter",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/hp121.png",
     "prezzoAvgUsato": 6.39,
-    "prezzoVendita": 6.39,
+    "prezzoVendita": 5.99,
     "variante": "Hp121 → hp121",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 10.14,
-      "soldUsed": 6.39,
-      "currentNew": 14.89,
-      "currentUsed": 9.54,
-      "listinoUsato": 6.39
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208438781,
+    "updated": 1789208445032,
     "created": 1789208438781
   },
   {
