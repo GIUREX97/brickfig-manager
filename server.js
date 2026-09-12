@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -408,6 +409,59 @@ app.get('/api/image', async (req, res) => {
 });
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', cacheSize: cache.size }));
+
+// Sync automatico inventario tra locale e Vercel via GitHub
+import fs from 'fs';
+const DATA_PATH = path.join(__dirname, 'data', 'inventory.json');
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_REPO = 'GIUREX97/brickfig-manager';
+
+app.get('/api/sync', async (req, res) => {
+  try {
+    // Prova prima GitHub raw (fonte di verità per Vercel)
+    try {
+      const r = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/inventory.json`, { headers: { 'Cache-Control': 'no-cache' } });
+      if (r.ok) {
+        const j = await r.json();
+        // Sincronizza anche locale
+        try { fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true }); fs.writeFileSync(DATA_PATH, JSON.stringify(j, null, 2)); } catch(e){}
+        return res.json(j);
+      }
+    } catch(e){}
+    // Fallback locale
+    if (fs.existsSync(DATA_PATH)) {
+      const j = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8') || '[]');
+      return res.json(j);
+    }
+    res.json([]);
+  } catch(e){ res.json([]); }
+});
+
+app.post('/api/sync', express.json({ limit: '5mb' }), async (req, res) => {
+  const data = req.body;
+  if (!Array.isArray(data)) return res.status(400).json({ error: 'Formato non valido' });
+  try {
+    fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true });
+    fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2));
+  } catch(e){}
+  // Prova a pushare su GitHub per sync tra locale e Vercel
+  try {
+    const getFile = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/inventory.json`, { headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync' } });
+    let sha = null;
+    if (getFile.ok) { const j = await getFile.json(); sha = j.sha; }
+    const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
+    const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/inventory.json`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: `Sync inventory ${new Date().toISOString()}`, content, sha: sha || undefined })
+    });
+    if (!putRes.ok) {
+      const t = await putRes.text();
+      console.log('GitHub sync fallito:', t.slice(0,300));
+    } else console.log('GitHub sync OK');
+  } catch(e){ console.log('GitHub sync errore:', e.message); }
+  res.json({ ok: true });
+});
 
 // Fallback per SPA
 app.get('*', (req, res) => {
