@@ -1024,25 +1024,18 @@
     "codiceBrickLink": "vik015",
     "nome": "Viking Warrior 1a",
     "categoria": "Vikings",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/vik015.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 8.63,
-    "prezzoVendita": 8.63,
+    "prezzoVendita": 8.59,
     "variante": "Vik015 ? vik015",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": null,
-      "soldUsed": 8.63,
-      "currentNew": 28.57,
-      "currentUsed": 11.08,
-      "listinoUsato": 8.63
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252059581,
+    "updated": 1789252440493,
     "created": 1789252059581
   },
   {
