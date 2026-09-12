@@ -1,5 +1,32 @@
 [
   {
+    "id": "n7p6xdz",
+    "codice": "njo0717",
+    "codiceBrickLink": "njo0717",
+    "nome": "Cobra Mechanic / Sneaky Snake - Harness Torso",
+    "categoria": "NINJAGO > Core",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0717.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 1.8,
+    "prezzoVendita": 1.69,
+    "variante": "Njo0717 ? njo0717",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 2.72,
+      "soldUsed": 1.8,
+      "currentNew": 3.65,
+      "currentUsed": 2.15,
+      "listinoUsato": 1.8
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252818873,
+    "created": 1789252818873
+  },
+  {
     "id": "k105svt",
     "codice": "njo0700",
     "codiceBrickLink": "njo0700",
