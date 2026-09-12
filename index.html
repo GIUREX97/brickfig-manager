@@ -57,7 +57,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <select id="filterStato" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
   <select id="filterTipo" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
   <select id="filterCategoria" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutte le categorie</option></select>
-  <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="recent">Più recenti</option><option value="prezzo-desc">Valore â†“</option></select>
+  <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Più recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ↓</option></select>
   <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
   <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
 </div>
@@ -923,6 +923,7 @@ function loadDemo(){
   await syncFromCloud();
   checkServer();
   setView(localStorage.getItem('brickfig_view')||'grid');
+  document.getElementById('sortBy').value='recent';
   render();
   // Polling ogni 15s per sync tra locale e online
   setInterval(async()=>{ if(await syncFromCloud()) render(); }, 15000);
