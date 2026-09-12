@@ -1,5 +1,32 @@
 [
   {
+    "id": "bpbxjn5",
+    "codice": "hs033",
+    "codiceBrickLink": "hs033",
+    "nome": "Scrimper",
+    "categoria": "Hidden Side",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hs033.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 1.91,
+    "prezzoVendita": 1.91,
+    "variante": "Hs033 ? hs033",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 2.69,
+      "soldUsed": 1.91,
+      "currentNew": 3.34,
+      "currentUsed": 2.17,
+      "listinoUsato": 1.91
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789251964247,
+    "created": 1789251964247
+  },
+  {
     "id": "gz68aak",
     "codice": "hol368",
     "codiceBrickLink": "hol368",
