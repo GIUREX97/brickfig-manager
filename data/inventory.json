@@ -1,5 +1,31 @@
 [
   {
+    "id": "a2vpesz",
+    "codice": "col092",
+    "codiceBrickLink": "col092",
+    "nome": "Skater Girl, Series 6 (Minifigure Only without Stand and Accessories)",
+    "categoria": "Collectible Minifigures > Series 6 Minifigures",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/col092.png",
+    "prezzoAvgUsato": 2.13,
+    "prezzoVendita": 2.13,
+    "variante": "Col092 → col092",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 3.82,
+      "soldUsed": 2.13,
+      "currentNew": 6.99,
+      "currentUsed": 2.41,
+      "listinoUsato": 2.13
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789207072316,
+    "created": 1789207072316
+  },
+  {
     "id": "u8u6qcu",
     "codice": "col075",
     "codiceBrickLink": "col075",
