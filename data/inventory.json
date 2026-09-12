@@ -2,27 +2,20 @@
   {
     "id": "sgwl2uh",
     "codice": "col068 #2",
-    "codiceBrickLink": "col068#2",
+    "codiceBrickLink": "col068 #2",
     "nome": "Ice Fisherman, Series 5 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 5 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col068.png",
     "prezzoAvgUsato": 2.68,
-    "prezzoVendita": 2.68,
+    "prezzoVendita": 2.49,
     "variante": "Col068 #2 → col068#2",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4.61,
-      "soldUsed": 2.68,
-      "currentNew": 10.45,
-      "currentUsed": 3.32,
-      "listinoUsato": 2.68
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207052647,
+    "updated": 1789207058303,
     "created": 1789207052647
   },
   {
