@@ -248,25 +248,18 @@
     "codiceBrickLink": "njo0450",
     "nome": "Wu Sensei, Golden Dragon Master",
     "categoria": "NINJAGO > Hunted > Dragon Masters",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0450.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 7.66,
-    "prezzoVendita": 7.66,
+    "prezzoVendita": 7.39,
     "variante": "Njo0450 ? njo0450",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 15.98,
-      "soldUsed": 7.66,
-      "currentNew": 22.12,
-      "currentUsed": 9.7,
-      "listinoUsato": 7.66
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252198745,
+    "updated": 1789252672997,
     "created": 1789252198745
   },
   {
