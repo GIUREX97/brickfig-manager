@@ -1375,25 +1375,18 @@
     "codiceBrickLink": "mnn027",
     "nome": "Gru - Dark Bluish Gray Jacket",
     "categoria": "Despicable Me & Minions > Despicable Me 4",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/mnn027.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 6.95,
-    "prezzoVendita": 6.95,
+    "prezzoVendita": 6.99,
     "variante": "Mnn027 ? mnn027",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.67,
-      "soldUsed": 6.95,
-      "currentNew": 10.55,
-      "currentUsed": 7.5,
-      "listinoUsato": 6.95
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252018498,
+    "updated": 1789252339768,
     "created": 1789252018498
   },
   {
