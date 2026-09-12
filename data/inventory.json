@@ -5,24 +5,17 @@
     "codiceBrickLink": "col075",
     "nome": "Detective, Series 5 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 5 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col075.png",
     "prezzoAvgUsato": 2.71,
-    "prezzoVendita": 2.71,
+    "prezzoVendita": 2.69,
     "variante": "Col075 → col075",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 5.1,
-      "soldUsed": 2.71,
-      "currentNew": 8.71,
-      "currentUsed": 3.36,
-      "listinoUsato": 2.71
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207062334,
+    "updated": 1789207068850,
     "created": 1789207062334
   },
   {
