@@ -86,25 +86,18 @@
     "codiceBrickLink": "njo0590",
     "nome": "Nindroid, Neck Bracket - Legacy",
     "categoria": "NINJAGO > Legacy",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0590.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 1.92,
-    "prezzoVendita": 1.92,
+    "prezzoVendita": 1.99,
     "variante": "Njo0590 ? njo0590",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 2.73,
-      "soldUsed": 1.92,
-      "currentNew": 4.15,
-      "currentUsed": 2.44,
-      "listinoUsato": 1.92
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252219154,
+    "updated": 1789252696657,
     "created": 1789252219154
   },
   {
