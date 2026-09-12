@@ -970,25 +970,18 @@
     "codiceBrickLink": "njo0014",
     "nome": "Samukai (Skulkin)",
     "categoria": "NINJAGO > The Golden Weapons",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0014.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 56.16,
-    "prezzoVendita": 56.16,
+    "prezzoVendita": 44.99,
     "variante": "Njo0014 ? njo0014",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 133.26,
-      "soldUsed": 56.16,
-      "currentNew": 161.63,
-      "currentUsed": 85.88,
-      "listinoUsato": 56.16
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252091917,
+    "updated": 1789252484010,
     "created": 1789252091917
   },
   {
@@ -3626,5 +3619,32 @@
     "updated": 1789212401404,
     "created": 1789207301569,
     "fotoExtra": []
+  },
+  {
+    "id": "vdfnirs",
+    "codice": "njo0001",
+    "codiceBrickLink": "njo0001",
+    "nome": "Zane - The Golden Weapons",
+    "categoria": "NINJAGO > The Golden Weapons",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0001.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 17.58,
+    "prezzoVendita": 17.58,
+    "variante": "Njo0001 ? njo0001",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 28.32,
+      "soldUsed": 17.58,
+      "currentNew": 48.35,
+      "currentUsed": 23.53,
+      "listinoUsato": 17.58
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252070935,
+    "created": 1789252070935
   }
 ]
