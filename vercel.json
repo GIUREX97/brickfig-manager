@@ -5,6 +5,8 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/server.js" },
+    { "src": "/tailwind.js", "dest": "/tailwind.js" },
+    { "src": "/fallback.css", "dest": "/fallback.css" },
     { "src": "/(.*)", "dest": "/server.js" }
   ]
 }
