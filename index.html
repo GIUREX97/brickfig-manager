@@ -98,7 +98,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   </div>
 </div>
 
-<div id="gridView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 grid grid-cols-4 gap-4 auto-rows-[500px]"></div>
+<div id="gridView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 grid gap-4" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:500px;" data-version="4col-fix-500"></div>
 <div id="tableView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 hidden">
   <div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
     <div class="overflow-x-auto">
@@ -922,6 +922,7 @@ function render(){
     if(sort==='prezzo-desc') return (b.prezzoAvgUsato||0)-(a.prezzoAvgUsato||0);
     return (order[a.stato]??9)-(order[b.stato]??9) || b.created-a.created;
   });
+  console.log('RENDER list len',list.length,'figs',figs.length);
   const gDisp=figs.filter(f=>f.stato==='Disponibile'), gPren=figs.filter(f=>f.stato==='Prenotato'), gVend=figs.filter(f=>f.stato==='Venduto');
   document.getElementById('statTotal').textContent=figs.length;
   document.getElementById('statTotalSub').textContent=figs.reduce((s,f)=>s+(f.qta||0),0)+' pezzi';
@@ -940,7 +941,7 @@ function render(){
     const cls=f.stato==='Disponibile'?'bg-emerald-500 text-white':f.stato==='Prenotato'?'bg-amber-400 text-zinc-900':'bg-zinc-800 text-white';
     const imgSrc=getImageSrc(f.foto);
     return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-[500px]">
-      <div class="aspect-[4/3] bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[170px]" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;">
+      <div class="bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[170px]" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;">
         <img src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/300/eeeeee/666666?text=${encodeURIComponent(f.codice)}'">
         <span class="absolute top-2 left-2 text-[11px] font-bold px-2 py-1 rounded-full ${cls}">${f.stato}</span>
         <span class="absolute top-2 right-2 text-[10px] font-mono font-bold bg-white border border-zinc-200 px-2 py-1 rounded-full">${f.codice} • ${f.tipoCode}</span>
@@ -1300,6 +1301,8 @@ if(window.location.hostname.includes('vercel.app')){
 </script>
 </body>
 </html>
+
+
 
 
 
