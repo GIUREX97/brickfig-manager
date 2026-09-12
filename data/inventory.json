@@ -1,5 +1,32 @@
 [
   {
+    "id": "u34087j",
+    "codice": "njo0132",
+    "codiceBrickLink": "njo0132",
+    "nome": "Samurai X (Nya) - Tournament of Elements",
+    "categoria": "NINJAGO > Tournament of Elements",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0132.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 5.17,
+    "prezzoVendita": 5.17,
+    "variante": "Njo0132 ? njo0132",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 9.08,
+      "soldUsed": 5.17,
+      "currentNew": 13.1,
+      "currentUsed": 7.65,
+      "listinoUsato": 5.17
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252137789,
+    "created": 1789252137789
+  },
+  {
     "id": "vjwnall",
     "codice": "njo0123",
     "codiceBrickLink": "njo0123",
