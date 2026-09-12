@@ -2,27 +2,20 @@
   {
     "id": "f7l1s8b",
     "codice": "colhp-08",
-    "codiceBrickLink": "colhp08",
+    "codiceBrickLink": "colhp-08",
     "nome": "Dean Thomas, Harry Potter, Series 1 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Harry Potter > Harry Potter Series 1",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/colhp08.png",
     "prezzoAvgUsato": 2.04,
-    "prezzoVendita": 2.04,
+    "prezzoVendita": 2.79,
     "variante": "Colhp-08 → colhp08",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.5,
-      "soldUsed": 2.04,
-      "currentNew": 5.23,
-      "currentUsed": 2.38,
-      "listinoUsato": 2.04
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207203197,
+    "updated": 1789207209428,
     "created": 1789207203197
   },
   {
