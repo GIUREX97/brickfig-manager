@@ -1,5 +1,32 @@
 [
   {
+    "id": "ejz6pl5",
+    "codice": "njo0277",
+    "codiceBrickLink": "njo0277",
+    "nome": "Kai - The Hands of Time, Black Armor, Dual Sided Head",
+    "categoria": "NINJAGO > The Hands of Time",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0277.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 11.03,
+    "prezzoVendita": 11.03,
+    "variante": "Njo0277 ? njo0277",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 20.91,
+      "soldUsed": 11.03,
+      "currentNew": 43.12,
+      "currentUsed": 20.61,
+      "listinoUsato": 11.03
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789252176611,
+    "created": 1789252176611
+  },
+  {
     "id": "8zdyc1t",
     "codice": "njo0259",
     "codiceBrickLink": "njo0259",
