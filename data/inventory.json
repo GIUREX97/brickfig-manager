@@ -5,24 +5,17 @@
     "codiceBrickLink": "dis055",
     "nome": "Daisy Duck - Medium Lavender Top and Skirt",
     "categoria": "Disney > Mickey and Friends",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/dis055.png",
     "prezzoAvgUsato": 5.02,
-    "prezzoVendita": 5.02,
+    "prezzoVendita": 4.99,
     "variante": "Dis055 → dis055",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.06,
-      "soldUsed": 5.02,
-      "currentNew": 9.48,
-      "currentUsed": 7.25,
-      "listinoUsato": 5.02
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208072152,
+    "updated": 1789208084640,
     "created": 1789208072152
   },
   {
