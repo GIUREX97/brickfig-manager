@@ -1,5 +1,32 @@
 [
   {
+    "id": "mwslngk",
+    "codice": "njo0852",
+    "codiceBrickLink": "njo0852",
+    "nome": "Jay - Dragons Rising, Head Wrap",
+    "categoria": "NINJAGO > Dragons Rising > Dragons Rising Season 2",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0852.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 2.2,
+    "prezzoVendita": 2.09,
+    "variante": "Njo0852 ? njo0852",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 2.64,
+      "soldUsed": 2.2,
+      "currentNew": 2.86,
+      "currentUsed": 2.35,
+      "listinoUsato": 2.2
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252884889,
+    "created": 1789252884889
+  },
+  {
     "id": "xkivhph",
     "codice": "njo0851",
     "codiceBrickLink": "njo0851",
