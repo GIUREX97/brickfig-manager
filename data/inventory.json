@@ -5,24 +5,17 @@
     "codiceBrickLink": "col169",
     "nome": "Holiday Elf, Series 11 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 11 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col169.png",
     "prezzoAvgUsato": 3.66,
-    "prezzoVendita": 3.66,
+    "prezzoVendita": 3.59,
     "variante": "Col169 → col169",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": null,
-      "soldUsed": 3.66,
-      "currentNew": 10.46,
-      "currentUsed": 4.37,
-      "listinoUsato": 3.66
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207174846,
+    "updated": 1789207180323,
     "created": 1789207174846
   },
   {
