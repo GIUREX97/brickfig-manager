@@ -1,5 +1,32 @@
 [
   {
+    "id": "vivody0",
+    "codice": "njo0861",
+    "codiceBrickLink": "njo0861",
+    "nome": "Cinder - Dark Blue Armor",
+    "categoria": "NINJAGO > Dragons Rising > Dragons Rising Season 2",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0861.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 4.39,
+    "prezzoVendita": 4.19,
+    "variante": "Njo0861 ? njo0861",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 4.45,
+      "soldUsed": 4.39,
+      "currentNew": 5.8,
+      "currentUsed": 4.8,
+      "listinoUsato": 4.39
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252907281,
+    "created": 1789252907281
+  },
+  {
     "id": "8ksb0rz",
     "codice": "njo0857 #2",
     "codiceBrickLink": "njo0857#2",
