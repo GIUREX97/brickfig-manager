@@ -1,5 +1,31 @@
 [
   {
+    "id": "ck93828",
+    "codice": "idea024 #2",
+    "codiceBrickLink": "idea024#2",
+    "nome": "Dalek",
+    "categoria": "LEGO Ideas (CUUSOO) > Doctor Who",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/idea024.png",
+    "prezzoAvgUsato": 9.91,
+    "prezzoVendita": 9.91,
+    "variante": "Idea024 #2 → idea024#2",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 8.99,
+      "soldUsed": 9.91,
+      "currentNew": 20.04,
+      "currentUsed": 13.9,
+      "listinoUsato": 9.91
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208643910,
+    "created": 1789208643910
+  },
+  {
     "id": "2jcolyx",
     "codice": "hp622",
     "codiceBrickLink": "hp622",
