@@ -916,25 +916,18 @@
     "codiceBrickLink": "njo0028",
     "nome": "Wyplash (Skulkin) - Horizontal Grip Hands",
     "categoria": "NINJAGO > The Golden Weapons",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0028.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 4.1,
-    "prezzoVendita": 4.1,
+    "prezzoVendita": 3.99,
     "variante": "Njo0028 ? njo0028",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 6.16,
-      "soldUsed": 4.1,
-      "currentNew": 13.43,
-      "currentUsed": 6.25,
-      "listinoUsato": 4.1
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252100892,
+    "updated": 1789252498088,
     "created": 1789252100892
   },
   {
