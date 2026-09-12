@@ -1,5 +1,32 @@
 [
   {
+    "id": "xkhhjik",
+    "codice": "njo0757",
+    "codiceBrickLink": "njo0757",
+    "nome": "Kai (Golden Dragon)",
+    "categoria": "NINJAGO > Crystalized",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0757.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 7.36,
+    "prezzoVendita": 5.39,
+    "variante": "Njo0757 ? njo0757",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 11.23,
+      "soldUsed": 7.36,
+      "currentNew": 20.65,
+      "currentUsed": 8.86,
+      "listinoUsato": 7.36
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252847370,
+    "created": 1789252847370
+  },
+  {
     "id": "eoiln0q",
     "codice": "njo0748",
     "codiceBrickLink": "njo0748",
