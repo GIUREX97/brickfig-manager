@@ -329,25 +329,18 @@
     "codiceBrickLink": "njo0395",
     "nome": "Skip Vicious",
     "categoria": "NINJAGO > Sons of Garmadon",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0395.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.2,
-    "prezzoVendita": 2.2,
+    "prezzoVendita": 2.09,
     "variante": "Njo0395 ? njo0395",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.79,
-      "soldUsed": 2.2,
-      "currentNew": 6.01,
-      "currentUsed": 2.9,
-      "listinoUsato": 2.2
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252192397,
+    "updated": 1789252646460,
     "created": 1789252192397
   },
   {
