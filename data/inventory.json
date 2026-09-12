@@ -302,25 +302,18 @@
     "codiceBrickLink": "njo0401",
     "nome": "Lloyd - Sons of Garmadon, No Scabbard",
     "categoria": "NINJAGO > Sons of Garmadon",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0401.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 3.78,
-    "prezzoVendita": 3.78,
+    "prezzoVendita": 3.49,
     "variante": "Njo0401 ? njo0401",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 10.25,
-      "soldUsed": 3.78,
-      "currentNew": 11.92,
-      "currentUsed": 5.46,
-      "listinoUsato": 3.78
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252194323,
+    "updated": 1789252651902,
     "created": 1789252194323
   },
   {
