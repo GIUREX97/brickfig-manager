@@ -450,6 +450,14 @@ function load(){
         if(brickFoto){ f.fotoExtra=[f.foto]; f.foto=brickFoto; }
       }
       if(f.fotoExtra.length>12) f.fotoExtra=f.fotoExtra.slice(0,12);
+      // Fix cover PN/0 -> PN/{coloreId} per parti con colore (es. horse 4493c01pb04 PN/1)
+      if(f.foto && f.foto.includes('/PN/0/') && f.coloreId && f.coloreId!=='0' && f.coloreId!==''){
+        f.foto = f.foto.replace('/PN/0/', '/PN/'+f.coloreId+'/');
+      }
+      // Fix specifico horse se ancora PN/0
+      if(f.codice==='4493c01pb04' && f.foto.includes('/PN/0/')){
+        f.foto = f.foto.replace('/PN/0/', '/PN/1/');
+      }
     });
   }catch(e){figs=[];}
 }
