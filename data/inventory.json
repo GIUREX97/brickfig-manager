@@ -5,24 +5,17 @@
     "codiceBrickLink": "dis012",
     "nome": "Mickey Mouse, Disney, Series 1 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Disney > Disney Series 1",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/dis012.png",
     "prezzoAvgUsato": 5.43,
-    "prezzoVendita": 5.43,
+    "prezzoVendita": 5.19,
     "variante": "Dis012 → dis012",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 8.3,
-      "soldUsed": 5.43,
-      "currentNew": 12.29,
-      "currentUsed": 6.3,
-      "listinoUsato": 5.43
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208054074,
+    "updated": 1789208059533,
     "created": 1789208054074
   },
   {
