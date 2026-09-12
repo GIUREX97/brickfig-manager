@@ -835,6 +835,12 @@ function loadDemo(){
   figs=demo.concat(figs); save(); render(); toast('Demo caricate');
 }
 load(); checkServer(); setView(localStorage.getItem('brickfig_view')||'grid'); render();
+// Nascondi AVG su Vercel (online), mostralo solo in locale
+if(window.location.hostname!=='localhost' && window.location.hostname!=='127.0.0.1'){
+  document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.style.display='none'; });
+  // Sostituisci etichette AVG con Vendita
+  document.querySelectorAll('.text-amber-700').forEach(el=>{ if(el.textContent.includes('AVG')) el.textContent='Prezzo'; });
+}
 // Migrazione automatica prezzi AVG Used (fix 27.23 -> 4.95 per cas099 e simili) - eseguita una sola volta
 const MIGRATION_VERSION='v3-fix-avg-used';
 if(localStorage.getItem('migration_avg_used')!==MIGRATION_VERSION && figs.length>0){
