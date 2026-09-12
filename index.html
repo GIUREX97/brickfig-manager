@@ -1388,8 +1388,19 @@ let wizardIndex=0;
 let wizardList=[];
 function openPhotoWizard(){
   if(!figs.length) return toast('Inventario vuoto');
-  // Ordine cronologico di caricamento (created asc: vecchi prima, nuovi dopo � come da richiesta "nuovi in alto" invertito per wizard)
-  wizardList=[...figs].sort((a,b)=>a.created-b.created);
+  // Solo minifigure senza foto reali già caricate (richiesta utente: non mostrare tutte, solo quelle da gestire)
+  const senzaFoto=[...figs].filter(f=>{
+    const isMinifig = (f.tipoCode==='M' || f.tipo==='Minifigure');
+    const hasExtra = Array.isArray(f.fotoExtra) && f.fotoExtra.length>0;
+    return isMinifig && !hasExtra;
+  }).sort((a,b)=>a.created-b.created);
+  if(senzaFoto.length===0){
+    const totalMinifig=figs.filter(f=>f.tipoCode==='M'||f.tipo==='Minifigure').length;
+    const conFoto=figs.filter(f=> (f.tipoCode==='M'||f.tipo==='Minifigure') && Array.isArray(f.fotoExtra) && f.fotoExtra.length>0).length;
+    toast(`Tutte le minifigure hanno già foto reali ✅ (${conFoto}/${totalMinifig})`);
+    return;
+  }
+  wizardList=senzaFoto;
   wizardIndex=0;
   document.getElementById('photoWizard').classList.remove('hidden');
   renderWizard();
