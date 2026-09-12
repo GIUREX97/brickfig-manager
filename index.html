@@ -65,7 +65,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <input type="file" id="bulkPhotoInput" accept="image/*" multiple class="hidden" onchange="handleBulkUpload(event)">
 </div>
 
-<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
+<div id="quickAddBand" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
   <div class="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-[20px] p-4 md:p-5 shadow-lg border border-zinc-800 flex flex-wrap gap-3 items-end">
     <div class="flex-1 min-w-[180px]">
       <label class="text-[11px] font-bold tracking-widest uppercase text-amber-300 flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Inserimento ULTRA-RAPIDO — Solo Codice</label>
@@ -91,7 +91,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   </div>
 </div>
 
-<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-3">
+<div id="quickInfoBand" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-3">
   <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2.5 flex flex-wrap gap-2 items-center text-xs">
     <span class="font-bold text-emerald-700"><i class="fa-solid fa-circle-info mr-1"></i> Automatico:</span>
     <span class="text-zinc-700">Inserisci <b>solo codice</b> (es. <code class="bg-white px-1.5 py-0.5 rounded border font-mono">col001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">3001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">sw1159</code>) → <b>Nome • Categoria • Foto • AVG Usato BrickLink</b> in &lt;1s. Tu metti solo <b>Quantità</b>, <b>Stato</b> e <b>Prezzo Vendita</b>.</span>
@@ -1254,10 +1254,10 @@ async function checkoutCart(){
 }
 // Aggiorna conteggio carrello all'avvio
 updateCartCount();
-// Nascondi AVG su Vercel (online), mostralo solo in locale (tu)
+// Nascondi AVG e banda rapida su Vercel (online), mostrali solo in locale (tu)
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
