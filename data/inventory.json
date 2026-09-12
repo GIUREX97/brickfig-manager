@@ -5,24 +5,17 @@
     "codiceBrickLink": "col051",
     "nome": "Musketeer, Series 4 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 4 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col051.png",
     "prezzoAvgUsato": 7.3,
-    "prezzoVendita": 7.3,
+    "prezzoVendita": 7.39,
     "variante": "Col051 → col051",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 11.35,
-      "soldUsed": 7.3,
-      "currentNew": 15.98,
-      "currentUsed": 9.41,
-      "listinoUsato": 7.3
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207021832,
+    "updated": 1789207033278,
     "created": 1789207021832
   },
   {
