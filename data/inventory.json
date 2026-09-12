@@ -5,24 +5,17 @@
     "codiceBrickLink": "col025",
     "nome": "Mime, Series 2 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 2 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col025.png",
     "prezzoAvgUsato": 4.65,
-    "prezzoVendita": 4.65,
+    "prezzoVendita": 4.49,
     "variante": "Col025 → col025",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 11.5,
-      "soldUsed": 4.65,
-      "currentNew": 12.56,
-      "currentUsed": 5.84,
-      "listinoUsato": 4.65
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789206915330,
+    "updated": 1789206921881,
     "created": 1789206915330
   },
   {
