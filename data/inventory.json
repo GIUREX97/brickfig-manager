@@ -5,24 +5,17 @@
     "codiceBrickLink": "col116",
     "nome": "Cowgirl, Series 8 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 8 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col116.png",
     "prezzoAvgUsato": 3.84,
-    "prezzoVendita": 3.84,
+    "prezzoVendita": 3.69,
     "variante": "Col116 → col116",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.45,
-      "soldUsed": 3.84,
-      "currentNew": 10.68,
-      "currentUsed": 4.39,
-      "listinoUsato": 3.84
-    },
-    "qta": 1,
+    "prezziDettaglio": null,
+    "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789207140049,
+    "updated": 1789207148215,
     "created": 1789207140049
   },
   {
