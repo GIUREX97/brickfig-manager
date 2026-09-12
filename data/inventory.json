@@ -1,5 +1,31 @@
 [
   {
+    "id": "frehr69",
+    "codice": "hp284",
+    "codiceBrickLink": "hp284",
+    "nome": "Harry Potter - 20th Anniversary Pearl Gold",
+    "categoria": "Harry Potter",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hp284.png",
+    "prezzoAvgUsato": 2.54,
+    "prezzoVendita": 2.54,
+    "variante": "Hp284 → hp284",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 3.76,
+      "soldUsed": 2.54,
+      "currentNew": 4.98,
+      "currentUsed": 2.99,
+      "listinoUsato": 2.54
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208557296,
+    "created": 1789208557296
+  },
+  {
     "id": "cnk30fp",
     "codice": "hp137",
     "codiceBrickLink": "hp137",
