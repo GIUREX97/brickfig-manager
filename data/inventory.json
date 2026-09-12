@@ -1483,25 +1483,18 @@
     "codiceBrickLink": "min021",
     "nome": "Zombie Pigman",
     "categoria": "Minecraft",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/min021.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.44,
-    "prezzoVendita": 2.44,
+    "prezzoVendita": 2.39,
     "variante": "Min021 ? min021",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4.87,
-      "soldUsed": 2.44,
-      "currentNew": 10,
-      "currentUsed": 3.11,
-      "listinoUsato": 2.44
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252005530,
+    "updated": 1789252321171,
     "created": 1789252005530
   },
   {
