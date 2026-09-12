@@ -1,5 +1,31 @@
 [
   {
+    "id": "2jcolyx",
+    "codice": "hp622",
+    "codiceBrickLink": "hp622",
+    "nome": "Draco Malfoy - Black Slytherin Robe and Short Legs, Grin / Surprised",
+    "categoria": "Harry Potter > Chamber of Secrets",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hp622.png",
+    "prezzoAvgUsato": 7.55,
+    "prezzoVendita": 7.55,
+    "variante": "Hp622 → hp622",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 5.24,
+      "soldUsed": 7.55,
+      "currentNew": 6.14,
+      "currentUsed": 7.44,
+      "listinoUsato": 7.55
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208574730,
+    "created": 1789208574730
+  },
+  {
     "id": "nievntu",
     "codice": "hp402",
     "codiceBrickLink": "hp402",
