@@ -862,25 +862,18 @@
     "codiceBrickLink": "njo0073",
     "nome": "Lloyd (Golden Ninja) - The Final Battle",
     "categoria": "NINJAGO > The Final Battle",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0073.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 18.53,
-    "prezzoVendita": 18.53,
+    "prezzoVendita": 17.39,
     "variante": "Njo0073 ? njo0073",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 33.03,
-      "soldUsed": 18.53,
-      "currentNew": 44.26,
-      "currentUsed": 27.01,
-      "listinoUsato": 18.53
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252107004,
+    "updated": 1789252512544,
     "created": 1789252107004
   },
   {
