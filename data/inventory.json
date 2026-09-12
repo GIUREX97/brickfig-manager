@@ -1,5 +1,31 @@
 [
   {
+    "id": "x4ypqif",
+    "codice": "cty0989",
+    "codiceBrickLink": "cty0989",
+    "nome": "Statue - Pearl Gold with Metallic Gold Fire Helmet",
+    "categoria": "Town > City",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cty0989.png",
+    "prezzoAvgUsato": 2.75,
+    "prezzoVendita": 2.75,
+    "variante": "Cty0989 → cty0989",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 3.86,
+      "soldUsed": 2.75,
+      "currentNew": 7.06,
+      "currentUsed": 3.3,
+      "listinoUsato": 2.75
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208981402,
+    "created": 1789208981402
+  },
+  {
     "id": "h936utg",
     "codice": "bdp049",
     "codiceBrickLink": "bdp049",
