@@ -410,25 +410,18 @@
     "codiceBrickLink": "njo0295",
     "nome": "Tannin",
     "categoria": "NINJAGO > The Hands of Time",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0295.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.66,
-    "prezzoVendita": 2.66,
+    "prezzoVendita": 2.59,
     "variante": "Njo0295 ? njo0295",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 6.83,
-      "soldUsed": 2.66,
-      "currentNew": 11.21,
-      "currentUsed": 3.34,
-      "listinoUsato": 2.66
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252185586,
+    "updated": 1789252634456,
     "created": 1789252185586
   },
   {
