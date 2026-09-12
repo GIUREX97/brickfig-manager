@@ -1,5 +1,32 @@
 [
   {
+    "id": "26t15y9",
+    "codice": "njo0790",
+    "codiceBrickLink": "njo0790",
+    "nome": "Lloyd (Golden Ninja) - Core",
+    "categoria": "NINJAGO > Core",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0790.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 3.5,
+    "prezzoVendita": 3.29,
+    "variante": "Njo0790 ? njo0790",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 4.3,
+      "soldUsed": 3.5,
+      "currentNew": 5.49,
+      "currentUsed": 3.67,
+      "listinoUsato": 3.5
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252852517,
+    "created": 1789252852517
+  },
+  {
     "id": "xkhhjik",
     "codice": "njo0757",
     "codiceBrickLink": "njo0757",
