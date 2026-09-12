@@ -1,5 +1,32 @@
 [
   {
+    "id": "4l94wk9",
+    "codice": "njo0580",
+    "codiceBrickLink": "njo0580",
+    "nome": "Stone Army Scout, Yellow Face, Black Quiver",
+    "categoria": "NINJAGO > Legacy",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0580.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 3.09,
+    "prezzoVendita": 3.09,
+    "variante": "Njo0580 ? njo0580",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 4.59,
+      "soldUsed": 3.09,
+      "currentNew": 9.25,
+      "currentUsed": 3.87,
+      "listinoUsato": 3.09
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789252216578,
+    "created": 1789252216578
+  },
+  {
     "id": "0vqchrr",
     "codice": "njo0533",
     "codiceBrickLink": "njo0533",
