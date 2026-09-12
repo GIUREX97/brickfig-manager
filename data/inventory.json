@@ -1294,25 +1294,18 @@
     "codiceBrickLink": "nba029",
     "nome": "NBA Player, Number 5",
     "categoria": "Sports > Basketball",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/nba029.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 1.84,
-    "prezzoVendita": 1.84,
+    "prezzoVendita": 1.79,
     "variante": "Nba029 ? nba029",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.73,
-      "soldUsed": 1.84,
-      "currentNew": 4.82,
-      "currentUsed": 2.06,
-      "listinoUsato": 1.84
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252028484,
+    "updated": 1789252364841,
     "created": 1789252028484
   },
   {
