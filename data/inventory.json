@@ -5,24 +5,17 @@
     "codiceBrickLink": "sim022",
     "nome": "Mr. Burns, The Simpsons, Series 1 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > The Simpsons > The Simpsons Series 1",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/sim022.png",
     "prezzoAvgUsato": 13.25,
-    "prezzoVendita": 13.25,
+    "prezzoVendita": 12.09,
     "variante": "Sim022 → sim022",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 17.48,
-      "soldUsed": 13.25,
-      "currentNew": 33.74,
-      "currentUsed": 15.44,
-      "listinoUsato": 13.25
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208036623,
+    "updated": 1789208041508,
     "created": 1789208036623
   },
   {
