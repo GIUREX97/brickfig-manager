@@ -31,12 +31,12 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 #galleryModal .gal-lightbox-img{max-width:92vw;max-height:72vh;object-fit:contain}
 </style>
 </head>
-<body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased">
-<header class="sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-sm">
-  <div class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-4">
-    <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial">
+<body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased overflow-x-hidden">
+<header class="sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-sm overflow-x-hidden">
+  <div class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 flex flex-wrap sm:flex-nowrap items-center justify-center sm:justify-between gap-2 sm:gap-4">
+    <div class="flex items-center justify-center sm:justify-start gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial">
       <div class="w-9 h-9 sm:w-10 sm:h-10 bg-lego-red rounded-xl flex items-center justify-center text-white font-display font-bold text-lg sm:text-xl shadow shrink-0">B</div>
-      <div class="min-w-0">
+      <div class="min-w-0 text-center sm:text-left">
         <h1 class="font-display font-bold text-[15px] sm:text-xl leading-none truncate">BrickFig Manager <span class="bg-lego-yellow px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs">PRO AUTOMATICO</span></h1>
         <p class="text-[9px] sm:text-[11px] tracking-widest font-semibold text-zinc-500 uppercase truncate">Minifigure & Sfuso � BrickLink AVG Usato</p>
       </div>
@@ -44,11 +44,11 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
     <div class="hidden md:flex items-center gap-2 ml-6">
       <span class="text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold"><i class="fa-solid fa-bolt mr-1"></i>Online</span>
     </div>
-    <div class="ml-auto flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end mt-1 sm:mt-0">
+    <div class="ml-auto flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center sm:justify-end mt-1 sm:mt-0">
       <button onclick="openCart()" class="relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-cart-shopping"></i> <span class="hidden sm:inline">Carrello</span><span class="sm:hidden">Cart</span> <span id="cartCount" class="bg-lego-yellow text-zinc-900 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span></button>
       <button onclick="exportData()" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold"><i class="fa-solid fa-download"></i> Backup</button>
       <label class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold cursor-pointer"><i class="fa-solid fa-upload"></i> Ripristina<input type="file" accept=".json" class="hidden" onchange="importData(event)"></label>
-      <button onclick="openModal()" class="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-plus"></i> Nuovo</button>
+      <button onclick="openModal()" class="hidden sm:inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-plus"></i> Nuovo</button>
     </div>
   </div>
 </header>
