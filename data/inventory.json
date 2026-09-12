@@ -943,25 +943,18 @@
     "codiceBrickLink": "njo0027",
     "nome": "Wyplash (Skulkin) - Vertical Grip Hands",
     "categoria": "NINJAGO > The Golden Weapons",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0027.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 5.4,
-    "prezzoVendita": 5.4,
+    "prezzoVendita": 4.79,
     "variante": "Njo0027 ? njo0027",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.94,
-      "soldUsed": 5.4,
-      "currentNew": 17.31,
-      "currentUsed": 7.72,
-      "listinoUsato": 5.4
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252098034,
+    "updated": 1789252493053,
     "created": 1789252098034
   },
   {
