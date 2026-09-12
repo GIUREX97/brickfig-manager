@@ -1564,25 +1564,18 @@
     "codiceBrickLink": "iaj006",
     "nome": "German Soldier 3",
     "categoria": "Indiana Jones > Raiders of the Lost Ark",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/iaj006.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 6.83,
-    "prezzoVendita": 6.83,
+    "prezzoVendita": 6.59,
     "variante": "Iaj006 ? iaj006",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 8.73,
-      "soldUsed": 6.83,
-      "currentNew": 23.18,
-      "currentUsed": 7.83,
-      "listinoUsato": 6.83
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789251984931,
+    "updated": 1789252305981,
     "created": 1789251984931
   },
   {
