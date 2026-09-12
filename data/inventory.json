@@ -1,5 +1,32 @@
 [
   {
+    "id": "i28lhce",
+    "codice": "njo0138",
+    "codiceBrickLink": "njo0138",
+    "nome": "Chope",
+    "categoria": "NINJAGO > Tournament of Elements",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0138.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 2.3,
+    "prezzoVendita": 2.3,
+    "variante": "Njo0138 ? njo0138",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 5.86,
+      "soldUsed": 2.3,
+      "currentNew": 9.92,
+      "currentUsed": 2.98,
+      "listinoUsato": 2.3
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252141753,
+    "created": 1789252141753
+  },
+  {
     "id": "u34087j",
     "codice": "njo0132",
     "codiceBrickLink": "njo0132",
