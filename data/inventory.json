@@ -5,7 +5,6 @@
     "codiceBrickLink": "hp123",
     "nome": "Ron Weasley - Red Tartan Sweater, Reddish Brown Legs",
     "categoria": "Harry Potter",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/hp123.png",
     "prezzoAvgUsato": 5.09,
@@ -13,16 +12,10 @@
     "variante": "Hp123 → hp123",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 9.9,
-      "soldUsed": 5.09,
-      "currentNew": 12.31,
-      "currentUsed": 6.97,
-      "listinoUsato": 5.09
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208530779,
+    "updated": 1789208539516,
     "created": 1789208530779
   },
   {
