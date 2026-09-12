@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -17,6 +17,18 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 <style>
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:99px}
 .card-hover:hover{transform:translateY(-2px);box-shadow:0 10px 25px -5px rgba(0,0,0,.1)}
+/* Gallery card */
+.gallery-wrap .gal-arrow{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:9999px;background:rgba(255,255,255,.92);border:1px solid #e4e4e7;display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:5}
+.gallery-wrap .gal-arrow:hover{background:#fff}
+.gallery-wrap .gal-arrow.prev{left:6px}
+.gallery-wrap .gal-arrow.next{right:6px}
+.gallery-wrap .gal-counter{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:rgba(24,24,27,.85);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:9999px;letter-spacing:.03em}
+.gallery-wrap .gal-badge{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:9999px}
+.gallery-wrap .gal-dots{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+.gallery-wrap .gal-dot{width:6px;height:6px;border-radius:9999px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.1);cursor:pointer}
+.gallery-wrap .gal-dot.active{background:#FFD500;border-color:#FFD500;box-shadow:0 0 0 2px rgba(255,213,0,.35)}
+/* lightbox */
+#galleryModal .gal-lightbox-img{max-width:92vw;max-height:72vh;object-fit:contain}
 </style>
 </head>
 <body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased">
@@ -26,7 +38,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
       <div class="w-10 h-10 bg-lego-red rounded-xl flex items-center justify-center text-white font-display font-bold text-xl shadow">B</div>
       <div>
         <h1 class="font-display font-bold text-xl leading-none">BrickFig Manager <span class="bg-lego-yellow px-2 py-0.5 rounded-full text-xs">PRO AUTOMATICO</span></h1>
-        <p class="text-[11px] tracking-widest font-semibold text-zinc-500 uppercase">Minifigure & Sfuso • BrickLink AVG Usato</p>
+        <p class="text-[11px] tracking-widest font-semibold text-zinc-500 uppercase">Minifigure & Sfuso � BrickLink AVG Usato</p>
       </div>
     </div>
     <div class="hidden md:flex items-center gap-2 ml-6">
@@ -43,10 +55,10 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 
 <div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-6 grid grid-cols-2 lg:grid-cols-5 gap-3">
   <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-zinc-400 uppercase">Totale Pezzi</div><div class="text-2xl font-display font-bold mt-1" id="statTotal">0</div><div class="text-xs text-zinc-500" id="statTotalSub">0 pezzi</div></div>
-  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-emerald-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>Disponibili</div><div class="text-2xl font-display font-bold mt-1 text-emerald-600" id="statDisp">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statDispVal">€ 0,00</div></div>
-  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-amber-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>Prenotate</div><div class="text-2xl font-display font-bold mt-1 text-amber-600" id="statPren">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statPrenVal">€ 0,00</div></div>
-  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Vendute</div><div class="text-2xl font-display font-bold mt-1" id="statVend">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statVendVal">€ 0,00</div></div>
-  <div class="bg-lego-yellow rounded-2xl p-4 border border-amber-200 shadow-sm col-span-2 lg:col-span-1 avg-only-local"><div class="text-[11px] font-bold tracking-widest text-zinc-700 uppercase">Valore Vendita</div><div class="text-2xl font-display font-bold mt-1" id="statValore">€ 0,00</div><div class="text-xs text-zinc-700" id="statValoreAvg">AVG Usato € 0,00</div></div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-emerald-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>Disponibili</div><div class="text-2xl font-display font-bold mt-1 text-emerald-600" id="statDisp">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statDispVal">� 0,00</div></div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-amber-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>Prenotate</div><div class="text-2xl font-display font-bold mt-1 text-amber-600" id="statPren">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statPrenVal">� 0,00</div></div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Vendute</div><div class="text-2xl font-display font-bold mt-1" id="statVend">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statVendVal">� 0,00</div></div>
+  <div class="bg-lego-yellow rounded-2xl p-4 border border-amber-200 shadow-sm col-span-2 lg:col-span-1 avg-only-local"><div class="text-[11px] font-bold tracking-widest text-zinc-700 uppercase">Valore Vendita</div><div class="text-2xl font-display font-bold mt-1" id="statValore">� 0,00</div><div class="text-xs text-zinc-700" id="statValoreAvg">AVG Usato � 0,00</div></div>
 </div>
 
 <div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 bg-white rounded-2xl border border-zinc-200 p-3 flex flex-wrap gap-3 items-center shadow-sm">
@@ -57,7 +69,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <select id="filterStato" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
   <select id="filterTipo" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
   <select id="filterCategoria" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutte le categorie</option></select>
-  <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Più recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ↓</option></select>
+  <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Pi� recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ?</option></select>
   <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
   <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
   <button id="btnPhotoWizard" onclick="openPhotoWizard()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
@@ -68,13 +80,13 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 <div id="quickAddBand" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
   <div class="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-[20px] p-4 md:p-5 shadow-lg border border-zinc-800 flex flex-wrap gap-3 items-end">
     <div class="flex-1 min-w-[180px]">
-      <label class="text-[11px] font-bold tracking-widest uppercase text-amber-300 flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Inserimento ULTRA-RAPIDO — Solo Codice</label>
+      <label class="text-[11px] font-bold tracking-widest uppercase text-amber-300 flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Inserimento ULTRA-RAPIDO � Solo Codice</label>
       <div class="relative mt-2">
         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-mono text-sm font-bold" id="quickPrefix">M</span>
         <input id="quickCode" placeholder="es. col001, sw1159, 3001, col01-2..." class="w-full pl-8 pr-12 py-3.5 rounded-xl bg-white border-2 border-transparent focus:border-lego-yellow font-mono text-sm font-bold outline-none" oninput="onQuickCodeInput()" onkeydown="if(event.key==='Enter') quickAdd()">
         <span id="quickSpinner" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-amber-500"><i class="fa-solid fa-spinner fa-spin"></i></span>
       </div>
-      <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-2"><span id="quickPreview" class="truncate">Scrivi codice → nome, categoria, foto e <b class="text-white">AVG Usato BrickLink</b> automatici</span></div>
+      <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-2"><span id="quickPreview" class="truncate">Scrivi codice ? nome, categoria, foto e <b class="text-white">AVG Usato BrickLink</b> automatici</span></div>
     </div>
     <div class="min-w-[130px]">
       <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Tipo</label>
@@ -84,8 +96,8 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         <option value="P">Parte</option>
       </select>
     </div>
-    <div class="min-w-[90px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Qtà</label><input id="quickQta" type="number" min="1" value="1" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
-    <div class="min-w-[110px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Vendita €</label><input id="quickPrezzoVendita" type="number" step="0.01" placeholder="es. 12.5" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
+    <div class="min-w-[90px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Qt�</label><input id="quickQta" type="number" min="1" value="1" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
+    <div class="min-w-[110px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Vendita �</label><input id="quickPrezzoVendita" type="number" step="0.01" placeholder="es. 12.5" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
     <div class="min-w-[140px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Stato</label><select id="quickStato" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold"><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select></div>
     <button onclick="quickAdd()" id="btnQuickAdd" class="px-6 py-3.5 rounded-xl bg-lego-yellow hover:bg-amber-400 text-zinc-900 font-extrabold text-sm shadow whitespace-nowrap"><i class="fa-solid fa-bolt mr-1"></i> Aggiungi</button>
   </div>
@@ -94,7 +106,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 <div id="quickInfoBand" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-3">
   <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2.5 flex flex-wrap gap-2 items-center text-xs">
     <span class="font-bold text-emerald-700"><i class="fa-solid fa-circle-info mr-1"></i> Automatico:</span>
-    <span class="text-zinc-700">Inserisci <b>solo codice</b> (es. <code class="bg-white px-1.5 py-0.5 rounded border font-mono">col001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">3001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">sw1159</code>) → <b>Nome • Categoria • Foto • AVG Usato BrickLink</b> in &lt;1s. Tu metti solo <b>Quantità</b>, <b>Stato</b> e <b>Prezzo Vendita</b>.</span>
+    <span class="text-zinc-700">Inserisci <b>solo codice</b> (es. <code class="bg-white px-1.5 py-0.5 rounded border font-mono">col001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">3001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">sw1159</code>) ? <b>Nome � Categoria � Foto � AVG Usato BrickLink</b> in &lt;1s. Tu metti solo <b>Quantit�</b>, <b>Stato</b> e <b>Prezzo Vendita</b>.</span>
   </div>
 </div>
 
@@ -104,7 +116,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
         <thead class="bg-zinc-50 border-b border-zinc-200 text-[11px] tracking-widest font-bold text-zinc-500 uppercase">
-          <tr><th class="text-left px-4 py-3">Foto</th><th class="text-left px-2 py-3">Codice/Tipo</th><th class="text-left px-2 py-3">Nome / Categoria</th><th class="text-center px-2 py-3">Qtà</th><th class="text-left px-2 py-3">Stato</th><th class="text-right px-2 py-3">AVG Usato</th><th class="text-right px-2 py-3">Vendita</th><th class="text-right px-4 py-3">Azioni</th></tr>
+          <tr><th class="text-left px-4 py-3">Foto</th><th class="text-left px-2 py-3">Codice/Tipo</th><th class="text-left px-2 py-3">Nome / Categoria</th><th class="text-center px-2 py-3">Qt�</th><th class="text-left px-2 py-3">Stato</th><th class="text-right px-2 py-3">AVG Usato</th><th class="text-right px-2 py-3">Vendita</th><th class="text-right px-4 py-3">Azioni</th></tr>
         </thead>
         <tbody id="tableBody" class="divide-y divide-zinc-100"></tbody>
       </table>
@@ -113,9 +125,9 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 </div>
 <div id="emptyState" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-8 hidden">
   <div class="bg-white rounded-2xl border-2 border-dashed border-zinc-200 p-10 text-center">
-    <div class="w-16 h-16 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto text-2xl">ðŸ§±</div>
+    <div class="w-16 h-16 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto text-2xl">🧱</div>
     <h3 class="font-display font-bold text-lg mt-4">Magazzino vuoto</h3>
-    <p class="text-sm text-zinc-500 mt-1">Inserisci un codice sopra o clicca “Nuovo”.</p>
+    <p class="text-sm text-zinc-500 mt-1">Inserisci un codice sopra o clicca �Nuovo��.</p>
     <button onclick="loadDemo()" class="mt-4 px-4 py-2 rounded-xl bg-lego-yellow font-bold text-sm">Carica demo (8 pezzi)</button>
   </div>
 </div>
@@ -126,7 +138,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <div class="absolute inset-0 flex items-start justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-[24px] w-full max-w-[760px] my-6 shadow-2xl overflow-hidden">
       <div class="px-6 py-5 border-b border-zinc-100 flex items-center justify-between bg-zinc-50">
-        <div><h2 id="modalTitle" class="font-display font-bold text-xl">Nuovo Pezzo — Automatico</h2><p class="text-xs text-zinc-500">Solo codice → tutto da BrickLink. Poi Qtà e Stato.</p></div>
+        <div><h2 id="modalTitle" class="font-display font-bold text-xl">Nuovo Pezzo � Automatico</h2><p class="text-xs text-zinc-500">Solo codice ? tutto da BrickLink. Poi Qt� e Stato.</p></div>
         <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-white border border-zinc-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <form id="figForm" onsubmit="saveFig(event)" class="p-6 space-y-4">
@@ -149,7 +161,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
           <div>
             <label for="f_upload" id="mainDropZone" class="w-full aspect-square bg-zinc-100 border-2 border-zinc-200 rounded-2xl overflow-hidden flex items-center justify-center relative cursor-pointer hover:border-zinc-400 transition" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" ondragover="event.preventDefault(); this.classList.add('border-zinc-900')" ondragleave="this.classList.remove('border-zinc-900')" ondrop="handleMainDrop(event)">
               <img id="f_preview" src="" alt="" class="w-full h-full object-contain p-2 hidden drop-shadow-sm">
-              <div id="f_preview_placeholder" class="text-center p-4"><i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink<br><span class="text-[10px]">Clicca o trascina qui</span></div></div>
+              <div id="f_preview_placeholder" class="text-center p-4"><i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink<br><span class="text-[10px]">Cover</span></div></div>
               <div id="f_preview_loading" class="hidden absolute inset-0 bg-white/80 flex items-center justify-center flex-col gap-2"><i class="fa-solid fa-spinner fa-spin text-xl text-amber-500"></i><span class="text-xs font-bold text-zinc-600">Carico...</span></div>
               <div class="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shadow"><i class="fa-solid fa-camera text-xs"></i></div>
             </label>
@@ -159,22 +171,43 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
               <select id="colorSelect" onchange="onColorSelect(this.value)" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-zinc-200 bg-white text-sm font-bold">
                 <option value="">Seleziona colore...</option>
               </select>
-              <div class="text-[10px] text-zinc-500 mt-1">Come su BrickLink: scegli colore → foto e prezzo si aggiornano</div>
+              <div class="text-[10px] text-zinc-500 mt-1">Come su BrickLink: scegli colore ? foto e prezzo si aggiornano</div>
               <div id="colorDebug" class="text-[9px] font-mono text-zinc-500 mt-1 hidden"></div>
             </div>
             <div class="flex gap-1 mt-2">
-              <label for="f_upload" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-zinc-900 text-white hover:bg-black text-center cursor-pointer"><i class="fa-solid fa-upload mr-1"></i> Carica tua foto</label>
+              <label for="f_upload" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-zinc-900 text-white hover:bg-black text-center cursor-pointer"><i class="fa-solid fa-upload mr-1"></i> Aggiungi reale</label>
               <button type="button" onclick="useBricklinkFoto()" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-amber-400 hover:bg-amber-500"><i class="fa-solid fa-link mr-1"></i> BrickLink</button>
             </div>
             <input type="file" id="f_upload" accept="image/*" class="hidden" onchange="handleUpload(event)">
             <input id="f_foto_manual" placeholder="O incolla URL immagine..." class="mt-2 w-full px-3 py-2 rounded-xl border border-zinc-200 text-xs" oninput="document.getElementById('f_foto').value=this.value; document.getElementById('f_foto_url').textContent=this.value; updatePreview(this.value);">
-            <div class="text-[10px] text-zinc-500 mt-1 text-center">BrickLink automatica o tua foto (rimane salvata)</div>
+            <div class="text-[10px] text-zinc-500 mt-1 text-center">Copertina sempre BrickLink — foto reali qui sotto (extra scorrevoli)</div>
           </div>
           <div class="space-y-3">
             <div><div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Nome (BrickLink)</div><div id="autoNome" class="mt-1 min-h-[44px] px-3 py-3 rounded-xl bg-white border border-zinc-200 text-sm font-bold flex items-center"><span class="text-zinc-400 font-normal">In attesa di codice...</span></div></div>
-            <div><div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Categoria</div><div id="autoCategoria" class="mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold"><span class="text-zinc-400 font-normal">—</span></div></div>
-            <div><div class="text-[10px] font-bold tracking-widest uppercase text-amber-700">Prezzo AVG Usato (BrickLink)</div><div id="autoPrezzo" class="mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700"><span class="text-zinc-400 font-normal">—</span></div><div id="autoPrezzoDett" class="text-[11px] text-zinc-500 mt-1 hidden"></div></div>
+            <div><div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Categoria</div><div id="autoCategoria" class="mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold"><span class="text-zinc-400 font-normal">�</span></div></div>
+            <div><div class="text-[10px] font-bold tracking-widest uppercase text-amber-700">Prezzo AVG Usato (BrickLink)</div><div id="autoPrezzo" class="mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700"><span class="text-zinc-400 font-normal">�</span></div><div id="autoPrezzoDett" class="text-[11px] text-zinc-500 mt-1 hidden"></div></div>
           </div>
+        </div>
+
+        <!-- FOTO REALI GALLERY: copertina sempre BrickLink, extra = tue foto reali scorrevoli -->
+        <div id="extraPhotosSection" class="bg-white border-2 border-zinc-200 rounded-2xl p-4">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold tracking-widest uppercase text-zinc-700"><i class="fa-solid fa-images mr-1"></i> Foto reali aggiuntive <span class="text-zinc-400 normal-case">(scorrevoli dopo copertina BrickLink)</span></label>
+            <span id="extraCount" class="text-[11px] font-bold bg-zinc-900 text-white px-2 py-1 rounded-full">0 foto</span>
+          </div>
+          <div class="text-[11px] text-zinc-500 mt-1">Copertina = sempre BrickLink sopra. Qui aggiungi 1 o pi� <b>foto reali</b> fatte da te: nel gestionale scorreranno dopo la copertina (swipe/freccia/lightbox).</div>
+          <div id="extraPreviewGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-3"></div>
+          <div id="extraEmpty" class="mt-3 bg-zinc-50 border-2 border-dashed border-zinc-200 rounded-xl p-4 text-center text-xs text-zinc-500">Nessuna foto reale aggiunta � trascina qui o clicca �Aggiungi foto reali�.</div>
+          <div id="extraDropZone" class="mt-3 border-2 border-dashed border-zinc-300 rounded-xl p-3 flex flex-col items-center justify-center gap-2 bg-zinc-50 hover:bg-zinc-100 hover:border-zinc-400 cursor-pointer" onclick="document.getElementById('f_extra_upload').click()" ondragover="event.preventDefault(); this.classList.add('border-zinc-900','bg-zinc-100')" ondragleave="this.classList.remove('border-zinc-900','bg-zinc-100')" ondrop="handleExtraDrop(event)">
+            <i class="fa-solid fa-cloud-arrow-up text-lg text-zinc-400"></i>
+            <span class="text-xs font-bold">Trascina foto reali qui o clicca</span>
+            <span class="text-[10px] text-zinc-500">JPG/PNG/WEBP, max 4MB cad., puoi selezionarne pi� di una</span>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <label for="f_extra_upload" class="flex-1 text-center text-xs font-bold py-2.5 rounded-xl bg-zinc-900 text-white hover:bg-black cursor-pointer"><i class="fa-solid fa-plus mr-1"></i> Aggiungi foto reali</label>
+            <button type="button" onclick="clearExtraPhotos()" class="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-xs font-bold">Svuota extra</button>
+          </div>
+          <input type="file" id="f_extra_upload" accept="image/*" multiple class="hidden" onchange="handleExtraUpload(event)">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -187,13 +220,13 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
             </div>
             <div class="mt-3 grid grid-cols-2 gap-3">
               <div>
-                <label class="text-[11px] font-bold uppercase text-zinc-600">Quantità *</label>
+                <label class="text-[11px] font-bold uppercase text-zinc-600">Quantit� *</label>
                 <input id="f_qta" type="number" min="1" value="1" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm font-bold text-center">
               </div>
               <div>
-                <label class="text-[11px] font-bold uppercase text-emerald-700">Prezzo Vendita €</label>
+                <label class="text-[11px] font-bold uppercase text-emerald-700">Prezzo Vendita �</label>
                 <div class="relative mt-1">
-                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-700 font-bold">€</span>
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-700 font-bold">�</span>
                   <input id="f_prezzoVendita" type="number" step="0.01" min="0" placeholder="es. 12.50" class="w-full pl-7 pr-3 py-3 rounded-xl border-2 border-emerald-200 bg-emerald-50 text-sm font-bold">
                 </div>
                 <div class="text-[10px] text-zinc-500 mt-1">Il tuo prezzo</div>
@@ -222,7 +255,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
           <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">Annulla</button>
           <button type="submit" id="btnSave" class="flex-[1.5] py-3 rounded-xl bg-lego-red text-white font-bold text-sm shadow">Salva in inventario</button>
         </div>
-        <p class="text-[11px] text-center text-zinc-400">Solo codice obbligatorio — il resto è BrickLink. Dati salvati in locale.</p>
+        <p class="text-[11px] text-center text-zinc-400">Solo codice obbligatorio � il resto � BrickLink. Dati salvati in locale.</p>
       </form>
     </div>
   </div>
@@ -236,7 +269,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
       <div class="px-6 py-5 bg-zinc-900 text-white text-center relative">
         <button onclick="closeRegister()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center"><i class="fa-solid fa-xmark text-sm"></i></button>
         <h2 class="font-display font-bold text-xl">Registrati per acquistare</h2>
-        <p class="text-xs text-zinc-300 mt-1">Un account per il carrello — ti ricontatto per il saldo</p>
+        <p class="text-xs text-zinc-300 mt-1">Un account per il carrello � ti ricontatto per il saldo</p>
       </div>
       <form onsubmit="doRegister(event)" class="p-6 space-y-3">
         <input id="regNome" required placeholder="Nome e Cognome *" class="w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm font-semibold">
@@ -244,7 +277,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         <input id="regTelefono" required placeholder="Telefono / WhatsApp *" class="w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm">
         <input id="regPassword" required type="password" placeholder="Password *" class="w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm">
         <button type="submit" class="w-full py-3 rounded-xl bg-lego-yellow hover:bg-amber-400 font-extrabold text-sm">Registrati e vai al carrello</button>
-        <p class="text-xs text-center text-zinc-500">Già registrato? <a href="#" onclick="event.preventDefault(); closeRegister(); openLogin(); " class="underline text-zinc-900 font-bold">Accedi</a></p>
+        <p class="text-xs text-center text-zinc-500">Gi� registrato? <a href="#" onclick="event.preventDefault(); closeRegister(); openLogin(); " class="underline text-zinc-900 font-bold">Accedi</a></p>
       </form>
     </div>
   </div>
@@ -270,8 +303,8 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
     <div class="bg-white rounded-[24px] w-full max-w-[560px] shadow-2xl overflow-hidden">
       <div class="px-6 py-4 bg-zinc-900 text-white flex items-center justify-between">
         <div>
-          <h2 class="font-display font-bold text-lg">Carica foto — <span id="wizardCounter">1 / 10</span></h2>
-          <p class="text-xs text-zinc-300">Ordine cronologico di caricamento — scorri e carica</p>
+          <h2 class="font-display font-bold text-lg">Carica foto � <span id="wizardCounter">1 / 10</span></h2>
+          <p class="text-xs text-zinc-300">Ordine cronologico di caricamento � scorri e carica</p>
         </div>
         <button onclick="closePhotoWizard()" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
       </div>
@@ -283,7 +316,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
             <div id="wizardDropOverlay" class="hidden absolute inset-0 bg-zinc-900/80 flex items-center justify-center pointer-events-none"><span class="text-white text-xs font-bold">Rilascia</span></div>
           </div>
           <div class="flex-1 min-w-0">
-            <div class="text-xs font-mono font-bold text-zinc-500" id="wizardCode">col001 • M</div>
+            <div class="text-xs font-mono font-bold text-zinc-500" id="wizardCode">col001 � M</div>
             <div class="font-bold text-sm leading-tight mt-1" id="wizardName">Nome</div>
             <div class="text-xs text-zinc-500" id="wizardCat">Categoria</div>
             <label for="wizardFile" class="mt-2 block text-[11px] text-center font-bold text-white bg-zinc-900 hover:bg-black rounded-xl py-2.5 cursor-pointer"><i class="fa-solid fa-upload mr-1"></i> Clicca qui per scegliere foto</label>
@@ -292,10 +325,10 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         </div>
         <div class="w-full bg-zinc-100 rounded-full h-2 overflow-hidden"><div id="wizardProgress" class="h-2 bg-emerald-500 transition-all" style="width:10%"></div></div>
         <div class="flex gap-2">
-          <button onclick="wizardPrev()" id="wizardPrevBtn" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">← Precedente</button>
-          <button onclick="wizardNext()" id="wizardNextBtn" class="flex-1 py-3 rounded-xl bg-zinc-900 text-white font-bold text-sm">Successivo →</button>
+          <button onclick="wizardPrev()" id="wizardPrevBtn" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">? Precedente</button>
+          <button onclick="wizardNext()" id="wizardNextBtn" class="flex-1 py-3 rounded-xl bg-zinc-900 text-white font-bold text-sm">Successivo ?</button>
         </div>
-        <p class="text-[11px] text-center text-zinc-500">Le foto restano salvate anche se chiudi — puoi riprendere dopo</p>
+        <p class="text-[11px] text-center text-zinc-500">Le foto restano salvate anche se chiudi � puoi riprendere dopo</p>
       </div>
     </div>
   </div>
@@ -311,7 +344,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
     </div>
     <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
     <div class="p-5 border-t border-zinc-200 bg-zinc-50">
-      <div class="flex justify-between font-bold text-lg mb-4"><span>Totale</span><span id="cartTotal">€ 0,00</span></div>
+      <div class="flex justify-between font-bold text-lg mb-4"><span>Totale</span><span id="cartTotal">� 0,00</span></div>
       <div class="bg-white border border-zinc-200 rounded-xl p-3 space-y-2 mb-4">
         <div class="text-xs font-bold tracking-widest uppercase text-zinc-600">I tuoi dati per essere ricontattato</div>
         <input id="cartNome" placeholder="Nome e Cognome *" class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 text-sm">
@@ -319,8 +352,31 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         <input id="cartTelefono" placeholder="Telefono / WhatsApp *" class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 text-sm">
         <textarea id="cartNote" rows="2" placeholder="Note (es. preferenze, ritiro...)" class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 text-sm"></textarea>
       </div>
-      <button onclick="checkoutCart()" id="btnCheckout" class="w-full py-3 rounded-xl bg-lego-red text-white font-bold shadow">Invia richiesta → Riceverai risposta per il saldo</button>
-      <p class="text-[11px] text-zinc-500 mt-2 text-center">Ti arriverà email di conferma e a me notifica su giurex97@gmail.com</p>
+      <button onclick="checkoutCart()" id="btnCheckout" class="w-full py-3 rounded-xl bg-lego-red text-white font-bold shadow">Invia richiesta ? Riceverai risposta per il saldo</button>
+      <p class="text-[11px] text-zinc-500 mt-2 text-center">Ti arriver� email di conferma e a me notifica su giurex97@gmail.com</p>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY LIGHTBOX: copertina BrickLink + foto reali scorrevoli -->
+<div id="galleryModal" class="fixed inset-0 z-[70] hidden">
+  <div class="absolute inset-0 bg-black/85 backdrop-blur-sm" onclick="closeGallery()"></div>
+  <div class="absolute inset-0 flex flex-col items-center justify-center p-4">
+    <div class="relative w-full max-w-[880px] flex flex-col items-center">
+      <button onclick="closeGallery()" class="absolute -top-2 right-0 md:-right-2 w-9 h-9 rounded-full bg-white text-zinc-900 flex items-center justify-center shadow z-10"><i class="fa-solid fa-xmark"></i></button>
+      <div class="text-white text-center mb-3">
+        <div id="galTitle" class="font-bold text-sm leading-tight"></div>
+        <div id="galSub" class="text-xs text-zinc-300 font-mono"></div>
+      </div>
+      <div class="relative bg-white rounded-[18px] overflow-hidden shadow-2xl w-full flex items-center justify-center min-h-[320px]" style="background-image: radial-gradient(circle, #e4e4e7 1px, transparent 1px); background-size:12px 12px;">
+        <img id="galLightboxImg" src="" alt="" class="gal-lightbox-img p-3 drop-shadow">
+        <button onclick="galLightPrev(event)" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-zinc-200 shadow flex items-center justify-center hover:bg-zinc-50"><i class="fa-solid fa-chevron-left"></i></button>
+        <button onclick="galLightNext(event)" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-zinc-200 shadow flex items-center justify-center hover:bg-zinc-50"><i class="fa-solid fa-chevron-right"></i></button>
+        <div id="galLightCounter" class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-xs font-bold px-3 py-1 rounded-full">1 / 1</div>
+        <div id="galLightBadge" class="absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-white border border-zinc-200 shadow">BRICKLINK</div>
+      </div>
+      <div id="galLightThumbs" class="mt-3 flex gap-2 overflow-x-auto max-w-full pb-1"></div>
+      <div class="mt-2 text-[11px] text-zinc-300 text-center">Freccie ? ? o swipe � Copertina sempre BrickLink, a seguire le tue foto reali</div>
     </div>
   </div>
 </div>
@@ -333,6 +389,9 @@ let figs=[];
 let view='grid';
 let lastFetched=null;
 let autoTimer=null;
+let tempFotoExtra=[]; // buffer per foto reali extra in modal
+let galleryCurrent={id:null, idx:0}; // lightbox state
+let cardGalleryIdx={}; // indice per ogni card (id -> idx)
 
 async function syncFromCloud(){
   try{
@@ -346,7 +405,7 @@ async function syncFromCloud(){
         localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
         return true;
       } else if(Array.isArray(remote) && remote.length===0 && figs.length>0){
-        // Cloud vuoto ma locale ha dati → pusha locale su cloud (primo sync)
+        // Cloud vuoto ma locale ha dati ? pusha locale su cloud (primo sync)
         await syncToCloud();
         return false;
       }
@@ -377,9 +436,30 @@ function load(){
         const m=f.foto.match(/\/PN\/(\d+)\//) || f.foto.match(/\/MN\/(\d+)\//);
         if(m) f.coloreId=m[1];
       }
+      if(!Array.isArray(f.fotoExtra)) f.fotoExtra=[];
+      // Migrazione gallery: se cover era tua foto (data:), spostala in extra e ripristina BrickLink
+      if(f.foto && f.foto.startsWith('data:') && f.fotoExtra.length===0){
+        const codeForImg = (f.codiceBrickLink||f.codice||'').toLowerCase();
+        const t = f.tipoCode||detectType(f.codice||'');
+        let brickFoto='';
+        if(codeForImg){
+          if(t==='S') brickFoto='https://img.bricklink.com/ItemImage/SN/0/'+codeForImg+'.png';
+          else if(t==='P'){ const col = f.coloreId && f.coloreId!=='0' ? f.coloreId : '0'; brickFoto='https://img.bricklink.com/ItemImage/PN/'+col+'/'+codeForImg+'.png'; }
+          else brickFoto='https://img.bricklink.com/ItemImage/MN/0/'+codeForImg+'.png';
+        }
+        if(brickFoto){ f.fotoExtra=[f.foto]; f.foto=brickFoto; }
+      }
+      if(f.fotoExtra.length>12) f.fotoExtra=f.fotoExtra.slice(0,12);
     });
   }catch(e){figs=[];}
 }
+// Helpers gallery - copertina sempre BrickLink, extra = foto reali
+function getAllPhotos(f){
+  const cover = f.foto || '';
+  const extra = Array.isArray(f.fotoExtra) ? f.fotoExtra : [];
+  return cover ? [cover, ...extra] : [...extra];
+}
+function getCoverLabel(idx){ return idx===0 ? 'BRICKLINK' : 'REALE'; }
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(figs)); syncToCloud(); }
 function uid(){ return Math.random().toString(36).slice(2,9); }
 function euro(n){ return (Number(n)||0).toLocaleString('it-IT',{style:'currency',currency:'EUR'}); }
@@ -410,10 +490,10 @@ async function checkServer(){
   try{
     const r=await fetch('/api/health', {signal: AbortSignal.timeout(3000)});
     const j=await r.json();
-    el.textContent=`âœ“ Server OK • cache ${j.cacheSize}`;
+    el.textContent=`✓ Server OK � cache ${j.cacheSize}`;
     el.className='text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold';
   }catch(e){
-    el.textContent='âš  Server offline — avvia server.js';
+    el.textContent='⚠ Server offline � avvia server.js';
     el.className='text-xs bg-red-500 text-white px-2.5 py-1 rounded-full font-bold';
   }
 }
@@ -443,16 +523,18 @@ function openModal(editId=null){
     document.getElementById('f_coloreId').value=f.coloreId||'';
     document.querySelector(`input[name="f_stato"][value="${f.stato}"]`).checked=true;
     document.getElementById('autoNome').textContent=f.nome;
-    document.getElementById('autoCategoria').textContent=f.categoria||'—';
-    document.getElementById('autoPrezzo').textContent=f.prezzoAvgUsato? '€ '+Number(f.prezzoAvgUsato).toFixed(2):'—';
+    document.getElementById('autoCategoria').textContent=f.categoria||'�';
+    document.getElementById('autoPrezzo').textContent=f.prezzoAvgUsato? '� '+Number(f.prezzoAvgUsato).toFixed(2):'�';
     document.getElementById('f_foto_url').textContent=f.foto||'';
     document.getElementById('f_prefix').textContent=f.tipoCode||detectType(f.codice);
     updatePreview(f.foto);
     updateSummary();
     updateDiff();
     lastFetched={codice:f.codice, nome:f.nome, categoria:f.categoria, foto:f.foto, prezzoAvgUsato:f.prezzoAvgUsato, tipoCode:f.tipoCode, coloreId:f.coloreId||''};
+    tempFotoExtra = Array.isArray(f.fotoExtra) ? [...f.fotoExtra] : [];
+    renderExtraGrid();
   } else {
-    document.getElementById('modalTitle').textContent='Nuovo Pezzo — Automatico';
+    document.getElementById('modalTitle').textContent='Nuovo Pezzo � Automatico';
     document.getElementById('figForm').reset();
     document.getElementById('f_id').value='';
      document.getElementById('f_qta').value=1;
@@ -467,8 +549,8 @@ function openModal(editId=null){
     document.getElementById('f_foto').value='';
     document.getElementById('f_tipoEffettivo').value='';
     document.getElementById('autoNome').innerHTML='<span class="text-zinc-400 font-normal">In attesa di codice...</span>';
-    document.getElementById('autoCategoria').innerHTML='<span class="text-zinc-400 font-normal">—</span>';
-    document.getElementById('autoPrezzo').innerHTML='<span class="text-zinc-400 font-normal">—</span>';
+    document.getElementById('autoCategoria').innerHTML='<span class="text-zinc-400 font-normal">�</span>';
+    document.getElementById('autoPrezzo').innerHTML='<span class="text-zinc-400 font-normal">�</span>';
     document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold text-zinc-500';
     document.getElementById('autoPrezzoDett').classList.add('hidden');
     document.getElementById('f_preview').classList.add('hidden');
@@ -476,6 +558,7 @@ function openModal(editId=null){
     document.getElementById('f_foto_url').textContent='';
     document.getElementById('f_prefix').textContent='M';
     updateSummary();
+    tempFotoExtra=[]; renderExtraGrid();
     setTimeout(()=>document.getElementById('f_codice').focus(),100);
   }
 }
@@ -518,13 +601,13 @@ function handleUpload(e){
   const reader=new FileReader();
   reader.onload=()=>{
     const url=reader.result;
-    document.getElementById('f_foto').value=url;
-    document.getElementById('f_foto_manual').value='[Foto caricata: '+file.name+']';
-    document.getElementById('f_foto_url').textContent=file.name;
-    updatePreview(url);
-    toast('Foto caricata');
+    if(tempFotoExtra.length>=12) return toast('Max 12 foto reali');
+    tempFotoExtra.push(url);
+    renderExtraGrid();
+    toast('Foto reale aggiunta (scorrerà dopo copertina BrickLink)');
   };
   reader.readAsDataURL(file);
+  e.target.value='';
 }
 function handleMainDrop(e){
   e.preventDefault();
@@ -532,19 +615,136 @@ function handleMainDrop(e){
   const file=e.dataTransfer.files[0];
   if(file && file.type.startsWith('image/')){
     if(file.size>4*1024*1024) return toast('Max 4MB');
+    if(tempFotoExtra.length>=12) return toast('Max 12 foto reali');
     const reader=new FileReader();
     reader.onload=()=>{
       const url=reader.result;
-      document.getElementById('f_foto').value=url;
-      document.getElementById('f_foto_manual').value='[Foto caricata: '+file.name+']';
-      document.getElementById('f_foto_url').textContent=file.name;
-      updatePreview(url);
-      toast('Foto caricata');
+      tempFotoExtra.push(url);
+      renderExtraGrid();
+      toast('Foto reale aggiunta (scorrerà dopo BrickLink)');
     };
     reader.readAsDataURL(file);
   }
 }
+function renderExtraGrid(){
+  const grid=document.getElementById('extraPreviewGrid');
+  const empty=document.getElementById('extraEmpty');
+  const count=document.getElementById('extraCount');
+  if(!grid) return;
+  const n=tempFotoExtra.length;
+  count.textContent=n===0? '0 foto' : n===1? '1 foto reale' : n+' foto reali';
+  count.className=n===0? 'text-[11px] font-bold bg-zinc-200 text-zinc-600 px-2 py-1 rounded-full' : 'text-[11px] font-bold bg-emerald-600 text-white px-2 py-1 rounded-full';
+  if(n===0){
+    if(empty) empty.classList.remove('hidden');
+    grid.classList.add('hidden');
+    grid.innerHTML='';
+    return;
+  }
+  if(empty) empty.classList.add('hidden');
+  grid.classList.remove('hidden');
+  grid.innerHTML='';
+  tempFotoExtra.forEach((src,i)=>{
+    const div=document.createElement('div');
+    div.className='relative group bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden aspect-square';
+    const img=document.createElement('img');
+    img.src=src.startsWith('data:')?src:getImageSrc(src);
+    img.className='w-full h-full object-cover';
+    div.appendChild(img);
+    const badge=document.createElement('div');
+    badge.className='absolute top-1 left-1 bg-zinc-900/85 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full';
+    badge.textContent=(i+1);
+    div.appendChild(badge);
+    const rm=document.createElement('button');
+    rm.type='button';
+    rm.className='absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] shadow opacity-90 hover:bg-red-700';
+    rm.innerHTML='<i class="fa-solid fa-xmark"></i>';
+    rm.title='Rimuovi';
+    rm.onclick=()=>removeExtra(i);
+    div.appendChild(rm);
+    const bar=document.createElement('div');
+    bar.className='absolute bottom-0 left-0 right-0 flex gap-1 p-1 bg-white/90 backdrop-blur';
+    const bL=document.createElement('button');
+    bL.type='button';
+    bL.className='flex-1 text-[10px] font-bold py-1 rounded bg-zinc-100 hover:bg-zinc-200 disabled:opacity-30';
+    bL.textContent='←';
+    bL.disabled=i===0;
+    bL.onclick=()=>moveExtra(i,-1);
+    const bR=document.createElement('button');
+    bR.type='button';
+    bR.className='flex-1 text-[10px] font-bold py-1 rounded bg-zinc-100 hover:bg-zinc-200 disabled:opacity-30';
+    bR.textContent='→';
+    bR.disabled=i===n-1;
+    bR.onclick=()=>moveExtra(i,1);
+    bar.appendChild(bL); bar.appendChild(bR);
+    div.appendChild(bar);
+    grid.appendChild(div);
+  });
+}
+function handleExtraUpload(e){
+  const files=[...e.target.files];
+  if(!files.length) return;
+  const slots=12-tempFotoExtra.length;
+  if(slots<=0) return toast('Max 12 foto reali');
+  let added=0;
+  const toLoad=files.slice(0,slots);
+  const promises=toLoad.map(file=>new Promise(res=>{
+    if(file.size>4*1024*1024){ toast('Max 4MB: '+file.name); return res(null); }
+    if(!file.type.startsWith('image/')){ toast('Non immagine: '+file.name); return res(null); }
+    const r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=()=>res(null);
+    r.readAsDataURL(file);
+  }));
+  Promise.all(promises).then(results=>{
+    results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
+    renderExtraGrid();
+    if(added) toast(added===1? '1 foto reale aggiunta' : added+' foto reali aggiunte');
+    e.target.value='';
+  });
+}
+function handleExtraDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('border-zinc-900','bg-zinc-100');
+  const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
+  if(!files.length) return toast('Trascina immagini');
+  const slots=12-tempFotoExtra.length;
+  if(slots<=0) return toast('Max 12 foto');
+  let added=0;
+  const toLoad=files.slice(0,slots);
+  const promises=toLoad.map(file=>new Promise(res=>{
+    if(file.size>4*1024*1024) return res(null);
+    const r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.readAsDataURL(file);
+  }));
+  Promise.all(promises).then(results=>{
+    results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
+    renderExtraGrid();
+    if(added) toast(added+' foto reali aggiunte');
+  });
+}
+function removeExtra(idx){
+  tempFotoExtra.splice(idx,1);
+  renderExtraGrid();
+  toast('Rimossa');
+}
+function moveExtra(idx,dir){
+  const j=idx+dir;
+  if(j<0||j>=tempFotoExtra.length) return;
+  const t=tempFotoExtra[idx];
+  tempFotoExtra[idx]=tempFotoExtra[j];
+  tempFotoExtra[j]=t;
+  renderExtraGrid();
+}
+function clearExtraPhotos(){
+  if(!tempFotoExtra.length) return;
+  if(!confirm('Rimuovere tutte le foto reali extra? La copertina BrickLink resta.')) return;
+  tempFotoExtra=[];
+  renderExtraGrid();
+}
+
 function useBricklinkFoto(){
+
   if(lastFetched && lastFetched.foto){
     document.getElementById('f_foto').value=lastFetched.foto;
     document.getElementById('f_foto_manual').value=lastFetched.foto;
@@ -596,17 +796,17 @@ async function onColorSelect(imageUrl){
     try{
       const data=await fetchBricklink(code, document.getElementById('f_tipoEffettivo').value||detectType(code), colorId);
       document.getElementById('f_prezzo').value=data.prezzoAvgUsato||'';
-      document.getElementById('autoPrezzo').textContent=data.prezzoAvgUsato? '€ '+data.prezzoAvgUsato.toFixed(2):'—';
+      document.getElementById('autoPrezzo').textContent=data.prezzoAvgUsato? '� '+data.prezzoAvgUsato.toFixed(2):'�';
       document.getElementById('autoPrezzo').className=data.prezzoAvgUsato?'mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700':'mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold text-zinc-500';
       if(data.prezziDettaglio){
         const det=document.getElementById('autoPrezzoDett');
         det.classList.remove('hidden');
-        det.innerHTML=`<span class="font-bold">AVG Used (6 mesi): €${data.prezziDettaglio.soldUsed?.toFixed(2)??'—'}</span> <span class="text-zinc-500">| Nuovo 6m €${data.prezziDettaglio.soldNew?.toFixed(2)??'—'}</span><br><span class="text-xs">Disponibili: Usato €${data.prezziDettaglio.currentUsed?.toFixed(2)??'—'} • Nuovo €${data.prezziDettaglio.currentNew?.toFixed(2)??'—'}</span>`;
+        det.innerHTML=`<span class="font-bold">AVG Used (6 mesi): �${data.prezziDettaglio.soldUsed?.toFixed(2)??'�'}</span> <span class="text-zinc-500">| Nuovo 6m �${data.prezziDettaglio.soldNew?.toFixed(2)??'�'}</span><br><span class="text-xs">Disponibili: Usato �${data.prezziDettaglio.currentUsed?.toFixed(2)??'�'} � Nuovo �${data.prezziDettaglio.currentNew?.toFixed(2)??'�'}</span>`;
       }
       updateSummary(); updateDiff();
       const status=document.getElementById('fetchStatus');
       status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
-      status.innerHTML=`âœ“ <b>${data.codice}</b> [${colorName}] — ${data.nome} • <b>AVG Usato €${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'—'}</b>`;
+      status.innerHTML=`✓ <b>${data.codice}</b> [${colorName}] � ${data.nome} � <b>AVG Usato �${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'�'}</b>`;
       // Aggiorna lastFetched per salvataggio (mantiene variante colore)
       lastFetched={...data, foto:imageUrl};
       document.getElementById('f_coloreId').value=colorId;
@@ -615,15 +815,15 @@ async function onColorSelect(imageUrl){
 }
 function updateSummary(){
   const box=document.getElementById('summaryBox');
-  const nome=document.getElementById('f_nome').value||'—';
-  const cat=document.getElementById('f_categoria').value||'—';
-  const code=document.getElementById('f_codice').value||'—';
+  const nome=document.getElementById('f_nome').value||'�';
+  const cat=document.getElementById('f_categoria').value||'�';
+  const code=document.getElementById('f_codice').value||'�';
   const prezzo=parseFloat(document.getElementById('f_prezzo').value)||0;
   const vendita=parseFloat(document.getElementById('f_prezzoVendita').value)||0;
   const qta=document.getElementById('f_qta').value||1;
   const stato=document.querySelector('input[name="f_stato"]:checked')?.value||'Disponibile';
   const tipo=document.getElementById('f_tipoEffettivo').value||detectType(code);
-  box.innerHTML=`<div class="font-bold text-sm leading-tight">${nome}</div><div class="text-xs text-zinc-500 font-mono">${code} • ${tipo} • ${cat}</div><div class="mt-2 grid grid-cols-2 gap-2 text-xs"><div class="bg-zinc-50 border border-zinc-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-zinc-500">Stato</div><div class="font-bold">${stato} x${qta}</div></div><div class="bg-amber-50 border border-amber-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-amber-700">AVG Usato</div><div class="font-bold text-amber-700">${prezzo? euro(prezzo):'—'}</div></div></div><div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-emerald-700">Tuo Prezzo</div><div class="font-bold text-emerald-700">${vendita? euro(vendita):'—'}</div></div>`;
+  box.innerHTML=`<div class="font-bold text-sm leading-tight">${nome}</div><div class="text-xs text-zinc-500 font-mono">${code} � ${tipo} � ${cat}</div><div class="mt-2 grid grid-cols-2 gap-2 text-xs"><div class="bg-zinc-50 border border-zinc-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-zinc-500">Stato</div><div class="font-bold">${stato} x${qta}</div></div><div class="bg-amber-50 border border-amber-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-amber-700">AVG Usato</div><div class="font-bold text-amber-700">${prezzo? euro(prezzo):'�'}</div></div></div><div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-emerald-700">Tuo Prezzo</div><div class="font-bold text-emerald-700">${vendita? euro(vendita):'�'}</div></div>`;
 }
 function updateDiff(){
   const av=parseFloat(document.getElementById('f_prezzo').value)||0;
@@ -647,7 +847,7 @@ document.querySelectorAll('input[name="f_stato"]').forEach(r=>r.addEventListener
 async function fetchBricklink(code, tipo, colorId=null){
   let url=`/api/bricklink?code=${encodeURIComponent(code)}&_=${Date.now()}`;
   if(tipo) url+=`&type=${encodeURIComponent(tipo)}`;
-  // se tipo è null/undefined (Auto), non inviamo type → server prova M poi P
+  // se tipo � null/undefined (Auto), non inviamo type ? server prova M poi P
   if(colorId) url+=`&color=${encodeURIComponent(colorId)}`;
   const r=await fetch(url, { cache: 'no-store' });
   if(!r.ok){
@@ -678,12 +878,12 @@ async function onCodeInput(isQuick=false){
     document.getElementById('quickPreview').textContent='Cerco '+code+' su BrickLink...';
     try{
       const data=await fetchBricklink(code, tipoQuick);
-      document.getElementById('quickPreview').innerHTML=`<b>${data.nome}</b> • ${data.categoria} • <b class="text-emerald-600">AVG Usato €${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'—'}</b>`;
+      document.getElementById('quickPreview').innerHTML=`<b>${data.nome}</b> � ${data.categoria} � <b class="text-emerald-600">AVG Usato �${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'�'}</b>`;
       spinner.classList.add('hidden');
       // salva per quickAdd
       document.getElementById('quickCode').dataset.cache=JSON.stringify(data);
     }catch(e){
-      document.getElementById('quickPreview').textContent='âš  '+e.message;
+      document.getElementById('quickPreview').textContent='⚠ '+e.message;
       spinner.classList.add('hidden');
       delete document.getElementById('quickCode').dataset.cache;
     }
@@ -697,7 +897,7 @@ async function onCodeInput(isQuick=false){
     preSelect.innerHTML='<option value="">Carico varianti per '+code+'...</option>';
     const dbg=document.getElementById('colorDebug'); if(dbg) dbg.textContent='Richiesta '+code+'...';
   }
-  // Dropdown varianti verrà popolato dopo fetch con dati reali BrickLink
+  // Dropdown varianti verr� popolato dopo fetch con dati reali BrickLink
   // modal - usa tipo selezionato se non auto
   const tipoEffettivo = document.getElementById('f_tipo').value!=='auto' ? document.getElementById('f_tipo').value : null;
   const tipoForFetch = tipoEffettivo || null; // null = prova M poi P
@@ -721,20 +921,20 @@ async function onCodeInput(isQuick=false){
     document.getElementById('autoNome').textContent=data.nome;
     document.getElementById('autoCategoria').textContent=data.categoria;
     if(data.prezzoAvgUsato){
-      document.getElementById('autoPrezzo').textContent='€ '+data.prezzoAvgUsato.toFixed(2);
+      document.getElementById('autoPrezzo').textContent='� '+data.prezzoAvgUsato.toFixed(2);
       document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700';
       const det=document.getElementById('autoPrezzoDett');
       if(data.prezziDettaglio){
         det.classList.remove('hidden');
-        det.innerHTML=`<span class="font-bold">AVG Used (6 mesi): €${data.prezziDettaglio.soldUsed.toFixed(2)}</span> <span class="text-zinc-500">| Nuovo 6m €${data.prezziDettaglio.soldNew.toFixed(2)}</span><br><span class="text-xs">Disponibili: Usato €${data.prezziDettaglio.currentUsed.toFixed(2)} • Nuovo €${data.prezziDettaglio.currentNew.toFixed(2)}</span>`;
+        det.innerHTML=`<span class="font-bold">AVG Used (6 mesi): �${data.prezziDettaglio.soldUsed.toFixed(2)}</span> <span class="text-zinc-500">| Nuovo 6m �${data.prezziDettaglio.soldNew.toFixed(2)}</span><br><span class="text-xs">Disponibili: Usato �${data.prezziDettaglio.currentUsed.toFixed(2)} � Nuovo �${data.prezziDettaglio.currentNew.toFixed(2)}</span>`;
       }
     } else {
-      document.getElementById('autoPrezzo').textContent='—';
+      document.getElementById('autoPrezzo').textContent='�';
     }
     document.getElementById('f_foto_url').textContent=data.foto;
     updatePreview(data.foto);
     updateSummary();
-    // Varianti colore BrickLink (menu a tendina) — FORZATO per debug
+    // Varianti colore BrickLink (menu a tendina) � FORZATO per debug
     const colorSel=document.getElementById('colorSelector');
     const colorSelect=document.getElementById('colorSelect');
     const debugEl=document.getElementById('colorDebug');
@@ -756,7 +956,7 @@ async function onCodeInput(isQuick=false){
     }
     if(debugEl) debugEl.textContent=`Debug: ${varianti.length} varianti | foto=${data.foto?.split('/').pop()} | tipo=${data.tipoCode} | code=${data.codice}`;
     console.log('FotoVarianti per', data.codice, ':', varianti);
-    // Mostra menu SOLO se ci sono varianti reali (come BrickLink) — diretto collegamento
+    // Mostra menu SOLO se ci sono varianti reali (come BrickLink) � diretto collegamento
     if(varianti.length > 1){
       colorSel.classList.remove('hidden');
       colorSel.style.display='block';
@@ -772,11 +972,11 @@ async function onCodeInput(isQuick=false){
         if(selOpt.dataset.colorid) document.getElementById('f_coloreId').value=selOpt.dataset.colorid;
       }
     status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
-    status.innerHTML=`âœ“ <b>${data.codice}</b> — ${data.nome} • ${data.categoria} • <b>AVG Usato €${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'—'}</b>`;
+    status.innerHTML=`✓ <b>${data.codice}</b> � ${data.nome} � ${data.categoria} � <b>AVG Usato �${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'�'}</b>`;
   }catch(e){
     status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-amber-50 border border-amber-200 text-amber-800';
-    status.innerHTML='âš  '+e.message+'<br>Verifica codice su <a href="https://www.bricklink.com/catalogList.asp" target="_blank" class="underline">BrickLink</a>';
-    document.getElementById('autoNome').textContent='—';
+    status.innerHTML='⚠ '+e.message+'<br>Verifica codice su <a href="https://www.bricklink.com/catalogList.asp" target="_blank" class="underline">BrickLink</a>';
+    document.getElementById('autoNome').textContent='�';
     // Fallback varianti anche se fetch fallito (per codici noti)
     const fallbackSel=document.getElementById('colorSelector');
     const fallbackSelect=document.getElementById('colorSelect');
@@ -802,7 +1002,7 @@ let quickTimer=null;
 function onQuickCodeInput(){
   clearTimeout(quickTimer);
   const v=document.getElementById('quickCode').value.trim();
-  if(!v || v.length<2){ document.getElementById('quickPreview').textContent='Scrivi codice → nome, categoria, foto e AVG Usato automatici'; return; }
+  if(!v || v.length<2){ document.getElementById('quickPreview').textContent='Scrivi codice ? nome, categoria, foto e AVG Usato automatici'; return; }
   quickTimer=setTimeout(()=>onCodeInput(true), 400);
 }
 document.getElementById('f_codice').addEventListener('input', ()=>{ clearTimeout(autoTimer); autoTimer=setTimeout(()=>onCodeInput(false), 350); });
@@ -822,15 +1022,15 @@ async function quickAdd(){
     const cached=document.getElementById('quickCode').dataset.cache;
     if(cached) data=JSON.parse(cached);
     else data=await fetchBricklink(raw, detectType(raw));
-    if(figs.some(f=>f.codice===data.codice)) throw new Error('Già in inventario: '+data.codice);
+    if(figs.some(f=>f.codice===data.codice)) throw new Error('Gi� in inventario: '+data.codice);
     const prezzoVendita = prezzoVenditaInput || data.prezzoAvgUsato || 0;
-    const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante:`${raw} → ${data.codice}`, note:'', coloreId:'', prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
+    const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, fotoExtra:[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante:`${raw} ? ${data.codice}`, note:'', coloreId:'', prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
     figs.unshift(obj); save(); render();
     document.getElementById('quickCode').value=''; document.getElementById('quickPrezzoVendita').value=''; delete document.getElementById('quickCode').dataset.cache;
-    document.getElementById('quickPreview').textContent='Scrivi codice → automatico';
-    toast('âœ“ '+data.codice+' — '+data.nome + (prezzoVendita? ` • Vendita €${prezzoVendita.toFixed(2)}`:''));
+    document.getElementById('quickPreview').textContent='Scrivi codice ? automatico';
+    toast('✓ '+data.codice+' � '+data.nome + (prezzoVendita? ` � Vendita �${prezzoVendita.toFixed(2)}`:''));
 
-  }catch(e){ toast('âš  '+e.message); }
+  }catch(e){ toast('⚠ '+e.message); }
   btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-bolt mr-1"></i> Aggiungi';
 }
 
@@ -844,7 +1044,7 @@ async function saveFig(e){
   // se codice cambiato rispetto a lastFetched, rifetch
   if(!data || data.codice!==raw.toLowerCase()){
     btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> Verifico...';
-    try{ data=await fetchBricklink(raw, document.getElementById('f_tipo').value==='auto'? null: document.getElementById('f_tipo').value); lastFetched=data; }catch(err){ btn.disabled=false; btn.innerHTML='Salva in inventario'; return toast('âš  '+err.message); }
+    try{ data=await fetchBricklink(raw, document.getElementById('f_tipo').value==='auto'? null: document.getElementById('f_tipo').value); lastFetched=data; }catch(err){ btn.disabled=false; btn.innerHTML='Salva in inventario'; return toast('⚠ '+err.message); }
     btn.disabled=false; btn.innerHTML='Salva in inventario';
   }
   const qta=parseInt(document.getElementById('f_qta').value)||1;
@@ -856,13 +1056,121 @@ async function saveFig(e){
   // Mantieni il codice come l'hai scritto (Col03-9) ma usa i dati di col041
   const codiceDaSalvare = raw.trim();
   const existing=figs.findIndex(f=>f.id===id);
-  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} → ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
+  let coverFoto = data.foto || document.getElementById('f_foto').value.trim();
+  let extraToSave = [...tempFotoExtra];
+  const manualFoto = document.getElementById('f_foto').value.trim();
+  if(manualFoto && manualFoto.startsWith('data:') && !extraToSave.includes(manualFoto)){
+    if(extraToSave.length<12) extraToSave.unshift(manualFoto);
+    coverFoto = data.foto;
+  }
+  if(coverFoto && coverFoto.startsWith('data:') && data.foto && !data.foto.startsWith('data:')){
+    coverFoto = data.foto;
+  }
+  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:coverFoto, fotoExtra: extraToSave.slice(0,12), prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} ? ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
   if(existing>=0) figs[existing]=obj; else figs.unshift(obj);
   save(); closeModal(); render(); toast(existing>=0?'Aggiornato':'Aggiunto');
 }
 
 function delFig(id){ if(!confirm('Eliminare?')) return; figs=figs.filter(f=>f.id!==id); save(); render(); toast('Eliminato'); }
 function quickStato(id, v){ const f=figs.find(x=>x.id===id); if(!f) return; f.stato=v; f.updated=Date.now(); save(); render(); }
+// Gallery helpers - copertina BrickLink sempre prima, poi foto reali
+function cardGal(event,id,dir){
+  event.stopPropagation();
+  const f=figs.find(x=>x.id===id);
+  if(!f) return;
+  const total=getAllPhotos(f).length;
+  if(total<=1) return;
+  let cur=cardGalleryIdx[id]||0;
+  cur=(cur+dir+total)%total;
+  cardGalleryIdx[id]=cur;
+  const img=document.getElementById('card-img-'+id);
+  if(img){
+    const photos=getAllPhotos(f);
+    img.src=getImageSrc(photos[cur]);
+  }
+  render(); // re-render per aggiornare dots/counter/badge (leggero)
+}
+function cardGalGo(id,idx){
+  const f=figs.find(x=>x.id===id);
+  if(!f) return;
+  cardGalleryIdx[id]=idx;
+  render();
+}
+function openGallery(id, idx){
+  const f=figs.find(x=>x.id===id);
+  if(!f) return;
+  const photos=getAllPhotos(f);
+  if(!photos.length) return;
+  galleryCurrent={id, idx: Math.min(idx||0, photos.length-1)};
+  document.getElementById('galleryModal').classList.remove('hidden');
+  document.getElementById('galTitle').textContent=f.nome;
+  document.getElementById('galSub').textContent=f.codice + ' • ' + (f.categoria||'') + ' • ' + photos.length + ' foto';
+  renderLightbox();
+  document.body.style.overflow='hidden';
+}
+function closeGallery(){
+  document.getElementById('galleryModal').classList.add('hidden');
+  document.body.style.overflow='';
+}
+function renderLightbox(){
+  const f=figs.find(x=>x.id===galleryCurrent.id);
+  if(!f) return;
+  const photos=getAllPhotos(f);
+  const cur=photos[galleryCurrent.idx];
+  const img=document.getElementById('galLightboxImg');
+  img.src=getImageSrc(cur);
+  img.onerror=()=>{ img.src='https://via.placeholder.com/600/eeeeee/666666?text='+encodeURIComponent(f.codice); };
+  document.getElementById('galLightCounter').textContent=(galleryCurrent.idx+1)+' / '+photos.length;
+  const badge=document.getElementById('galLightBadge');
+  badge.textContent=getCoverLabel(galleryCurrent.idx);
+  badge.className=galleryCurrent.idx===0? 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-amber-400 text-zinc-900 border border-amber-300 shadow' : 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-emerald-600 text-white border border-emerald-500 shadow';
+  const thumbs=document.getElementById('galLightThumbs');
+  thumbs.innerHTML=photos.map((p,i)=> {
+    const src=getImageSrc(p);
+    const active=i===galleryCurrent.idx;
+    return `<button onclick="galleryCurrent.idx=${i}; renderLightbox()" class="shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 ${active?'border-amber-400 ring-2 ring-amber-200':'border-zinc-200'} bg-white"><img src="${src}" class="w-full h-full object-cover"></button>`;
+  }).join('');
+}
+function galLightPrev(e){
+  if(e) e.stopPropagation();
+  const f=figs.find(x=>x.id===galleryCurrent.id);
+  if(!f) return;
+  const total=getAllPhotos(f).length;
+  galleryCurrent.idx=(galleryCurrent.idx-1+total)%total;
+  renderLightbox();
+  // sync card idx also
+  cardGalleryIdx[galleryCurrent.id]=galleryCurrent.idx;
+}
+function galLightNext(e){
+  if(e) e.stopPropagation();
+  const f=figs.find(x=>x.id===galleryCurrent.id);
+  if(!f) return;
+  const total=getAllPhotos(f).length;
+  galleryCurrent.idx=(galleryCurrent.idx+1)%total;
+  renderLightbox();
+  cardGalleryIdx[galleryCurrent.id]=galleryCurrent.idx;
+}
+document.addEventListener('keydown', (e)=>{
+  const mod=document.getElementById('galleryModal');
+  if(!mod || mod.classList.contains('hidden')) return;
+  if(e.key==='Escape') closeGallery();
+  if(e.key==='ArrowLeft') galLightPrev();
+  if(e.key==='ArrowRight') galLightNext();
+});
+let galTouchX=null;
+const galModalEl=document.getElementById('galleryModal');
+if(galModalEl){
+  galModalEl.addEventListener('touchstart', e=>{ galTouchX=e.touches[0].clientX; }, {passive:true});
+  galModalEl.addEventListener('touchend', e=>{
+    if(galTouchX===null) return;
+    const dx=e.changedTouches[0].clientX - galTouchX;
+    if(Math.abs(dx)>40){
+      if(dx<0) galLightNext(); else galLightPrev();
+    }
+    galTouchX=null;
+  }, {passive:true});
+}
+
 function setView(v){ view=v; document.getElementById('btnGrid').className=v==='grid'?'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center':'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center'; document.getElementById('btnTable').className=v==='table'?'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center':'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center'; document.getElementById('gridView').classList.toggle('hidden',v!=='grid'); document.getElementById('tableView').classList.toggle('hidden',v!=='table'); localStorage.setItem('brickfig_view',v); }
 function render(){
   const q=document.getElementById('searchInput').value.toLowerCase().trim();
@@ -907,13 +1215,22 @@ function render(){
   const grid=document.getElementById('gridView');
   grid.innerHTML=list.map(f=>{
     const cls=f.stato==='Disponibile'?'bg-emerald-500 text-white':f.stato==='Prenotato'?'bg-amber-400 text-zinc-900':'bg-zinc-800 text-white';
-    const imgSrc=getImageSrc(f.foto);
-    return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-[500px]">
-      <div class="aspect-[4/3] bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[170px]" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;">
-        <img src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/300/eeeeee/666666?text=${encodeURIComponent(f.codice)}'">
+    const allPhotos=getAllPhotos(f);
+    const total=allPhotos.length;
+    const curIdx=cardGalleryIdx[f.id]||0;
+    const safeIdx=Math.min(curIdx, Math.max(0,total-1));
+    const curSrc=allPhotos[safeIdx]||f.foto;
+    const imgSrc=getImageSrc(curSrc);
+    const showNav=total>1;
+    const badgeLabel=getCoverLabel(safeIdx);
+    return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-[520px]">
+      <div class="gallery-wrap bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[200px] select-none" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" onclick="openGallery('${f.id}', ${safeIdx})">
+        <img id="card-img-${f.id}" src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm cursor-zoom-in" loading="lazy" onerror="this.onerror=null; this.style.display='none'; const ph=this.nextElementSibling; if(ph) ph.style.display='flex'"><div style="display:none;" class="w-full h-full flex items-center justify-center flex-col gap-2 text-zinc-400"><i class="fa-regular fa-image text-3xl"></i><span class="text-[10px] font-bold">Immagine non disponibile</span><span class="text-[9px] font-mono">${f.codice}</span></div>
         <span class="absolute top-2 left-2 text-[11px] font-bold px-2 py-1 rounded-full ${cls}">${f.stato}</span>
         <span class="absolute top-2 right-2 text-[10px] font-mono font-bold bg-white border border-zinc-200 px-2 py-1 rounded-full">${f.codice} • ${f.tipoCode}</span>
         <span class="absolute bottom-2 right-2 bg-zinc-900 text-white text-xs font-bold px-2 py-1 rounded-full">x${f.qta}</span>
+        ${showNav ? `<button onclick="cardGal(event,'${f.id}',-1)" class="gal-arrow prev" title="Precedente"><i class="fa-solid fa-chevron-left text-xs"></i></button><button onclick="cardGal(event,'${f.id}',1)" class="gal-arrow next" title="Successiva"><i class="fa-solid fa-chevron-right text-xs"></i></button><div class="gal-counter">${safeIdx+1} / ${total}</div><div class="gal-badge ${safeIdx===0?'bg-amber-400 text-zinc-900 border-amber-300':'bg-emerald-600 text-white border-emerald-500'} border">${badgeLabel}</div><div class="gal-dots">${allPhotos.map((_,i)=>`<span class="gal-dot ${i===safeIdx?'active':''}" onclick="event.stopPropagation(); cardGalGo('${f.id}',${i})"></span>`).join('')}</div>` : `<div class="gal-badge bg-amber-400 text-zinc-900 border border-amber-300">BRICKLINK</div>`}
+        ${total>1 ? `<span class="absolute bottom-2 left-2 bg-white/90 backdrop-blur border border-zinc-200 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-images text-[10px]"></i> ${total} foto</span>` : ''}
       </div>
       <div class="p-4 flex-1 flex flex-col">
         <div class="flex items-start justify-between gap-2 min-h-[38px]"><h3 class="font-bold text-[13px] leading-tight line-clamp-2 flex-1">${f.nome}</h3><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center shrink-0"><i class="fa-solid fa-pen text-xs"></i></button></div>
@@ -921,8 +1238,8 @@ function render(){
         <div class="min-h-[18px] mt-1">${f.variante? `<div class="text-[11px] font-semibold text-amber-700">Variante: ${f.variante}</div>`:''}</div>
         <div class="min-h-[64px] mt-1">${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 border border-zinc-100 rounded-xl p-2 line-clamp-3 h-[64px] overflow-hidden">${f.note}</div>`:`<div class="h-[64px]"></div>`}</div>
         <div class="mt-2 grid grid-cols-2 gap-2 mt-auto">
-          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2 avg-only-local"><div class="text-[9px] font-bold tracking-widest uppercase text-amber-700">AVG Usato</div><div class="font-display font-bold text-amber-700 text-sm">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</div></div>
-          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div><div class="font-display font-bold text-emerald-700 text-sm">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</div></div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2 avg-only-local"><div class="text-[9px] font-bold tracking-widest uppercase text-amber-700">AVG Usato</div><div class="font-display font-bold text-amber-700 text-sm">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'�'}</div></div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div><div class="font-display font-bold text-emerald-700 text-sm">${f.prezzoVendita? euro(f.prezzoVendita):'�'}</div></div>
         </div>
         ${(() => { const av=f.prezzoAvgUsato||0, ve=f.prezzoVendita||0; if(av&&ve){ const d=ve-av; const p=((ve-av)/av*100).toFixed(1); return `<div class="text-[11px] font-bold mt-1 ${d>=0?'text-emerald-600':'text-red-600'}">${d>=0?'+':''}${euro(d)} (${d>=0?'+':''}${p}%)</div>`; } return ''; })()}
         <div class="mt-3 flex gap-1">
@@ -935,7 +1252,11 @@ function render(){
     </div>`;
   }).join('');
   const tbody=document.getElementById('tableBody');
-  tbody.innerHTML=list.map(f=>`<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'"></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div></td><td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td><td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-zinc-100 text-zinc-700 border-zinc-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`).join('');
+  tbody.innerHTML=list.map(f=>{
+    const photos=getAllPhotos(f);
+    const hasExtra=photos.length>1;
+    return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td><td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td><td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-zinc-100 text-zinc-700 border-zinc-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
+  }).join('');
   document.getElementById('emptyState').classList.toggle('hidden', list.length!==0);
 }
 function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.remove('hidden'); clearTimeout(t._to); t._to=setTimeout(()=>t.classList.add('hidden'), 2500); }
@@ -953,7 +1274,7 @@ async function updateAllPrices(){
       fig.prezziDettaglio=d.prezziDettaglio||fig.prezziDettaglio;
       fig.nome=d.nome||fig.nome;
       fig.categoria=d.categoria||fig.categoria;
-      // Aggiorna foto solo se non è una foto caricata manualmente (data:)
+      // Aggiorna foto solo se non � una foto caricata manualmente (data:)
       if(d.foto && !fig.foto.startsWith('data:')){
         // Se ha variante colore, usa la foto del colore selezionato
         if(fig.coloreId && d.fotoVarianti){
@@ -999,11 +1320,13 @@ async function handleBulkUpload(e){
     const fig=figs.find(f=>f.codice.toLowerCase()===code || (f.codiceBrickLink&&f.codiceBrickLink.toLowerCase()===code));
     if(!fig){ notFound.push(file.name); continue; }
     const dataUrl=await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); });
-    fig.foto=dataUrl;
+    if(!Array.isArray(fig.fotoExtra)) fig.fotoExtra=[];
+    if(fig.fotoExtra.length<12) fig.fotoExtra.push(dataUrl);
+    else fig.foto=dataUrl; // fallback if extra full
     fig.updated=Date.now();
     ok++;
   }
-  if(ok){ save(); render(); toast(`Caricate ${ok} foto` + (notFound.length? ` — non trovati: ${notFound.join(', ')}`:'')); }
+  if(ok){ save(); render(); toast(`Caricate ${ok} foto` + (notFound.length? ` � non trovati: ${notFound.join(', ')}`:'')); }
   else toast('Nessuna foto associata. Rinomina i file come il codice (es. col001.jpg, 3001.png)');
   e.target.value='';
 }
@@ -1019,7 +1342,7 @@ let wizardIndex=0;
 let wizardList=[];
 function openPhotoWizard(){
   if(!figs.length) return toast('Inventario vuoto');
-  // Ordine cronologico di caricamento (created asc: vecchi prima, nuovi dopo — come da richiesta "nuovi in alto" invertito per wizard)
+  // Ordine cronologico di caricamento (created asc: vecchi prima, nuovi dopo � come da richiesta "nuovi in alto" invertito per wizard)
   wizardList=[...figs].sort((a,b)=>a.created-b.created);
   wizardIndex=0;
   document.getElementById('photoWizard').classList.remove('hidden');
@@ -1032,16 +1355,29 @@ function renderWizard(){
   if(!fig) return;
   document.getElementById('wizardCounter').textContent=(wizardIndex+1)+' / '+total;
   document.getElementById('wizardProgress').style.width=((wizardIndex+1)/total*100)+'%';
-  document.getElementById('wizardCode').textContent=fig.codice+' • '+fig.tipoCode;
+  document.getElementById('wizardCode').textContent=fig.codice+' • '+fig.tipoCode + ' • ' + getAllPhotos(fig).length + ' foto';
   document.getElementById('wizardName').textContent=fig.nome;
-  document.getElementById('wizardCat').textContent=fig.categoria||'';
+  document.getElementById('wizardCat').textContent=(fig.categoria||'') + (fig.fotoExtra && fig.fotoExtra.length ? ' • ' + fig.fotoExtra.length + ' reali' : ' • copertina BrickLink');
   const img=document.getElementById('wizardImg');
   const ph=document.getElementById('wizardPlaceholder');
+  // Mostra copertina BrickLink come principale nel wizard, con badge se ci sono extra
+  const photos=getAllPhotos(fig);
+  const curSrc=photos[photos.length-1]===fig.fotoExtra?.[fig.fotoExtra.length-1] && photos.length>1 ? photos[photos.length-1] : fig.foto; // mostra ultima reale se appena aggiunta, altrimenti cover
   const src=getImageSrc(fig.foto);
   if(fig.foto){
     img.src=src; img.classList.remove('hidden'); ph.classList.add('hidden');
     img.onerror=()=>{ img.classList.add('hidden'); ph.classList.remove('hidden'); };
   } else { img.classList.add('hidden'); ph.classList.remove('hidden'); }
+  // Aggiungi badge con conteggio extra sotto immagine (crea se non esiste)
+  let badge=document.getElementById('wizardFotoBadge');
+  if(!badge){
+    badge=document.createElement('div');
+    badge.id='wizardFotoBadge';
+    badge.className='absolute bottom-1 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-[9px] font-bold px-2 py-0.5 rounded-full';
+    document.getElementById('wizardDropZone').appendChild(badge);
+  }
+  badge.textContent=photos.length>1 ? 'Cover BrickLink + '+(photos.length-1)+' reali' : 'Cover BrickLink';
+  badge.classList.remove('hidden');
   document.getElementById('wizardPrevBtn').disabled=wizardIndex===0;
   document.getElementById('wizardNextBtn').textContent=wizardIndex===total-1?'Fine ✓':'Successivo →';
   document.getElementById('wizardPrevBtn').classList.toggle('opacity-40', wizardIndex===0);
@@ -1066,14 +1402,16 @@ function handleWizardDrop(e){
 function handleWizardFile(file){
   if(file.size>4*1024*1024) return toast('Max 4MB');
   const fig=wizardList[wizardIndex];
+  if(!Array.isArray(fig.fotoExtra)) fig.fotoExtra=[];
+  if(fig.fotoExtra.length>=12) return toast('Max 12 foto reali per '+fig.codice);
   const reader=new FileReader();
   reader.onload=()=>{
-    fig.foto=reader.result;
+    fig.fotoExtra.push(reader.result);
     fig.updated=Date.now();
     const globalIdx=figs.findIndex(x=>x.id===fig.id);
     if(globalIdx>=0) figs[globalIdx]=fig;
     save(); render(); renderWizard();
-    toast('Foto salvata per '+fig.codice);
+    toast('Foto reale aggiunta per '+fig.codice+' ('+fig.fotoExtra.length+'/12)');
   };
   reader.readAsDataURL(file);
 }
@@ -1147,7 +1485,7 @@ function doRegister(e){
   const u={ nome: document.getElementById('regNome').value.trim(), email: document.getElementById('regEmail').value.trim().toLowerCase(), telefono: document.getElementById('regTelefono').value.trim(), password: document.getElementById('regPassword').value };
   if(!u.nome||!u.email||!u.telefono||!u.password) return toast('Compila tutti i campi');
   const users=JSON.parse(localStorage.getItem('brickfig_users')||'[]');
-  if(users.some(x=>x.email===u.email)) return toast('Email già registrata, fai login');
+  if(users.some(x=>x.email===u.email)) return toast('Email gi� registrata, fai login');
   users.push(u); localStorage.setItem('brickfig_users', JSON.stringify(users));
   localStorage.setItem(USER_KEY, JSON.stringify(u));
   closeRegister(); toast('Registrato! Ora puoi aggiungere al carrello'); updateCartCount();
@@ -1192,7 +1530,7 @@ function renderCart(){
   const totEl=document.getElementById('cartTotal');
   if(!cart.length){
     box.innerHTML='<div class="text-center py-10 text-zinc-500"><i class="fa-solid fa-cart-shopping text-3xl mb-3"></i><p>Carrello vuoto</p><p class="text-xs">Aggiungi pezzi dal catalogo</p></div>';
-    totEl.textContent='€ 0,00';
+    totEl.textContent='� 0,00';
     // Precompila con utente loggato
     const u=getUser();
     if(u){ document.getElementById('cartNome').value=u.nome||''; document.getElementById('cartEmail').value=u.email||''; document.getElementById('cartTelefono').value=u.telefono||''; }
@@ -1250,7 +1588,7 @@ async function checkoutCart(){
     setCart([]); closeCart();
     // Aggiorna giacenze? metti prenotato?
   }catch(e){ toast('Errore: '+e.message); }
-  btn.disabled=false; btn.innerHTML='Invia richiesta → Riceverai risposta per il saldo';
+  btn.disabled=false; btn.innerHTML='Invia richiesta ? Riceverai risposta per il saldo';
 }
 // Aggiorna conteggio carrello all'avvio
 updateCartCount();
