@@ -5,24 +5,17 @@
     "codiceBrickLink": "idea104",
     "nome": "Sonic the Hedgehog - Light Nougat Face and Arms, Grin to Right",
     "categoria": "LEGO Ideas (CUUSOO) > Sonic the Hedgehog",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/idea104.png",
     "prezzoAvgUsato": 8.51,
-    "prezzoVendita": 8.51,
+    "prezzoVendita": 8.09,
     "variante": "Idea104 → idea104",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 9.94,
-      "soldUsed": 8.51,
-      "currentNew": 13.14,
-      "currentUsed": 8.94,
-      "listinoUsato": 8.51
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208742800,
+    "updated": 1789208747631,
     "created": 1789208742800
   },
   {
