@@ -5,25 +5,18 @@
     "codiceBrickLink": "njo0696",
     "nome": "Maaray Guard - Seabound",
     "categoria": "NINJAGO > Seabound",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0696.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.17,
     "prezzoVendita": 2.09,
     "variante": "Njo0696 ? njo0696",
-    "note": "",
+    "note": "NO PINNE",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 2.86,
-      "soldUsed": 2.17,
-      "currentNew": 3.87,
-      "currentUsed": 2.6,
-      "listinoUsato": 2.17
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252729023,
+    "updated": 1789252805498,
     "created": 1789252729023
   },
   {
