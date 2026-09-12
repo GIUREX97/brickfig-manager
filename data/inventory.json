@@ -1,5 +1,31 @@
 [
   {
+    "id": "6d7jq0a",
+    "codice": "col041",
+    "codiceBrickLink": "col041",
+    "nome": "Rapper, Series 3 (Minifigure Only without Stand and Accessories)",
+    "categoria": "Collectible Minifigures > Series 3 Minifigures",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/col041.png",
+    "prezzoAvgUsato": 3.45,
+    "prezzoVendita": 3.45,
+    "variante": "Col041 → col041",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 6.59,
+      "soldUsed": 3.45,
+      "currentNew": 11.15,
+      "currentUsed": 4.32,
+      "listinoUsato": 3.45
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789207001505,
+    "created": 1789207001505
+  },
+  {
     "id": "vxxwj5e",
     "codice": "col029",
     "codiceBrickLink": "col029",
