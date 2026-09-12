@@ -1,5 +1,32 @@
 [
   {
+    "id": "qfuk2g5",
+    "codice": "nex054",
+    "codiceBrickLink": "nex054",
+    "nome": "Flama - Yellow Head and Torso, Backpack Hammer (Ultimate Flama)",
+    "categoria": "NEXO KNIGHTS",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/nex054.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 6.32,
+    "prezzoVendita": 6.32,
+    "variante": "Nex054 ? nex054",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": null,
+      "soldUsed": 6.32,
+      "currentNew": 36.24,
+      "currentUsed": 8.72,
+      "listinoUsato": 6.32
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252065411,
+    "created": 1789252065411
+  },
+  {
     "id": "i5mx47u",
     "codice": "vik015",
     "codiceBrickLink": "vik015",
