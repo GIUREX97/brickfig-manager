@@ -1,5 +1,32 @@
 [
   {
+    "id": "zrxxavb",
+    "codice": "njo0854",
+    "codiceBrickLink": "njo0854",
+    "nome": "Wolf Mask Guard",
+    "categoria": "NINJAGO > Dragons Rising > Dragons Rising Season 2",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0854.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 2,
+    "prezzoVendita": 1.99,
+    "variante": "Njo0854 ? njo0854",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 2.31,
+      "soldUsed": 2,
+      "currentNew": 2.86,
+      "currentUsed": 2.41,
+      "listinoUsato": 2
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252890759,
+    "created": 1789252890759
+  },
+  {
     "id": "mwslngk",
     "codice": "njo0852",
     "codiceBrickLink": "njo0852",
