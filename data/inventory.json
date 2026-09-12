@@ -1,5 +1,32 @@
 [
   {
+    "id": "vjwnall",
+    "codice": "njo0123",
+    "codiceBrickLink": "njo0123",
+    "nome": "Lloyd (Tournament Robe) - Tournament of Elements",
+    "categoria": "NINJAGO > Tournament of Elements",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0123.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 10.33,
+    "prezzoVendita": 10.33,
+    "variante": "Njo0123 ? njo0123",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 26.14,
+      "soldUsed": 10.33,
+      "currentNew": 42.03,
+      "currentUsed": 16.47,
+      "listinoUsato": 10.33
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252134579,
+    "created": 1789252134579
+  },
+  {
     "id": "hsli36z",
     "codice": "njo0121",
     "codiceBrickLink": "njo0121",
