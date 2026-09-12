@@ -1348,25 +1348,18 @@
     "codiceBrickLink": "mnn033",
     "nome": "Mega Minion Jerry",
     "categoria": "Despicable Me & Minions > Despicable Me 4",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/mnn033.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 7.17,
-    "prezzoVendita": 7.17,
+    "prezzoVendita": 7.19,
     "variante": "Mnn033 ? mnn033",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.88,
-      "soldUsed": 7.17,
-      "currentNew": 10.18,
-      "currentUsed": 9.06,
-      "listinoUsato": 7.17
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252020774,
+    "updated": 1789252354232,
     "created": 1789252020774
   },
   {
