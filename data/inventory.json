@@ -1,5 +1,31 @@
 [
   {
+    "id": "frqqw7r",
+    "codice": "gen004",
+    "codiceBrickLink": "gen004",
+    "nome": "Skeleton - Evil Skull, Floppy Arms",
+    "categoria": "Adventurers",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/gen004.png",
+    "prezzoAvgUsato": 2.03,
+    "prezzoVendita": 2.03,
+    "variante": "Gen004 → gen004",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 6.63,
+      "soldUsed": 2.03,
+      "currentNew": 7.96,
+      "currentUsed": 2.49,
+      "listinoUsato": 2.03
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209164142,
+    "created": 1789209164142
+  },
+  {
     "id": "yzjzt07",
     "codice": "gdh005",
     "codiceBrickLink": "gdh005",
