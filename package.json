@@ -10,7 +10,13 @@
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "input": "^1.0.1",
+    "nodemailer": "^10.0.8",
+    "puppeteer-core": "^25.10.0",
+    "qrcode-terminal": "^0.12.0",
+    "telegram": "^2.26.22",
+    "ws": "^8.21.3"
   },
   "devDependencies": {
     "tailwindcss": "^4.3.3"

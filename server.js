@@ -408,6 +408,27 @@ app.get('/api/image', async (req, res) => {
   }
 });
 
+app.post('/api/cart', express.json({ limit: '1mb' }), async (req, res) => {
+  const { customer, items, total } = req.body || {};
+  if (!customer || !items || !items.length) return res.status(400).json({ error: 'Dati carrello mancanti' });
+  const to = process.env.ADMIN_EMAIL || 'giurex97@gmail.com';
+  const from = process.env.GMAIL_USER || 'giurex97@gmail.com';
+  const pass = (process.env.GMAIL_APP_PASS || '').replace(/\s/g,'');
+  if (!pass) return res.status(500).json({ error: 'Email non configurata' });
+  try {
+    const nodemailer = (await import('nodemailer')).default;
+    const transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: from, pass } });
+    const itemsHtml = items.map(i=>`<tr><td style="padding:8px;border:1px solid #ddd"><img src="${i.foto}" width="50" style="vertical-align:middle"> ${i.codice}</td><td style="padding:8px;border:1px solid #ddd">${i.nome}</td><td style="padding:8px;border:1px solid #ddd">${i.categoria||''}</td><td style="padding:8px;border:1px solid #ddd">${i.qta}x</td><td style="padding:8px;border:1px solid #ddd">€${Number(i.prezzoVendita||i.prezzoAvgUsato||0).toFixed(2)}</td></tr>`).join('');
+    const html = `<h2>🛒 Nuovo carrello da ${customer.nome} </h2><p><b>Contatto:</b> ${customer.nome} | ${customer.email} | ${customer.telefono||''}</p><p><b>Note cliente:</b> ${customer.note||'-'}</p><table style="border-collapse:collapse;width:100%"><tr style="background:#f3f4f6"><th style="padding:8px;border:1px solid #ddd">Codice</th><th style="padding:8px;border:1px solid #ddd">Nome</th><th style="padding:8px;border:1px solid #ddd">Categoria</th><th style="padding:8px;border:1px solid #ddd">Qtà</th><th style="padding:8px;border:1px solid #ddd">Prezzo</th></tr>${itemsHtml}</table><p><b>Totale stimato: €${Number(total||0).toFixed(2)}</b></p><p><a href="https://brickfig-manager.vercel.app">Vedi gestionale</a></p>`;
+    await transporter.sendMail({ from: `"BrickFig Manager" <${from}>`, to, subject: `🛒 Nuovo carrello da ${customer.nome} - ${items.length} pezzi`, html, text: `Nuovo carrello da ${customer.nome} (${customer.email}, ${customer.telefono})\n${items.map(i=>`${i.codice} - ${i.nome} x${i.qta} €${i.prezzoVendita||i.prezzoAvgUsato}`).join('\n')}\nTotale: €${total}` });
+    console.log(`[Email] Carrello inviato da ${customer.email} a ${to}`);
+    res.json({ ok: true });
+  } catch(e){
+    console.error('[Email] Errore:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.get('/api/health', (req, res) => res.json({ status: 'ok', cacheSize: cache.size }));
 
 // Sync automatico inventario tra locale e Vercel via GitHub
