@@ -33,22 +33,22 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 </head>
 <body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased">
 <header class="sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-sm">
-  <div class="max-w-[1400px] mx-auto px-4 lg:px-6 py-3 flex items-center gap-4">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 bg-lego-red rounded-xl flex items-center justify-center text-white font-display font-bold text-xl shadow">B</div>
-      <div>
-        <h1 class="font-display font-bold text-xl leading-none">BrickFig Manager <span class="bg-lego-yellow px-2 py-0.5 rounded-full text-xs">PRO AUTOMATICO</span></h1>
-        <p class="text-[11px] tracking-widest font-semibold text-zinc-500 uppercase">Minifigure & Sfuso � BrickLink AVG Usato</p>
+  <div class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-4">
+    <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial">
+      <div class="w-9 h-9 sm:w-10 sm:h-10 bg-lego-red rounded-xl flex items-center justify-center text-white font-display font-bold text-lg sm:text-xl shadow shrink-0">B</div>
+      <div class="min-w-0">
+        <h1 class="font-display font-bold text-[15px] sm:text-xl leading-none truncate">BrickFig Manager <span class="bg-lego-yellow px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs">PRO AUTOMATICO</span></h1>
+        <p class="text-[9px] sm:text-[11px] tracking-widest font-semibold text-zinc-500 uppercase truncate">Minifigure & Sfuso � BrickLink AVG Usato</p>
       </div>
     </div>
     <div class="hidden md:flex items-center gap-2 ml-6">
       <span class="text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold"><i class="fa-solid fa-bolt mr-1"></i>Online</span>
     </div>
-    <div class="ml-auto flex items-center gap-2">
-      <button onclick="openCart()" class="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 text-white text-sm font-bold shadow"><i class="fa-solid fa-cart-shopping"></i> Carrello <span id="cartCount" class="bg-lego-yellow text-zinc-900 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span></button>
+    <div class="ml-auto flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end mt-1 sm:mt-0">
+      <button onclick="openCart()" class="relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-cart-shopping"></i> <span class="hidden sm:inline">Carrello</span><span class="sm:hidden">Cart</span> <span id="cartCount" class="bg-lego-yellow text-zinc-900 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span></button>
       <button onclick="exportData()" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold"><i class="fa-solid fa-download"></i> Backup</button>
       <label class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold cursor-pointer"><i class="fa-solid fa-upload"></i> Ripristina<input type="file" accept=".json" class="hidden" onchange="importData(event)"></label>
-      <button onclick="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-sm font-bold shadow"><i class="fa-solid fa-plus"></i> Nuovo</button>
+      <button onclick="openModal()" class="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-plus"></i> Nuovo</button>
     </div>
   </div>
 </header>
@@ -61,45 +61,45 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <div class="bg-lego-yellow rounded-2xl p-4 border border-amber-200 shadow-sm col-span-2 lg:col-span-1 avg-only-local"><div class="text-[11px] font-bold tracking-widest text-zinc-700 uppercase">Valore Vendita</div><div class="text-2xl font-display font-bold mt-1" id="statValore">� 0,00</div><div class="text-xs text-zinc-700" id="statValoreAvg">AVG Usato � 0,00</div></div>
 </div>
 
-<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 bg-white rounded-2xl border border-zinc-200 p-3 flex flex-wrap gap-3 items-center shadow-sm">
-  <div class="relative flex-1 min-w-[200px]">
+<div class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4 bg-white rounded-2xl border border-zinc-200 p-2.5 sm:p-3 flex flex-wrap gap-2 sm:gap-3 items-center shadow-sm">
+  <div class="relative flex-1 min-w-[140px] sm:min-w-[200px] w-full sm:w-auto order-1">
     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm"></i>
-    <input id="searchInput" oninput="render()" placeholder="Cerca codice, nome, categoria..." class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-lego-yellow">
+    <input id="searchInput" oninput="render()" placeholder="Cerca codice, nome..." class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-lego-yellow">
   </div>
-  <select id="filterStato" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
-  <select id="filterTipo" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
-  <select id="filterCategoria" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutte le categorie</option></select>
-  <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Pi� recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ?</option></select>
-  <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
-  <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
-  <button id="btnPhotoWizard" onclick="openPhotoWizard()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
+  <select id="filterStato" onchange="render()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-2"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
+  <select id="filterTipo" onchange="render()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-3"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
+  <select id="filterCategoria" onchange="render()" class="flex-1 sm:flex-none min-w-[130px] sm:min-w-[160px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-4"><option value="">Tutte le categorie</option></select>
+  <select id="sortBy" onchange="render()" class="flex-1 sm:flex-none px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm order-5"><option value="recent">Pi� recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ?</option></select>
+  <div class="flex items-center gap-1 order-6"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="hidden sm:flex w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
+  <button onclick="updateAllPrices()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local order-7"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
+  <button id="btnPhotoWizard" onclick="openPhotoWizard()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold order-7"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
   <button onclick="document.getElementById('bulkPhotoInput').click()" class="hidden px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-900 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Massivo</button>
   <input type="file" id="bulkPhotoInput" accept="image/*" multiple class="hidden" onchange="handleBulkUpload(event)">
 </div>
 
-<div id="quickAddBand" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
-  <div class="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-[20px] p-4 md:p-5 shadow-lg border border-zinc-800 flex flex-wrap gap-3 items-end">
-    <div class="flex-1 min-w-[180px]">
+<div id="quickAddBand" class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4">
+  <div class="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-[16px] sm:rounded-[20px] p-3 sm:p-4 md:p-5 shadow-lg border border-zinc-800 flex flex-wrap gap-2 sm:gap-3 items-end">
+    <div class="flex-1 min-w-[140px] sm:min-w-[180px] w-full sm:w-auto">
       <label class="text-[11px] font-bold tracking-widest uppercase text-amber-300 flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Inserimento ULTRA-RAPIDO � Solo Codice</label>
       <div class="relative mt-2">
         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-mono text-sm font-bold" id="quickPrefix">M</span>
-        <input id="quickCode" placeholder="es. col001, sw1159, 3001, col01-2..." class="w-full pl-8 pr-12 py-3.5 rounded-xl bg-white border-2 border-transparent focus:border-lego-yellow font-mono text-sm font-bold outline-none" oninput="onQuickCodeInput()" onkeydown="if(event.key==='Enter') quickAdd()">
+        <input id="quickCode" placeholder="es. col001, sw1159, 3001, col01-2..." class="w-full pl-8 pr-12 py-3 sm:py-3.5 rounded-xl bg-white border-2 border-transparent focus:border-lego-yellow font-mono text-sm font-bold outline-none" oninput="onQuickCodeInput()" onkeydown="if(event.key==='Enter') quickAdd()">
         <span id="quickSpinner" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-amber-500"><i class="fa-solid fa-spinner fa-spin"></i></span>
       </div>
-      <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-2"><span id="quickPreview" class="truncate">Scrivi codice ? nome, categoria, foto e <b class="text-white">AVG Usato BrickLink</b> automatici</span></div>
+      <div class="text-[11px] text-zinc-400 mt-1 sm:mt-2 flex items-center gap-2"><span id="quickPreview" class="truncate">Scrivi codice ? nome, categoria, foto e <b class="text-white">AVG Usato BrickLink</b> automatici</span></div>
     </div>
-    <div class="min-w-[130px]">
+    <div class="min-w-[80px] sm:min-w-[130px] flex-1 sm:flex-none">
       <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Tipo</label>
-      <select id="quickTipo" class="mt-2 w-full px-3 py-3 rounded-xl bg-white text-sm font-bold">
+      <select id="quickTipo" class="mt-2 w-full px-2.5 sm:px-3 py-2.5 sm:py-3 rounded-xl bg-white text-sm font-bold">
         <option value="auto" selected>Auto</option>
         <option value="M">Minifig</option>
         <option value="P">Parte</option>
       </select>
     </div>
-    <div class="min-w-[90px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Qt�</label><input id="quickQta" type="number" min="1" value="1" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
-    <div class="min-w-[110px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Vendita �</label><input id="quickPrezzoVendita" type="number" step="0.01" placeholder="es. 12.5" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
-    <div class="min-w-[140px] stato-edit-only-local"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Stato</label><select id="quickStato" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold"><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select></div>
-    <button onclick="quickAdd()" id="btnQuickAdd" class="px-6 py-3.5 rounded-xl bg-lego-yellow hover:bg-amber-400 text-zinc-900 font-extrabold text-sm shadow whitespace-nowrap"><i class="fa-solid fa-bolt mr-1"></i> Aggiungi</button>
+    <div class="min-w-[60px] sm:min-w-[90px] flex-1 sm:flex-none"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Qt�</label><input id="quickQta" type="number" min="1" value="1" class="mt-2 w-full px-2.5 sm:px-3 py-2.5 sm:py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
+    <div class="min-w-[90px] sm:min-w-[110px] flex-1 sm:flex-none"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Vendita �</label><input id="quickPrezzoVendita" type="number" step="0.01" placeholder="es. 12.5" class="mt-2 w-full px-2.5 sm:px-3 py-2.5 sm:py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
+    <div class="min-w-[90px] sm:min-w-[140px] stato-edit-only-local flex-1 sm:flex-none"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Stato</label><select id="quickStato" class="mt-2 w-full px-2.5 sm:px-3 py-2.5 sm:py-3.5 rounded-xl bg-white text-sm font-bold"><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select></div>
+    <button onclick="quickAdd()" id="btnQuickAdd" class="w-full sm:w-auto px-6 py-3 sm:py-3.5 rounded-xl bg-lego-yellow hover:bg-amber-400 text-zinc-900 font-extrabold text-sm shadow whitespace-nowrap"><i class="fa-solid fa-bolt mr-1"></i> Aggiungi</button>
   </div>
 </div>
 
@@ -110,7 +110,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   </div>
 </div>
 
-<div id="gridView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[500px]"></div>
+<div id="gridView" class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 auto-rows-auto sm:auto-rows-[520px]"></div>
 <div id="tableView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 hidden">
   <div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
     <div class="overflow-x-auto">
@@ -135,8 +135,8 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 <!-- MODAL -->
 <div id="modal" class="fixed inset-0 z-50 hidden">
   <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal()"></div>
-  <div class="absolute inset-0 flex items-start justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-[24px] w-full max-w-[760px] my-6 shadow-2xl overflow-hidden">
+  <div class="absolute inset-0 flex items-start justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-[24px] w-full max-w-[760px] my-2 sm:my-6 shadow-2xl overflow-hidden max-h-[98vh] sm:max-h-none overflow-y-auto">
       <div class="px-6 py-5 border-b border-zinc-100 flex items-center justify-between bg-zinc-50">
         <div><h2 id="modalTitle" class="font-display font-bold text-xl">Nuovo Pezzo � Automatico</h2><p class="text-xs text-zinc-500">Solo codice ? tutto da BrickLink. Poi Qt� e Stato.</p></div>
         <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-white border border-zinc-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
@@ -264,14 +264,14 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 <!-- REGISTRAZIONE CLIENTE (obbligatoria prima del carrello) -->
 <div id="registerModal" class="fixed inset-0 z-[60] hidden">
   <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeRegister()"></div>
-  <div class="absolute inset-0 flex items-center justify-center p-4">
-    <div class="bg-white rounded-[24px] w-full max-w-[420px] shadow-2xl overflow-hidden">
-      <div class="px-6 py-5 bg-zinc-900 text-white text-center relative">
+  <div class="absolute inset-0 flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-2xl sm:rounded-[24px] w-full max-w-[420px] shadow-2xl overflow-hidden max-h-[98vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 sm:py-5 bg-zinc-900 text-white text-center relative">
         <button onclick="closeRegister()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center"><i class="fa-solid fa-xmark text-sm"></i></button>
-        <h2 class="font-display font-bold text-xl">Registrati per acquistare</h2>
-        <p class="text-xs text-zinc-300 mt-1">Un account per il carrello � ti ricontatto per il saldo</p>
+        <h2 class="font-display font-bold text-lg sm:text-xl">Registrati per acquistare</h2>
+        <p class="text-[11px] sm:text-xs text-zinc-300 mt-1">Un account per il carrello � ti ricontatto per il saldo</p>
       </div>
-      <form onsubmit="doRegister(event)" class="p-6 space-y-3">
+      <form onsubmit="doRegister(event)" class="p-4 sm:p-6 space-y-3">
         <input id="regNome" required placeholder="Nome e Cognome *" class="w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm font-semibold">
         <input id="regEmail" required type="email" placeholder="Email *" class="w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm">
         <input id="regTelefono" required placeholder="Telefono / WhatsApp *" class="w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm">
@@ -284,10 +284,10 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 </div>
 <div id="loginModal" class="fixed inset-0 z-[60] hidden">
   <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeLogin()"></div>
-  <div class="absolute inset-0 flex items-center justify-center p-4">
-    <div class="bg-white rounded-[24px] w-full max-w-[380px] shadow-2xl overflow-hidden">
-      <div class="px-6 py-4 bg-zinc-900 text-white flex items-center justify-between"><h2 class="font-bold">Accedi</h2><button onclick="closeLogin()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-xmark text-sm"></i></button></div>
-      <form onsubmit="doLogin(event)" class="p-6 space-y-3">
+  <div class="absolute inset-0 flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-2xl sm:rounded-[24px] w-full max-w-[380px] shadow-2xl overflow-hidden max-h-[98vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 bg-zinc-900 text-white flex items-center justify-between"><h2 class="font-bold">Accedi</h2><button onclick="closeLogin()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-xmark text-sm"></i></button></div>
+      <form onsubmit="doLogin(event)" class="p-4 sm:p-6 space-y-3">
         <input id="loginEmail" required type="email" placeholder="Email" class="w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm">
         <input id="loginPassword" required type="password" placeholder="Password" class="w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm">
         <button type="submit" class="w-full py-3 rounded-xl bg-zinc-900 text-white font-bold">Entra</button>
@@ -299,9 +299,9 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 <!-- WIZARD FOTO A STEP (cronologico) -->
 <div id="photoWizard" class="fixed inset-0 z-[55] hidden">
   <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closePhotoWizard()"></div>
-  <div class="absolute inset-0 flex items-center justify-center p-4">
-    <div class="bg-white rounded-[24px] w-full max-w-[560px] shadow-2xl overflow-hidden">
-      <div class="px-6 py-4 bg-zinc-900 text-white flex items-center justify-between">
+  <div class="absolute inset-0 flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-2xl sm:rounded-[24px] w-full max-w-[560px] shadow-2xl overflow-hidden max-h-[98vh] overflow-y-auto">
+      <div class="px-5 sm:px-6 py-4 bg-zinc-900 text-white flex items-center justify-between">
         <div>
           <h2 class="font-display font-bold text-lg">Carica foto � <span id="wizardCounter">1 / 10</span></h2>
           <p class="text-xs text-zinc-300">Ordine cronologico di caricamento � scorri e carica</p>
@@ -1269,8 +1269,8 @@ function render(){
     const imgSrc=getImageSrc(curSrc);
     const showNav=total>1;
     const badgeLabel=getCoverLabel(safeIdx);
-    return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-[520px]">
-      <div class="gallery-wrap bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[200px] select-none" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" onclick="openGallery('${f.id}', ${safeIdx})">
+    return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-auto sm:h-[520px] min-h-[480px] sm:min-h-0">
+      <div class="gallery-wrap bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[180px] sm:h-[200px] select-none" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" onclick="openGallery('${f.id}', ${safeIdx})">
         <img id="card-img-${f.id}" src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm cursor-zoom-in" loading="lazy" onerror="this.onerror=null; this.style.display='none'; const ph=this.nextElementSibling; if(ph) ph.style.display='flex'"><div style="display:none;" class="w-full h-full flex items-center justify-center flex-col gap-2 text-zinc-400"><i class="fa-regular fa-image text-3xl"></i><span class="text-[10px] font-bold">Immagine non disponibile</span><span class="text-[9px] font-mono">${f.codice}</span></div>
         <span class="absolute top-2 left-2 text-[11px] font-bold px-2 py-1 rounded-full ${cls}">${f.stato}</span>
         <span class="absolute top-2 right-2 text-[10px] font-mono font-bold bg-white border border-zinc-200 px-2 py-1 rounded-full">${f.codice} • ${f.tipoCode}</span>
