@@ -196,6 +196,11 @@ async function fetchBrickeconomyFallback(code, type) {
 }
 
 async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
+  // Override richiesto utente: colspi-11 deve dare il cowboy con cavallo (foto utente), non May Parker
+  // Su BrickLink colspi11 è May, ma l'utente ha il cowboy come colspi-11, quindi mappiamo
+  if (normalizeCode(rawCode) === 'colspi-11') {
+    rawCode = 'colspi12';
+  }
   let variants = getCodeVariants(rawCode);
   let type = forcedType || detectType(rawCode);
   let tryTypes;

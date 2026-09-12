@@ -60,6 +60,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="recent">Più recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ↓</option></select>
   <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
   <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
+  <button onclick="updateAllPhotos()" class="px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold"><i class="fa-solid fa-images mr-1"></i> Aggiorna foto</button>
 </div>
 
 <div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
@@ -911,6 +912,25 @@ async function updateAllPrices(){
     await new Promise(r=>setTimeout(r, 600));
   }
   save(); render(); toast(`Aggiornati ${ok}/${figs.length}`);
+}
+async function updateAllPhotos(){
+  if(!figs.length) return toast('Vuoto');
+  if(!confirm(`Aggiornare le foto BrickLink per ${figs.length} pezzi? Le tue foto caricate manualmente non verranno toccate.`)) return;
+  toast('Aggiorno foto...');
+  let ok=0;
+  for(const fig of figs){
+    if(fig.foto && fig.foto.startsWith('data:')) continue; // salta tue foto
+    try{
+      const d=await fetchBricklink(fig.codice, fig.tipoCode, fig.coloreId||null);
+      if(d.foto && d.foto!==fig.foto){
+        fig.foto=d.foto;
+        fig.updated=Date.now();
+        ok++;
+      }
+    }catch(e){}
+    await new Promise(r=>setTimeout(r,600));
+  }
+  save(); render(); toast(`Aggiornate ${ok}/${figs.length} foto`);
 }
 function loadDemo(){
   const demo=[
