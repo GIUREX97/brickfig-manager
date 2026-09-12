@@ -5,25 +5,18 @@
     "codiceBrickLink": "spa0045",
     "nome": "Mr. E Clothes Mannequin and Weapons Holder",
     "categoria": "Special Assembly",
-    "tipo": "Parte Sfusa",
     "tipoCode": "P",
     "foto": "https://img.bricklink.com/ItemImage/PN/0/spa0045.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 14.27,
     "prezzoVendita": 8.29,
     "variante": "Spa0045 ? spa0045",
-    "note": "",
+    "note": "SOLO MINIFUGRE",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 34.11,
-      "soldUsed": 14.27,
-      "currentNew": 41.15,
-      "currentUsed": 17.61,
-      "listinoUsato": 14.27
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252917835,
+    "updated": 1789252933889,
     "created": 1789252917835
   },
   {
