@@ -98,7 +98,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
     </div>
     <div class="min-w-[90px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Qt�</label><input id="quickQta" type="number" min="1" value="1" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
     <div class="min-w-[110px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Vendita �</label><input id="quickPrezzoVendita" type="number" step="0.01" placeholder="es. 12.5" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
-    <div class="min-w-[140px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Stato</label><select id="quickStato" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold"><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select></div>
+    <div class="min-w-[140px] stato-edit-only-local"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Stato</label><select id="quickStato" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold"><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select></div>
     <button onclick="quickAdd()" id="btnQuickAdd" class="px-6 py-3.5 rounded-xl bg-lego-yellow hover:bg-amber-400 text-zinc-900 font-extrabold text-sm shadow whitespace-nowrap"><i class="fa-solid fa-bolt mr-1"></i> Aggiungi</button>
   </div>
 </div>
@@ -213,7 +213,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-white border border-zinc-200 rounded-2xl p-4">
             <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">2) Dati manuali *</label>
-            <div class="mt-2 grid grid-cols-3 gap-2">
+            <div id="statoEditGroup" class="mt-2 grid grid-cols-3 gap-2 stato-edit-only-local">
               <label class="cursor-pointer"><input type="radio" name="f_stato" value="Disponibile" checked class="peer sr-only"><div class="peer-checked:bg-emerald-500 peer-checked:text-white peer-checked:border-emerald-500 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">Disponibile</div></label>
               <label class="cursor-pointer"><input type="radio" name="f_stato" value="Prenotato" class="peer sr-only"><div class="peer-checked:bg-amber-400 peer-checked:text-zinc-900 peer-checked:border-amber-400 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">Prenotato</div></label>
               <label class="cursor-pointer"><input type="radio" name="f_stato" value="Venduto" class="peer sr-only"><div class="peer-checked:bg-zinc-900 peer-checked:text-white peer-checked:border-zinc-900 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">Venduto</div></label>
@@ -392,6 +392,8 @@ let autoTimer=null;
 let tempFotoExtra=[]; // buffer per foto reali extra in modal
 let galleryCurrent={id:null, idx:0}; // lightbox state
 let cardGalleryIdx={}; // indice per ogni card (id -> idx)
+function isOnline(){ return window.location.hostname.includes('vercel.app'); }
+function isLocal(){ return !isOnline(); }
 
 async function syncFromCloud(){
   try{
@@ -530,6 +532,23 @@ function openModal(editId=null){
     document.getElementById('f_note').value=f.note||'';
     document.getElementById('f_coloreId').value=f.coloreId||'';
     document.querySelector(`input[name="f_stato"][value="${f.stato}"]`).checked=true;
+    // Online: disabilita selezione stato manuale, solo carrello può aggiornare
+    if(isOnline()){
+      document.querySelectorAll('input[name="f_stato"]').forEach(r=>{ r.disabled=true; r.closest('label').classList.add('opacity-50','pointer-events-none'); });
+      const grp=document.getElementById('statoEditGroup');
+      if(grp){ grp.title='Stato modificabile solo dal gestionale locale. Aggiungi al carrello per prenotare.'; }
+      // Aggiungi nota se non esiste
+      if(!document.getElementById('statoOnlineNote')){
+        const note=document.createElement('div');
+        note.id='statoOnlineNote';
+        note.className='text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 mt-2';
+        note.innerHTML='<i class="fa-solid fa-lock mr-1"></i> Online: stato bloccato. Solo il carrello può portare a <b>Prenotato</b>. Modifica manuale solo in locale.';
+        grp.parentNode.insertBefore(note, grp.nextSibling);
+      }
+    } else {
+      document.querySelectorAll('input[name="f_stato"]').forEach(r=>{ r.disabled=false; r.closest('label').classList.remove('opacity-50','pointer-events-none'); });
+      const n=document.getElementById('statoOnlineNote'); if(n) n.remove();
+    }
     document.getElementById('autoNome').textContent=f.nome;
     document.getElementById('autoCategoria').textContent=f.categoria||'�';
     document.getElementById('autoPrezzo').textContent=f.prezzoAvgUsato? '� '+Number(f.prezzoAvgUsato).toFixed(2):'�';
@@ -1056,7 +1075,11 @@ async function saveFig(e){
     btn.disabled=false; btn.innerHTML='Salva in inventario';
   }
   const qta=parseInt(document.getElementById('f_qta').value)||1;
-  const stato=document.querySelector('input[name="f_stato"]:checked').value;
+  let stato=document.querySelector('input[name="f_stato"]:checked').value;
+  // Online: non permettere cambio stato manuale, mantieni quello esistente
+  if(isOnline() && existing>=0){
+    stato=figs[existing].stato;
+  }
   const prezzoVendita=parseFloat(document.getElementById('f_prezzoVendita').value)||0;
   const variante=document.getElementById('f_variante').value.trim();
   const note=document.getElementById('f_note').value.trim();
@@ -1080,7 +1103,18 @@ async function saveFig(e){
 }
 
 function delFig(id){ if(!confirm('Eliminare?')) return; figs=figs.filter(f=>f.id!==id); save(); render(); toast('Eliminato'); }
-function quickStato(id, v){ const f=figs.find(x=>x.id===id); if(!f) return; f.stato=v; f.updated=Date.now(); save(); render(); }
+function quickStato(id, v){
+  if(isOnline()){
+    toast('Stato modificabile solo dal gestionale locale');
+    render();
+    return;
+  }
+  const f=figs.find(x=>x.id===id); if(!f) return; f.stato=v; f.updated=Date.now(); save(); render();
+}
+function setStatoFromCart(id, nuovoStato){
+  const f=figs.find(x=>x.id===id); if(!f) return;
+  f.stato=nuovoStato; f.updated=Date.now(); save(); render();
+}
 // Gallery helpers - copertina BrickLink sempre prima, poi foto reali
 function cardGal(event,id,dir){
   event.stopPropagation();
@@ -1252,7 +1286,7 @@ function render(){
         ${(() => { const av=f.prezzoAvgUsato||0, ve=f.prezzoVendita||0; if(av&&ve){ const d=ve-av; const p=((ve-av)/av*100).toFixed(1); return `<div class="text-[11px] font-bold mt-1 ${d>=0?'text-emerald-600':'text-red-600'}">${d>=0?'+':''}${euro(d)} (${d>=0?'+':''}${p}%)</div>`; } return ''; })()}
         <div class="mt-3 flex gap-1">
           <button onclick="addToCart('${f.id}')" class="flex-1 py-2 rounded-xl bg-zinc-900 text-white text-xs font-bold hover:bg-black"><i class="fa-solid fa-cart-plus mr-1"></i> Carrello</button>
-          <select onchange="quickStato('${f.id}', this.value)" class="w-10 text-xs font-bold px-1 py-2 rounded-xl border border-zinc-200 bg-white" title="Cambia stato"><option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>D</option><option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>P</option><option value="Venduto" ${f.stato==='Venduto'?'selected':''}>V</option></select>
+          <select onchange="quickStato('${f.id}', this.value)" class="stato-edit-only-local w-10 text-xs font-bold px-1 py-2 rounded-xl border border-zinc-200 bg-white" title="Cambia stato"><option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>D</option><option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>P</option><option value="Venduto" ${f.stato==='Venduto'?'selected':''}>V</option></select>
           <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center"><i class="fa-regular fa-trash-can text-xs"></i></button>
         </div>
         <a href="https://www.bricklink.com/v2/catalog/catalogitem.page?${f.tipoCode}=${f.codiceBrickLink||f.codice}" target="_blank" class="mt-2 text-[11px] text-center text-blue-600 underline">BrickLink ${f.codiceBrickLink && f.codiceBrickLink!==f.codice? `(${f.codiceBrickLink})`:''} <i class="fa-solid fa-up-right-from-square"></i></a>
@@ -1528,7 +1562,17 @@ function addToCart(id){
   const ex=cart.find(x=>x.id===id);
   if(ex) ex.qta=Math.min(ex.qta+1, fig.qta);
   else cart.push({ id:fig.id, codice:fig.codice, nome:fig.nome, categoria:fig.categoria, foto:fig.foto, prezzoVendita:fig.prezzoVendita||fig.prezzoAvgUsato||0, prezzoAvgUsato:fig.prezzoAvgUsato||0, qta:1 });
-  setCart(cart); toast('Aggiunto al carrello');
+  setCart(cart);
+  // Aggiorna stato a Prenotato sia online che in locale quando finisce in carrello
+  if(fig.stato==='Disponibile'){
+    fig.stato='Prenotato';
+    fig.updated=Date.now();
+    save();
+    render();
+    toast('Aggiunto al carrello — stato ora Prenotato');
+  } else {
+    toast('Aggiunto al carrello');
+  }
 }
 function openCart(){ renderCart(); document.getElementById('cartDrawer').classList.remove('hidden'); }
 function closeCart(){ document.getElementById('cartDrawer').classList.add('hidden'); }
@@ -1603,7 +1647,7 @@ updateCartCount();
 // Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu)
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
