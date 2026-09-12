@@ -1,31 +1,5 @@
 [
   {
-    "id": "ltatpko",
-    "codice": "colspi-11",
-    "codiceBrickLink": "colspi11",
-    "nome": "May 'Mayday' Parker",
-    "categoria": "Collectible Minifigures > Super Heroes > Spider-Man Across the Spider-Verse",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/colspi11.png",
-    "prezzoAvgUsato": 1.85,
-    "prezzoVendita": 1.85,
-    "variante": "colspi-11 → colspi11",
-    "note": "",
-    "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 2.3,
-      "soldUsed": 1.85,
-      "currentNew": 2.89,
-      "currentUsed": 2.13,
-      "listinoUsato": 1.85
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789207301569,
-    "created": 1789207301569
-  },
-  {
     "id": "f7l1s8b",
     "codice": "colhp-08",
     "codiceBrickLink": "colhp-08",
