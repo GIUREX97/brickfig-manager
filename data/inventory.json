@@ -5,24 +5,17 @@
     "codiceBrickLink": "dis038",
     "nome": "Sally, Disney, Series 2 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Disney > Disney Series 2",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/dis038.png",
     "prezzoAvgUsato": 4.73,
-    "prezzoVendita": 4.73,
+    "prezzoVendita": 4.49,
     "variante": "Dis038 → dis038",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.92,
-      "soldUsed": 4.73,
-      "currentNew": 10.55,
-      "currentUsed": 5.64,
-      "listinoUsato": 4.73
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208063466,
+    "updated": 1789208068508,
     "created": 1789208063466
   },
   {
