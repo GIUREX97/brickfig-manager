@@ -12,10 +12,16 @@
     "variante": "Hol325 → hol325",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 4.22,
+      "soldUsed": 3.08,
+      "currentNew": 3.98,
+      "currentUsed": 3.2,
+      "listinoUsato": 3.08
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209226595,
+    "updated": 1789248512126,
     "created": 1789209221893,
     "fotoExtra": []
   },
@@ -32,10 +38,16 @@
     "variante": "Hol246a → hol246a",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 3.32,
+      "soldUsed": 2.94,
+      "currentNew": 4.36,
+      "currentUsed": 3.85,
+      "listinoUsato": 2.94
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209215677,
+    "updated": 1789248513010,
     "created": 1789209210046,
     "fotoExtra": []
   },
@@ -52,10 +64,16 @@
     "variante": "Hol204 → hol204",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 5.63,
+      "soldUsed": 4.51,
+      "currentNew": 7.95,
+      "currentUsed": 6.25,
+      "listinoUsato": 4.51
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209203924,
+    "updated": 1789248513623,
     "created": 1789209199357,
     "fotoExtra": []
   },
@@ -72,10 +90,16 @@
     "variante": "Hol082 → hol082",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 6.12,
+      "soldUsed": 2.86,
+      "currentNew": 8.07,
+      "currentUsed": 3.32,
+      "listinoUsato": 2.86
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209192730,
+    "updated": 1789248514503,
     "created": 1789209188112,
     "fotoExtra": []
   },
@@ -92,10 +116,16 @@
     "variante": "Gs012 → gs012",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 5.63,
+      "soldUsed": 4.47,
+      "currentNew": 11.08,
+      "currentUsed": 5.33,
+      "listinoUsato": 4.47
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209184082,
+    "updated": 1789248515364,
     "created": 1789209179105,
     "fotoExtra": []
   },
@@ -112,10 +142,16 @@
     "variante": "Gen004 → gen004",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 6.63,
+      "soldUsed": 2.03,
+      "currentNew": 7.96,
+      "currentUsed": 2.49,
+      "listinoUsato": 2.03
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209175121,
+    "updated": 1789248516559,
     "created": 1789209164142,
     "fotoExtra": []
   },
@@ -132,10 +168,16 @@
     "variante": "Gdh005 → gdh005",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 1.85,
+      "soldUsed": 1.95,
+      "currentNew": 2.45,
+      "currentUsed": 2.54,
+      "listinoUsato": 1.95
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209158173,
+    "updated": 1789248517533,
     "created": 1789209152743,
     "fotoExtra": []
   },
@@ -152,10 +194,16 @@
     "variante": "Dp127 → dp127",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 6.65,
+      "soldUsed": 5.23,
+      "currentNew": 7.69,
+      "currentUsed": 6.22,
+      "listinoUsato": 5.23
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209147577,
+    "updated": 1789248518531,
     "created": 1789209139471,
     "fotoExtra": []
   },
@@ -172,10 +220,16 @@
     "variante": "Cty1845 → cty1845",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 3.1,
+      "soldUsed": 2.45,
+      "currentNew": 3.47,
+      "currentUsed": 2.64,
+      "listinoUsato": 2.45
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789209125397,
+    "updated": 1789248519540,
     "created": 1789209119798,
     "fotoExtra": []
   },
@@ -192,10 +246,16 @@
     "variante": "Cty0989 → cty0989",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 3.86,
+      "soldUsed": 2.75,
+      "currentNew": 7.06,
+      "currentUsed": 3.3,
+      "listinoUsato": 2.75
+    },
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789208992323,
+    "updated": 1789248520555,
     "created": 1789208981402,
     "fotoExtra": []
   },
@@ -212,10 +272,16 @@
     "variante": "Bdp049 → bdp049",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": null,
+      "soldUsed": 2.16,
+      "currentNew": 3.97,
+      "currentUsed": 2.29,
+      "listinoUsato": 2.16
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208977895,
+    "updated": 1789248521536,
     "created": 1789208973199,
     "fotoExtra": []
   },
@@ -232,10 +298,16 @@
     "variante": "Atl023 → atl023",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 3.19,
+      "soldUsed": 2.23,
+      "currentNew": 5.05,
+      "currentUsed": 2.43,
+      "listinoUsato": 2.23
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208968835,
+    "updated": 1789248522529,
     "created": 1789208964275,
     "fotoExtra": []
   },
@@ -252,10 +324,16 @@
     "variante": "Adv056 → adv056",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 13.13,
+      "soldUsed": 6.42,
+      "currentNew": 44.44,
+      "currentUsed": 7.44,
+      "listinoUsato": 6.42
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208958494,
+    "updated": 1789248523538,
     "created": 1789208955124,
     "fotoExtra": []
   },
@@ -272,10 +350,16 @@
     "variante": "Adv025 → adv025",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 5.62,
+      "soldUsed": 3.5,
+      "currentNew": 10.77,
+      "currentUsed": 4.55,
+      "listinoUsato": 3.5
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208950298,
+    "updated": 1789248524553,
     "created": 1789208945824,
     "fotoExtra": []
   },
@@ -292,10 +376,16 @@
     "variante": "20690pb01c03 → 20690pb01c03",
     "note": "",
     "coloreId": "150",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 11.17,
+      "soldUsed": 7.65,
+      "currentNew": 17.53,
+      "currentUsed": 9.76,
+      "listinoUsato": 7.65
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208941817,
+    "updated": 1789248525540,
     "created": 1789208935723,
     "fotoExtra": []
   },
@@ -312,10 +402,16 @@
     "variante": "Jw078 → jw078",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 2.86,
+      "soldUsed": 1.94,
+      "currentNew": 3.65,
+      "currentUsed": 2.47,
+      "listinoUsato": 1.94
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208759982,
+    "updated": 1789248526558,
     "created": 1789208754700,
     "fotoExtra": []
   },
@@ -332,10 +428,16 @@
     "variante": "Idea104 → idea104",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 9.94,
+      "soldUsed": 8.51,
+      "currentNew": 13.13,
+      "currentUsed": 8.93,
+      "listinoUsato": 8.51
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208747631,
+    "updated": 1789248527539,
     "created": 1789208742800,
     "fotoExtra": []
   },
@@ -352,10 +454,16 @@
     "variante": "Idea024 #2 → idea024#2",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 8.99,
+      "soldUsed": 9.91,
+      "currentNew": 20.04,
+      "currentUsed": 13.48,
+      "listinoUsato": 9.91
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208650439,
+    "updated": 1789248528535,
     "created": 1789208643910,
     "fotoExtra": []
   },
@@ -372,10 +480,16 @@
     "variante": "Hp622 → hp622",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 5.24,
+      "soldUsed": 7.55,
+      "currentNew": 6.09,
+      "currentUsed": 7.44,
+      "listinoUsato": 7.55
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208586192,
+    "updated": 1789248529535,
     "created": 1789208574730,
     "fotoExtra": []
   },
@@ -392,10 +506,16 @@
     "variante": "Hp402 → hp402",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 3.41,
+      "soldUsed": 3.2,
+      "currentNew": 4.51,
+      "currentUsed": 3.56,
+      "listinoUsato": 3.2
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208570401,
+    "updated": 1789248530543,
     "created": 1789208566151,
     "fotoExtra": []
   },
@@ -412,10 +532,16 @@
     "variante": "Hp284 → hp284",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 3.78,
+      "soldUsed": 2.54,
+      "currentNew": 4.99,
+      "currentUsed": 3.01,
+      "listinoUsato": 2.54
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208561829,
+    "updated": 1789248531595,
     "created": 1789208557296,
     "fotoExtra": []
   },
@@ -432,10 +558,16 @@
     "variante": "Hp137 → hp137",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 4.47,
+      "soldUsed": 2.84,
+      "currentNew": 6.92,
+      "currentUsed": 3.53,
+      "listinoUsato": 2.84
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208553204,
+    "updated": 1789248532554,
     "created": 1789208545565,
     "fotoExtra": []
   },
@@ -452,10 +584,16 @@
     "variante": "Hp123 → hp123",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 9.9,
+      "soldUsed": 5.09,
+      "currentNew": 12.31,
+      "currentUsed": 6.97,
+      "listinoUsato": 5.09
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208539516,
+    "updated": 1789248533563,
     "created": 1789208530779,
     "fotoExtra": []
   },
@@ -472,10 +610,16 @@
     "variante": "Hp121 → hp121",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 10.14,
+      "soldUsed": 6.39,
+      "currentNew": 15.14,
+      "currentUsed": 9.64,
+      "listinoUsato": 6.39
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208445032,
+    "updated": 1789248534543,
     "created": 1789208438781,
     "fotoExtra": []
   },
@@ -492,10 +636,16 @@
     "variante": "Hp098 → hp098",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 6.46,
+      "soldUsed": 3.44,
+      "currentNew": 11.73,
+      "currentUsed": 4.48,
+      "listinoUsato": 3.44
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208435305,
+    "updated": 1789248535570,
     "created": 1789208427535,
     "fotoExtra": []
   },
@@ -512,10 +662,16 @@
     "variante": "Hp093 → hp093",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "prezziDettaglio": {
+      "soldNew": 12.45,
+      "soldUsed": 7.49,
+      "currentNew": 20.51,
+      "currentUsed": 10.53,
+      "listinoUsato": 7.49
+    },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208260454,
+    "updated": 1789248536547,
     "created": 1789208252495,
     "fotoExtra": []
   },
@@ -827,8 +983,8 @@
     "coloreId": "0",
     "prezziDettaglio": null,
     "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789207158785,
+    "stato": "Venduto",
+    "updated": 1789249536916,
     "created": 1789207152528,
     "fotoExtra": []
   },
