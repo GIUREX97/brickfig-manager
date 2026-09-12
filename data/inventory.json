@@ -1,5 +1,32 @@
 [
   {
+    "id": "8zdyc1t",
+    "codice": "njo0259",
+    "codiceBrickLink": "njo0259",
+    "nome": "Master Yang - Neck Bracket, Modified Tile",
+    "categoria": "NINJAGO > Day of the Departed",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0259.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 13.67,
+    "prezzoVendita": 13.67,
+    "variante": "Njo0259 ? njo0259",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 20.91,
+      "soldUsed": 13.67,
+      "currentNew": 30.74,
+      "currentUsed": 15.27,
+      "listinoUsato": 13.67
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252170098,
+    "created": 1789252170098
+  },
+  {
     "id": "5p5iwzg",
     "codice": "njo0255",
     "codiceBrickLink": "njo0255",
@@ -3281,5 +3308,32 @@
     "updated": 1789212401404,
     "created": 1789207301569,
     "fotoExtra": []
+  },
+  {
+    "id": "vdfnirs",
+    "codice": "njo0001",
+    "codiceBrickLink": "njo0001",
+    "nome": "Zane - The Golden Weapons",
+    "categoria": "NINJAGO > The Golden Weapons",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0001.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 17.58,
+    "prezzoVendita": 17.58,
+    "variante": "Njo0001 ? njo0001",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 28.32,
+      "soldUsed": 17.58,
+      "currentNew": 48.35,
+      "currentUsed": 23.53,
+      "listinoUsato": 17.58
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252070935,
+    "created": 1789252070935
   }
 ]
