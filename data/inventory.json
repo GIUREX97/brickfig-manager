@@ -1051,25 +1051,18 @@
     "codiceBrickLink": "vik011",
     "nome": "Viking Warrior 5b, Viking King - Red Cape",
     "categoria": "Vikings",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/vik011.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 10.43,
-    "prezzoVendita": 10.43,
+    "prezzoVendita": 10.39,
     "variante": "Vik011 ? vik011",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 17.28,
-      "soldUsed": 10.43,
-      "currentNew": 32.28,
-      "currentUsed": 12.33,
-      "listinoUsato": 10.43
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252057174,
+    "updated": 1789252430010,
     "created": 1789252057174
   },
   {
