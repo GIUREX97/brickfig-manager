@@ -860,7 +860,7 @@ function render(){
         <div class="min-h-[18px] mt-1">${f.variante? `<div class="text-[11px] font-semibold text-amber-700">Variante: ${f.variante}</div>`:''}</div>
         <div class="min-h-[64px] mt-1">${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 border border-zinc-100 rounded-xl p-2 line-clamp-3 h-[64px] overflow-hidden">${f.note}</div>`:`<div class="h-[64px]"></div>`}</div>
         <div class="mt-2 grid grid-cols-2 gap-2 mt-auto">
-          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-amber-700">AVG Usato</div><div class="font-display font-bold text-amber-700 text-sm">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</div></div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2 avg-only-local"><div class="text-[9px] font-bold tracking-widest uppercase text-amber-700">AVG Usato</div><div class="font-display font-bold text-amber-700 text-sm">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</div></div>
           <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div><div class="font-display font-bold text-emerald-700 text-sm">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</div></div>
         </div>
         ${(() => { const av=f.prezzoAvgUsato||0, ve=f.prezzoVendita||0; if(av&&ve){ const d=ve-av; const p=((ve-av)/av*100).toFixed(1); return `<div class="text-[11px] font-bold mt-1 ${d>=0?'text-emerald-600':'text-red-600'}">${d>=0?'+':''}${euro(d)} (${d>=0?'+':''}${p}%)</div>`; } return ''; })()}
@@ -1070,9 +1070,13 @@ async function checkoutCart(){
 }
 // Aggiorna conteggio carrello all'avvio
 updateCartCount();
-// Nascondi AVG su Vercel (online), mostralo solo in locale
-if(window.location.hostname!=='localhost' && window.location.hostname!=='127.0.0.1'){
-  document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.style.display='none'; });
+// Nascondi AVG su Vercel (online), mostralo solo in locale (tu)
+if(window.location.hostname.includes('vercel.app')){
+  const style=document.createElement('style');
+  style.textContent='.avg-only-local{display:none !important}';
+  document.head.appendChild(style);
+  // Nascondi subito
+  document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
 }
 </script>
 </body>
