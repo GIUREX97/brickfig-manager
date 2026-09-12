@@ -1105,25 +1105,18 @@
     "codiceBrickLink": "tnt043",
     "nome": "Foot Soldier - Tactical Gear, Balaclava (Movie Version)",
     "categoria": "Teenage Mutant Ninja Turtles",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/tnt043.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 6.58,
-    "prezzoVendita": 6.58,
+    "prezzoVendita": 6.39,
     "variante": "Tnt043 ? tnt043",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 16.43,
-      "soldUsed": 6.58,
-      "currentNew": 24.45,
-      "currentUsed": 10.11,
-      "listinoUsato": 6.58
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252049648,
+    "updated": 1789252418349,
     "created": 1789252049648
   },
   {
