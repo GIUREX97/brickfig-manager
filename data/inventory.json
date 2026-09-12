@@ -5,24 +5,17 @@
     "codiceBrickLink": "col09-7",
     "nome": "Chicken Suit Guy, Series 9 (Complete Set with Stand and Accessories) : Set",
     "categoria": "Collectible Minifigures > Series 9 Minifigures > 2013",
-    "tipo": "Minifigure",
     "tipoCode": "S",
     "foto": "https://img.bricklink.com/ItemImage/SN/0/col09-7.png",
     "prezzoAvgUsato": 6.18,
-    "prezzoVendita": 6.18,
+    "prezzoVendita": 6.19,
     "variante": "Col09-7 → col09-7",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 10.96,
-      "soldUsed": 6.18,
-      "currentNew": 14.8,
-      "currentUsed": 7.75,
-      "listinoUsato": 6.18
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789206852703,
+    "updated": 1789206864437,
     "created": 1789206852703
   },
   {
