@@ -5,24 +5,17 @@
     "codiceBrickLink": "bdp049",
     "nome": "Skeleton - Pirate Bicorne with Large Skull, One Bent Arm",
     "categoria": "BrickLink Designer Program",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/bdp049.png",
     "prezzoAvgUsato": 2.16,
-    "prezzoVendita": 2.16,
+    "prezzoVendita": 2.09,
     "variante": "Bdp049 → bdp049",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": null,
-      "soldUsed": 2.16,
-      "currentNew": 3.97,
-      "currentUsed": 2.24,
-      "listinoUsato": 2.16
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208973199,
+    "updated": 1789208977895,
     "created": 1789208973199
   },
   {
