@@ -1283,11 +1283,11 @@ function render(){
         <div class="text-[11px] text-zinc-500 mt-1 line-clamp-1 min-h-[16px]">${f.categoria||''}</div>
         <div class="min-h-[18px] mt-1">${f.variante? `<div class="text-[11px] font-semibold text-amber-700">Variante: ${f.variante}</div>`:''}</div>
         <div class="min-h-[64px] mt-1">${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 border border-zinc-100 rounded-xl p-2 line-clamp-3 h-[64px] overflow-hidden">${f.note}</div>`:`<div class="h-[64px]"></div>`}</div>
-        <div class="mt-2 grid grid-cols-2 gap-2 mt-auto">
+        <div id="priceBoxes-${f.id}" class="mt-2 grid grid-cols-2 gap-2 mt-auto price-boxes-online-hide">
           <div class="bg-amber-50 border border-amber-200 rounded-xl p-2 avg-only-local"><div class="text-[9px] font-bold tracking-widest uppercase text-amber-700">AVG Usato</div><div class="font-display font-bold text-amber-700 text-sm">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'�'}</div></div>
           <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div><div class="font-display font-bold text-emerald-700 text-sm">${f.prezzoVendita? euro(f.prezzoVendita):'�'}</div></div>
         </div>
-        ${(() => { const av=f.prezzoAvgUsato||0, ve=f.prezzoVendita||0; if(av&&ve){ const d=ve-av; const p=((ve-av)/av*100).toFixed(1); return `<div class="text-[11px] font-bold mt-1 ${d>=0?'text-emerald-600':'text-red-600'}">${d>=0?'+':''}${euro(d)} (${d>=0?'+':''}${p}%)</div>`; } return ''; })()}
+        ${(() => { const av=f.prezzoAvgUsato||0, ve=f.prezzoVendita||0; if(av&&ve){ const d=ve-av; const p=((ve-av)/av*100).toFixed(1); return `<div class="price-diff text-[11px] font-bold mt-1 ${d>=0?'text-emerald-600':'text-red-600'}">${d>=0?'+':''}${euro(d)} (${d>=0?'+':''}${p}%)</div>`; } return ''; })()}
         <div class="mt-3 flex gap-1">
           <button onclick="addToCart('${f.id}')" class="flex-1 py-2 rounded-xl bg-zinc-900 text-white text-xs font-bold hover:bg-black"><i class="fa-solid fa-cart-plus mr-1"></i> Carrello</button>
           <select onchange="quickStato('${f.id}', this.value)" class="stato-edit-only-local w-10 text-xs font-bold px-1 py-2 rounded-xl border border-zinc-200 bg-white" title="Cambia stato"><option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>D</option><option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>P</option><option value="Venduto" ${f.stato==='Venduto'?'selected':''}>V</option></select>
@@ -1648,10 +1648,10 @@ async function checkoutCart(){
 }
 // Aggiorna conteggio carrello all'avvio
 updateCartCount();
-// Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu)
+// Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu) + fix card online
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:none !important} .price-diff{color:#dc2626 !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
