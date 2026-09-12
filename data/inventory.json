@@ -1,5 +1,31 @@
 [
   {
+    "id": "2yhnqz4",
+    "codice": "atl023",
+    "codiceBrickLink": "atl023",
+    "nome": "Atlantis Diver 7 - Brains - With Yellow Flippers and Trans-Yellow Visor",
+    "categoria": "Atlantis",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/atl023.png",
+    "prezzoAvgUsato": 2.23,
+    "prezzoVendita": 2.23,
+    "variante": "Atl023 → atl023",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 3.19,
+      "soldUsed": 2.23,
+      "currentNew": 5.05,
+      "currentUsed": 2.43,
+      "listinoUsato": 2.23
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208964275,
+    "created": 1789208964275
+  },
+  {
     "id": "66kgdfz",
     "codice": "adv056",
     "codiceBrickLink": "adv056",
