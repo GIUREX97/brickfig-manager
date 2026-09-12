@@ -1,5 +1,31 @@
 [
   {
+    "id": "tb2l9nw",
+    "codice": "col168 #2",
+    "codiceBrickLink": "col168#2",
+    "nome": "Gingerbread Man, Series 11 (Minifigure Only without Stand and Accessories)",
+    "categoria": "Collectible Minifigures > Series 11 Minifigures",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/col168.png",
+    "prezzoAvgUsato": 5.34,
+    "prezzoVendita": 5.34,
+    "variante": "Col168 #2 → col168#2",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 10.57,
+      "soldUsed": 5.34,
+      "currentNew": 14.72,
+      "currentUsed": 7.18,
+      "listinoUsato": 5.34
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789207164238,
+    "created": 1789207164238
+  },
+  {
     "id": "z312n1n",
     "codice": "col126",
     "codiceBrickLink": "col126",
