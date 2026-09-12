@@ -1,5 +1,31 @@
 [
   {
+    "id": "yzjzt07",
+    "codice": "gdh005",
+    "codiceBrickLink": "gdh005",
+    "nome": "Pandy Paws - Shoulderbag",
+    "categoria": "Gabby's Dollhouse",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/gdh005.png",
+    "prezzoAvgUsato": 1.95,
+    "prezzoVendita": 1.95,
+    "variante": "Gdh005 → gdh005",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 1.85,
+      "soldUsed": 1.95,
+      "currentNew": 2.44,
+      "currentUsed": 2.54,
+      "listinoUsato": 1.95
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209152743,
+    "created": 1789209152743
+  },
+  {
     "id": "cx58y7c",
     "codice": "dp127",
     "codiceBrickLink": "dp127",
