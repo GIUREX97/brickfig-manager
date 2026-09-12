@@ -1,5 +1,32 @@
 [
   {
+    "id": "hsli36z",
+    "codice": "njo0121",
+    "codiceBrickLink": "njo0121",
+    "nome": "Kai (Jungle Robe) - Tournament of Elements, Scabbard",
+    "categoria": "NINJAGO > Tournament of Elements",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0121.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 7.43,
+    "prezzoVendita": 7.43,
+    "variante": "Njo0121 ? njo0121",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 13.53,
+      "soldUsed": 7.43,
+      "currentNew": 23.96,
+      "currentUsed": 11.42,
+      "listinoUsato": 7.43
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252116769,
+    "created": 1789252116769
+  },
+  {
     "id": "mr8qwog",
     "codice": "njo0120 #2",
     "codiceBrickLink": "njo0120#2",
