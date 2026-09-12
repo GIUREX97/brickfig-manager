@@ -822,13 +822,15 @@ function render(){
   if(fs) list=list.filter(f=>f.stato===fs);
   if(ft) list=list.filter(f=>f.tipo===ft);
   if(fc) list=list.filter(f=>f.categoria===fc);
+  // Ordinamento fisso: Disponibili in alto (nuovi prima), poi Prenotati, poi Venduti in basso. Modifica prezzo non sposta.
+  const order={Disponibile:0, Prenotato:1, Venduto:2, Esaurito:3};
   list.sort((a,b)=>{
+    if(sort==='recent') return (order[a.stato]??9)-(order[b.stato]??9) || b.created-a.created;
     if(sort==='codice') return a.codice.localeCompare(b.codice);
     if(sort==='categoria') return (a.categoria||'').localeCompare(b.categoria||'') || a.codice.localeCompare(b.codice);
     if(sort==='nome') return a.nome.localeCompare(b.nome);
-    if(sort==='recent') return b.updated-a.updated;
     if(sort==='prezzo-desc') return (b.prezzoAvgUsato||0)-(a.prezzoAvgUsato||0);
-    return 0;
+    return (order[a.stato]??9)-(order[b.stato]??9) || b.created-a.created;
   });
   const gDisp=figs.filter(f=>f.stato==='Disponibile'), gPren=figs.filter(f=>f.stato==='Prenotato'), gVend=figs.filter(f=>f.stato==='Venduto');
   document.getElementById('statTotal').textContent=figs.length;
