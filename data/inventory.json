@@ -5,24 +5,17 @@
     "codiceBrickLink": "dis009",
     "nome": "Daisy Duck, Disney, Series 1 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Disney > Disney Series 1",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/dis009.png",
     "prezzoAvgUsato": 4.75,
-    "prezzoVendita": 4.75,
+    "prezzoVendita": 4.49,
     "variante": "Dis009 → dis009",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.65,
-      "soldUsed": 4.75,
-      "currentNew": 10.12,
-      "currentUsed": 5.74,
-      "listinoUsato": 4.75
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208046674,
+    "updated": 1789208050409,
     "created": 1789208046674
   },
   {
