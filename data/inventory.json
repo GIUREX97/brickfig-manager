@@ -1,5 +1,31 @@
 [
   {
+    "id": "1of9fgr",
+    "codice": "hol204",
+    "codiceBrickLink": "hol204",
+    "nome": "Elf - Green Scalloped Collar with Bells, Freckles, Open Mouth Smile with Teeth",
+    "categoria": "Holiday & Event > Christmas",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hol204.png",
+    "prezzoAvgUsato": 4.51,
+    "prezzoVendita": 4.51,
+    "variante": "Hol204 → hol204",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 5.63,
+      "soldUsed": 4.51,
+      "currentNew": 7.95,
+      "currentUsed": 6.25,
+      "listinoUsato": 4.51
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209199357,
+    "created": 1789209199357
+  },
+  {
     "id": "6mxy82x",
     "codice": "hol082",
     "codiceBrickLink": "hol082",
