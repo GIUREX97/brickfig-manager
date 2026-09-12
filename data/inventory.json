@@ -1,5 +1,31 @@
 [
   {
+    "id": "vxxwj5e",
+    "codice": "col029",
+    "codiceBrickLink": "col029",
+    "nome": "Disco Dude, Series 2 (Minifigure Only without Stand and Accessories)",
+    "categoria": "Collectible Minifigures > Series 2 Minifigures",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/col029.png",
+    "prezzoAvgUsato": 3.51,
+    "prezzoVendita": 3.51,
+    "variante": "Col029 → col029",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 6.34,
+      "soldUsed": 3.51,
+      "currentNew": 10.59,
+      "currentUsed": 4.23,
+      "listinoUsato": 3.51
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789206989843,
+    "created": 1789206989843
+  },
+  {
     "id": "5kxuls4",
     "codice": "col28-11",
     "codiceBrickLink": "col28-11",
