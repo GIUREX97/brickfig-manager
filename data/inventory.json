@@ -1,5 +1,31 @@
 [
   {
+    "id": "4bi07ch",
+    "codice": "20690pb01c03",
+    "codiceBrickLink": "20690pb01c03",
+    "nome": "Dog, Great Dane Scooby-Doo Sitting with Tongue Licking Chops Pattern (20690pb01 / 20691pb04)",
+    "categoria": "Animal, Land",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/150/20690pb01c03.png",
+    "prezzoAvgUsato": 7.65,
+    "prezzoVendita": 7.65,
+    "variante": "20690pb01c03 → 20690pb01c03",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 11.17,
+      "soldUsed": 7.65,
+      "currentNew": 17.53,
+      "currentUsed": 9.76,
+      "listinoUsato": 7.65
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208935723,
+    "created": 1789208935723
+  },
+  {
     "id": "lwol6lh",
     "codice": "jw078",
     "codiceBrickLink": "jw078",
