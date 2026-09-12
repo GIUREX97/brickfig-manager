@@ -1429,25 +1429,18 @@
     "codiceBrickLink": "mnn004",
     "nome": "Gru - Dark Blue Jacket",
     "categoria": "Despicable Me & Minions > Minions The Rise Of Gru",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/mnn004.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.73,
-    "prezzoVendita": 2.73,
+    "prezzoVendita": 2.69,
     "variante": "Mnn004 ? mnn004",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.64,
-      "soldUsed": 2.73,
-      "currentNew": 4.96,
-      "currentUsed": 3.31,
-      "listinoUsato": 2.73
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252012766,
+    "updated": 1789252331186,
     "created": 1789252012766
   },
   {
