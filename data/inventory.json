@@ -1321,25 +1321,18 @@
     "codiceBrickLink": "mof007",
     "nome": "Lord Vampyre with Cape",
     "categoria": "Monster Fighters",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/mof007.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 15.59,
-    "prezzoVendita": 15.59,
+    "prezzoVendita": 14.99,
     "variante": "Mof007 ? mof007",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 19.54,
-      "soldUsed": 15.59,
-      "currentNew": 30.24,
-      "currentUsed": 19.39,
-      "listinoUsato": 15.59
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252025056,
+    "updated": 1789252359505,
     "created": 1789252025056
   },
   {
