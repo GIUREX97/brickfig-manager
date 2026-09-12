@@ -1213,25 +1213,18 @@
     "codiceBrickLink": "sr003",
     "nome": "Racer X",
     "categoria": "Speed Racer",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/sr003.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 5.16,
-    "prezzoVendita": 5.16,
+    "prezzoVendita": 4.49,
     "variante": "Sr003 ? sr003",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 17.04,
-      "soldUsed": 5.16,
-      "currentNew": 34.43,
-      "currentUsed": 5.88,
-      "listinoUsato": 5.16
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252038351,
+    "updated": 1789252399719,
     "created": 1789252038351
   },
   {
