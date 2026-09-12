@@ -1,5 +1,32 @@
 [
   {
+    "id": "7wujacb",
+    "codice": "892406",
+    "codiceBrickLink": "892406",
+    "nome": "Lloyd paper bag #2 : Set",
+    "categoria": "NINJAGO > Dragons Rising > Dragons Rising Season 2 > 2024",
+    "tipo": "Minifigure",
+    "tipoCode": "S",
+    "foto": "https://img.bricklink.com/ItemImage/SN/0/892406-1.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 8.15,
+    "prezzoVendita": 4.49,
+    "variante": "892406 ? 892406",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 5.8,
+      "soldUsed": 8.15,
+      "currentNew": 6.62,
+      "currentUsed": 4.81,
+      "listinoUsato": 8.15
+    },
+    "qta": 11,
+    "stato": "Disponibile",
+    "updated": 1789252947274,
+    "created": 1789252947274
+  },
+  {
     "id": "gz5t9kj",
     "codice": "spa0045",
     "codiceBrickLink": "spa0045",
