@@ -1456,25 +1456,18 @@
     "codiceBrickLink": "min025",
     "nome": "Wither Skeleton - Straight Arms",
     "categoria": "Minecraft",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/min025.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.04,
-    "prezzoVendita": 2.04,
+    "prezzoVendita": 1.99,
     "variante": "Min025 ? min025",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 2.72,
-      "soldUsed": 2.04,
-      "currentNew": 3.56,
-      "currentUsed": 2.55,
-      "listinoUsato": 2.04
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252008512,
+    "updated": 1789252326022,
     "created": 1789252008512
   },
   {
