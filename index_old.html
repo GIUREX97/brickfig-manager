@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrickFig Manager - Gestionale Minifigure LEGO</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter','sans-serif'], display: ['Fredoka','sans-serif'] },
+      colors: { lego: { yellow: '#FFD500', red: '#E3000B', blue: '#006CB7', green: '#00A651', dark: '#1a1a1e' } }
+    }
+  }
+}
+</script>
+<style>
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:99px}::-webkit-scrollbar-track{background:#f3f4f6}
+.badge-dot{width:8px;height:8px;border-radius:99px;display:inline-block}
+.card-hover:hover{transform:translateY(-2px);box-shadow:0 10px 25px -5px rgba(0,0,0,.1)}
+</style>
+</head>
+<body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased">
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-sm">
+  <div class="max-w-[1400px] mx-auto px-4 lg:px-6 py-3 flex items-center gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-lego-red rounded-xl flex items-center justify-center text-white font-display font-bold text-xl shadow-md">B</div>
+      <div>
+        <h1 class="font-display font-bold text-xl leading-none">BrickFig Manager</h1>
+        <p class="text-[11px] tracking-widest font-semibold text-zinc-500 uppercase">Gestionale Minifigure & Sfuso</p>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-2 ml-6">
+      <span class="text-xs bg-zinc-900 text-white px-2.5 py-1 rounded-full font-semibold"><i class="fa-solid fa-cube mr-1"></i> BrickLink Ready</span>
+      <span class="text-xs bg-lego-yellow text-zinc-900 px-2.5 py-1 rounded-full font-bold">Foto Auto</span>
+      <span class="text-xs bg-lego-blue text-white px-2.5 py-1 rounded-full font-semibold">Prezzi Live</span>
+    </div>
+    <div class="ml-auto flex items-center gap-2">
+      <button onclick="openSettings()" class="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center"><i class="fa-solid fa-gear text-zinc-600"></i></button>
+      <button onclick="exportData('json')" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold"><i class="fa-solid fa-download"></i> Esporta</button>
+      <label class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold cursor-pointer"><i class="fa-solid fa-upload"></i> Importa<input type="file" id="importFile" accept=".json,.csv" class="hidden" onchange="importData(event)"></label>
+      <button onclick="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-sm font-bold shadow-md"><i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">Nuova Fig</span><span class="sm:hidden">Nuova</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-6 grid grid-cols-2 lg:grid-cols-5 gap-3">
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm">
+    <div class="text-[11px] font-bold tracking-widest text-zinc-400 uppercase">Totale Pezzi</div>
+    <div class="text-2xl font-display font-bold mt-1" id="statTotal">0</div>
+    <div class="text-xs text-zinc-500" id="statTotalSub">0 minifigure uniche</div>
+  </div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm">
+    <div class="flex items-center gap-2 text-[11px] font-bold tracking-widest text-emerald-600 uppercase"><span class="badge-dot bg-emerald-500"></span> Disponibili</div>
+    <div class="text-2xl font-display font-bold mt-1 text-emerald-600" id="statDisp">0</div>
+    <div class="text-xs text-zinc-500" id="statDispVal">€ 0,00 valore</div>
+  </div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm">
+    <div class="flex items-center gap-2 text-[11px] font-bold tracking-widest text-amber-600 uppercase"><span class="badge-dot bg-amber-500"></span> Prenotate</div>
+    <div class="text-2xl font-display font-bold mt-1 text-amber-600" id="statPren">0</div>
+    <div class="text-xs text-zinc-500" id="statPrenVal">€ 0,00</div>
+  </div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm">
+    <div class="flex items-center gap-2 text-[11px] font-bold tracking-widest text-zinc-500 uppercase"><span class="badge-dot bg-zinc-400"></span> Vendute</div>
+    <div class="text-2xl font-display font-bold mt-1" id="statVend">0</div>
+    <div class="text-xs text-zinc-500" id="statVendVal">€ 0,00 incassato</div>
+  </div>
+  <div class="bg-lego-yellow rounded-2xl p-4 border border-amber-200 shadow-sm col-span-2 lg:col-span-1">
+    <div class="text-[11px] font-bold tracking-widest text-zinc-700 uppercase">Valore Magazzino</div>
+    <div class="text-2xl font-display font-bold mt-1" id="statValore">€ 0,00</div>
+    <div class="text-xs text-zinc-700 flex items-center gap-1">Listino Bricklink <i class="fa-solid fa-arrow-trend-up"></i> <span id="statListino">€ 0,00</span></div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 bg-white rounded-2xl border border-zinc-200 p-3 flex flex-wrap gap-3 items-center shadow-sm">
+  <div class="relative flex-1 min-w-[220px]">
+    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm"></i>
+    <input id="searchInput" oninput="render()" placeholder="Cerca per codice (es. col434, sw1159) o nome..." class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-lego-yellow focus:border-amber-300">
+  </div>
+  <select id="filterStato" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold">
+    <option value="">Tutti gli stati</option>
+    <option value="Disponibile">🟢 Disponibile</option>
+    <option value="Prenotato">🟡 Prenotato</option>
+    <option value="Venduto">⚪ Venduto</option>
+    <option value="Esaurito">🔴 Esaurito</option>
+  </select>
+  <select id="filterTema" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold">
+    <option value="">Tutti i temi</option>
+  </select>
+  <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm">
+    <option value="recent">Più recenti</option>
+    <option value="codice">Codice A-Z</option>
+    <option value="nome">Nome A-Z</option>
+    <option value="prezzo-desc">Prezzo ↓</option>
+    <option value="prezzo-asc">Prezzo ↑</option>
+    <option value="quantita">Quantità ↓</option>
+  </select>
+  <div class="flex items-center gap-1 ml-auto">
+    <button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button>
+    <button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button>
+  </div>
+  <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold whitespace-nowrap"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna prezzi Bricklink</button>
+</div>
+
+<!-- INSERIMENTO RAPIDO ULTRA-AUTOMATICO -->
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
+  <div class="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-[20px] p-4 md:p-5 shadow-lg border border-zinc-800 flex flex-wrap gap-3 items-end">
+    <div class="flex-1 min-w-[180px]">
+      <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Inserimento rapido — solo codice + stato</label>
+      <div class="relative mt-1">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-mono text-sm">M</span>
+        <input id="quickCode" placeholder="es. sw1159, col434, hp226..." class="w-full pl-7 pr-3 py-3 rounded-xl bg-white border-2 border-transparent focus:border-lego-yellow font-mono text-sm font-bold outline-none" onkeydown="if(event.key==='Enter') quickAdd()">
+        <span id="quickStatus" class="absolute right-2 top-1/2 -translate-y-1/2 hidden text-xs font-bold px-2 py-1 rounded-full bg-amber-100 text-amber-800">recupero...</span>
+      </div>
+      <div class="text-[11px] text-zinc-400 mt-1">Scrivi il codice e premi Invio — nome, foto e prezzo da BrickLink in automatico</div>
+    </div>
+    <div class="min-w-[160px]">
+      <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Stato</label>
+      <select id="quickStato" class="mt-1 w-full px-3 py-3 rounded-xl bg-white border-2 border-transparent text-sm font-bold">
+        <option value="Disponibile">🟢 Disponibile</option>
+        <option value="Prenotato">🟡 Prenotato</option>
+        <option value="Venduto">⚪ Venduto</option>
+        <option value="Esaurito">🔴 Esaurito</option>
+      </select>
+    </div>
+    <div class="min-w-[110px]">
+      <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Qtà</label>
+      <input id="quickQta" type="number" min="1" value="1" class="mt-1 w-full px-3 py-3 rounded-xl bg-white text-sm font-bold text-center">
+    </div>
+    <button onclick="quickAdd()" id="btnQuickAdd" class="px-6 py-3 rounded-xl bg-lego-yellow hover:bg-amber-400 text-zinc-900 font-extrabold text-sm shadow-md whitespace-nowrap"><i class="fa-solid fa-bolt mr-1"></i> Aggiungi Automatico</button>
+    <button onclick="openModal()" class="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20">Avanzato</button>
+  </div>
+</div>
+
+<!-- INFO BANNER -->
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-3">
+  <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 flex flex-wrap gap-3 items-center text-sm">
+    <span class="font-bold text-emerald-700"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Ora è 100% automatico:</span>
+    <span class="text-zinc-700">Basta <b>codice</b> + <b>stato</b> → <b>nome, foto, tema e listino</b> arrivano da BrickLink da soli. Puoi comunque modificare tutto.</span>
+    <a href="https://www.bricklink.com/catalogList.asp?catType=M" target="_blank" class="ml-auto text-emerald-700 underline font-semibold">Catalogo BrickLink <i class="fa-solid fa-up-right-from-square text-xs"></i></a>
+  </div>
+</div>
+
+<!-- GRID VIEW -->
+<div id="gridView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+
+<!-- TABLE VIEW -->
+<div id="tableView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 hidden">
+  <div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-zinc-50 border-b border-zinc-200 text-[11px] tracking-widest font-bold text-zinc-500 uppercase">
+          <tr>
+            <th class="text-left px-4 py-3">Foto</th>
+            <th class="text-left px-2 py-3">Codice</th>
+            <th class="text-left px-2 py-3">Nome / Tema</th>
+            <th class="text-center px-2 py-3">Qtà</th>
+            <th class="text-left px-2 py-3">Stato</th>
+            <th class="text-right px-2 py-3">Vendita</th>
+            <th class="text-right px-2 py-3">Listino BL</th>
+            <th class="text-right px-4 py-3">Azioni</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody" class="divide-y divide-zinc-100"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="emptyState" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-8 hidden">
+  <div class="bg-white rounded-2xl border-2 border-dashed border-zinc-200 p-10 text-center">
+    <div class="w-16 h-16 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto text-2xl">🧱</div>
+    <h3 class="font-display font-bold text-lg mt-4">Nessuna minifigure trovata</h3>
+    <p class="text-sm text-zinc-500 mt-1">Prova a cambiare i filtri o aggiungi la tua prima fig dal pulsante “Nuova Fig”.</p>
+    <button onclick="loadDemo()" class="mt-4 px-4 py-2 rounded-xl bg-lego-yellow font-bold text-sm">Carica dati demo</button>
+  </div>
+</div>
+
+<!-- MODAL ADD/EDIT - ULTRA AUTOMATICO -->
+<div id="modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal()"></div>
+  <div class="absolute inset-0 flex items-start justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-[24px] w-full max-w-[760px] my-6 shadow-2xl overflow-hidden">
+      <div class="px-6 py-5 border-b border-zinc-100 flex items-center justify-between bg-zinc-50">
+        <div>
+          <h2 id="modalTitle" class="font-display font-bold text-xl">Nuova Minifigure — Automatico</h2>
+          <p class="text-xs text-zinc-500">Inserisci solo il <b>codice</b> → tutto il resto da BrickLink. Poi scegli stato/qtà.</p>
+        </div>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-white border border-zinc-200 flex items-center justify-center hover:bg-zinc-100"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="figForm" onsubmit="saveFig(event)" class="p-6 space-y-4">
+        <input type="hidden" id="f_id">
+        <!-- CODICE GRANDE -->
+        <div class="bg-zinc-900 rounded-2xl p-4">
+          <label class="text-[11px] font-bold tracking-widest uppercase text-amber-300">1) Codice BrickLink *</label>
+          <div class="flex gap-2 mt-2">
+            <div class="relative flex-1">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-mono font-bold">M</span>
+              <input id="f_codice" required placeholder="es. sw1159  col434  hp226" class="w-full pl-8 pr-10 py-3.5 rounded-xl bg-white font-mono text-base font-bold focus:ring-2 focus:ring-lego-yellow outline-none border-2 border-transparent" autocomplete="off">
+              <span id="f_codeSpinner" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-amber-500"><i class="fa-solid fa-spinner fa-spin"></i></span>
+            </div>
+          </div>
+          <div id="fetchStatus" class="hidden mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold"></div>
+          <div class="text-[11px] text-zinc-400 mt-2">Appena scrivi il codice, recupero <b class="text-white">nome, foto, tema e prezzo listino</b> da BrickLink/Rebrickable in automatico. <a href="https://www.bricklink.com/catalogList.asp?catType=M" target="_blank" class="underline text-amber-300">Cerca codice</a></div>
+        </div>
+
+        <!-- ANTEPRIMA AUTO -->
+        <div id="autoPreview" class="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-4 bg-zinc-50 border border-zinc-200 rounded-2xl p-4">
+          <div>
+            <div class="w-full aspect-square bg-white border-2 border-zinc-200 rounded-2xl overflow-hidden flex items-center justify-center relative">
+              <img id="f_preview" src="" alt="" class="w-full h-full object-contain p-2 hidden">
+              <div id="f_preview_placeholder" class="text-center p-4">
+                <i class="fa-regular fa-image text-3xl text-zinc-300"></i>
+                <div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>automatica<br>BrickLink</div>
+              </div>
+              <div id="f_preview_loading" class="hidden absolute inset-0 bg-white/80 flex items-center justify-center flex-col gap-2">
+                <i class="fa-solid fa-spinner fa-spin text-xl text-amber-500"></i>
+                <span class="text-xs font-bold text-zinc-600">Recupero...</span>
+              </div>
+            </div>
+            <div class="text-[10px] text-center text-zinc-400 mt-1 font-mono" id="f_foto_url"></div>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Nome (auto)</div>
+              <div id="autoNome" class="mt-1 min-h-[44px] px-3 py-3 rounded-xl bg-white border border-zinc-200 text-sm font-bold flex items-center"><span class="text-zinc-400 font-normal">In attesa di codice...</span></div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Tema (auto)</div>
+                <div id="autoTema" class="mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold"><span class="text-zinc-400 font-normal">—</span></div>
+              </div>
+              <div>
+                <div class="text-[10px] font-bold tracking-widest uppercase text-amber-700">Listino Usato — AVG PRICE (BrickLink)</div>
+                <div id="autoPrezzo" class="mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700"><span class="text-zinc-400 font-normal">—</span></div>
+                <div class="text-[9px] text-amber-600 mt-1">Solo riga AVG PRICE • condizione Used • ultimi 6 mesi</div>
+              </div>
+            </div>
+            <div id="autoDesc" class="text-xs text-zinc-500 bg-white border border-zinc-200 rounded-xl p-2.5 hidden"></div>
+          </div>
+        </div>
+
+        <!-- STATO + QTA + PREZZO VENDITA (unici manuali) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white border border-zinc-200 rounded-2xl p-4">
+            <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">2) Stato *</label>
+            <div class="mt-2 grid grid-cols-3 gap-2">
+              <label class="cursor-pointer"><input type="radio" name="f_stato" value="Disponibile" checked class="peer sr-only"><div class="peer-checked:bg-emerald-500 peer-checked:text-white peer-checked:border-emerald-500 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">🟢 Disp.</div></label>
+              <label class="cursor-pointer"><input type="radio" name="f_stato" value="Prenotato" class="peer sr-only"><div class="peer-checked:bg-amber-400 peer-checked:text-zinc-900 peer-checked:border-amber-400 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">🟡 Pren.</div></label>
+              <label class="cursor-pointer"><input type="radio" name="f_stato" value="Venduto" class="peer sr-only"><div class="peer-checked:bg-zinc-900 peer-checked:text-white peer-checked:border-zinc-900 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">⚪ Vend.</div></label>
+            </div>
+            <div class="mt-3 grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] font-bold uppercase text-zinc-600">Quantità</label>
+                <input id="f_qta" type="number" min="0" value="1" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm font-bold text-center">
+              </div>
+              <div>
+                <label class="text-[11px] font-bold uppercase text-zinc-600">Prezzo vendita €</label>
+                <div class="relative mt-1">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold">€</span>
+                  <input id="f_prezzoVendita" type="number" step="0.01" min="0" placeholder="auto = listino" class="w-full pl-7 pr-3 py-3 rounded-xl border-2 border-emerald-200 bg-emerald-50 text-sm font-bold">
+                </div>
+                <div class="text-[10px] text-zinc-500 mt-1">Se vuoto, uso il listino</div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex flex-col">
+            <label class="text-xs font-bold tracking-widest uppercase text-emerald-800">Riepilogo automatico</label>
+            <div id="summaryBox" class="mt-2 flex-1 bg-white rounded-xl border border-emerald-200 p-3 text-sm">
+              <div class="text-zinc-500 text-xs">Inserisci un codice per vedere il riepilogo.</div>
+            </div>
+            <div class="text-[11px] text-emerald-700 mt-2 flex items-center gap-1"><span id="priceDiff" class="font-bold"></span> <span>v vs listino</span></div>
+          </div>
+        </div>
+
+        <!-- campi nascosti ma compilati auto (per compatibilità) -->
+        <input type="hidden" id="f_nome">
+        <input type="hidden" id="f_tema">
+        <input type="hidden" id="f_prezzoListino">
+        <input type="hidden" id="f_foto">
+
+        <!-- NOTE + ACCORDION MODIFICA MANUALE -->
+        <div>
+          <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Note / Condizione / Scaffale (opzionale)</label>
+          <textarea id="f_note" rows="2" placeholder="Es. Nuova con basetta, scaffale B2..." class="mt-1 w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm"></textarea>
+        </div>
+
+        <details class="bg-zinc-50 border border-zinc-200 rounded-xl p-3">
+          <summary class="cursor-pointer text-sm font-bold">✏️ Modifica manuale dettagli auto (opzionale)</summary>
+          <div class="grid gap-3 mt-3">
+            <input id="f_nome_manual" placeholder="Nome manuale" class="px-3 py-2.5 rounded-xl border border-zinc-200 text-sm" oninput="document.getElementById('f_nome').value=this.value; document.getElementById('autoNome').textContent=this.value||'—'">
+            <div class="grid grid-cols-2 gap-3">
+              <input id="f_tema_manual" placeholder="Tema manuale" class="px-3 py-2.5 rounded-xl border border-zinc-200 text-sm" oninput="document.getElementById('f_tema').value=this.value; document.getElementById('autoTema').textContent=this.value||'—'">
+              <input id="f_listino_manual" type="number" step="0.01" placeholder="Listino manuale €" class="px-3 py-2.5 rounded-xl border border-zinc-200 text-sm" oninput="document.getElementById('f_prezzoListino').value=this.value; document.getElementById('autoPrezzo').textContent=this.value? '€ '+Number(this.value).toFixed(2) : '—'; updateDiff(); updateSummary();">
+            </div>
+            <input id="f_foto_manual" placeholder="URL foto manuale" class="px-3 py-2.5 rounded-xl border border-zinc-200 text-xs" oninput="document.getElementById('f_foto').value=this.value; updatePreview();">
+            <div class="flex gap-2">
+              <button type="button" onclick="setBricklinkImage()" class="text-xs font-bold px-3 py-2 rounded-lg bg-zinc-900 text-white">Ripristina foto BrickLink</button>
+              <label class="text-xs font-bold px-3 py-2 rounded-lg bg-white border border-zinc-200 cursor-pointer">Carica foto <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event)"></label>
+              <button type="button" onclick="fetchFromBricklink(true)" class="ml-auto text-xs font-bold px-3 py-2 rounded-lg bg-lego-yellow">Riprova recupero</button>
+            </div>
+          </div>
+        </details>
+
+        <div class="flex gap-3 pt-2">
+          <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">Annulla</button>
+          <button type="submit" id="btnSave" class="flex-[1.5] py-3 rounded-xl bg-lego-red text-white font-bold text-sm shadow-md">Salva — automatico</button>
+        </div>
+        <p class="text-[11px] text-center text-zinc-400">Salvataggio locale. Solo codice + stato obbligatori — il resto è BrickLink.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/50" onclick="closeSettings()"></div>
+  <div class="absolute right-0 top-0 bottom-0 w-full max-w-[480px] bg-white shadow-2xl overflow-y-auto">
+    <div class="p-6 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white">
+      <h2 class="font-display font-bold text-xl">Impostazioni BrickLink</h2>
+      <button onclick="closeSettings()" class="w-9 h-9 rounded-full bg-zinc-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="p-6 space-y-6">
+      <div class="bg-zinc-50 border border-zinc-200 rounded-2xl p-4">
+        <h3 class="font-bold text-sm">🔑 API BrickLink (opzionale ma consigliata)</h3>
+        <p class="text-xs text-zinc-600 mt-1">Per aggiornare i prezzi reali in automatico, inserisci le credenziali API di BrickLink. Senza, l'app usa scraping + Rebrickable e stima i prezzi.</p>
+        <a href="https://www.bricklink.com/v2/api/register_consumer.page" target="_blank" class="text-xs text-lego-blue underline">Ottieni le chiavi qui → bricklink.com/v2/api</a>
+        <div class="grid gap-2 mt-3">
+          <input id="s_consumerKey" placeholder="Consumer Key" class="px-3 py-2 rounded-xl border border-zinc-200 text-xs font-mono">
+          <input id="s_consumerSecret" placeholder="Consumer Secret" class="px-3 py-2 rounded-xl border border-zinc-200 text-xs font-mono">
+          <input id="s_token" placeholder="Token Value" class="px-3 py-2 rounded-xl border border-zinc-200 text-xs font-mono">
+          <input id="s_tokenSecret" placeholder="Token Secret" class="px-3 py-2 rounded-xl border border-zinc-200 text-xs font-mono">
+        </div>
+        <button onclick="saveSettings()" class="mt-3 w-full py-2 rounded-xl bg-zinc-900 text-white text-sm font-bold">Salva chiavi</button>
+      </div>
+      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+        <h3 class="font-bold text-sm">🧱 Rebrickable API (alternativa gratuita)</h3>
+        <p class="text-xs text-amber-800 mt-1">Gratis e subito pronta per recuperare nome/foto anche senza BrickLink. Registrati su rebrickable.com/api.</p>
+        <input id="s_rebrickable" placeholder="Rebrickable API Key" class="mt-2 w-full px-3 py-2 rounded-xl border border-amber-200 text-xs font-mono">
+        <button onclick="saveSettings()" class="mt-2 w-full py-2 rounded-xl bg-amber-400 font-bold text-sm">Salva</button>
+      </div>
+      <div class="space-y-2">
+        <h3 class="font-bold text-sm">Altre azioni</h3>
+        <button onclick="loadDemo()" class="w-full py-2.5 rounded-xl bg-lego-yellow font-bold text-sm">Carica 8 minifigure demo</button>
+        <button onclick="clearAll()" class="w-full py-2.5 rounded-xl bg-white border border-red-200 text-red-600 font-bold text-sm">Svuota magazzino</button>
+        <div class="text-xs text-zinc-500 bg-zinc-50 p-3 rounded-xl">Suggerimento: dopo aver inserito un codice, premi <b>Recupera da BrickLink</b>. L'app prova in ordine: 1) Rebrickable API se presente, 2) BrickLink API se configurata, 3) scraping via proxy CORS + immagine diretta <code>img.bricklink.com</code>. Se BrickLink blocca il CORS, la foto viene comunque caricata via URL diretto e il prezzo va inserito manualmente (o stimato).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-zinc-900 text-white px-4 py-2.5 rounded-full text-sm font-semibold shadow-xl hidden z-50"></div>
+
+<script>
+const STORAGE_KEY = 'brickfig_v2';
+let figs = [];
+let view = 'grid';
+
+function load(){
+  try{ figs = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); }catch(e){ figs=[]; }
+  // Migrazione automatica codici tipo col01-2 -> col002 (BrickLink reale)
+  let migrated=0;
+  figs.forEach(f=>{
+    const orig=(f.codice||'').toLowerCase();
+    const vars=getCodeVariants(orig);
+    if(vars.length>1 && orig===vars[0] && (orig.includes('-')||orig.includes('_'))){
+      const corrected=vars[1];
+      // correggi solo se il codice originale dava 404 (euristica: nome contiene "non trovato" o foto è col01-2)
+      const isBroken = (f.foto && f.foto.toLowerCase().includes(orig)) || (f.nome && /non trovato/i.test(f.nome)) || orig.match(/^col0*\d+[-_]/);
+      if(isBroken){
+        f.note = (f.note ? f.note+' | ' : '') + `Auto-corretto: ${orig} → ${corrected}`;
+        f.codice = corrected;
+        f.foto = bricklinkImageUrl(corrected);
+        migrated++;
+        f.updated=Date.now();
+      }
+    }
+  });
+  if(migrated){ save(); console.log('Migrati '+migrated+' codici'); }
+  if(!figs.length){
+    // auto load demo on first visit? keep empty but show CTA
+  }
+}
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(figs)); }
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+
+function normalizeCode(input){
+  return input.trim().toLowerCase().replace(/\s+/g,'');
+}
+function getCodeVariants(input){
+  input = normalizeCode(input);
+  let variants = [input];
+  // Caso COL collectible: col01-2 , col1-02 , col01_2 etc -> BrickLink usa col001, col002...
+  let m = input.match(/^col0*(\d+)[-_\.]0*(\d+)$/);
+  if(m){
+    let series = parseInt(m[1],10);
+    let num = parseInt(m[2],10);
+    // Serie CMF: 16 fig per serie (es. Serie 1 = col001-016, Serie 2 = col017-032)
+    let global = (series-1)*16 + num;
+    let padded = 'col' + String(global).padStart(3,'0');
+    if(!variants.includes(padded)) variants.push(padded);
+  }
+  // Padding generico per altri temi: sw137 -> sw0137 , hp1 -> hp001 etc
+  let m2 = input.match(/^([a-z]+)(\d+)(.*)$/);
+  if(m2){
+    let prefix = m2[1];
+    let num = m2[2];
+    let suffix = m2[3]||'';
+    if(!input.includes('-') && num.length < 4){
+      let padded4 = prefix + num.padStart(4,'0') + suffix;
+      if(!variants.includes(padded4)) variants.push(padded4);
+      let padded3 = prefix + num.padStart(3,'0') + suffix;
+      if(!variants.includes(padded3)) variants.push(padded3);
+    }
+  }
+  if(input.includes('-') || input.includes('_')){
+    let noHyphen = input.replace(/[-_]/g,'');
+    if(!variants.includes(noHyphen)) variants.push(noHyphen);
+  }
+  return [...new Set(variants)];
+}
+function bricklinkImageUrl(code){
+  code = normalizeCode(code);
+  return `https://img.bricklink.com/ItemImage/MN/0/${code}.png`;
+}
+function bricklinkImageCandidates(code){
+  code = normalizeCode(code);
+  let list = [];
+  for(const v of getCodeVariants(code)){
+    list.push(`https://img.bricklink.com/ItemImage/MN/0/${v}.png`);
+    list.push(`https://img.bricklink.com/ItemImage/MN/0/${v}.jpg`);
+  }
+  // rebrickable fallback per ultimo variant principale
+  const main = getCodeVariants(code)[0];
+  list.push(`https://cdn.rebrickable.com/media/thumbs/figs/${main}.jpg`);
+  return [...new Set(list)];
+}
+function bricklinkPageUrl(code){
+  code = normalizeCode(code);
+  // usa prima variante valida per link
+  const v = getCodeVariants(code)[0];
+  return `https://www.bricklink.com/v2/catalog/catalogitem.page?M=${v}#T=S&O={"iconly":0}`;
+}
+function getBestBrickLinkCode(input){
+  const vars = getCodeVariants(input);
+  return vars.length>1 ? vars[1] : vars[0];
+}
+function extractAvgUsedPrice(pgtabHtml){
+  // Cerca tutti i blocchi pcipgSummaryTable e estrae Avg Price EUR
+  // Ordine: [0]=New Sold, [1]=Used Sold, [2]=New Current, [3]=Used Current
+  const prices=[];
+  const re=/Avg Price:<\/TD><TD><b>EUR\s*([\d.,]+)<\/b>/gi;
+  let m;
+  while((m=re.exec(pgtabHtml))!==null){
+    prices.push(parseFloat(m[1].replace(',','.')));
+  }
+  if(prices.length>=4){
+    return { soldNew: prices[0], soldUsed: prices[1], currentNew: prices[2], currentUsed: prices[3], listinoUsato: prices[1] };
+  }
+  if(prices.length>=2){
+    return { listinoUsato: prices[1], soldUsed: prices[1] };
+  }
+  if(prices.length===1){
+    return { listinoUsato: prices[0] };
+  }
+  return null;
+}
+function extractCategory(html){
+  // Estrae categoria completa dal breadcrumb: Catalog: Minifigures: Collectible Minifigures: Series 1 ...
+  const re=/catalogList\.asp\?catType=M[^"]*">([^<]+)<\/a>/gi;
+  let m, cats=[];
+  while((m=re.exec(html))!==null){
+    cats.push(m[1].trim());
+  }
+  // cats = ["Collectible Minifigures", "Series  1 Minifigures"] per col001
+  // Ritorna stringa completa e anche il tema principale (ultimo)
+  if(cats.length){
+    const full=cats.join(' > ').replace(/\s+/g,' ').trim();
+    return { full, main: cats[cats.length-1], primary: cats[0] };
+  }
+  // fallback vecchia regex
+  let star=html.match(/Star Wars|Harry Potter|Marvel|City|Ninjago|Friends|Technic|Creator|Ideas/gi);
+  if(star) return { full: star[0], main: star[0], primary: star[0] };
+  return null;
+}
+
+function euro(n){ return (Number(n)||0).toLocaleString('it-IT',{style:'currency',currency:'EUR'}); }
+
+function openModal(editId=null){
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('fetchStatus').className='hidden';
+  document.getElementById('f_codeSpinner')?.classList.add('hidden');
+  document.getElementById('f_preview_loading')?.classList.add('hidden');
+  lastFetchedCode='';
+  if(editId){
+    const f = figs.find(x=>x.id===editId);
+    if(!f) return;
+    document.getElementById('modalTitle').textContent='Modifica Minifigure';
+    document.getElementById('f_id').value=f.id;
+    document.getElementById('f_codice').value=f.codice;
+    document.getElementById('f_nome').value=f.nome;
+    document.getElementById('f_nome_manual').value=f.nome;
+    document.getElementById('f_tema').value=f.tema||'';
+    document.getElementById('f_tema_manual').value=f.tema||'';
+    document.getElementById('f_qta').value=f.qta;
+    document.querySelector(`input[name="f_stato"][value="${f.stato}"]`).checked=true;
+    document.getElementById('f_prezzoVendita').value=f.prezzoVendita;
+    document.getElementById('f_prezzoListino').value=f.prezzoListino||'';
+    document.getElementById('f_listino_manual').value=f.prezzoListino||'';
+    document.getElementById('f_foto').value=f.foto||'';
+    document.getElementById('f_foto_manual').value=f.foto||'';
+    document.getElementById('f_note').value=f.note||'';
+    document.getElementById('autoNome').textContent=f.nome||'—';
+    document.getElementById('autoTema').textContent=f.tema||'—';
+    document.getElementById('autoPrezzo').textContent=f.prezzoListino? '€ '+Number(f.prezzoListino).toFixed(2) : '—';
+    document.getElementById('f_foto_url').textContent=f.foto||'';
+    updatePreview();
+    updateDiff();
+    updateSummary();
+    lastFetchedCode=f.codice;
+  } else {
+    document.getElementById('modalTitle').textContent='Nuova Minifigure — Automatico';
+    document.getElementById('figForm').reset();
+    document.getElementById('f_id').value='';
+    document.getElementById('f_qta').value=1;
+    document.getElementById('f_nome').value='';
+    document.getElementById('f_tema').value='';
+    document.getElementById('f_prezzoListino').value='';
+    document.getElementById('f_foto').value='';
+    document.getElementById('f_nome_manual').value='';
+    document.getElementById('f_tema_manual').value='';
+    document.getElementById('f_listino_manual').value='';
+    document.getElementById('f_foto_manual').value='';
+    document.querySelector('input[name="f_stato"][value="Disponibile"]').checked=true;
+    document.getElementById('f_preview').classList.add('hidden');
+    document.getElementById('f_preview_placeholder').classList.remove('hidden');
+    document.getElementById('f_foto_url').textContent='';
+    document.getElementById('autoNome').innerHTML='<span class="text-zinc-400 font-normal">In attesa di codice...</span>';
+    document.getElementById('autoTema').innerHTML='<span class="text-zinc-400 font-normal">—</span>';
+    document.getElementById('autoPrezzo').innerHTML='<span class="text-zinc-400 font-normal">—</span>';
+    document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold text-zinc-500';
+    document.getElementById('priceDiff').textContent='';
+    updateSummary();
+    setTimeout(()=>document.getElementById('f_codice').focus(),100);
+  }
+}
+function closeModal(){ document.getElementById('modal').classList.add('hidden'); }
+function openSettings(){
+  document.getElementById('settingsModal').classList.remove('hidden');
+  document.getElementById('s_consumerKey').value=localStorage.getItem('bl_ck')||'';
+  document.getElementById('s_consumerSecret').value=localStorage.getItem('bl_cs')||'';
+  document.getElementById('s_token').value=localStorage.getItem('bl_tv')||'';
+  document.getElementById('s_tokenSecret').value=localStorage.getItem('bl_ts')||'';
+  document.getElementById('s_rebrickable').value=localStorage.getItem('rb_key')||'';
+}
+function closeSettings(){ document.getElementById('settingsModal').classList.add('hidden'); }
+function saveSettings(){
+  localStorage.setItem('bl_ck', document.getElementById('s_consumerKey').value.trim());
+  localStorage.setItem('bl_cs', document.getElementById('s_consumerSecret').value.trim());
+  localStorage.setItem('bl_tv', document.getElementById('s_token').value.trim());
+  localStorage.setItem('bl_ts', document.getElementById('s_tokenSecret').value.trim());
+  localStorage.setItem('rb_key', document.getElementById('s_rebrickable').value.trim());
+  toast('Impostazioni salvate');
+  closeSettings();
+}
+
+let autoFetchTimer=null;
+let lastFetchedCode='';
+
+function updatePreview(){
+  const url=document.getElementById('f_foto').value.trim();
+  const img=document.getElementById('f_preview');
+  const ph=document.getElementById('f_preview_placeholder');
+  const loading=document.getElementById('f_preview_loading');
+  const urlEl=document.getElementById('f_foto_url');
+  if(urlEl) urlEl.textContent = url ? url.slice(0,60) : '';
+  // fallback chain: se url fallisce, prova altre varianti
+  const rawCode = document.getElementById('f_codice').value.trim();
+  const candidates = rawCode ? bricklinkImageCandidates(rawCode) : [];
+  // se url è uno dei candidati, usiamo chain; altrimenti usa url singolo con fallback
+  let chain = [];
+  if(url && candidates.includes(url)) chain = candidates;
+  else if(url) chain = [url, ...candidates.filter(c=>c!==url)];
+  else chain = candidates;
+
+  let idx=0;
+  function tryNext(){
+    if(idx>=chain.length){
+      img.classList.add('hidden'); if(ph) ph.classList.remove('hidden'); if(loading) loading.classList.add('hidden');
+      return;
+    }
+    img.src=chain[idx];
+    img.classList.remove('hidden'); if(ph) ph.classList.add('hidden');
+    img.onerror=()=>{ idx++; tryNext(); };
+    img.onload=()=>{ if(loading) loading.classList.add('hidden'); document.getElementById('f_foto').value=chain[idx]; document.getElementById('f_foto_manual').value=chain[idx]; if(urlEl) urlEl.textContent=chain[idx]; };
+  }
+  if(chain.length){
+    idx=0;
+    tryNext();
+  } else {
+    img.classList.add('hidden'); if(ph) ph.classList.remove('hidden');
+  }
+}
+function setBricklinkImage(){
+  const code=document.getElementById('f_codice').value.trim();
+  if(!code) return toast('Inserisci prima il codice');
+  const url=bricklinkImageUrl(code);
+  document.getElementById('f_foto').value=url;
+  document.getElementById('f_foto_manual').value=url;
+  updatePreview();
+}
+function handleImageUpload(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{ 
+    document.getElementById('f_foto').value=reader.result; 
+    document.getElementById('f_foto_manual').value=reader.result;
+    updatePreview(); 
+    toast('Foto caricata');
+  };
+  reader.readAsDataURL(file);
+}
+function updateDiff(){
+  const v=parseFloat(document.getElementById('f_prezzoVendita').value)|| parseFloat(document.getElementById('f_prezzoListino').value)||0;
+  const l=parseFloat(document.getElementById('f_prezzoListino').value)||0;
+  const el=document.getElementById('priceDiff');
+  if(!el) return;
+  const vReal=parseFloat(document.getElementById('f_prezzoVendita').value)||0;
+  const vEff = vReal || l;
+  if(vEff && l){
+    const d=vEff-l; const pct=l? ((vEff-l)/l*100).toFixed(1):0;
+    el.textContent=(d>=0?'+':'')+euro(d)+' ('+(d>=0?'+':'')+pct+'%)';
+    el.className='font-bold '+(d>0?'text-emerald-600': d<0?'text-red-600':'text-zinc-500');
+  } else el.textContent='';
+}
+function updateSummary(){
+  const box=document.getElementById('summaryBox');
+  if(!box) return;
+  const nome=document.getElementById('f_nome').value||'—';
+  const tema=document.getElementById('f_tema').value||'—';
+  const codice=document.getElementById('f_codice').value||'—';
+  const listino=parseFloat(document.getElementById('f_prezzoListino').value)||0;
+  const vendita=parseFloat(document.getElementById('f_prezzoVendita').value)|| listino || 0;
+  const qta=document.getElementById('f_qta').value||1;
+  const stato=document.querySelector('input[name="f_stato"]:checked')?.value||'Disponibile';
+  box.innerHTML = `
+    <div class="font-bold text-sm leading-tight">${nome}</div>
+    <div class="text-xs text-zinc-500 font-mono">${codice} • ${tema}</div>
+    <div class="mt-2 grid grid-cols-2 gap-2 text-xs">
+      <div class="bg-zinc-50 border border-zinc-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-zinc-500">Stato</div><div class="font-bold">${stato} x${qta}</div></div>
+      <div class="bg-amber-50 border border-amber-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-amber-700">Listino</div><div class="font-bold text-amber-700">${listino? euro(listino): '—'}</div></div>
+    </div>
+    <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-emerald-700">Vendita (tu)</div><div class="font-bold text-emerald-700">${vendita? euro(vendita): '—'}</div></div>
+  `;
+}
+document.getElementById('f_prezzoVendita').addEventListener('input', ()=>{updateDiff(); updateSummary();});
+if(document.getElementById('f_qta')) document.getElementById('f_qta').addEventListener('input', updateSummary);
+document.querySelectorAll('input[name="f_stato"]').forEach(r=>r.addEventListener('change', updateSummary));
+
+// AUTO FETCH su digitazione codice — istantaneo per nome/categoria/foto, prezzo in background
+function onCodeInput(){
+  const raw=document.getElementById('f_codice').value.trim();
+  const code=normalizeCode(raw);
+  const status=document.getElementById('fetchStatus');
+  const spinner=document.getElementById('f_codeSpinner');
+  const loading=document.getElementById('f_preview_loading');
+  if(!code || code.length<2){
+    if(status){ status.className='hidden'; }
+    document.getElementById('autoNome').innerHTML='<span class="text-zinc-400 font-normal">In attesa di codice...</span>';
+    document.getElementById('autoTema').innerHTML='<span class="text-zinc-400 font-normal">—</span>';
+    document.getElementById('autoPrezzo').innerHTML='<span class="text-zinc-400 font-normal">—</span>';
+    return;
+  }
+  const variants=getCodeVariants(code);
+  const primary=variants[0];
+  const fallback = FALLBACK_DB[primary] || FALLBACK_DB[code] || (variants[1] ? FALLBACK_DB[variants[1]] : null);
+  const url=bricklinkImageUrl(primary);
+  document.getElementById('f_foto').value=url;
+  document.getElementById('f_foto_manual').value=url;
+  if(document.getElementById('f_foto_url')) document.getElementById('f_foto_url').textContent=url;
+  // Mostra subito nome/categoria/prezzo da cache se disponibile (istantaneo)
+  if(fallback){
+    document.getElementById('f_nome').value=fallback.nome;
+    document.getElementById('f_nome_manual').value=fallback.nome;
+    document.getElementById('autoNome').textContent=fallback.nome;
+    document.getElementById('f_tema').value=fallback.tema;
+    document.getElementById('f_tema_manual').value=fallback.tema;
+    document.getElementById('autoTema').textContent=fallback.tema;
+    if(fallback.prezzo){
+      document.getElementById('f_prezzoListino').value=fallback.prezzo.toFixed(2);
+      document.getElementById('f_listino_manual').value=fallback.prezzo.toFixed(2);
+      document.getElementById('autoPrezzo').textContent='€ '+fallback.prezzo.toFixed(2);
+      document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700';
+      const descEl=document.getElementById('autoDesc');
+      if(descEl){ descEl.classList.remove('hidden'); descEl.textContent=`Cache: AVG Used €${fallback.prezzo.toFixed(2)} — verifico prezzo fresco...`; }
+    }
+    document.getElementById('f_codice').value=primary;
+    updatePreview();
+    updateSummary();
+    if(status){
+      status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
+      status.innerHTML=`✓ Cache <b>${primary}</b>: ${fallback.nome} — aggiorno da BrickLink...`;
+      status.classList.remove('hidden');
+    }
+    if(spinner) spinner.classList.remove('hidden');
+    if(loading) loading.classList.remove('hidden');
+  } else {
+    updatePreview();
+    if(loading) loading.classList.remove('hidden');
+    if(spinner) spinner.classList.remove('hidden');
+    if(status){
+      status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-blue-50 border border-blue-200 text-blue-800';
+      let extra = variants.length>1 ? ` <span class="opacity-75">(provo ${variants.slice(1,3).join(', ')})</span>` : '';
+      status.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> Recupero <b>'+code+'</b>'+extra+'...';
+      status.classList.remove('hidden');
+    }
+    // placeholder nome in attesa
+    document.getElementById('autoNome').innerHTML='<span class="text-zinc-400 font-normal">Recupero da BrickLink...</span>';
+  }
+  clearTimeout(autoFetchTimer);
+  autoFetchTimer=setTimeout(()=> fetchFromBricklink(false), 400);
+}
+document.getElementById('f_codice').addEventListener('input', onCodeInput);
+document.getElementById('f_codice').addEventListener('blur', ()=>{ 
+  const c=document.getElementById('f_codice').value.trim(); 
+  if(c && c!==lastFetchedCode) fetchFromBricklink(false);
+});
+
+async function fetchWithProxies(targetUrl){
+  // Priorità: archive.org (veloce, no WAF) → allorigins raw → corsproxy → altri
+  const proxies = [
+    url => `https://web.archive.org/web/20250818/${url}`,
+    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    url => `https://yacdn.org/proxy/${url}`,
+    url => `https://thingproxy.freeboard.io/fetch/${url}`
+  ];
+  // Prova in parallelo con race, timeout 4s per proxy
+  const attempts = proxies.map(make => {
+    const proxyUrl = make(targetUrl);
+    const controller = new AbortController();
+    const to = setTimeout(()=>controller.abort(), 4500);
+    return fetch(proxyUrl, { signal: controller.signal })
+      .then(async r=>{
+        clearTimeout(to);
+        if(!r.ok) throw new Error('no ok');
+        const text = await r.text();
+        let html=null;
+        try{ const j=JSON.parse(text); html=j.contents||text; }catch(e){ html=text; }
+        if(!html || html.length<500) throw new Error('short');
+        if(html.includes('challenge.js') || html.includes('AwsWafIntegration') || html.includes('gokuProps')) throw new Error('waf');
+        if(html.includes('<title') || html.includes('pcipgSummaryTable') || html.includes('<!--START-->') || html.includes('pcipgMainTable') || html.includes('_var_item')) return html;
+        if(html.length>800 && html.toLowerCase().includes('bricklink')) return html;
+        throw new Error('no marker');
+      })
+      .catch(()=>null);
+  });
+  try{
+    const result = await Promise.any(attempts);
+    if(result) return result;
+  }catch(e){}
+  // fallback sequenziale veloce se race fallisce
+  for(const make of proxies){
+    try{
+      const r = await fetch(make(targetUrl), { signal: AbortSignal.timeout(3500) });
+      if(!r.ok) continue;
+      const t = await r.text();
+      let h=null; try{ const j=JSON.parse(t); h=j.contents||t; }catch(e){ h=t; }
+      if(h && (h.includes('<title')||h.includes('pcipgSummaryTable'))) return h;
+    }catch(e){ continue; }
+  }
+  try{
+    const r = await fetch(targetUrl, { mode: 'cors', signal: AbortSignal.timeout(3000) });
+    if(r.ok){
+      const t = await r.text();
+      if(t.includes('<title')||t.includes('pcipgSummaryTable')) return t;
+    }
+  }catch(e){}
+  return null;
+}
+// Fallback locale per nomi/categorie/prezzo se BrickLink è irraggiungibile (ultimo fetch riuscito / dati noti)
+const FALLBACK_DB = {
+  'col001':{nome:'Tribal Hunter, Series 1 (Minifigure Only without Stand and Accessories)', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:9.81},
+  'col002':{nome:'Zombie, Series 1 (Minifigure Only without Stand and Accessories)', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:9.50},
+  'col003':{nome:'Cheerleader, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:8.90},
+  'col004':{nome:'Nurse, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:7.20},
+  'col005':{nome:'Boxer, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:6.50},
+  'col006':{nome:'Magician, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:7.80},
+  'col007':{nome:'Robot, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:12.00},
+  'col008':{nome:'Super Wrestler, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:5.90},
+  'col009':{nome:'Forestman, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:8.20},
+  'col010':{nome:'Clown, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:6.80},
+  'col011':{nome:'Cowboy, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:7.10},
+  'col012':{nome:'Skater, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:6.90},
+  'col013':{nome:'Ninja, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:8.50},
+  'col014':{nome:'Circus Clown, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:5.50},
+  'col015':{nome:'Caveman, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:6.20},
+  'col016':{nome:'Cowgirl, Series 1', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:7.00},
+  'col017':{nome:'Joker, Series 2', tema:'Collectible Minifigures > Series 2 Minifigures', prezzo:11.00},
+  'col434':{nome:'Wednesday Addams', tema:'Collectible Minifigures > Series Wednesday', prezzo:7.20},
+  'sw1159':{nome:'Fennec Shand - Helmet', tema:'Star Wars > The Mandalorian', prezzo:16.40},
+  'sw0137':{nome:'Clone Trooper - Phase 1', tema:'Star Wars > Clone Wars', prezzo:4.90},
+  'hp226':{nome:'Harry Potter - Hogwarts Robe', tema:'Harry Potter > Hogwarts', prezzo:11.00},
+  'col01-2':{nome:'Zombie, Series 1 (alias col01-2 → col002)', tema:'Collectible Minifigures > Series 1 Minifigures', prezzo:9.50}
+};
+
+async function fetchFromBricklink(manual=true){
+  const codeEl=document.getElementById('f_codice');
+  const rawInput=codeEl.value.trim();
+  const inputNorm=normalizeCode(rawInput);
+  if(!inputNorm) {
+    if(manual) toast('Inserisci il codice (es. sw1159)');
+    return null;
+  }
+  const variants=getCodeVariants(inputNorm);
+  const primary=variants[0];
+  if(!manual && primary===lastFetchedCode) return null;
+  const status=document.getElementById('fetchStatus');
+  const spinner=document.getElementById('f_codeSpinner');
+  const loading=document.getElementById('f_preview_loading');
+  if(spinner) spinner.classList.remove('hidden');
+  if(loading) loading.classList.remove('hidden');
+  if(status){
+    status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-blue-50 border border-blue-200 text-blue-800';
+    let hint = variants.length>1 ? `Provo: ${variants.join(' → ')}` : `Cerco ${primary}`;
+    status.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> '+hint+' su BrickLink / Rebrickable...';
+    status.classList.remove('hidden');
+  }
+
+  let data={ nome:'', tema:'', prezzoListino:0, foto:bricklinkImageUrl(primary), codiceReale: primary };
+  let found=false;
+  let foundVariant=null;
+
+  // Pre-riempi da cache locale se disponibile (nome, categoria, prezzo AVG usato)
+  for(const v of variants){
+    const fb=FALLBACK_DB[v] || FALLBACK_DB[v.toLowerCase()];
+    if(fb && !data.nome){
+      data.nome=fb.nome;
+      data.tema=fb.tema;
+      data.foto=bricklinkImageUrl(v);
+      data.codiceReale=v;
+      if(fb.prezzo){ data.prezzoListino=fb.prezzo; data.prezziDettaglio={listinoUsato:fb.prezzo, soldUsed:fb.prezzo}; }
+      found=true; foundVariant=v;
+      if(status){
+        status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
+        status.innerHTML=`✓ Cache locale <b>${v}</b>: ${fb.nome}${fb.prezzo? ` — AVG Used €${fb.prezzo}`:''} — verifico prezzo BrickLink...`;
+      }
+      break;
+    }
+  }
+  // Loop varianti
+  for(const code of variants){
+    // 0) Fallback locale anche dentro loop (se non già trovato)
+    const fbLocal=FALLBACK_DB[code];
+    if(fbLocal && !found){
+      data.nome=fbLocal.nome;
+      data.tema=fbLocal.tema;
+      data.foto=bricklinkImageUrl(code);
+      data.codiceReale=code;
+      if(fbLocal.prezzo && !data.prezzoListino){ data.prezzoListino=fbLocal.prezzo; data.prezziDettaglio={listinoUsato:fbLocal.prezzo, soldUsed:fbLocal.prezzo}; }
+      found=true; foundVariant=code;
+    }
+    // 1) Rebrickable se chiave presente
+    const rbKey=localStorage.getItem('rb_key');
+    if(rbKey && !found){
+      try{
+        const r=await fetch(`https://rebrickable.com/api/v3/lego/minifigs/${code}/`,{headers:{'Authorization':`key ${rbKey}`}});
+        if(r.ok){
+          const j=await r.json();
+          if(j.name){
+            data.nome=j.name;
+            data.foto=j.set_img_url || bricklinkImageUrl(code);
+            data.codiceReale=code;
+            found=true; foundVariant=code;
+            if(status){
+              status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
+              status.innerHTML='✓ <b>Trovata su Rebrickable come '+code+':</b> '+data.nome;
+            }
+            // non break, continua per cercare prezzo su BrickLink
+          }
+        }
+      }catch(e){}
+    }
+
+    // 2) BrickLink scraping per questa variante
+    let html=null;
+    const target=`https://www.bricklink.com/v2/catalog/catalogitem.page?M=${code}`;
+    html = await fetchWithProxies(target);
+    if(html && !/Page Not Found/i.test(html) && !/No Item\(s\) were found/i.test(html)){
+      // Nome da <title>
+      let m=html.match(/<title[^>]*>([^<]+)<\/title>/i);
+      if(m){
+        let title=m[1].replace('BrickLink -','').replace('Catalog:','').replace('| BrickLink','').trim();
+        if(title && !/Item not found/i.test(title)){
+          let clean='';
+          let p1=title.match(/^(.+?)\s*:\s*Minifigure/i);
+          if(p1) clean=p1[1].trim();
+          else {
+            const idx=title.toLowerCase().indexOf(code.toLowerCase());
+            if(idx>-1){
+              clean=title.slice(0, idx).replace(/^Minifig\s*/i,'').replace(/[-–:\s]+$/,'').trim() || title.slice(idx+code.length).replace(/^[-–:\s]+/,'').trim();
+              if(!clean) clean=title;
+            } else clean=title;
+          }
+          if(clean && !data.nome){
+            data.nome=clean;
+            found=true; foundVariant=code;
+            data.codiceReale=code;
+            data.foto=bricklinkImageUrl(code);
+          } else if(clean){
+            found=true; foundVariant=foundVariant||code;
+            if(!data.nome) data.nome=clean;
+          }
+        }
+      }
+      // Categoria (richiesta utente) — estrae full path tipo "Collectible Minifigures > Series 1 Minifigures"
+      if(!data.tema){
+        const cat = extractCategory(html);
+        if(cat){
+          data.tema = cat.full;
+          data.categoriaFull = cat.full;
+          data.categoriaMain = cat.main;
+        }
+      }
+      // Prezzo listino usato — SOLO RIGA AVG PRICE (condizione Used, ultimi 6 mesi) via pgtab page
+      if(!data.prezzoListino){
+        let idMatch = html.match(/idItem\s*[:=]\s*"?(\d+)"?/) || html.match(/"idItem"\s*:\s*(\d+)/) || html.match(/idItem=(\d+)/);
+        if(idMatch){
+          const idItem = idMatch[1];
+          data.idItem = idItem;
+          const pgtabUrl = `https://www.bricklink.com/v2/catalog/catalogitem_pgtab.page?idItem=${idItem}`;
+          const pgtabHtml = await fetchWithProxies(pgtabUrl);
+          if(pgtabHtml){
+            const prezzi = extractAvgUsedPrice(pgtabHtml);
+            if(prezzi && prezzi.listinoUsato){
+              data.prezzoListino = prezzi.listinoUsato;
+              data.prezziDettaglio = prezzi;
+              data.codiceReale = foundVariant || code;
+            }
+          }
+        }
+      }
+      // Fallback vecchio pattern se pgtab fallisce (per compatibilità)
+      if(!data.prezzoListino){
+        let pricePatterns = [
+          /Avg[^\d€$]*[€$]\s*([\d.,]+)/i,
+          /Average[^\d€$]*[€$]\s*([\d.,]+)/i,
+          /Price[^<]*[€]\s*([\d.,]+)/i,
+        ];
+        for(const pat of pricePatterns){
+          let pm=html.match(pat);
+          if(pm){
+            let p=pm[1].replace(',','.').replace(/[^0-9.]/g,'');
+            let val=parseFloat(p);
+            if(val>0 && val<999 && !data.prezzoListino){
+              data.prezzoListino=val;
+              data.codiceReale=foundVariant||code;
+              break;
+            }
+          }
+        }
+      }
+      if(data.nome) found=true;
+      if(found && data.nome) break; // trovato nome, esci loop varianti
+    }
+    // piccola pausa per non hammerare proxy
+    await new Promise(r=>setTimeout(r, 250));
+  }
+
+  // Tentativo extra prezzo via pgtab (SOLO AVG PRICE Used) se ancora mancante
+  if(!data.prezzoListino && data.idItem){
+    const pgtabUrl2 = `https://www.bricklink.com/v2/catalog/catalogitem_pgtab.page?idItem=${data.idItem}`;
+    const pgHtml2 = await fetchWithProxies(pgtabUrl2);
+    if(pgHtml2){
+      const prezzi2 = extractAvgUsedPrice(pgHtml2);
+      if(prezzi2 && prezzi2.listinoUsato){
+        data.prezzoListino = prezzi2.listinoUsato;
+        data.prezziDettaglio = prezzi2;
+      }
+    }
+  }
+  // Se ancora nulla e abbiamo trovato variante, prova a recuperare idItem con un secondo fetch minimale su catalog page del foundVariant
+  if(!data.prezzoListino && foundVariant && !data.idItem){
+    const html2 = await fetchWithProxies(`https://www.bricklink.com/v2/catalog/catalogitem.page?M=${foundVariant}`);
+    if(html2){
+      let idM2 = html2.match(/idItem\s*[:=]\s*"?(\d+)"?/) || html2.match(/"idItem"\s*:\s*(\d+)/);
+      if(idM2){
+        const pgtabUrl3 = `https://www.bricklink.com/v2/catalog/catalogitem_pgtab.page?idItem=${idM2[1]}`;
+        const pgHtml3 = await fetchWithProxies(pgtabUrl3);
+        if(pgHtml3){
+          const prezzi3 = extractAvgUsedPrice(pgHtml3);
+          if(prezzi3 && prezzi3.listinoUsato) data.prezzoListino = prezzi3.listinoUsato;
+        }
+      }
+    }
+  }
+
+  // Se trovato con variante diversa, aggiorna campo codice visivamente e avvisa
+  if(foundVariant && foundVariant!==inputNorm){
+    // correggi input field al codice BrickLink reale ma conserva originale in nota?
+    codeEl.value = foundVariant;
+    if(status && found){
+      status.innerHTML += `<br><span class="text-[11px]">ℹ️ Hai scritto <b>${inputNorm}</b> → corretto in <b>${foundVariant}</b> (BrickLink)</span>`;
+    }
+    // aggiorna foto al codice reale
+    data.foto=bricklinkImageUrl(foundVariant);
+  } else {
+    codeEl.value = foundVariant || inputNorm;
+  }
+
+  if(!found){
+    // fallback nome
+    data.nome = inputNorm.toUpperCase() + ' (non trovato — verifica codice)';
+  }
+
+  // Applica ai campi
+  document.getElementById('f_nome').value=data.nome;
+  document.getElementById('f_nome_manual').value=data.nome;
+  document.getElementById('autoNome').textContent=data.nome;
+  document.getElementById('f_foto').value=data.foto;
+  document.getElementById('f_foto_manual').value=data.foto;
+  document.getElementById('f_tema').value=data.tema||'';
+  document.getElementById('f_tema_manual').value=data.tema||'';
+  document.getElementById('autoTema').textContent=data.tema||'—';
+  document.getElementById('f_foto_url').textContent=data.foto;
+  updatePreview();
+  if(data.prezzoListino){
+    document.getElementById('f_prezzoListino').value=data.prezzoListino.toFixed(2);
+    document.getElementById('f_listino_manual').value=data.prezzoListino.toFixed(2);
+    document.getElementById('autoPrezzo').textContent='€ '+data.prezzoListino.toFixed(2);
+    document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700';
+  } else {
+    document.getElementById('autoPrezzo').textContent='— (inserisci manuale)';
+    document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold text-zinc-500';
+  }
+  // Dettaglio prezzi per verifica (SOLO RIGA AVG PRICE evidenziata)
+  const descEl=document.getElementById('autoDesc');
+  if(descEl){
+    if(data.prezziDettaglio && data.prezziDettaglio.soldUsed){
+      descEl.classList.remove('hidden');
+      descEl.innerHTML=`<span class="font-bold text-amber-700">AVG Used (6 mesi): €${data.prezziDettaglio.soldUsed.toFixed(2)}</span> <span class="text-zinc-500">| Nuovo 6m: €${data.prezziDettaglio.soldNew?.toFixed(2)??'—'}</span><br><span class="text-xs">Disponibili ora: Usato €${data.prezziDettaglio.currentUsed?.toFixed(2)??'—'} • Nuovo €${data.prezziDettaglio.currentNew?.toFixed(2)??'—'}</span>`;
+    } else if(data.prezzoListino){
+      descEl.classList.remove('hidden');
+      descEl.textContent=`Listino usato AVG: €${data.prezzoListino.toFixed(2)} (BrickLink)`;
+    } else {
+      descEl.classList.add('hidden');
+    }
+  }
+  updateDiff();
+  updateSummary();
+
+  lastFetchedCode=data.codiceReale || inputNorm;
+  if(spinner) spinner.classList.add('hidden');
+  if(loading) loading.classList.add('hidden');
+  if(status){
+    if(found){
+      status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
+      let extra = data.prezzoListino ? ` • <b>Listino Usato AVG: €${data.prezzoListino.toFixed(2)}</b>` : ' • prezzo usato AVG non trovato (inserirai tu)';
+      let catInfo = data.tema ? ` • Cat: ${data.tema}` : '';
+      let mapInfo = (foundVariant && foundVariant!==inputNorm) ? ` <b>[${inputNorm} → ${foundVariant}]</b>` : '';
+      status.innerHTML=`✓ <b>Recupero riuscito${mapInfo}:</b> ${data.nome}${extra}${catInfo}`;
+      if(!manual) toast('✓ '+ (foundVariant||inputNorm) +' → '+data.nome + (data.prezzoListino ? ` | Usato AVG €${data.prezzoListino.toFixed(2)}` : ''));
+    } else {
+      status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-amber-50 border border-amber-200 text-amber-800';
+      status.innerHTML='⚠️ Codice <b>'+inputNorm+'</b> non trovato. Varianti provate: '+variants.join(', ')+'.<br>Verifica su <a href="https://www.bricklink.com/catalogList.asp?catType=M" target="_blank" class="underline">catalogo BrickLink</a>. Suggerimento: per CMF usa <b>col001</b> invece di <b>col01-2</b> (es. col01-2 → col002). Foto placeholder impostata.';
+    }
+  }
+  return data;
+}
+
+async function fetchPriceOnly(){
+  const code=document.getElementById('f_codice').value.trim();
+  if(!code) return toast('Inserisci codice');
+  toast('Cerco prezzo listino...');
+  const data=await fetchFromBricklink(true);
+  if(data && data.prezzoListino) toast('Prezzo aggiornato: €'+data.prezzoListino.toFixed(2));
+  else toast('Prezzo non trovato - inserisci manualmente');
+}
+
+async function quickAdd(){
+  const raw=document.getElementById('quickCode').value.trim();
+  const inputNorm=normalizeCode(raw);
+  if(!inputNorm) return toast('Scrivi un codice (es. sw1159)');
+  const variants=getCodeVariants(inputNorm);
+  const primary=variants[0];
+  // duplicate check su tutte le varianti
+  if(figs.some(f=> variants.includes(f.codice) || f.codice===inputNorm)){
+    return toast('Codice già in magazzino — modifica quantità dallo inventario');
+  }
+  const stato=document.getElementById('quickStato').value;
+  const qta=parseInt(document.getElementById('quickQta').value)||1;
+  const btn=document.getElementById('btnQuickAdd');
+  const badge=document.getElementById('quickStatus');
+  btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> Recupero...';
+  badge.classList.remove('hidden'); badge.textContent='BrickLink...';
+  document.getElementById('f_codice').value=raw;
+  const data = await fetchFromBricklink(true);
+  const realCode = (data && data.codiceReale) ? data.codiceReale : primary;
+  // dopo fetch, f_codice è stato aggiornato al codice reale già
+  document.getElementById('f_codice').value='';
+  lastFetchedCode='';
+  const nome = (data && data.nome) ? data.nome : realCode.toUpperCase();
+  const tema = (data && data.tema) ? data.tema : '';
+  const foto = (data && data.foto) ? data.foto : bricklinkImageUrl(realCode);
+  const listino = (data && data.prezzoListino) ? data.prezzoListino : 0;
+  const prezzoVendita = listino || 0;
+  // se era col01-2, salva come col002 (codice BrickLink reale)
+  const obj={id:uid(), codice:realCode, nome, tema, qta, stato, prezzoVendita, prezzoListino:listino, foto, note: (raw!==realCode ? `Inserito come ${raw}` : ''), updated:Date.now(), created:Date.now()};
+  figs.unshift(obj);
+  save(); render();
+  document.getElementById('quickCode').value='';
+  btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-bolt mr-1"></i> Aggiungi Automatico';
+  badge.classList.add('hidden');
+  toast('✓ '+realCode+' aggiunta: '+nome + (raw!==realCode ? ` (da ${raw})` : ''));
+}
+
+async function saveFig(e){
+  e.preventDefault();
+  const btn=document.getElementById('btnSave');
+  const id=document.getElementById('f_id').value || uid();
+  let rawCodice=document.getElementById('f_codice').value.trim();
+  if(!rawCodice) return toast('Codice obbligatorio');
+  let codice=normalizeCode(rawCodice);
+  document.getElementById('f_codice').value=codice;
+
+  // se nome vuoto o codice diverso da lastFetched, forza fetch automatico prima di salvare
+  let nome=document.getElementById('f_nome').value.trim();
+  let tema=document.getElementById('f_tema').value.trim();
+  let foto=document.getElementById('f_foto').value.trim();
+  let prezzoListino=parseFloat(document.getElementById('f_prezzoListino').value)||0;
+
+  const isEditing = figs.some(f=>f.id===id);
+  const needFetch = !nome || codice!==lastFetchedCode;
+
+  if(needFetch && !isEditing){
+    btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> Recupero BrickLink...';
+    const data=await fetchFromBricklink(true);
+    // dopo fetch, codice potrebbe essere stato corretto (es. col01-2 -> col002)
+    codice = normalizeCode(document.getElementById('f_codice').value.trim()) || codice;
+    nome=document.getElementById('f_nome').value.trim() || (data? data.nome: codice.toUpperCase());
+    tema=document.getElementById('f_tema').value.trim() || (data? data.tema:'');
+    foto=document.getElementById('f_foto').value.trim() || bricklinkImageUrl(codice);
+    prezzoListino=parseFloat(document.getElementById('f_prezzoListino').value)||0;
+    btn.disabled=false; btn.innerHTML='Salva — automatico';
+  }
+
+  if(!nome) nome=codice.toUpperCase();
+  if(!foto) foto=bricklinkImageUrl(codice);
+
+  const qta=parseInt(document.getElementById('f_qta').value)||0;
+  const stato=document.querySelector('input[name="f_stato"]:checked').value;
+  let prezzoVendita=parseFloat(document.getElementById('f_prezzoVendita').value)||0;
+  if(!prezzoVendita && prezzoListino) prezzoVendita=prezzoListino; // auto = listino se vuoto
+  let note=document.getElementById('f_note').value.trim();
+  if(rawCodice && normalizeCode(rawCodice)!==codice){
+    const mapNote=`Inserito come ${rawCodice} → ${codice}`;
+    if(!note.includes(mapNote)) note = note ? note+' | '+mapNote : mapNote;
+  }
+
+  const existingIndex=figs.findIndex(f=>f.id===id);
+  const obj={id,codice,nome,tema,qta,stato,prezzoVendita,prezzoListino,foto,note,updated:Date.now(), created: existingIndex>=0? figs[existingIndex].created : Date.now()};
+  if(existingIndex>=0) figs[existingIndex]=obj; else figs.unshift(obj);
+  save(); closeModal(); render(); toast(existingIndex>=0?'Aggiornata':'Aggiunta a magazzino');
+  lastFetchedCode='';
+}
+
+function delFig(id){
+  if(!confirm('Eliminare questa minifigure?')) return;
+  figs=figs.filter(f=>f.id!==id); save(); render(); toast('Eliminata');
+}
+function duplicateFig(id){
+  const f=figs.find(x=>x.id===id); if(!f) return;
+  const copy={...f, id:uid(), codice:f.codice, nome:f.nome+' (copia)', created:Date.now(), updated:Date.now()};
+  figs.unshift(copy); save(); render(); toast('Duplicata');
+}
+function quickStato(id, nuovo){
+  const f=figs.find(x=>x.id===id); if(!f) return;
+  f.stato=nuovo; f.updated=Date.now(); save(); render();
+}
+
+function setView(v){
+  view=v;
+  document.getElementById('btnGrid').className= v==='grid' ? 'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center' : 'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center';
+  document.getElementById('btnTable').className= v==='table' ? 'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center' : 'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center';
+  document.getElementById('gridView').classList.toggle('hidden', v!=='grid');
+  document.getElementById('tableView').classList.toggle('hidden', v!=='table');
+  localStorage.setItem('brickfig_view',v);
+}
+
+function render(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const fs=document.getElementById('filterStato').value;
+  const ft=document.getElementById('filterTema').value;
+  const sort=document.getElementById('sortBy').value;
+
+  // tema options
+  const temi=[...new Set(figs.map(f=>f.tema).filter(Boolean))].sort();
+  const sel=document.getElementById('filterTema');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">Tutti i temi</option>'+temi.map(t=>`<option value="${t}">${t}</option>`).join('');
+  sel.value=cur;
+
+  let list=[...figs];
+  if(q) list=list.filter(f=> f.codice.toLowerCase().includes(q) || f.nome.toLowerCase().includes(q) || (f.tema||'').toLowerCase().includes(q));
+  if(fs) list=list.filter(f=>f.stato===fs);
+  if(ft) list=list.filter(f=>f.tema===ft);
+
+  list.sort((a,b)=>{
+    if(sort==='recent') return b.updated - a.updated;
+    if(sort==='codice') return a.codice.localeCompare(b.codice);
+    if(sort==='nome') return a.nome.localeCompare(b.nome);
+    if(sort==='prezzo-desc') return b.prezzoVendita - a.prezzoVendita;
+    if(sort==='prezzo-asc') return a.prezzoVendita - b.prezzoVendita;
+    if(sort==='quantita') return b.qta - a.qta;
+    return 0;
+  });
+
+  // stats
+  const total=list.length; // filtered? better global for stats
+  const gDisp=figs.filter(f=>f.stato==='Disponibile');
+  const gPren=figs.filter(f=>f.stato==='Prenotato');
+  const gVend=figs.filter(f=>f.stato==='Venduto');
+  document.getElementById('statTotal').textContent=figs.length;
+  document.getElementById('statTotalSub').textContent=figs.reduce((s,f)=>s+(f.qta||0),0)+' pezzi totali';
+  document.getElementById('statDisp').textContent=gDisp.reduce((s,f)=>s+(f.qta||0),0);
+  document.getElementById('statDispVal').textContent=euro(gDisp.reduce((s,f)=>s+f.prezzoVendita*(f.qta||1),0))+' valore';
+  document.getElementById('statPren').textContent=gPren.reduce((s,f)=>s+(f.qta||0),0);
+  document.getElementById('statPrenVal').textContent=euro(gPren.reduce((s,f)=>s+f.prezzoVendita*(f.qta||1),0));
+  document.getElementById('statVend').textContent=gVend.reduce((s,f)=>s+(f.qta||0),0);
+  document.getElementById('statVendVal').textContent=euro(gVend.reduce((s,f)=>s+f.prezzoVendita*(f.qta||1),0))+' incassato';
+  document.getElementById('statValore').textContent=euro(gDisp.reduce((s,f)=>s+f.prezzoVendita*(f.qta||1),0) + gPren.reduce((s,f)=>s+f.prezzoVendita*(f.qta||1),0));
+  document.getElementById('statListino').textContent=euro(figs.reduce((s,f)=>s+(f.prezzoListino||0)*(f.qta||1),0));
+
+  // grid
+  const grid=document.getElementById('gridView');
+  grid.innerHTML=list.map(f=>{
+    const statoCls = f.stato==='Disponibile' ? 'bg-emerald-500 text-white' : f.stato==='Prenotato' ? 'bg-amber-400 text-zinc-900' : f.stato==='Venduto' ? 'bg-zinc-800 text-white' : 'bg-red-500 text-white';
+    const diff = f.prezzoListino ? (f.prezzoVendita - f.prezzoListino) : null;
+    const diffHtml = diff!==null ? `<span class="text-[11px] font-bold ${diff>=0?'text-emerald-600':'text-red-600'}">${diff>=0?'+':''}${euro(diff)} vs listino</span>` : '<span class="text-[11px] text-zinc-400">listino n/d</span>';
+    const temaHtml = f.tema ? `<span class="text-[11px] bg-zinc-100 border border-zinc-200 px-2 py-1 rounded-full font-semibold">${f.tema}</span>`:'';
+    return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover transition flex flex-col">
+      <div class="aspect-[4/3] bg-zinc-50 relative flex items-center justify-center p-3">
+        <img src="${f.foto||bricklinkImageUrl(f.codice)}" alt="${f.nome}" class="max-w-full max-h-full object-contain" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=${encodeURIComponent(f.codice)}'">
+        <span class="absolute top-2 left-2 text-[11px] font-bold px-2 py-1 rounded-full ${statoCls}">${f.stato}</span>
+        <span class="absolute top-2 right-2 text-[11px] font-mono font-bold bg-white border border-zinc-200 px-2 py-1 rounded-full">${f.codice}</span>
+        <span class="absolute bottom-2 right-2 bg-zinc-900 text-white text-xs font-bold px-2 py-1 rounded-full">x${f.qta}</span>
+      </div>
+      <div class="p-4 flex-1 flex flex-col">
+        <div class="flex items-start justify-between gap-2">
+          <h3 class="font-bold text-[13px] leading-tight line-clamp-2 flex-1">${f.nome}</h3>
+          <button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center shrink-0"><i class="fa-solid fa-pen text-xs"></i></button>
+        </div>
+        <div class="mt-1 flex items-center gap-1">${temaHtml}</div>
+        <div class="mt-3 grid grid-cols-2 gap-2">
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2">
+            <div class="text-[10px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div>
+            <div class="font-display font-bold text-emerald-700">${euro(f.prezzoVendita)}</div>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2">
+            <div class="text-[10px] font-bold tracking-widest uppercase text-amber-700">Listino BL</div>
+            <div class="font-display font-bold text-amber-700">${f.prezzoListino? euro(f.prezzoListino): '<span class=text-sm>--</span>'}</div>
+          </div>
+        </div>
+        <div class="mt-1">${diffHtml}</div>
+        ${f.note? `<div class="mt-2 text-xs text-zinc-500 bg-zinc-50 border border-zinc-100 rounded-xl p-2 line-clamp-2">${f.note}</div>`:''}
+        <div class="mt-3 flex gap-1">
+          <select onchange="quickStato('${f.id}', this.value)" class="flex-1 text-xs font-bold px-2 py-2 rounded-xl border border-zinc-200 bg-white">
+            <option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>🟢 Disponibile</option>
+            <option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>🟡 Prenotato</option>
+            <option value="Venduto" ${f.stato==='Venduto'?'selected':''}>⚪ Venduto</option>
+            <option value="Esaurito" ${f.stato==='Esaurito'?'selected':''}>🔴 Esaurito</option>
+          </select>
+          <button onclick="duplicateFig('${f.id}')" class="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center" title="Duplica"><i class="fa-regular fa-clone text-xs"></i></button>
+          <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 flex items-center justify-center" title="Elimina"><i class="fa-regular fa-trash-can text-xs"></i></button>
+        </div>
+        <a href="${bricklinkPageUrl(f.codice)}" target="_blank" class="mt-2 text-[11px] text-center text-lego-blue underline">Vedi su BrickLink <i class="fa-solid fa-up-right-from-square"></i></a>
+      </div>
+    </div>`;
+  }).join('');
+
+  // table
+  const tbody=document.getElementById('tableBody');
+  tbody.innerHTML=list.map(f=>{
+    const badge = f.stato==='Disponibile' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : f.stato==='Prenotato' ? 'bg-amber-100 text-amber-800 border-amber-200' : 'bg-zinc-100 text-zinc-700 border-zinc-200';
+    return `<tr class="hover:bg-zinc-50">
+      <td class="px-4 py-2"><img src="${f.foto||bricklinkImageUrl(f.codice)}" class="w-12 h-12 object-contain bg-zinc-50 rounded-xl border border-zinc-100 p-1" onerror="this.src='https://via.placeholder.com/100?text=${encodeURIComponent(f.codice)}'"></td>
+      <td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}</td>
+      <td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.tema||''}</div></td>
+      <td class="px-2 py-2 text-center font-bold">${f.qta}</td>
+      <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${badge}">${f.stato}</span></td>
+      <td class="px-2 py-2 text-right font-bold text-emerald-700">${euro(f.prezzoVendita)}</td>
+      <td class="px-2 py-2 text-right font-bold text-amber-700">${f.prezzoListino? euro(f.prezzoListino):'--'}</td>
+      <td class="px-4 py-2 text-right">
+        <div class="inline-flex gap-1">
+          <button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100 hover:bg-zinc-200"><i class="fa-solid fa-pen text-xs"></i></button>
+          <button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600"><i class="fa-regular fa-trash-can text-xs"></i></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('emptyState').classList.toggle('hidden', list.length!==0);
+  if(list.length===0 && figs.length===0){
+    // show demo CTA is visible via emptyState
+  }
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.remove('hidden');
+  clearTimeout(t._to); t._to=setTimeout(()=>t.classList.add('hidden'),2200);
+}
+
+function exportData(type){
+  if(!figs.length) return toast('Niente da esportare');
+  if(type==='json'){
+    const blob=new Blob([JSON.stringify(figs,null,2)],{type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`brickfig-${new Date().toISOString().slice(0,10)}.json`; a.click();
+  } else {
+    // csv
+    const headers=['codice','nome','tema','qta','stato','prezzoVendita','prezzoListino','foto','note'];
+    const rows=[headers.join(',')].concat(figs.map(f=> headers.map(h=> `"${String(f[h]||'').replace(/"/g,'""')}"`).join(',')));
+    const blob=new Blob([rows.join('\n')],{type:'text/csv'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`brickfig-${new Date().toISOString().slice(0,10)}.csv`; a.click();
+  }
+  toast('Esportato');
+}
+function importData(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const text=reader.result;
+      let data;
+      if(file.name.endsWith('.csv')){
+        const lines=text.split('\n').filter(Boolean);
+        const headers=lines[0].split(',').map(h=>h.replace(/"/g,'').trim());
+        data=lines.slice(1).map(line=>{
+          // naive csv parse
+          const vals=line.match(/(".*?"|[^",\n]+)(?=\s*,|\s*$)/g)||[];
+          const obj={}; headers.forEach((h,i)=> obj[h]= (vals[i]||'').replace(/^"|"$/g,'').replace(/""/g,'"'));
+          return {id:uid(), codice:obj.codice, nome:obj.nome, tema:obj.tema, qta:parseInt(obj.qta)||1, stato:obj.stato||'Disponibile', prezzoVendita:parseFloat(obj.prezzoVendita)||0, prezzoListino:parseFloat(obj.prezzoListino)||0, foto:obj.foto, note:obj.note, created:Date.now(), updated:Date.now()};
+        });
+      } else {
+        data=JSON.parse(text);
+        data=data.map(f=> ({...f, id:f.id||uid()}));
+      }
+      figs=data.concat(figs);
+      save(); render(); toast(`Importati ${data.length} pezzi`);
+    }catch(err){ toast('Errore import: '+err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+async function updateAllPrices(){
+  if(!figs.length) return toast('Nessun pezzo');
+  if(!confirm(`Aggiornare il listino USATO (AVG PRICE) di ${figs.length} fig da BrickLink?`)) return;
+  toast('Aggiornamento massivo avviato (solo AVG Used)...');
+  let done=0;
+  for(const f of figs){
+    try{
+      const html = await fetchWithProxies(`https://www.bricklink.com/v2/catalog/catalogitem.page?M=${f.codice}`);
+      if(!html) continue;
+      let idMatch = html.match(/idItem\s*[:=]\s*"?(\d+)"?/) || html.match(/"idItem"\s*:\s*(\d+)/);
+      if(!idMatch) continue;
+      const pgtabHtml = await fetchWithProxies(`https://www.bricklink.com/v2/catalog/catalogitem_pgtab.page?idItem=${idMatch[1]}`);
+      if(!pgtabHtml) continue;
+      const prezzi = extractAvgUsedPrice(pgtabHtml);
+      if(prezzi && prezzi.listinoUsato){
+        f.prezzoListino = prezzi.listinoUsato;
+        f.prezziDettaglio = prezzi;
+        const cat = extractCategory(html);
+        if(cat && (!f.tema || f.tema==='—')) f.tema = cat.full;
+        // aggiorna nome se placeholder?
+        if(f.nome.includes('non trovato') || f.nome===f.codice.toUpperCase()){
+          let m=html.match(/<title[^>]*>([^<]+)<\/title>/i);
+          if(m){
+            let title=m[1].replace('BrickLink -','').replace('| BrickLink','').trim();
+            let p1=title.match(/^(.+?)\s*:\s*Minifigure/i);
+            if(p1) f.nome=p1[1].trim();
+          }
+        }
+        // foto se mancante
+        if(!f.foto || f.foto.includes('placeholder')) f.foto=bricklinkImageUrl(f.codice);
+        f.updated=Date.now();
+        done++;
+      }
+    }catch(e){}
+    await new Promise(r=>setTimeout(r,800));
+  }
+  save(); render(); toast(`Aggiornati ${done}/${figs.length} prezzi (AVG Used)`);
+}
+
+function loadDemo(){
+  const demo=[
+    {id:uid(), codice:'sw1159', nome:'Darth Vader - Black Cape, Light Bluish Gray Helmet', tema:'Star Wars', qta:2, stato:'Disponibile', prezzoVendita:14.50, prezzoListino:16.80, foto:bricklinkImageUrl('sw1159'), note:'Nuova, con spada rossa', created:Date.now(), updated:Date.now()},
+    {id:uid(), codice:'col434', nome:'Wednesday Addams', tema:'Collectable Minifigures', qta:5, stato:'Disponibile', prezzoVendita:8.90, prezzoListino:7.20, foto:bricklinkImageUrl('col434'), note:'Serie The Addams', created:Date.now()-1000, updated:Date.now()-1000},
+    {id:uid(), codice:'hp226', nome:'Harry Potter - Hogwarts Robe', tema:'Harry Potter', qta:1, stato:'Prenotato', prezzoVendita:9.50, prezzoListino:11.00, foto:bricklinkImageUrl('hp226'), note:'Prenotata da Marco - ritiro sabato', created:Date.now()-2000, updated:Date.now()-2000},
+    {id:uid(), codice:'mar0041', nome:'Spider-Man - Miles Morales Suit', tema:'Marvel', qta:3, stato:'Disponibile', prezzoVendita:12.00, prezzoListino:13.50, foto:bricklinkImageUrl('mar0041'), note:'', created:Date.now()-3000, updated:Date.now()-3000},
+    {id:uid(), codice:'tlm017', nome:'Wyldstyle - Hoodie', tema:'The LEGO Movie', qta:1, stato:'Venduto', prezzoVendita:6.00, prezzoListino:5.50, foto:bricklinkImageUrl('tlm017'), note:'Venduta 02/09', created:Date.now()-4000, updated:Date.now()-4000},
+    {id:uid(), codice:'sw0137', nome:'Clone Trooper - Phase 1', tema:'Star Wars', qta:8, stato:'Disponibile', prezzoVendita:4.50, prezzoListino:4.90, foto:bricklinkImageUrl('sw0137'), note:'Sfuso, ottime condizioni', created:Date.now()-5000, updated:Date.now()-5000},
+    {id:uid(), codice:'cty1388', nome:'Police Officer - Hat', tema:'City', qta:10, stato:'Disponibile', prezzoVendita:2.50, prezzoListino:2.10, foto:bricklinkImageUrl('cty1388'), note:'Lotto sfuso City', created:Date.now()-6000, updated:Date.now()-6000},
+    {id:uid(), codice:'fig-000001', nome:'Demo Minifig Test', tema:'Ideas', qta:1, stato:'Esaurito', prezzoVendita:18.00, prezzoListino:22.00, foto:bricklinkImageUrl('fig-000001'), note:'', created:Date.now()-7000, updated:Date.now()-7000},
+  ];
+  figs=demo.concat(figs);
+  save(); render(); toast('Demo caricate');
+  closeSettings();
+}
+function clearAll(){
+  if(!confirm('Svuotare tutto il magazzino? Azione irreversibile. Esporta prima un backup.')) return;
+  figs=[]; save(); render(); toast('Magazzino svuotato');
+}
+
+// init
+load();
+setView(localStorage.getItem('brickfig_view')||'grid');
+render();
+</script>
+</body>
+</html>

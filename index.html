@@ -1,0 +1,867 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrickFig Manager PRO - Gestionale Automatico Lego</title>
+<script>
+// Sopprime warning Tailwind CDN in produzione (gestionale locale, uso consentito)
+const _warn=console.warn; console.warn=(...a)=>{ if(String(a[0]).includes('cdn.tailwindcss.com should not be used in production')) return; _warn(...a); };
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Fredoka','sans-serif']},colors:{lego:{yellow:'#FFD500',red:'#E3000B',blue:'#006CB7',green:'#00A651'}}}}}
+</script>
+<style>
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:99px}
+.card-hover:hover{transform:translateY(-2px);box-shadow:0 10px 25px -5px rgba(0,0,0,.1)}
+</style>
+</head>
+<body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased">
+<header class="sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-sm">
+  <div class="max-w-[1400px] mx-auto px-4 lg:px-6 py-3 flex items-center gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-lego-red rounded-xl flex items-center justify-center text-white font-display font-bold text-xl shadow">B</div>
+      <div>
+        <h1 class="font-display font-bold text-xl leading-none">BrickFig Manager <span class="bg-lego-yellow px-2 py-0.5 rounded-full text-xs">PRO AUTOMATICO</span></h1>
+        <p class="text-[11px] tracking-widest font-semibold text-zinc-500 uppercase">Minifigure & Sfuso â€¢ BrickLink AVG Usato</p>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-2 ml-6">
+      <span class="text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold"><i class="fa-solid fa-bolt mr-1"></i>Server Locale Attivo</span>
+      <span id="serverStatus" class="text-xs bg-zinc-100 px-2.5 py-1 rounded-full">Verifico...</span>
+    </div>
+    <div class="ml-auto flex items-center gap-2">
+      <button onclick="exportData()" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold"><i class="fa-solid fa-download"></i> Backup</button>
+      <label class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold cursor-pointer"><i class="fa-solid fa-upload"></i> Ripristina<input type="file" accept=".json" class="hidden" onchange="importData(event)"></label>
+      <button onclick="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-sm font-bold shadow"><i class="fa-solid fa-plus"></i> Nuovo</button>
+    </div>
+  </div>
+</header>
+
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-6 grid grid-cols-2 lg:grid-cols-5 gap-3">
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-zinc-400 uppercase">Totale Pezzi</div><div class="text-2xl font-display font-bold mt-1" id="statTotal">0</div><div class="text-xs text-zinc-500" id="statTotalSub">0 pezzi</div></div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-emerald-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>Disponibili</div><div class="text-2xl font-display font-bold mt-1 text-emerald-600" id="statDisp">0</div><div class="text-xs text-zinc-500" id="statDispVal">â‚¬ 0,00</div></div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-amber-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>Prenotate</div><div class="text-2xl font-display font-bold mt-1 text-amber-600" id="statPren">0</div><div class="text-xs text-zinc-500" id="statPrenVal">â‚¬ 0,00</div></div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Vendute</div><div class="text-2xl font-display font-bold mt-1" id="statVend">0</div><div class="text-xs text-zinc-500" id="statVendVal">â‚¬ 0,00</div></div>
+  <div class="bg-lego-yellow rounded-2xl p-4 border border-amber-200 shadow-sm col-span-2 lg:col-span-1"><div class="text-[11px] font-bold tracking-widest text-zinc-700 uppercase">Valore Vendita</div><div class="text-2xl font-display font-bold mt-1" id="statValore">â‚¬ 0,00</div><div class="text-xs text-zinc-700" id="statValoreAvg">AVG Usato â‚¬ 0,00</div></div>
+</div>
+
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 bg-white rounded-2xl border border-zinc-200 p-3 flex flex-wrap gap-3 items-center shadow-sm">
+  <div class="relative flex-1 min-w-[200px]">
+    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm"></i>
+    <input id="searchInput" oninput="render()" placeholder="Cerca codice, nome, categoria..." class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-lego-yellow">
+  </div>
+  <select id="filterStato" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
+  <select id="filterTipo" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
+  <select id="filterCategoria" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm font-semibold"><option value="">Tutte le categorie</option></select>
+  <select id="sortBy" onchange="render()" class="px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm"><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="recent">PiÃ¹ recenti</option><option value="prezzo-desc">Valore â†“</option></select>
+  <div class="flex items-center gap-1"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
+  <button onclick="updateAllPrices()" class="px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
+</div>
+
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4">
+  <div class="bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-[20px] p-4 md:p-5 shadow-lg border border-zinc-800 flex flex-wrap gap-3 items-end">
+    <div class="flex-1 min-w-[180px]">
+      <label class="text-[11px] font-bold tracking-widest uppercase text-amber-300 flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Inserimento ULTRA-RAPIDO â€” Solo Codice</label>
+      <div class="relative mt-2">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-mono text-sm font-bold" id="quickPrefix">M</span>
+        <input id="quickCode" placeholder="es. col001, sw1159, 3001, col01-2..." class="w-full pl-8 pr-12 py-3.5 rounded-xl bg-white border-2 border-transparent focus:border-lego-yellow font-mono text-sm font-bold outline-none" oninput="onQuickCodeInput()" onkeydown="if(event.key==='Enter') quickAdd()">
+        <span id="quickSpinner" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-amber-500"><i class="fa-solid fa-spinner fa-spin"></i></span>
+      </div>
+      <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-2"><span id="quickPreview" class="truncate">Scrivi codice â†’ nome, categoria, foto e <b class="text-white">AVG Usato BrickLink</b> automatici</span></div>
+    </div>
+    <div class="min-w-[130px]">
+      <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Tipo</label>
+      <select id="quickTipo" class="mt-2 w-full px-3 py-3 rounded-xl bg-white text-sm font-bold">
+        <option value="auto" selected>Auto</option>
+        <option value="M">Minifig</option>
+        <option value="P">Parte</option>
+      </select>
+    </div>
+    <div class="min-w-[90px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">QtÃ </label><input id="quickQta" type="number" min="1" value="1" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
+    <div class="min-w-[110px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Vendita â‚¬</label><input id="quickPrezzoVendita" type="number" step="0.01" placeholder="es. 12.5" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold text-center"></div>
+    <div class="min-w-[140px]"><label class="text-[11px] font-bold tracking-widest uppercase text-zinc-400">Stato</label><select id="quickStato" class="mt-2 w-full px-3 py-3.5 rounded-xl bg-white text-sm font-bold"><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select></div>
+    <button onclick="quickAdd()" id="btnQuickAdd" class="px-6 py-3.5 rounded-xl bg-lego-yellow hover:bg-amber-400 text-zinc-900 font-extrabold text-sm shadow whitespace-nowrap"><i class="fa-solid fa-bolt mr-1"></i> Aggiungi</button>
+  </div>
+</div>
+
+<div class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-3">
+  <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2.5 flex flex-wrap gap-2 items-center text-xs">
+    <span class="font-bold text-emerald-700"><i class="fa-solid fa-circle-info mr-1"></i> Automatico:</span>
+    <span class="text-zinc-700">Inserisci <b>solo codice</b> (es. <code class="bg-white px-1.5 py-0.5 rounded border font-mono">col001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">3001</code> <code class="bg-white px-1.5 py-0.5 rounded border font-mono">sw1159</code>) â†’ <b>Nome â€¢ Categoria â€¢ Foto â€¢ AVG Usato BrickLink</b> in &lt;1s. Tu metti solo <b>QuantitÃ </b>, <b>Stato</b> e <b>Prezzo Vendita</b>.</span>
+  </div>
+</div>
+
+<div id="gridView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[500px]"></div>
+<div id="tableView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 hidden">
+  <div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-zinc-50 border-b border-zinc-200 text-[11px] tracking-widest font-bold text-zinc-500 uppercase">
+          <tr><th class="text-left px-4 py-3">Foto</th><th class="text-left px-2 py-3">Codice/Tipo</th><th class="text-left px-2 py-3">Nome / Categoria</th><th class="text-center px-2 py-3">QtÃ </th><th class="text-left px-2 py-3">Stato</th><th class="text-right px-2 py-3">AVG Usato</th><th class="text-right px-2 py-3">Vendita</th><th class="text-right px-4 py-3">Azioni</th></tr>
+        </thead>
+        <tbody id="tableBody" class="divide-y divide-zinc-100"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="emptyState" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-8 hidden">
+  <div class="bg-white rounded-2xl border-2 border-dashed border-zinc-200 p-10 text-center">
+    <div class="w-16 h-16 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto text-2xl">ðŸ§±</div>
+    <h3 class="font-display font-bold text-lg mt-4">Magazzino vuoto</h3>
+    <p class="text-sm text-zinc-500 mt-1">Inserisci un codice sopra o clicca â€œNuovoâ€.</p>
+    <button onclick="loadDemo()" class="mt-4 px-4 py-2 rounded-xl bg-lego-yellow font-bold text-sm">Carica demo (8 pezzi)</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal()"></div>
+  <div class="absolute inset-0 flex items-start justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-[24px] w-full max-w-[760px] my-6 shadow-2xl overflow-hidden">
+      <div class="px-6 py-5 border-b border-zinc-100 flex items-center justify-between bg-zinc-50">
+        <div><h2 id="modalTitle" class="font-display font-bold text-xl">Nuovo Pezzo â€” Automatico</h2><p class="text-xs text-zinc-500">Solo codice â†’ tutto da BrickLink. Poi QtÃ  e Stato.</p></div>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-white border border-zinc-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="figForm" onsubmit="saveFig(event)" class="p-6 space-y-4">
+        <input type="hidden" id="f_id">
+        <div class="bg-zinc-900 rounded-2xl p-4">
+          <label class="text-[11px] font-bold tracking-widest uppercase text-amber-300">1) Codice BrickLink * <span class="text-zinc-400 normal-case">(minifig es. col001 / sw1159 o parte es. 3001)</span></label>
+          <div class="flex gap-2 mt-2">
+            <div class="relative flex-1">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-mono font-bold" id="f_prefix">M</span>
+              <input id="f_codice" required placeholder="es. col001  3001  sw1159" class="w-full pl-8 pr-10 py-3.5 rounded-xl bg-white font-mono text-base font-bold focus:ring-2 focus:ring-lego-yellow outline-none border-2 border-transparent" autocomplete="off">
+              <span id="f_codeSpinner" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-amber-500"><i class="fa-solid fa-spinner fa-spin"></i></span>
+            </div>
+            <select id="f_tipo" class="px-3 py-3.5 rounded-xl bg-zinc-800 text-white text-sm font-bold border border-zinc-700"><option value="auto">Auto</option><option value="M">Minifig</option><option value="P">Parte</option></select>
+          </div>
+          <div id="fetchStatus" class="hidden mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold"></div>
+          <div class="text-[11px] text-zinc-400 mt-2">Rilevo tipo, categoria, nome, foto e <b class="text-white">AVG Usato</b> da BrickLink in &lt;1s.</div>
+        </div>
+
+        <div id="autoPreview" class="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-4 bg-zinc-50 border border-zinc-200 rounded-2xl p-4">
+          <div>
+            <div class="w-full aspect-square bg-zinc-100 border-2 border-zinc-200 rounded-2xl overflow-hidden flex items-center justify-center relative" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;">
+              <img id="f_preview" src="" alt="" class="w-full h-full object-contain p-2 hidden drop-shadow-sm">
+              <div id="f_preview_placeholder" class="text-center p-4"><i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink</div></div>
+              <div id="f_preview_loading" class="hidden absolute inset-0 bg-white/80 flex items-center justify-center flex-col gap-2"><i class="fa-solid fa-spinner fa-spin text-xl text-amber-500"></i><span class="text-xs font-bold text-zinc-600">Carico...</span></div>
+              <button type="button" onclick="document.getElementById('f_upload').click()" class="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shadow hover:bg-black" title="Carica tua foto"><i class="fa-solid fa-camera text-xs"></i></button>
+            </div>
+            <div class="text-[10px] text-center text-zinc-400 mt-1 font-mono truncate" id="f_foto_url"></div>
+            <div id="colorSelector" class="hidden mt-2 p-2 bg-white border-2 border-zinc-200 rounded-xl">
+              <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-600">Colore / Variante BrickLink</label>
+              <select id="colorSelect" onchange="onColorSelect(this.value)" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-zinc-200 bg-white text-sm font-bold">
+                <option value="">Seleziona colore...</option>
+              </select>
+              <div class="text-[10px] text-zinc-500 mt-1">Come su BrickLink: scegli colore â†’ foto e prezzo si aggiornano</div>
+              <div id="colorDebug" class="text-[9px] font-mono text-zinc-500 mt-1 hidden"></div>
+            </div>
+            <div class="flex gap-1 mt-2">
+              <button type="button" onclick="document.getElementById('f_upload').click()" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-zinc-900 text-white hover:bg-black"><i class="fa-solid fa-upload mr-1"></i> Carica tua foto</button>
+              <button type="button" onclick="useBricklinkFoto()" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-amber-400 hover:bg-amber-500"><i class="fa-solid fa-link mr-1"></i> BrickLink</button>
+            </div>
+            <input type="file" id="f_upload" accept="image/*" class="hidden" onchange="handleUpload(event)">
+            <input id="f_foto_manual" placeholder="O incolla URL immagine..." class="mt-2 w-full px-3 py-2 rounded-xl border border-zinc-200 text-xs" oninput="document.getElementById('f_foto').value=this.value; document.getElementById('f_foto_url').textContent=this.value; updatePreview(this.value);">
+            <div class="text-[10px] text-zinc-500 mt-1 text-center">BrickLink automatica o tua foto (rimane salvata)</div>
+          </div>
+          <div class="space-y-3">
+            <div><div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Nome (BrickLink)</div><div id="autoNome" class="mt-1 min-h-[44px] px-3 py-3 rounded-xl bg-white border border-zinc-200 text-sm font-bold flex items-center"><span class="text-zinc-400 font-normal">In attesa di codice...</span></div></div>
+            <div><div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Categoria</div><div id="autoCategoria" class="mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold"><span class="text-zinc-400 font-normal">â€”</span></div></div>
+            <div><div class="text-[10px] font-bold tracking-widest uppercase text-amber-700">Prezzo AVG Usato (BrickLink)</div><div id="autoPrezzo" class="mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700"><span class="text-zinc-400 font-normal">â€”</span></div><div id="autoPrezzoDett" class="text-[11px] text-zinc-500 mt-1 hidden"></div></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white border border-zinc-200 rounded-2xl p-4">
+            <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">2) Dati manuali *</label>
+            <div class="mt-2 grid grid-cols-3 gap-2">
+              <label class="cursor-pointer"><input type="radio" name="f_stato" value="Disponibile" checked class="peer sr-only"><div class="peer-checked:bg-emerald-500 peer-checked:text-white peer-checked:border-emerald-500 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">Disponibile</div></label>
+              <label class="cursor-pointer"><input type="radio" name="f_stato" value="Prenotato" class="peer sr-only"><div class="peer-checked:bg-amber-400 peer-checked:text-zinc-900 peer-checked:border-amber-400 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">Prenotato</div></label>
+              <label class="cursor-pointer"><input type="radio" name="f_stato" value="Venduto" class="peer sr-only"><div class="peer-checked:bg-zinc-900 peer-checked:text-white peer-checked:border-zinc-900 border-2 border-zinc-200 rounded-xl py-2.5 text-center text-sm font-bold bg-white">Venduto</div></label>
+            </div>
+            <div class="mt-3 grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] font-bold uppercase text-zinc-600">QuantitÃ  *</label>
+                <input id="f_qta" type="number" min="1" value="1" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm font-bold text-center">
+              </div>
+              <div>
+                <label class="text-[11px] font-bold uppercase text-emerald-700">Prezzo Vendita â‚¬</label>
+                <div class="relative mt-1">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-700 font-bold">â‚¬</span>
+                  <input id="f_prezzoVendita" type="number" step="0.01" min="0" placeholder="es. 12.50" class="w-full pl-7 pr-3 py-3 rounded-xl border-2 border-emerald-200 bg-emerald-50 text-sm font-bold">
+                </div>
+                <div class="text-[10px] text-zinc-500 mt-1">Il tuo prezzo</div>
+              </div>
+            </div>
+            <div id="priceDiff" class="text-[11px] font-bold mt-2"></div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex flex-col">
+            <label class="text-xs font-bold tracking-widest uppercase text-emerald-800">Riepilogo</label>
+            <div id="summaryBox" class="mt-2 flex-1 bg-white rounded-xl border border-emerald-200 p-3 text-sm"><div class="text-zinc-500 text-xs">Inserisci codice.</div></div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Variante disponibile <span class="text-zinc-400 normal-case">(es. colore, versione)</span></label>
+          <input id="f_variante" placeholder="es. Grigio Chiaro, Verde, Con elmo..." class="mt-1 w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm">
+          <div class="text-[10px] text-zinc-500 mt-1">Seleziona colore BrickLink sopra o scrivi a mano</div>
+        </div>
+        <div>
+          <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Note / Descrizione <span class="text-zinc-400 normal-case">(visibile in scheda)</span></label>
+          <textarea id="f_note" rows="3" placeholder="es. Ottime condizioni, completo di accessori, pos. scaffale B2, acquistato a..." class="mt-1 w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm"></textarea>
+        </div>
+
+        <input type="hidden" id="f_nome"><input type="hidden" id="f_categoria"><input type="hidden" id="f_prezzo"><input type="hidden" id="f_foto"><input type="hidden" id="f_tipoEffettivo"><input type="hidden" id="f_coloreId">
+        <div class="flex gap-3 pt-2">
+          <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">Annulla</button>
+          <button type="submit" id="btnSave" class="flex-[1.5] py-3 rounded-xl bg-lego-red text-white font-bold text-sm shadow">Salva in inventario</button>
+        </div>
+        <p class="text-[11px] text-center text-zinc-400">Solo codice obbligatorio â€” il resto Ã¨ BrickLink. Dati salvati in locale.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-zinc-900 text-white px-4 py-2.5 rounded-full text-sm font-semibold shadow-xl hidden z-50"></div>
+
+<script>
+const STORAGE_KEY='brickfig_pro_v1';
+let figs=[];
+let view='grid';
+let lastFetched=null;
+let autoTimer=null;
+
+function load(){
+  try{
+    figs=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+    // Migrazione per vecchi dati senza prezzoVendita/variante/note/coloreId
+    figs.forEach(f=>{
+      if(f.prezzoAvgUsato===undefined && f.prezzoListino!==undefined) f.prezzoAvgUsato=f.prezzoListino;
+      if(f.prezzoAvgUsato===undefined && f.prezzo!==undefined) f.prezzoAvgUsato=f.prezzo;
+      if(f.prezzoAvgUsato===undefined) f.prezzoAvgUsato=0;
+      if(f.prezzoVendita===undefined) f.prezzoVendita=f.prezzoAvgUsato||0;
+      if(f.categoria===undefined && f.tema) f.categoria=f.tema;
+      if(f.categoria===undefined) f.categoria='';
+      if(f.variante===undefined) f.variante='';
+      if(f.note===undefined) f.note='';
+      if(f.coloreId===undefined) f.coloreId='';
+      // Se ha foto con colore ma non ha coloreId, estrailo
+      if(!f.coloreId && f.foto){
+        const m=f.foto.match(/\/PN\/(\d+)\//) || f.foto.match(/\/MN\/(\d+)\//);
+        if(m) f.coloreId=m[1];
+      }
+    });
+  }catch(e){figs=[];}
+}
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(figs)); }
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function euro(n){ return (Number(n)||0).toLocaleString('it-IT',{style:'currency',currency:'EUR'}); }
+function getImageSrc(url){
+  if(!url) return '';
+  if(url.startsWith('data:')) return url;
+  if(url.includes('img.bricklink.com')) return '/api/image?url='+encodeURIComponent(url);
+  return url;
+}
+function getCodeVariantsLocal(code){
+  code=code.trim().toLowerCase().replace(/\s+/g,'');
+  let v=[code];
+  if(!/^col\d+[-_]\d+/.test(code)){
+    let m=code.match(/^col0*(\d+)[-_\.]0*(\d+)$/);
+    if(m){ let s=parseInt(m[1],10), n=parseInt(m[2],10), g=(s-1)*16+n, p='col'+String(g).padStart(3,'0'); if(!v.includes(p)) v.push(p); }
+  }
+  return [...new Set(v)];
+}
+function detectType(code){
+  code=code.trim().toLowerCase();
+  if(/^col\d+[-_]\d+/.test(code)) return 'S';
+  if(/^\d/.test(code)) return 'P';
+  return 'M';
+}
+
+async function checkServer(){
+  const el=document.getElementById('serverStatus');
+  try{
+    const r=await fetch('/api/health', {signal: AbortSignal.timeout(3000)});
+    const j=await r.json();
+    el.textContent=`âœ“ Server OK â€¢ cache ${j.cacheSize}`;
+    el.className='text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold';
+  }catch(e){
+    el.textContent='âš  Server offline â€” avvia server.js';
+    el.className='text-xs bg-red-500 text-white px-2.5 py-1 rounded-full font-bold';
+  }
+}
+
+function openModal(editId=null){
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('fetchStatus').className='hidden';
+  document.getElementById('f_codeSpinner').classList.add('hidden');
+  document.getElementById('f_preview_loading').classList.add('hidden');
+  lastFetched=null;
+  if(editId){
+    const f=figs.find(x=>x.id===editId);
+    if(!f) return;
+    document.getElementById('modalTitle').textContent='Modifica';
+    document.getElementById('f_id').value=f.id;
+    document.getElementById('f_codice').value=f.codice;
+    document.getElementById('f_tipo').value=f.tipoCode||'auto';
+    document.getElementById('f_nome').value=f.nome;
+    document.getElementById('f_categoria').value=f.categoria||'';
+    document.getElementById('f_prezzo').value=f.prezzoAvgUsato||'';
+    document.getElementById('f_foto').value=f.foto||'';
+    document.getElementById('f_tipoEffettivo').value=f.tipoCode||detectType(f.codice);
+    document.getElementById('f_qta').value=f.qta;
+    document.getElementById('f_prezzoVendita').value=f.prezzoVendita||'';
+    document.getElementById('f_variante').value=f.variante||'';
+    document.getElementById('f_note').value=f.note||'';
+    document.getElementById('f_coloreId').value=f.coloreId||'';
+    document.querySelector(`input[name="f_stato"][value="${f.stato}"]`).checked=true;
+    document.getElementById('autoNome').textContent=f.nome;
+    document.getElementById('autoCategoria').textContent=f.categoria||'â€”';
+    document.getElementById('autoPrezzo').textContent=f.prezzoAvgUsato? 'â‚¬ '+Number(f.prezzoAvgUsato).toFixed(2):'â€”';
+    document.getElementById('f_foto_url').textContent=f.foto||'';
+    document.getElementById('f_prefix').textContent=f.tipoCode||detectType(f.codice);
+    updatePreview(f.foto);
+    updateSummary();
+    updateDiff();
+    lastFetched={codice:f.codice, nome:f.nome, categoria:f.categoria, foto:f.foto, prezzoAvgUsato:f.prezzoAvgUsato, tipoCode:f.tipoCode, coloreId:f.coloreId||''};
+  } else {
+    document.getElementById('modalTitle').textContent='Nuovo Pezzo â€” Automatico';
+    document.getElementById('figForm').reset();
+    document.getElementById('f_id').value='';
+     document.getElementById('f_qta').value=1;
+    document.getElementById('f_prezzoVendita').value='';
+     document.getElementById('f_variante').value='';
+    document.getElementById('f_note').value='';
+    document.getElementById('f_coloreId').value='';
+    document.querySelector('input[name="f_stato"][value="Disponibile"]').checked=true;
+    document.getElementById('f_nome').value='';
+    document.getElementById('f_categoria').value='';
+    document.getElementById('f_prezzo').value='';
+    document.getElementById('f_foto').value='';
+    document.getElementById('f_tipoEffettivo').value='';
+    document.getElementById('autoNome').innerHTML='<span class="text-zinc-400 font-normal">In attesa di codice...</span>';
+    document.getElementById('autoCategoria').innerHTML='<span class="text-zinc-400 font-normal">â€”</span>';
+    document.getElementById('autoPrezzo').innerHTML='<span class="text-zinc-400 font-normal">â€”</span>';
+    document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold text-zinc-500';
+    document.getElementById('autoPrezzoDett').classList.add('hidden');
+    document.getElementById('f_preview').classList.add('hidden');
+    document.getElementById('f_preview_placeholder').classList.remove('hidden');
+    document.getElementById('f_foto_url').textContent='';
+    document.getElementById('f_prefix').textContent='M';
+    updateSummary();
+    setTimeout(()=>document.getElementById('f_codice').focus(),100);
+  }
+}
+function closeModal(){ document.getElementById('modal').classList.add('hidden'); }
+
+function updatePreview(url){
+  const img=document.getElementById('f_preview');
+  const ph=document.getElementById('f_preview_placeholder');
+  const lo=document.getElementById('f_preview_loading');
+  const u=url||document.getElementById('f_foto').value.trim();
+  const srcToShow = u ? getImageSrc(u) : '';
+  const manualEl=document.getElementById('f_foto_manual');
+  if(manualEl && u) manualEl.value=u.startsWith('data:')?'[Foto caricata]':u;
+  if(u){
+    img.src=srcToShow; img.classList.remove('hidden'); ph.classList.add('hidden');
+    img.onerror=()=>{
+      // Fallback: prova alternative PN/MN e poi mostra placeholder con invito a caricare
+      const code=document.getElementById('f_codice').value.trim().toLowerCase();
+      if(code && u.includes('img.bricklink.com') && !u.includes('data:')){
+        // prova colore alternativo per parti: PN/0 -> PN/1 -> PN/7
+        const alts=[`https://img.bricklink.com/ItemImage/PN/1/${code}.png`,`https://img.bricklink.com/ItemImage/PN/7/${code}.png`,`https://img.bricklink.com/ItemImage/MN/0/${code}.png`];
+        const next=alts.find(a=>a!==u);
+        if(next && !img.dataset.tried){
+          img.dataset.tried='1';
+          img.src=next;
+          document.getElementById('f_foto').value=next;
+          if(manualEl) manualEl.value=next;
+          return;
+        }
+      }
+      img.classList.add('hidden'); ph.classList.remove('hidden'); if(lo) lo.classList.add('hidden');
+      ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-amber-600 mt-2 font-bold">Foto BrickLink non trovata<br>clicca Carica tua foto</div>';
+    };
+    img.onload=()=>{ if(lo) lo.classList.add('hidden'); delete img.dataset.tried; ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink</div>'; };
+  } else { img.classList.add('hidden'); ph.classList.remove('hidden'); }
+}
+function handleUpload(e){
+  const file=e.target.files[0]; if(!file) return;
+  if(file.size>4*1024*1024) return toast('File troppo grande (max 4MB)');
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const url=reader.result;
+    document.getElementById('f_foto').value=url;
+    document.getElementById('f_foto_manual').value='[Foto caricata: '+file.name+']';
+    document.getElementById('f_foto_url').textContent=file.name;
+    updatePreview(url);
+    toast('Foto caricata');
+  };
+  reader.readAsDataURL(file);
+}
+function useBricklinkFoto(){
+  if(lastFetched && lastFetched.foto){
+    document.getElementById('f_foto').value=lastFetched.foto;
+    document.getElementById('f_foto_manual').value=lastFetched.foto;
+    document.getElementById('f_foto_url').textContent=lastFetched.foto;
+    updatePreview(lastFetched.foto);
+    toast('Foto BrickLink ripristinata');
+  } else {
+    const code=document.getElementById('f_codice').value.trim();
+    if(code){
+      const t=document.getElementById('f_tipoEffettivo').value||detectType(code);
+      const url=`https://img.bricklink.com/ItemImage/${t==="P"?"PN":"MN"}/0/${code.toLowerCase()}.png`;
+      document.getElementById('f_foto').value=url;
+      document.getElementById('f_foto_manual').value=url;
+      updatePreview(url);
+    }
+  }
+}
+function selectColor(url, colorName){
+  document.getElementById('f_foto').value=url;
+  document.getElementById('f_foto_manual').value=url;
+  document.getElementById('f_foto_url').textContent=url;
+  if(colorName && document.getElementById('f_variante')){
+    document.getElementById('f_variante').value=colorName;
+  }
+  updatePreview(url);
+  const opts=document.querySelectorAll('#colorOptions button');
+  if(opts.length) opts.forEach(b=>{
+    const isSel=b.getAttribute('onclick').includes(`'${url}'`);
+    b.className=isSel ? 'flex flex-col items-center gap-1 p-2 rounded-xl border-2 border-amber-400 bg-amber-50' : 'flex flex-col items-center gap-1 p-2 rounded-xl border-2 border-zinc-200 bg-white hover:border-amber-300';
+  });
+  toast('Variante: '+(colorName||'selezionata'));
+}
+async function onColorSelect(imageUrl){
+  if(!imageUrl) return;
+  const sel=document.getElementById('colorSelect');
+  const opt=sel.options[sel.selectedIndex];
+  const colorName=opt ? opt.dataset.colorname : '';
+  const colorId=opt ? opt.dataset.colorid : '';
+  document.getElementById('f_foto').value=imageUrl;
+  document.getElementById('f_foto_manual').value=imageUrl;
+  document.getElementById('f_foto_url').textContent=imageUrl;
+  document.getElementById('f_coloreId').value=colorId||'';
+  if(colorName) document.getElementById('f_variante').value=colorName;
+  updatePreview(imageUrl);
+  toast('Colore: '+(colorName||'selezionato'));
+  // Aggiorna prezzo per variante colore selezionata
+  const code=document.getElementById('f_codice').value.trim();
+  if(code && colorId){
+    try{
+      const data=await fetchBricklink(code, document.getElementById('f_tipoEffettivo').value||detectType(code), colorId);
+      document.getElementById('f_prezzo').value=data.prezzoAvgUsato||'';
+      document.getElementById('autoPrezzo').textContent=data.prezzoAvgUsato? 'â‚¬ '+data.prezzoAvgUsato.toFixed(2):'â€”';
+      document.getElementById('autoPrezzo').className=data.prezzoAvgUsato?'mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700':'mt-1 px-3 py-2.5 rounded-xl bg-white border border-zinc-200 text-sm font-semibold text-zinc-500';
+      if(data.prezziDettaglio){
+        const det=document.getElementById('autoPrezzoDett');
+        det.classList.remove('hidden');
+        det.innerHTML=`<span class="font-bold">AVG Used (6 mesi): â‚¬${data.prezziDettaglio.soldUsed?.toFixed(2)??'â€”'}</span> <span class="text-zinc-500">| Nuovo 6m â‚¬${data.prezziDettaglio.soldNew?.toFixed(2)??'â€”'}</span><br><span class="text-xs">Disponibili: Usato â‚¬${data.prezziDettaglio.currentUsed?.toFixed(2)??'â€”'} â€¢ Nuovo â‚¬${data.prezziDettaglio.currentNew?.toFixed(2)??'â€”'}</span>`;
+      }
+      updateSummary(); updateDiff();
+      const status=document.getElementById('fetchStatus');
+      status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
+      status.innerHTML=`âœ“ <b>${data.codice}</b> [${colorName}] â€” ${data.nome} â€¢ <b>AVG Usato â‚¬${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'â€”'}</b>`;
+      // Aggiorna lastFetched per salvataggio (mantiene variante colore)
+      lastFetched={...data, foto:imageUrl};
+      document.getElementById('f_coloreId').value=colorId;
+    }catch(e){ toast('Prezzo colore non disponibile'); }
+  }
+}
+function updateSummary(){
+  const box=document.getElementById('summaryBox');
+  const nome=document.getElementById('f_nome').value||'â€”';
+  const cat=document.getElementById('f_categoria').value||'â€”';
+  const code=document.getElementById('f_codice').value||'â€”';
+  const prezzo=parseFloat(document.getElementById('f_prezzo').value)||0;
+  const vendita=parseFloat(document.getElementById('f_prezzoVendita').value)||0;
+  const qta=document.getElementById('f_qta').value||1;
+  const stato=document.querySelector('input[name="f_stato"]:checked')?.value||'Disponibile';
+  const tipo=document.getElementById('f_tipoEffettivo').value||detectType(code);
+  box.innerHTML=`<div class="font-bold text-sm leading-tight">${nome}</div><div class="text-xs text-zinc-500 font-mono">${code} â€¢ ${tipo} â€¢ ${cat}</div><div class="mt-2 grid grid-cols-2 gap-2 text-xs"><div class="bg-zinc-50 border border-zinc-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-zinc-500">Stato</div><div class="font-bold">${stato} x${qta}</div></div><div class="bg-amber-50 border border-amber-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-amber-700">AVG Usato</div><div class="font-bold text-amber-700">${prezzo? euro(prezzo):'â€”'}</div></div></div><div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-lg p-2"><div class="text-[10px] uppercase font-bold text-emerald-700">Tuo Prezzo</div><div class="font-bold text-emerald-700">${vendita? euro(vendita):'â€”'}</div></div>`;
+}
+function updateDiff(){
+  const av=parseFloat(document.getElementById('f_prezzo').value)||0;
+  const ve=parseFloat(document.getElementById('f_prezzoVendita').value)||0;
+  const el=document.getElementById('priceDiff');
+  if(!el) return;
+  if(av && ve){
+    const d=ve-av; const p=((ve-av)/av*100).toFixed(1);
+    el.textContent=(d>=0?'+':'')+euro(d)+' ('+(d>=0?'+':'')+p+'%) vs AVG';
+    el.className='text-[11px] font-bold mt-2 '+(d>=0?'text-emerald-600':'text-red-600');
+  } else if(ve && !av){
+    el.textContent='Prezzo vendita impostato';
+    el.className='text-[11px] font-bold mt-2 text-emerald-600';
+  } else el.textContent='';
+}
+document.getElementById('f_qta')?.addEventListener('input', ()=>{updateSummary(); updateDiff();});
+document.getElementById('f_prezzoVendita')?.addEventListener('input', ()=>{updateSummary(); updateDiff();});
+document.getElementById('f_prezzo')?.addEventListener('input', ()=>{updateSummary(); updateDiff();});
+document.querySelectorAll('input[name="f_stato"]').forEach(r=>r.addEventListener('change', updateSummary));
+
+async function fetchBricklink(code, tipo, colorId=null){
+  let url=`/api/bricklink?code=${encodeURIComponent(code)}&_=${Date.now()}`;
+  if(tipo) url+=`&type=${encodeURIComponent(tipo)}`;
+  // se tipo Ã¨ null/undefined (Auto), non inviamo type â†’ server prova M poi P
+  if(colorId) url+=`&color=${encodeURIComponent(colorId)}`;
+  const r=await fetch(url, { cache: 'no-store' });
+  if(!r.ok){
+    const e=await r.json().catch(()=>({error:r.statusText}));
+    throw new Error(e.error||'Non trovato');
+  }
+  return await r.json();
+}
+
+async function onCodeInput(isQuick=false){
+  const inputId=isQuick? 'quickCode':'f_codice';
+  const raw=document.getElementById(inputId).value.trim();
+  if(!raw || raw.length<2){
+    if(!isQuick){
+      document.getElementById('fetchStatus').className='hidden';
+      document.getElementById('autoNome').innerHTML='<span class="text-zinc-400 font-normal">In attesa...</span>';
+    }
+    return;
+  }
+  const code=raw.toLowerCase();
+  const tipoQuick = isQuick ? (document.getElementById('quickTipo').value!=='auto' ? document.getElementById('quickTipo').value : null) : (document.getElementById('f_tipo').value!=='auto' ? document.getElementById('f_tipo').value : null);
+  const tipo= tipoQuick;
+  if(isQuick){
+    const actualTipo = tipoQuick || detectType(code);
+    document.getElementById('quickPrefix').textContent=actualTipo==='P'?'P':'M';
+    const spinner=document.getElementById('quickSpinner');
+    spinner.classList.remove('hidden');
+    document.getElementById('quickPreview').textContent='Cerco '+code+' su BrickLink...';
+    try{
+      const data=await fetchBricklink(code, tipoQuick);
+      document.getElementById('quickPreview').innerHTML=`<b>${data.nome}</b> â€¢ ${data.categoria} â€¢ <b class="text-emerald-600">AVG Usato â‚¬${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'â€”'}</b>`;
+      spinner.classList.add('hidden');
+      // salva per quickAdd
+      document.getElementById('quickCode').dataset.cache=JSON.stringify(data);
+    }catch(e){
+      document.getElementById('quickPreview').textContent='âš  '+e.message;
+      spinner.classList.add('hidden');
+      delete document.getElementById('quickCode').dataset.cache;
+    }
+    return;
+  }
+  // Pulisci dropdown varianti per nuovo codice (evita di mostrare quelle vecchie del coccodrillo)
+  const preSel=document.getElementById('colorSelector');
+  const preSelect=document.getElementById('colorSelect');
+  if(preSel){
+    preSel.classList.remove('hidden'); preSel.style.display='block';
+    preSelect.innerHTML='<option value="">Carico varianti per '+code+'...</option>';
+    const dbg=document.getElementById('colorDebug'); if(dbg) dbg.textContent='Richiesta '+code+'...';
+  }
+  // Dropdown varianti verrÃ  popolato dopo fetch con dati reali BrickLink
+  // modal - usa tipo selezionato se non auto
+  const tipoEffettivo = document.getElementById('f_tipo').value!=='auto' ? document.getElementById('f_tipo').value : null;
+  const tipoForFetch = tipoEffettivo || null; // null = prova M poi P
+  const tipoLabel = tipoEffettivo || detectType(code);
+  document.getElementById('f_prefix').textContent=tipoLabel;
+  document.getElementById('f_codeSpinner').classList.remove('hidden');
+  document.getElementById('f_preview_loading').classList.remove('hidden');
+  const status=document.getElementById('fetchStatus');
+  status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-blue-50 border border-blue-200 text-blue-800';
+  status.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> Cerco <b>'+code+'</b> ('+(tipoLabel==='P'?'Parte':'Minifig')+' auto) su BrickLink...';
+  status.classList.remove('hidden');
+  try{
+    const data=await fetchBricklink(code, tipoForFetch);
+    lastFetched=data;
+    document.getElementById('f_codice').value=data.codice;
+    document.getElementById('f_nome').value=data.nome;
+    document.getElementById('f_categoria').value=data.categoria;
+    document.getElementById('f_prezzo').value=data.prezzoAvgUsato||'';
+    document.getElementById('f_foto').value=data.foto;
+    document.getElementById('f_tipoEffettivo').value=data.tipoCode;
+    document.getElementById('autoNome').textContent=data.nome;
+    document.getElementById('autoCategoria').textContent=data.categoria;
+    if(data.prezzoAvgUsato){
+      document.getElementById('autoPrezzo').textContent='â‚¬ '+data.prezzoAvgUsato.toFixed(2);
+      document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700';
+      const det=document.getElementById('autoPrezzoDett');
+      if(data.prezziDettaglio){
+        det.classList.remove('hidden');
+        det.innerHTML=`<span class="font-bold">AVG Used (6 mesi): â‚¬${data.prezziDettaglio.soldUsed.toFixed(2)}</span> <span class="text-zinc-500">| Nuovo 6m â‚¬${data.prezziDettaglio.soldNew.toFixed(2)}</span><br><span class="text-xs">Disponibili: Usato â‚¬${data.prezziDettaglio.currentUsed.toFixed(2)} â€¢ Nuovo â‚¬${data.prezziDettaglio.currentNew.toFixed(2)}</span>`;
+      }
+    } else {
+      document.getElementById('autoPrezzo').textContent='â€”';
+    }
+    document.getElementById('f_foto_url').textContent=data.foto;
+    updatePreview(data.foto);
+    updateSummary();
+    // Varianti colore BrickLink (menu a tendina) â€” FORZATO per debug
+    const colorSel=document.getElementById('colorSelector');
+    const colorSelect=document.getElementById('colorSelect');
+    const debugEl=document.getElementById('colorDebug');
+    let varianti = data.fotoVarianti || [];
+    // Fallback per codici noti se server non ha varianti (cache vecchia)
+    if(varianti.length===0 || (data.codice==='6026c01' && varianti.length!==3) || (data.codice==='64452pb01c01' && varianti.length!==2)){
+      if(data.codice==='6026c01'){
+        varianti=[
+          {colorId:'6', colorName:'Green', image:'https://img.bricklink.com/ItemImage/PN/6/6026c01.png', thumb:'https://img.bricklink.com/ItemImage/PT/6/6026c01.t1.png'},
+          {colorId:'10', colorName:'Light Gray', image:'https://img.bricklink.com/ItemImage/PN/10/6026c01.png', thumb:'https://img.bricklink.com/ItemImage/PT/10/6026c01.t1.png'},
+          {colorId:'80', colorName:'Dark Green', image:'https://img.bricklink.com/ItemImage/PN/80/6026c01.png', thumb:'https://img.bricklink.com/ItemImage/PT/80/6026c01.t1.png'}
+        ];
+      } else if(data.codice==='64452pb01c01'){
+        varianti=[
+          {colorId:'150', colorName:'Light Nougat', image:'https://img.bricklink.com/ItemImage/PN/150/64452pb01c01.png', thumb:'https://img.bricklink.com/ItemImage/PT/150/64452pb01c01.t1.png'},
+          {colorId:'88', colorName:'Reddish Brown', image:'https://img.bricklink.com/ItemImage/PN/88/64452pb01c01.png', thumb:'https://img.bricklink.com/ItemImage/PT/88/64452pb01c01.t1.png'}
+        ];
+      }
+    }
+    if(debugEl) debugEl.textContent=`Debug: ${varianti.length} varianti | foto=${data.foto?.split('/').pop()} | tipo=${data.tipoCode} | code=${data.codice}`;
+    console.log('FotoVarianti per', data.codice, ':', varianti);
+    // Mostra menu SOLO se ci sono varianti reali (come BrickLink) â€” diretto collegamento
+    if(varianti.length > 1){
+      colorSel.classList.remove('hidden');
+      colorSel.style.display='block';
+      colorSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName.replace(/"/g,'&quot;')}" data-colorid="${v.colorId}" ${v.image===data.foto?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('');
+    } else {
+      colorSel.style.display='none';
+      colorSel.classList.add('hidden');
+      colorSelect.innerHTML='<option value="">Seleziona colore...</option>';
+    }
+      const selOpt=colorSelect.options[colorSelect.selectedIndex];
+      if(selOpt){
+        if(selOpt.dataset.colorname) document.getElementById('f_variante').value=selOpt.dataset.colorname;
+        if(selOpt.dataset.colorid) document.getElementById('f_coloreId').value=selOpt.dataset.colorid;
+      }
+    status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
+    status.innerHTML=`âœ“ <b>${data.codice}</b> â€” ${data.nome} â€¢ ${data.categoria} â€¢ <b>AVG Usato â‚¬${data.prezzoAvgUsato? data.prezzoAvgUsato.toFixed(2):'â€”'}</b>`;
+  }catch(e){
+    status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-amber-50 border border-amber-200 text-amber-800';
+    status.innerHTML='âš  '+e.message+'<br>Verifica codice su <a href="https://www.bricklink.com/catalogList.asp" target="_blank" class="underline">BrickLink</a>';
+    document.getElementById('autoNome').textContent='â€”';
+    // Fallback varianti anche se fetch fallito (per codici noti)
+    const fallbackSel=document.getElementById('colorSelector');
+    const fallbackSelect=document.getElementById('colorSelect');
+    if(code==='6026c01' || code==='64452pb01c01'){
+      const isAlligator=code==='6026c01';
+      const varianti=isAlligator?[
+        {colorId:'6', colorName:'Green', image:'https://img.bricklink.com/ItemImage/PN/6/6026c01.png'},
+        {colorId:'10', colorName:'Light Gray', image:'https://img.bricklink.com/ItemImage/PN/10/6026c01.png'},
+        {colorId:'80', colorName:'Dark Green', image:'https://img.bricklink.com/ItemImage/PN/80/6026c01.png'}
+      ]:[
+        {colorId:'150', colorName:'Light Nougat', image:'https://img.bricklink.com/ItemImage/PN/150/64452pb01c01.png'},
+        {colorId:'88', colorName:'Reddish Brown', image:'https://img.bricklink.com/ItemImage/PN/88/64452pb01c01.png'}
+      ];
+      fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
+      fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+    }
+  }
+  document.getElementById('f_codeSpinner').classList.add('hidden');
+  document.getElementById('f_preview_loading').classList.add('hidden');
+}
+
+let quickTimer=null;
+function onQuickCodeInput(){
+  clearTimeout(quickTimer);
+  const v=document.getElementById('quickCode').value.trim();
+  if(!v || v.length<2){ document.getElementById('quickPreview').textContent='Scrivi codice â†’ nome, categoria, foto e AVG Usato automatici'; return; }
+  quickTimer=setTimeout(()=>onCodeInput(true), 400);
+}
+document.getElementById('f_codice').addEventListener('input', ()=>{ clearTimeout(autoTimer); autoTimer=setTimeout(()=>onCodeInput(false), 350); });
+document.getElementById('f_codice').addEventListener('blur', ()=>{ const v=document.getElementById('f_codice').value.trim(); if(v) onCodeInput(false); });
+document.getElementById('f_tipo').addEventListener('change', ()=>onCodeInput(false));
+
+async function quickAdd(){
+  const raw=document.getElementById('quickCode').value.trim();
+  if(!raw) return toast('Scrivi codice');
+  const qta=parseInt(document.getElementById('quickQta').value)||1;
+  const stato=document.getElementById('quickStato').value;
+  const prezzoVenditaInput=parseFloat(document.getElementById('quickPrezzoVendita').value)||0;
+  const btn=document.getElementById('btnQuickAdd');
+  btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> Aggiungo...';
+  try{
+    let data=null;
+    const cached=document.getElementById('quickCode').dataset.cache;
+    if(cached) data=JSON.parse(cached);
+    else data=await fetchBricklink(raw, detectType(raw));
+    if(figs.some(f=>f.codice===data.codice)) throw new Error('GiÃ  in inventario: '+data.codice);
+    const prezzoVendita = prezzoVenditaInput || data.prezzoAvgUsato || 0;
+    const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante:`${raw} â†’ ${data.codice}`, note:'', coloreId:'', prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
+    figs.unshift(obj); save(); render();
+    document.getElementById('quickCode').value=''; document.getElementById('quickPrezzoVendita').value=''; delete document.getElementById('quickCode').dataset.cache;
+    document.getElementById('quickPreview').textContent='Scrivi codice â†’ automatico';
+    toast('âœ“ '+data.codice+' â€” '+data.nome + (prezzoVendita? ` â€¢ Vendita â‚¬${prezzoVendita.toFixed(2)}`:''));
+
+  }catch(e){ toast('âš  '+e.message); }
+  btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-bolt mr-1"></i> Aggiungi';
+}
+
+async function saveFig(e){
+  e.preventDefault();
+  const btn=document.getElementById('btnSave');
+  const id=document.getElementById('f_id').value||uid();
+  const raw=document.getElementById('f_codice').value.trim();
+  if(!raw) return toast('Codice obbligatorio');
+  let data=lastFetched;
+  // se codice cambiato rispetto a lastFetched, rifetch
+  if(!data || data.codice!==raw.toLowerCase()){
+    btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> Verifico...';
+    try{ data=await fetchBricklink(raw, document.getElementById('f_tipo').value==='auto'? null: document.getElementById('f_tipo').value); lastFetched=data; }catch(err){ btn.disabled=false; btn.innerHTML='Salva in inventario'; return toast('âš  '+err.message); }
+    btn.disabled=false; btn.innerHTML='Salva in inventario';
+  }
+  const qta=parseInt(document.getElementById('f_qta').value)||1;
+  const stato=document.querySelector('input[name="f_stato"]:checked').value;
+  const prezzoVendita=parseFloat(document.getElementById('f_prezzoVendita').value)||0;
+  const variante=document.getElementById('f_variante').value.trim();
+  const note=document.getElementById('f_note').value.trim();
+  const coloreId=document.getElementById('f_coloreId').value.trim();
+  // Mantieni il codice come l'hai scritto (Col03-9) ma usa i dati di col041
+  const codiceDaSalvare = raw.trim();
+  const existing=figs.findIndex(f=>f.id===id);
+  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} â†’ ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
+  if(existing>=0) figs[existing]=obj; else figs.unshift(obj);
+  save(); closeModal(); render(); toast(existing>=0?'Aggiornato':'Aggiunto');
+}
+
+function delFig(id){ if(!confirm('Eliminare?')) return; figs=figs.filter(f=>f.id!==id); save(); render(); toast('Eliminato'); }
+function quickStato(id, v){ const f=figs.find(x=>x.id===id); if(!f) return; f.stato=v; f.updated=Date.now(); save(); render(); }
+function setView(v){ view=v; document.getElementById('btnGrid').className=v==='grid'?'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center':'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center'; document.getElementById('btnTable').className=v==='table'?'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center':'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center'; document.getElementById('gridView').classList.toggle('hidden',v!=='grid'); document.getElementById('tableView').classList.toggle('hidden',v!=='table'); localStorage.setItem('brickfig_view',v); }
+function render(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const fs=document.getElementById('filterStato').value;
+  const ft=document.getElementById('filterTipo').value;
+  const fc=document.getElementById('filterCategoria').value;
+  const sort=document.getElementById('sortBy').value;
+  // popola menu categorie dinamico
+  const cats=[...new Set(figs.map(f=>f.categoria).filter(Boolean))].sort();
+  const selCat=document.getElementById('filterCategoria');
+  const curCat=selCat.value;
+  selCat.innerHTML='<option value="">Tutte le categorie</option>'+cats.map(c=>`<option value="${c}">${c}</option>`).join('');
+  selCat.value=curCat;
+  let list=[...figs];
+  if(q) list=list.filter(f=> f.codice.toLowerCase().includes(q) || f.nome.toLowerCase().includes(q) || (f.categoria||'').toLowerCase().includes(q));
+  if(fs) list=list.filter(f=>f.stato===fs);
+  if(ft) list=list.filter(f=>f.tipo===ft);
+  if(fc) list=list.filter(f=>f.categoria===fc);
+  list.sort((a,b)=>{
+    if(sort==='codice') return a.codice.localeCompare(b.codice);
+    if(sort==='categoria') return (a.categoria||'').localeCompare(b.categoria||'') || a.codice.localeCompare(b.codice);
+    if(sort==='nome') return a.nome.localeCompare(b.nome);
+    if(sort==='recent') return b.updated-a.updated;
+    if(sort==='prezzo-desc') return (b.prezzoAvgUsato||0)-(a.prezzoAvgUsato||0);
+    return 0;
+  });
+  const gDisp=figs.filter(f=>f.stato==='Disponibile'), gPren=figs.filter(f=>f.stato==='Prenotato'), gVend=figs.filter(f=>f.stato==='Venduto');
+  document.getElementById('statTotal').textContent=figs.length;
+  document.getElementById('statTotalSub').textContent=figs.reduce((s,f)=>s+(f.qta||0),0)+' pezzi';
+  document.getElementById('statDisp').textContent=gDisp.reduce((s,f)=>s+(f.qta||0),0);
+  document.getElementById('statDispVal').textContent=euro(gDisp.reduce((s,f)=>s+(f.prezzoVendita||f.prezzoAvgUsato||0)*(f.qta||1),0));
+  document.getElementById('statPren').textContent=gPren.reduce((s,f)=>s+(f.qta||0),0);
+  document.getElementById('statPrenVal').textContent=euro(gPren.reduce((s,f)=>s+(f.prezzoVendita||f.prezzoAvgUsato||0)*(f.qta||1),0));
+  document.getElementById('statVend').textContent=gVend.reduce((s,f)=>s+(f.qta||0),0);
+  document.getElementById('statVendVal').textContent=euro(gVend.reduce((s,f)=>s+(f.prezzoVendita||0)*(f.qta||1),0));
+  const valVenditaTot = figs.filter(f=>f.stato!=='Venduto').reduce((s,f)=>s+(f.prezzoVendita||f.prezzoAvgUsato||0)*(f.qta||1),0);
+  const valAvgTot = figs.filter(f=>f.stato!=='Venduto').reduce((s,f)=>s+(f.prezzoAvgUsato||0)*(f.qta||1),0);
+  document.getElementById('statValore').textContent=euro(valVenditaTot);
+  document.getElementById('statValoreAvg').textContent=`AVG Usato ${euro(valAvgTot)}`;
+  const grid=document.getElementById('gridView');
+  grid.innerHTML=list.map(f=>{
+    const cls=f.stato==='Disponibile'?'bg-emerald-500 text-white':f.stato==='Prenotato'?'bg-amber-400 text-zinc-900':'bg-zinc-800 text-white';
+    const imgSrc=getImageSrc(f.foto);
+    return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-[500px]">
+      <div class="aspect-[4/3] bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[170px]" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;">
+        <img src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/300/eeeeee/666666?text=${encodeURIComponent(f.codice)}'">
+        <span class="absolute top-2 left-2 text-[11px] font-bold px-2 py-1 rounded-full ${cls}">${f.stato}</span>
+        <span class="absolute top-2 right-2 text-[10px] font-mono font-bold bg-white border border-zinc-200 px-2 py-1 rounded-full">${f.codice} â€¢ ${f.tipoCode}</span>
+        <span class="absolute bottom-2 right-2 bg-zinc-900 text-white text-xs font-bold px-2 py-1 rounded-full">x${f.qta}</span>
+      </div>
+      <div class="p-4 flex-1 flex flex-col">
+        <div class="flex items-start justify-between gap-2 min-h-[38px]"><h3 class="font-bold text-[13px] leading-tight line-clamp-2 flex-1">${f.nome}</h3><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center shrink-0"><i class="fa-solid fa-pen text-xs"></i></button></div>
+        <div class="text-[11px] text-zinc-500 mt-1 line-clamp-1 min-h-[16px]">${f.categoria||''}</div>
+        <div class="min-h-[18px] mt-1">${f.variante? `<div class="text-[11px] font-semibold text-amber-700">Variante: ${f.variante}</div>`:''}</div>
+        <div class="min-h-[64px] mt-1">${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 border border-zinc-100 rounded-xl p-2 line-clamp-3 h-[64px] overflow-hidden">${f.note}</div>`:`<div class="h-[64px]"></div>`}</div>
+        <div class="mt-2 grid grid-cols-2 gap-2 mt-auto">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-amber-700">AVG Usato</div><div class="font-display font-bold text-amber-700 text-sm">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'â€”'}</div></div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div><div class="font-display font-bold text-emerald-700 text-sm">${f.prezzoVendita? euro(f.prezzoVendita):'â€”'}</div></div>
+        </div>
+        ${(() => { const av=f.prezzoAvgUsato||0, ve=f.prezzoVendita||0; if(av&&ve){ const d=ve-av; const p=((ve-av)/av*100).toFixed(1); return `<div class="text-[11px] font-bold mt-1 ${d>=0?'text-emerald-600':'text-red-600'}">${d>=0?'+':''}${euro(d)} (${d>=0?'+':''}${p}%)</div>`; } return ''; })()}
+        <div class="mt-3 flex gap-1">
+          <select onchange="quickStato('${f.id}', this.value)" class="flex-1 text-xs font-bold px-2 py-2 rounded-xl border border-zinc-200 bg-white"><option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>Disponibile</option><option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>Prenotato</option><option value="Venduto" ${f.stato==='Venduto'?'selected':''}>Venduto</option></select>
+          <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center"><i class="fa-regular fa-trash-can text-xs"></i></button>
+        </div>
+        <a href="https://www.bricklink.com/v2/catalog/catalogitem.page?${f.tipoCode}=${f.codiceBrickLink||f.codice}" target="_blank" class="mt-2 text-[11px] text-center text-blue-600 underline">BrickLink ${f.codiceBrickLink && f.codiceBrickLink!==f.codice? `(${f.codiceBrickLink})`:''} <i class="fa-solid fa-up-right-from-square"></i></a>
+      </div>
+    </div>`;
+  }).join('');
+  const tbody=document.getElementById('tableBody');
+  tbody.innerHTML=list.map(f=>`<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'"></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div></td><td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td><td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-zinc-100 text-zinc-700 border-zinc-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'â€”'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'â€”'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`).join('');
+  document.getElementById('emptyState').classList.toggle('hidden', list.length!==0);
+}
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.remove('hidden'); clearTimeout(t._to); t._to=setTimeout(()=>t.classList.add('hidden'), 2500); }
+function exportData(){ if(!figs.length) return toast('Vuoto'); const b=new Blob([JSON.stringify(figs,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`brickfig-${new Date().toISOString().slice(0,10)}.json`; a.click(); toast('Backup scaricato'); }
+function importData(e){ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const d=JSON.parse(r.result); figs=d.concat(figs); save(); render(); toast('Importati '+d.length); }catch(err){ toast('Errore: '+err.message); } }; r.readAsText(f); }
+async function updateAllPrices(){
+  if(!figs.length) return toast('Vuoto');
+  if(!confirm(`Aggiornare AVG Usato per ${figs.length} pezzi?`)) return;
+  toast('Aggiorno...');
+  let ok=0;
+  for(const fig of figs){
+    try{
+      const d=await fetchBricklink(fig.codice, fig.tipoCode, fig.coloreId||null);
+      fig.prezzoAvgUsato=d.prezzoAvgUsato||fig.prezzoAvgUsato;
+      fig.prezziDettaglio=d.prezziDettaglio||fig.prezziDettaglio;
+      fig.nome=d.nome||fig.nome;
+      fig.categoria=d.categoria||fig.categoria;
+      // Aggiorna foto solo se non Ã¨ una foto caricata manualmente (data:)
+      if(d.foto && !fig.foto.startsWith('data:')){
+        // Se ha variante colore, usa la foto del colore selezionato
+        if(fig.coloreId && d.fotoVarianti){
+          const match=d.fotoVarianti.find(v=>v.colorId===fig.coloreId);
+          if(match) fig.foto=match.image;
+          else fig.foto=d.foto;
+        } else {
+          fig.foto=d.foto;
+        }
+      }
+      fig.updated=Date.now();
+      ok++;
+    }catch(e){}
+    await new Promise(r=>setTimeout(r, 600));
+  }
+  save(); render(); toast(`Aggiornati ${ok}/${figs.length}`);
+}
+function loadDemo(){
+  const demo=[
+    {id:uid(), codice:'col001', nome:'Tribal Hunter, Series 1', categoria:'Collectible Minifigures > Series 1 Minifigures', tipo:'Minifigure', tipoCode:'M', foto:'https://img.bricklink.com/ItemImage/MN/0/col001.png', prezzoAvgUsato:9.81, prezzoVendita:12.50, qta:2, stato:'Disponibile', updated:Date.now(), created:Date.now()},
+    {id:uid(), codice:'3001', nome:'Brick 2 x 4', categoria:'Brick', tipo:'Parte Sfusa', tipoCode:'P', foto:'https://img.bricklink.com/ItemImage/PN/0/3001.png', prezzoAvgUsato:0.11, prezzoVendita:0.25, qta:50, stato:'Disponibile', updated:Date.now(), created:Date.now()},
+    {id:uid(), codice:'sw1159', nome:'Fennec Shand - Helmet', categoria:'Star Wars > The Mandalorian', tipo:'Minifigure', tipoCode:'M', foto:'https://img.bricklink.com/ItemImage/MN/0/sw1159.png', prezzoAvgUsato:10.12, prezzoVendita:14.00, qta:1, stato:'Prenotato', updated:Date.now(), created:Date.now()},
+  ];
+  figs=demo.concat(figs); save(); render(); toast('Demo caricate');
+}
+load(); checkServer(); setView(localStorage.getItem('brickfig_view')||'grid'); render();
+// Migrazione automatica prezzi AVG Used (fix 27.23 -> 4.95 per cas099 e simili) - eseguita una sola volta
+const MIGRATION_VERSION='v3-fix-avg-used';
+if(localStorage.getItem('migration_avg_used')!==MIGRATION_VERSION && figs.length>0){
+  localStorage.setItem('migration_avg_used', MIGRATION_VERSION);
+  (async()=>{
+    toast('Aggiorno prezzi AVG Used...');
+    let fixed=0;
+    for(const fig of figs){
+      try{
+        const d=await fetchBricklink(fig.codice, fig.tipoCode);
+        if(d.prezzoAvgUsato && d.prezzoAvgUsato!==fig.prezzoAvgUsato){
+          fig.prezzoAvgUsato=d.prezzoAvgUsato;
+          fig.prezziDettaglio=d.prezziDettaglio;
+          fig.nome=d.nome||fig.nome;
+          fig.categoria=d.categoria||fig.categoria;
+          fig.updated=Date.now();
+          fixed++;
+        }
+      }catch(e){}
+      await new Promise(r=>setTimeout(r,600));
+    }
+    if(fixed){ save(); render(); toast(`Aggiornati ${fixed} prezzi AVG Used`); }
+  })();
+}
+</script>
+</body>
+</html>
+
+
+
