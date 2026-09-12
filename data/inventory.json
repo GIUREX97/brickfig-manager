@@ -1618,25 +1618,18 @@
     "codiceBrickLink": "hol368",
     "nome": "Santa - Fur Lined Jacket with 2 Dark Red Creases on Back, Red Legs with Black Boots, Santa Hat with Printed Red Top",
     "categoria": "Holiday & Event > Christmas",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/hol368.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.97,
-    "prezzoVendita": 2.97,
+    "prezzoVendita": 2.89,
     "variante": "Hol368 ? hol368",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.36,
-      "soldUsed": 2.97,
-      "currentNew": 4.91,
-      "currentUsed": 3.44,
-      "listinoUsato": 2.97
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789251959348,
+    "updated": 1789252296341,
     "created": 1789251959348
   },
   {
