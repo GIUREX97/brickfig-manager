@@ -5,24 +5,17 @@
     "codiceBrickLink": "col103",
     "nome": "Daredevil, Series 7 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 7 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col103.png",
     "prezzoAvgUsato": 3.25,
-    "prezzoVendita": 3.25,
+    "prezzoVendita": 3.19,
     "variante": "Col103 → col103",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 5.38,
-      "soldUsed": 3.25,
-      "currentNew": 9.04,
-      "currentUsed": 4.08,
-      "listinoUsato": 3.25
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207092022,
+    "updated": 1789207097493,
     "created": 1789207092022
   },
   {
