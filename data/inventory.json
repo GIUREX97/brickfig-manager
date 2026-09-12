@@ -1,5 +1,31 @@
 [
   {
+    "id": "2nvbbme",
+    "codice": "gs012",
+    "codiceBrickLink": "gs012",
+    "nome": "Ashlee Starstrider",
+    "categoria": "Space > Galaxy Squad",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/gs012.png",
+    "prezzoAvgUsato": 4.47,
+    "prezzoVendita": 4.47,
+    "variante": "Gs012 → gs012",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 5.63,
+      "soldUsed": 4.47,
+      "currentNew": 11.08,
+      "currentUsed": 5.33,
+      "listinoUsato": 4.47
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209179105,
+    "created": 1789209179105
+  },
+  {
     "id": "frqqw7r",
     "codice": "gen004",
     "codiceBrickLink": "gen004",
