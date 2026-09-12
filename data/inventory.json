@@ -889,25 +889,18 @@
     "codiceBrickLink": "njo0051",
     "nome": "Lasha - Red Vials",
     "categoria": "NINJAGO > Rise of the Snakes",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0051.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 2.36,
-    "prezzoVendita": 2.36,
+    "prezzoVendita": 2.29,
     "variante": "Njo0051 ? njo0051",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.65,
-      "soldUsed": 2.36,
-      "currentNew": 5.18,
-      "currentUsed": 3.28,
-      "listinoUsato": 2.36
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252103923,
+    "updated": 1789252506437,
     "created": 1789252103923
   },
   {
