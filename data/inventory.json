@@ -545,25 +545,18 @@
     "codiceBrickLink": "njo0250",
     "nome": "Cole - Knee Pads, Armor, Hair",
     "categoria": "NINJAGO",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0250.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 3.41,
-    "prezzoVendita": 3.41,
+    "prezzoVendita": 2.99,
     "variante": "Njo0250 ? njo0250",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4.57,
-      "soldUsed": 3.41,
-      "currentNew": 18.19,
-      "currentUsed": 4.29,
-      "listinoUsato": 3.41
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252159356,
+    "updated": 1789252609648,
     "created": 1789252159356
   },
   {
