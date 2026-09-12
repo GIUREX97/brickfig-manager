@@ -5,24 +5,17 @@
     "codiceBrickLink": "hp087",
     "nome": "Harry Potter - Dark Blue Open Jacket with Stripe, Black Legs",
     "categoria": "Harry Potter > Half-Blood Prince",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/hp087.png",
     "prezzoAvgUsato": 1.57,
-    "prezzoVendita": 1.57,
+    "prezzoVendita": 1.59,
     "variante": "Hp087 → hp087",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.63,
-      "soldUsed": 1.57,
-      "currentNew": 5.67,
-      "currentUsed": 2.19,
-      "listinoUsato": 1.57
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208167656,
+    "updated": 1789208246853,
     "created": 1789208167656
   },
   {
