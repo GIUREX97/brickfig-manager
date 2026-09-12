@@ -1,5 +1,31 @@
 [
   {
+    "id": "6mxy82x",
+    "codice": "hol082",
+    "codiceBrickLink": "hol082",
+    "nome": "Santa - Fur Lined Jacket with Copper Belt Buckle, Red Legs, White Eyebrows",
+    "categoria": "Holiday & Event > Christmas",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hol082.png",
+    "prezzoAvgUsato": 2.86,
+    "prezzoVendita": 2.86,
+    "variante": "Hol082 → hol082",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 6.12,
+      "soldUsed": 2.86,
+      "currentNew": 8.07,
+      "currentUsed": 3.32,
+      "listinoUsato": 2.86
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789209188112,
+    "created": 1789209188112
+  },
+  {
     "id": "2nvbbme",
     "codice": "gs012",
     "codiceBrickLink": "gs012",
