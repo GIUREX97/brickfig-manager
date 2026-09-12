@@ -1,5 +1,32 @@
 [
   {
+    "id": "k105svt",
+    "codice": "njo0700",
+    "codiceBrickLink": "njo0700",
+    "nome": "Cole - Seabound, Scuba Gear",
+    "categoria": "NINJAGO > Seabound",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0700.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 2.69,
+    "prezzoVendita": 2.79,
+    "variante": "Njo0700 ? njo0700",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 4.12,
+      "soldUsed": 2.69,
+      "currentNew": 4.93,
+      "currentUsed": 2.99,
+      "listinoUsato": 2.69
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252813744,
+    "created": 1789252813744
+  },
+  {
     "id": "uh8lngk",
     "codice": "njo0696",
     "codiceBrickLink": "njo0696",
