@@ -572,25 +572,18 @@
     "codiceBrickLink": "njo0212",
     "nome": "Nya (Deepstone Armor) - Skybound",
     "categoria": "NINJAGO > Skybound",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0212.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 4.02,
-    "prezzoVendita": 4.02,
+    "prezzoVendita": 3.39,
     "variante": "Njo0212 ? njo0212",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 7.51,
-      "soldUsed": 4.02,
-      "currentNew": 16.7,
-      "currentUsed": 6.47,
-      "listinoUsato": 4.02
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252154625,
+    "updated": 1789252600320,
     "created": 1789252154625
   },
   {
