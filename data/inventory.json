@@ -805,28 +805,21 @@
   {
     "id": "mr8qwog",
     "codice": "njo0120 #2",
-    "codiceBrickLink": "njo0120#2",
+    "codiceBrickLink": "njo0120 #2",
     "nome": "Krait",
     "categoria": "NINJAGO > Tournament of Elements",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0120.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 1.74,
-    "prezzoVendita": 1.74,
+    "prezzoVendita": 1.69,
     "variante": "Njo0120 #2 ? njo0120#2",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4,
-      "soldUsed": 1.74,
-      "currentNew": 6.38,
-      "currentUsed": 2.3,
-      "listinoUsato": 1.74
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252112981,
+    "updated": 1789252555069,
     "created": 1789252112981
   },
   {
