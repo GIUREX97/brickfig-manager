@@ -518,25 +518,18 @@
     "codiceBrickLink": "njo0255",
     "nome": "Ghost Student",
     "categoria": "NINJAGO > Day of the Departed",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0255.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 11.39,
-    "prezzoVendita": 11.39,
+    "prezzoVendita": 8.69,
     "variante": "Njo0255 ? njo0255",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 14.82,
-      "soldUsed": 11.39,
-      "currentNew": 24.66,
-      "currentUsed": 22.07,
-      "listinoUsato": 11.39
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252161905,
+    "updated": 1789252614821,
     "created": 1789252161905
   },
   {
