@@ -2,27 +2,20 @@
   {
     "id": "d2i1jkd",
     "codice": "col008 #2",
-    "codiceBrickLink": "col008#2",
+    "codiceBrickLink": "col008 #2",
     "nome": "Demolition Dummy, Series 1 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 1 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col008.png",
     "prezzoAvgUsato": 5.41,
-    "prezzoVendita": 5.41,
+    "prezzoVendita": 5.39,
     "variante": "Col008 #2 → col008#2",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 12.56,
-      "soldUsed": 5.41,
-      "currentNew": 17.31,
-      "currentUsed": 6.51,
-      "listinoUsato": 5.41
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789205291815,
+    "updated": 1789205309643,
     "created": 1789205291815
   },
   {
