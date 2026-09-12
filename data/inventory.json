@@ -1,5 +1,31 @@
 [
   {
+    "id": "dmw1pza",
+    "codice": "col047",
+    "codiceBrickLink": "col047",
+    "nome": "Baseball Player, Series 3 (Minifigure Only without Stand and Accessories)",
+    "categoria": "Collectible Minifigures > Series 3 Minifigures",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/col047.png",
+    "prezzoAvgUsato": 3.83,
+    "prezzoVendita": 3.83,
+    "variante": "Col047 → col047",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 10.44,
+      "soldUsed": 3.83,
+      "currentNew": 13.33,
+      "currentUsed": 4.4,
+      "listinoUsato": 3.83
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789207011164,
+    "created": 1789207011164
+  },
+  {
     "id": "6d7jq0a",
     "codice": "col041",
     "codiceBrickLink": "col041",
