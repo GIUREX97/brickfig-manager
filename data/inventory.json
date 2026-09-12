@@ -221,25 +221,18 @@
     "codiceBrickLink": "njo0453",
     "nome": "Zane (Dragon Masters) - Hunted",
     "categoria": "NINJAGO > Hunted > Dragon Masters",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0453.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 6.07,
-    "prezzoVendita": 6.07,
+    "prezzoVendita": 5.99,
     "variante": "Njo0453 ? njo0453",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 10.42,
-      "soldUsed": 6.07,
-      "currentNew": 17.23,
-      "currentUsed": 7.87,
-      "listinoUsato": 6.07
-    },
+    "prezziDettaglio": null,
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789252201585,
+    "updated": 1789252676620,
     "created": 1789252201585
   },
   {
