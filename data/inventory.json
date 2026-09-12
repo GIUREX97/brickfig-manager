@@ -5,24 +5,17 @@
     "codiceBrickLink": "col446",
     "nome": "Alien Beetlezoid, Series 26 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 26 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col446.png",
     "prezzoAvgUsato": 3.39,
-    "prezzoVendita": 3.39,
+    "prezzoVendita": 3.29,
     "variante": "Col446 → col446",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 4.44,
-      "soldUsed": 3.39,
-      "currentNew": 5.03,
-      "currentUsed": 3.78,
-      "listinoUsato": 3.39
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789207183357,
+    "updated": 1789207188831,
     "created": 1789207183357
   },
   {
