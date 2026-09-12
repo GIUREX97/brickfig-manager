@@ -2,27 +2,20 @@
   {
     "id": "hu24hfw",
     "codice": "sim007 #2",
-    "codiceBrickLink": "sim007#2",
+    "codiceBrickLink": "sim007 #2",
     "nome": "Homer Simpson, The Simpsons, Series 1 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > The Simpsons > The Simpsons Series 1",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/sim007.png",
     "prezzoAvgUsato": 6.96,
-    "prezzoVendita": 6.96,
+    "prezzoVendita": 5.49,
     "variante": "Sim007 #2 → sim007#2",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 11.08,
-      "soldUsed": 6.96,
-      "currentNew": 18.83,
-      "currentUsed": 9.93,
-      "listinoUsato": 6.96
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789208025413,
+    "updated": 1789208032939,
     "created": 1789208025413
   },
   {
