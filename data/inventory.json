@@ -835,25 +835,18 @@
     "codiceBrickLink": "njo0115",
     "nome": "Sleven",
     "categoria": "NINJAGO > Tournament of Elements",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0115.png",
     "fotoExtra": [],
     "prezzoAvgUsato": 1.8,
-    "prezzoVendita": 1.8,
+    "prezzoVendita": 1.79,
     "variante": "Njo0115 ? njo0115",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 3.52,
-      "soldUsed": 1.8,
-      "currentNew": 6.39,
-      "currentUsed": 2.49,
-      "listinoUsato": 1.8
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789252108807,
+    "updated": 1789252550333,
     "created": 1789252108807
   },
   {
