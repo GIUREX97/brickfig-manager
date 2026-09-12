@@ -1,5 +1,31 @@
 [
   {
+    "id": "8htf0mz",
+    "codice": "hp093",
+    "codiceBrickLink": "hp093",
+    "nome": "Professor Minerva McGonagall - Dark Green Robe and Cape",
+    "categoria": "Harry Potter",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hp093.png",
+    "prezzoAvgUsato": 7.49,
+    "prezzoVendita": 7.49,
+    "variante": "Hp093 → hp093",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 12.45,
+      "soldUsed": 7.49,
+      "currentNew": 20.51,
+      "currentUsed": 10.55,
+      "listinoUsato": 7.49
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208252495,
+    "created": 1789208252495
+  },
+  {
     "id": "kawssps",
     "codice": "hp087",
     "codiceBrickLink": "hp087",
