@@ -57,7 +57,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-zinc-400 uppercase">Totale Pezzi</div><div class="text-2xl font-display font-bold mt-1" id="statTotal">0</div><div class="text-xs text-zinc-500" id="statTotalSub">0 pezzi</div></div>
   <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-emerald-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>Disponibili</div><div class="text-2xl font-display font-bold mt-1 text-emerald-600" id="statDisp">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statDispVal">� 0,00</div></div>
   <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-amber-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>Prenotate</div><div class="text-2xl font-display font-bold mt-1 text-amber-600" id="statPren">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statPrenVal">� 0,00</div></div>
-  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Vendute</div><div class="text-2xl font-display font-bold mt-1" id="statVend">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statVendVal">� 0,00</div></div>
+  <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm vendute-only-local"><div class="text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Vendute</div><div class="text-2xl font-display font-bold mt-1 text-lego-red" id="statVend">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statVendVal">� 0,00</div></div>
   <div class="bg-lego-yellow rounded-2xl p-4 border border-amber-200 shadow-sm col-span-2 lg:col-span-1 avg-only-local"><div class="text-[11px] font-bold tracking-widest text-zinc-700 uppercase">Valore Vendita</div><div class="text-2xl font-display font-bold mt-1" id="statValore">� 0,00</div><div class="text-xs text-zinc-700" id="statValoreAvg">AVG Usato � 0,00</div></div>
 </div>
 
@@ -1231,6 +1231,10 @@ function render(){
   if(fs) list=list.filter(f=>f.stato===fs);
   if(ft) list=list.filter(f=>f.tipo===ft);
   if(fc) list=list.filter(f=>f.categoria===fc);
+  // Online: nascondi Vendute (solo locale le vede) — richiesto utente
+  if(typeof isOnline==='function' && isOnline()){
+    list=list.filter(f=>f.stato!=='Venduto');
+  }
   // Ordinamento fisso: Disponibili in alto (nuovi prima), poi Prenotati, poi Venduti in basso. Modifica prezzo non sposta.
   const order={Disponibile:0, Prenotato:1, Venduto:2, Esaurito:3};
   list.sort((a,b)=>{
@@ -1647,10 +1651,13 @@ updateCartCount();
 // Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu)
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
+  // Online: rimuovi Venduto dal filtro e forza filtro non-Venduto
+  const fsEl=document.getElementById('filterStato');
+  if(fsEl){ [...fsEl.options].forEach(o=>{ if(o.value==='Venduto') o.remove(); }); if(fsEl.value==='Venduto') fsEl.value=''; }
 }
 </script>
 </body>
