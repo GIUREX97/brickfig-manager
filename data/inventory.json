@@ -1,5 +1,32 @@
 [
   {
+    "id": "eoiln0q",
+    "codice": "njo0748",
+    "codiceBrickLink": "njo0748",
+    "nome": "Jay - Core Spinjitzu",
+    "categoria": "NINJAGO > Core",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/njo0748.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 6.59,
+    "prezzoVendita": 6.19,
+    "variante": "Njo0748 ? njo0748",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 11.86,
+      "soldUsed": 6.59,
+      "currentNew": 30.56,
+      "currentUsed": 11.55,
+      "listinoUsato": 6.59
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789252842794,
+    "created": 1789252842794
+  },
+  {
     "id": "p7i32em",
     "codice": "njo0735",
     "codiceBrickLink": "njo0735",
