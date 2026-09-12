@@ -5,24 +5,17 @@
     "codiceBrickLink": "col017",
     "nome": "Mariachi / Maraca Man, Series 2 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 2 Minifigures",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col017.png",
     "prezzoAvgUsato": 7.13,
-    "prezzoVendita": 7.13,
+    "prezzoVendita": 6.99,
     "variante": "Col017 → col017",
     "note": "",
     "coloreId": "",
-    "prezziDettaglio": {
-      "soldNew": 8.11,
-      "soldUsed": 7.13,
-      "currentNew": 15.5,
-      "currentUsed": 7.67,
-      "listinoUsato": 7.13
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789206905773,
+    "updated": 1789206912059,
     "created": 1789206905773
   },
   {
