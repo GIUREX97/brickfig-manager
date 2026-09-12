@@ -1,5 +1,31 @@
 [
   {
+    "id": "o47ltiv",
+    "codice": "hp048",
+    "codiceBrickLink": "hp048",
+    "nome": "Peter Pettigrew",
+    "categoria": "Harry Potter > Prisoner of Azkaban",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/hp048.png",
+    "prezzoAvgUsato": 10.87,
+    "prezzoVendita": 10.87,
+    "variante": "Hp048 → hp048",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 23.46,
+      "soldUsed": 10.87,
+      "currentNew": 25.33,
+      "currentUsed": 14.74,
+      "listinoUsato": 10.87
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789208154924,
+    "created": 1789208154924
+  },
+  {
     "id": "cniy7fy",
     "codice": "dis055",
     "codiceBrickLink": "dis055",
