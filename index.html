@@ -147,12 +147,12 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 
         <div id="autoPreview" class="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-4 bg-zinc-50 border border-zinc-200 rounded-2xl p-4">
           <div>
-            <div class="w-full aspect-square bg-zinc-100 border-2 border-zinc-200 rounded-2xl overflow-hidden flex items-center justify-center relative" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;">
+            <label for="f_upload" id="mainDropZone" class="w-full aspect-square bg-zinc-100 border-2 border-zinc-200 rounded-2xl overflow-hidden flex items-center justify-center relative cursor-pointer hover:border-zinc-400 transition" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" ondragover="event.preventDefault(); this.classList.add('border-zinc-900')" ondragleave="this.classList.remove('border-zinc-900')" ondrop="handleMainDrop(event)">
               <img id="f_preview" src="" alt="" class="w-full h-full object-contain p-2 hidden drop-shadow-sm">
-              <div id="f_preview_placeholder" class="text-center p-4"><i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink</div></div>
+              <div id="f_preview_placeholder" class="text-center p-4"><i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink<br><span class="text-[10px]">Clicca o trascina qui</span></div></div>
               <div id="f_preview_loading" class="hidden absolute inset-0 bg-white/80 flex items-center justify-center flex-col gap-2"><i class="fa-solid fa-spinner fa-spin text-xl text-amber-500"></i><span class="text-xs font-bold text-zinc-600">Carico...</span></div>
-              <button type="button" onclick="document.getElementById('f_upload').click()" class="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shadow hover:bg-black" title="Carica tua foto"><i class="fa-solid fa-camera text-xs"></i></button>
-            </div>
+              <div class="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shadow"><i class="fa-solid fa-camera text-xs"></i></div>
+            </label>
             <div class="text-[10px] text-center text-zinc-400 mt-1 font-mono truncate" id="f_foto_url"></div>
             <div id="colorSelector" class="hidden mt-2 p-2 bg-white border-2 border-zinc-200 rounded-xl">
               <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-600">Colore / Variante BrickLink</label>
@@ -163,7 +163,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
               <div id="colorDebug" class="text-[9px] font-mono text-zinc-500 mt-1 hidden"></div>
             </div>
             <div class="flex gap-1 mt-2">
-              <button type="button" onclick="document.getElementById('f_upload').click()" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-zinc-900 text-white hover:bg-black"><i class="fa-solid fa-upload mr-1"></i> Carica tua foto</button>
+              <label for="f_upload" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-zinc-900 text-white hover:bg-black text-center cursor-pointer"><i class="fa-solid fa-upload mr-1"></i> Carica tua foto</label>
               <button type="button" onclick="useBricklinkFoto()" class="flex-1 text-[11px] font-bold py-2 rounded-lg bg-amber-400 hover:bg-amber-500"><i class="fa-solid fa-link mr-1"></i> BrickLink</button>
             </div>
             <input type="file" id="f_upload" accept="image/*" class="hidden" onchange="handleUpload(event)">
@@ -277,16 +277,16 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
       </div>
       <div class="p-6 space-y-4">
         <div class="flex gap-4">
-          <div id="wizardDropZone" class="w-32 h-32 bg-zinc-50 border-2 border-dashed border-zinc-300 rounded-2xl overflow-hidden flex items-center justify-center shrink-0 relative cursor-pointer hover:border-zinc-400 hover:bg-zinc-100 transition" onclick="document.getElementById('wizardFile').click()" ondragover="event.preventDefault(); this.classList.add('border-zinc-900','bg-zinc-100')" ondragleave="this.classList.remove('border-zinc-900','bg-zinc-100')" ondrop="handleWizardDrop(event)">
+          <label for="wizardFile" id="wizardDropZone" class="w-32 h-32 bg-zinc-50 border-2 border-dashed border-zinc-300 rounded-2xl overflow-hidden flex items-center justify-center shrink-0 relative cursor-pointer hover:border-zinc-400 hover:bg-zinc-100 transition block">
             <img id="wizardImg" src="" alt="" class="w-full h-full object-contain p-2 hidden pointer-events-none">
             <div id="wizardPlaceholder" class="text-center p-2 pointer-events-none"><i class="fa-regular fa-image text-2xl text-zinc-400"></i><div class="text-[10px] text-zinc-500 mt-1">Trascina qui<br>o clicca</div></div>
-            <div id="wizardDropOverlay" class="hidden absolute inset-0 bg-zinc-900/80 flex items-center justify-center"><span class="text-white text-xs font-bold">Rilascia</span></div>
-          </div>
+            <div id="wizardDropOverlay" class="hidden absolute inset-0 bg-zinc-900/80 flex items-center justify-center pointer-events-none"><span class="text-white text-xs font-bold">Rilascia</span></div>
+          </label>
           <div class="flex-1 min-w-0">
             <div class="text-xs font-mono font-bold text-zinc-500" id="wizardCode">col001 • M</div>
             <div class="font-bold text-sm leading-tight mt-1" id="wizardName">Nome</div>
             <div class="text-xs text-zinc-500" id="wizardCat">Categoria</div>
-            <div class="mt-2 text-[11px] text-zinc-600 bg-zinc-50 border border-zinc-200 rounded-xl p-2">Trascina l'immagine nel riquadro a sinistra come su Vinted</div>
+            <div class="mt-2 text-[11px] text-zinc-600 bg-zinc-50 border border-zinc-200 rounded-xl p-2">Trascina l'immagine nel riquadro a sinistra come su Vinted — o clicca il riquadro</div>
             <input type="file" id="wizardFile" accept="image/*" class="hidden" onchange="handleWizardUpload(event)">
           </div>
         </div>
@@ -525,6 +525,24 @@ function handleUpload(e){
     toast('Foto caricata');
   };
   reader.readAsDataURL(file);
+}
+function handleMainDrop(e){
+  e.preventDefault();
+  document.getElementById('mainDropZone').classList.remove('border-zinc-900');
+  const file=e.dataTransfer.files[0];
+  if(file && file.type.startsWith('image/')){
+    if(file.size>4*1024*1024) return toast('Max 4MB');
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const url=reader.result;
+      document.getElementById('f_foto').value=url;
+      document.getElementById('f_foto_manual').value='[Foto caricata: '+file.name+']';
+      document.getElementById('f_foto_url').textContent=file.name;
+      updatePreview(url);
+      toast('Foto caricata');
+    };
+    reader.readAsDataURL(file);
+  }
 }
 function useBricklinkFoto(){
   if(lastFetched && lastFetched.foto){
