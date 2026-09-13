@@ -1,5 +1,40 @@
 [
   {
+    "id": "r7uxbfy",
+    "codice": "3596pb08",
+    "codiceBrickLink": "3596pb08",
+    "nome": "Flag on Flagpole, Straight with Classic Airport Logo Pattern on Both Sides (Stickers) - Set 6396",
+    "categoria": "Flag, Decorated",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/1/3596pb08.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "1",
+        "colorName": "White",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/1/3596pb08.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/1/3596pb08.png"
+      }
+    ],
+    "prezzoAvgUsato": 1.05,
+    "prezzoVendita": 1.09,
+    "variante": "3596pb08 ? 3596pb08",
+    "note": "",
+    "coloreId": "1",
+    "prezziDettaglio": {
+      "soldNew": null,
+      "soldUsed": 1.05,
+      "currentNew": null,
+      "currentUsed": 1.45,
+      "listinoUsato": 1.05
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789293286958,
+    "created": 1789293286958
+  },
+  {
     "id": "twpjf6q",
     "codice": "3596pb04",
     "codiceBrickLink": "3596pb04",
