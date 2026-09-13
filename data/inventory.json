@@ -1,5 +1,41 @@
 [
   {
+    "id": "yr3xltz",
+    "codice": "col03-9",
+    "codiceBrickLink": "col03-9",
+    "nome": "Elf, Series 3 (Complete Set with Stand and Accessories) : Set",
+    "categoria": "Collectible Minifigures > Series 3 Minifigures > 2011",
+    "categoriaMacro": "Collezionabili",
+    "tipo": "Set",
+    "tipoCode": "S",
+    "foto": "https://img.bricklink.com/ItemImage/SN/0/col03-9.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/ST/0/col03-9.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/SN/0/col03-9.png"
+      }
+    ],
+    "prezzoAvgUsato": 28.52,
+    "prezzoVendita": 26.99,
+    "variante": "Col03-9 ? col03-9",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 35.55,
+      "soldUsed": 28.52,
+      "currentNew": 48.21,
+      "currentUsed": 35.16,
+      "listinoUsato": 28.52
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304700835,
+    "created": 1789304700835
+  },
+  {
     "id": "6q3nyvn",
     "codice": "col001",
     "codiceBrickLink": "col001",
