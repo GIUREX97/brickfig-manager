@@ -1,5 +1,41 @@
 [
   {
+    "id": "4pqmrex",
+    "codice": "sh0391",
+    "codiceBrickLink": "sh0391",
+    "nome": "Scarecrow - Reddish Brown Floppy Hat",
+    "categoria": "Super Heroes > The LEGO Batman Movie",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0391.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0391.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0391.png"
+      }
+    ],
+    "prezzoAvgUsato": 12.24,
+    "prezzoVendita": 11.39,
+    "variante": "Sh0391 ? sh0391",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 25.44,
+      "soldUsed": 12.24,
+      "currentNew": 40.44,
+      "currentUsed": 17.59,
+      "listinoUsato": 12.24
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295176135,
+    "created": 1789295176135
+  },
+  {
     "id": "jng3veo",
     "codice": "sh0366",
     "codiceBrickLink": "sh0366",
@@ -546,114 +582,6 @@
     "stato": "Disponibile",
     "updated": 1789295070330,
     "created": 1789295057399
-  },
-  {
-    "id": "8la8pr2",
-    "codice": "sw0807",
-    "codiceBrickLink": "sw0807",
-    "nome": "Imperial Death Trooper - Black Armor",
-    "categoria": "Star Wars > Star Wars Rogue One",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0807.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0807.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0807.png"
-      }
-    ],
-    "prezzoAvgUsato": 8.66,
-    "prezzoVendita": 8.69,
-    "variante": "Sw0807 ? sw0807",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 13.54,
-      "soldUsed": 8.66,
-      "currentNew": 18.62,
-      "currentUsed": 10.04,
-      "listinoUsato": 8.66
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295048391,
-    "created": 1789295048391
-  },
-  {
-    "id": "7oqqvnn",
-    "codice": "sw0806",
-    "codiceBrickLink": "sw0806",
-    "nome": "Rebel Trooper - Reddish Brown Head, Helmet with Pearl Dark Gray Band (Corporal Tonc)",
-    "categoria": "Star Wars > Star Wars Rogue One",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0806.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0806.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0806.png"
-      }
-    ],
-    "prezzoAvgUsato": 4.02,
-    "prezzoVendita": 3.49,
-    "variante": "Sw0806 ? sw0806",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 7.21,
-      "soldUsed": 4.02,
-      "currentNew": 9.53,
-      "currentUsed": 4.84,
-      "listinoUsato": 4.02
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295042623,
-    "created": 1789295042623
-  },
-  {
-    "id": "8cmea20",
-    "codice": "sw0788",
-    "codiceBrickLink": "sw0788",
-    "nome": "Imperial TIE Fighter / Striker Pilot",
-    "categoria": "Star Wars > Star Wars Episode 4/5/6",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0788.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0788.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0788.png"
-      }
-    ],
-    "prezzoAvgUsato": 3.04,
-    "prezzoVendita": 2.99,
-    "variante": "Sw0788 ? sw0788",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 5.38,
-      "soldUsed": 3.04,
-      "currentNew": 8.15,
-      "currentUsed": 3.67,
-      "listinoUsato": 3.04
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295037949,
-    "created": 1789295037949
   },
   {
     "id": "fl4yof6",
