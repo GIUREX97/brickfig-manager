@@ -3635,24 +3635,5 @@
     "stato": "Disponibile",
     "updated": 1789292185624,
     "created": 1789205959459
-  },
-  {
-    "id": "4ddihq0",
-    "codice": "sw1159",
-    "nome": "Fennec Shand - Helmet",
-    "categoria": "Star Wars > The Mandalorian",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw1159.png",
-    "prezzoAvgUsato": 10.12,
-    "prezzoVendita": 14,
-    "qta": 1,
-    "stato": "Prenotato",
-    "updated": 1789205959459,
-    "created": 1789205959459,
-    "variante": "",
-    "note": "",
-    "coloreId": "0",
-    "fotoExtra": []
   }
 ]
