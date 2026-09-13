@@ -297,11 +297,17 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
         else if (u.startsWith('/')) u = 'https://www.bricklink.com' + u;
         if (u.includes('img.bricklink.com')) foto = u;
       }
+      // Se è stata richiesta una variante colore specifica (es. 59 Chrome Silver 22), forza la cover su quel colore
+      if (colorId && tryType === 'P' && colorId !== '0' && colorId !== '-1') {
+        foto = `https://img.bricklink.com/ItemImage/PN/${colorId}/${code}.png`;
+      } else if (colorId && tryType === 'M' && colorId !== '0' && colorId !== '-1') {
+        foto = `https://img.bricklink.com/ItemImage/MN/${colorId}/${code}.png`;
+      }
       // Estrae tutte le varianti colore per parti come 6026c01 (PN/6 verde, PN/10 grigio, PN/80 verde scuro)
       const colorImgs = [...html.matchAll(/ItemImage\/P[NT]\/(\d+)\/[^'"]+\.png/g)].map(m => m[0]);
       const uniqColors = [...new Set(colorImgs.map(p => p.match(/\/(\d+)\//)?.[1]).filter(Boolean))];
       // Costruisci lista varianti colore con URL e nome colore approssimativo
-      const colorMap = { '0':'Multi', '1':'White', '6':'Green', '7':'Light Gray','10':'Light Gray','11':'Black','15':'White','80':'Dark Green','86':'Light Bluish Gray','85':'Dark Bluish Gray','150':'Light Nougat','88':'Reddish Brown','48':'Sand Green','59':'Dark Red','5':'Red','3':'Green','34':'Lime' };
+      const colorMap = { '0':'Multi', '1':'White', '2':'Tan', '3':'Green', '4':'Red', '5':'Red', '6':'Green', '7':'Light Gray','10':'Light Gray','11':'Black','12':'Trans-Clear','14':'Trans-Dark Blue','15':'White','21':'Chrome Gold','22':'Chrome Silver','26':'Black','34':'Lime','57':'Chrome Antique Brass','59':'Dark Red','80':'Dark Green','85':'Dark Bluish Gray','86':'Light Bluish Gray','88':'Reddish Brown','122':'Chrome Black','150':'Light Nougat','48':'Sand Green' };
       fotoVarianti = uniqColors.map(c => ({
         colorId: c,
         colorName: colorMap[c] || `Colore ${c}`,
