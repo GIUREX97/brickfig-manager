@@ -119,6 +119,18 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   </div>
 </div>
 
+<div id="lottoBar" class="hidden max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-3">
+  <div class="bg-amber-400 border-2 border-amber-500 rounded-2xl p-3 sm:p-4 flex flex-wrap items-center gap-3 shadow">
+    <span class="font-bold text-sm"><i class="fa-solid fa-boxes-stacked mr-1"></i> Lotto: <span id="lottoCount">0</span> pezzi selezionati</span>
+    <span class="text-xs bg-white px-2 py-1 rounded-full border font-bold">Solo blocco</span>
+    <span class="text-xs text-zinc-700 hidden sm:inline">Verranno venduti solo insieme</span>
+    <div class="ml-auto flex gap-2">
+      <button onclick="clearLottoSelection()" class="px-4 py-2 rounded-xl bg-white border border-amber-600 font-bold text-sm">Annulla</button>
+      <button onclick="openLottoModal()" class="px-5 py-2 rounded-xl bg-zinc-900 text-white font-bold text-sm">Crea Lotto →</button>
+    </div>
+  </div>
+</div>
+<div id="lottiGrid" class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden"></div>
 <div id="gridView" class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 auto-rows-auto sm:auto-rows-[520px]"></div>
 <div id="tableView" class="max-w-[1400px] mx-auto px-4 lg:px-6 mt-4 hidden">
   <div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
@@ -270,6 +282,46 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   </div>
 </div>
 
+<!-- LOTTO MODAL -->
+<div id="lottoModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeLottoModal()"></div>
+  <div class="absolute inset-0 flex items-start justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-[24px] w-full max-w-[560px] my-6 shadow-2xl overflow-hidden">
+      <div class="px-6 py-5 bg-zinc-900 text-white flex items-center justify-between">
+        <div><h2 class="font-display font-bold text-xl">Crea Lotto — vendita in blocco</h2><p class="text-xs text-zinc-300">Solo blocco: chi compra deve prendere tutto insieme</p></div>
+        <button onclick="closeLottoModal()" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="saveLotto(event)" class="p-6 space-y-4">
+        <div id="lottoPreview" class="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-[220px] overflow-y-auto p-2 bg-zinc-50 rounded-xl border"></div>
+        <div>
+          <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Nome Lotto *</label>
+          <input id="lottoNome" required placeholder="es. Lotto 3x Star Wars - occasione" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-zinc-200 text-sm font-bold">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Prezzo lotto € *</label>
+            <input id="lottoPrezzo" type="number" step="0.01" required placeholder="es. 29.90" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-amber-300 bg-amber-50 text-sm font-bold">
+            <div class="text-[11px] text-zinc-500 mt-1">Somma singoli: <span id="lottoSomma" class="font-bold text-zinc-700">€0,00</span></div>
+          </div>
+          <div>
+            <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Stato</label>
+            <select id="lottoStato" class="mt-1 w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm font-bold"><option>Disponibile</option><option>Prenotato</option><option>Venduto</option></select>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Note lotto</label>
+          <textarea id="lottoNote" rows="2" placeholder="es. Solo blocco, non divisibile" class="mt-1 w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm"></textarea>
+        </div>
+        <input type="hidden" id="lottoId">
+        <div class="flex gap-3">
+          <button type="button" onclick="closeLottoModal()" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">Annulla</button>
+          <button type="submit" class="flex-[1.5] py-3 rounded-xl bg-lego-red text-white font-bold text-sm">Salva Lotto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- REGISTRAZIONE CLIENTE (obbligatoria prima del carrello) -->
 <div id="registerModal" class="fixed inset-0 z-[60] hidden">
   <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeRegister()"></div>
@@ -400,8 +452,12 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 <script>
 const STORAGE_KEY='brickfig_pro_v1';
 const DELETED_KEY='brickfig_deleted_v1';
+const LOTTI_KEY='brickfig_lotti_v1';
 let figs=[];
 let deletedIds=new Set(JSON.parse(localStorage.getItem(DELETED_KEY)||'[]'));
+let lotti=[];
+try{ lotti=JSON.parse(localStorage.getItem(LOTTI_KEY)||'[]'); }catch(e){ lotti=[]; }
+let selectedForLotto=new Set();
 let view='grid';
 let lastFetched=null;
 let autoTimer=null;
@@ -411,6 +467,25 @@ let cardGalleryIdx={}; // indice per ogni card (id -> idx)
 function isOnline(){ return window.location.hostname.includes('vercel.app'); }
 function isLocal(){ return !isOnline(); }
 function saveDeletedIds(){ try{ localStorage.setItem(DELETED_KEY, JSON.stringify([...deletedIds])); }catch(e){} }
+function saveLotti(){ try{ localStorage.setItem(LOTTI_KEY, JSON.stringify(lotti)); }catch(e){} syncLottiToCloud(); }
+async function syncLottiFromCloud(){
+  try{
+    const r=await fetch('/api/lotti', { cache:'no-store' });
+    if(r.ok){
+      const remote=await r.json();
+      if(Array.isArray(remote)){
+        // Filtra lotti con figIds non più esistenti? tieni tutti
+        lotti=remote;
+        localStorage.setItem(LOTTI_KEY, JSON.stringify(lotti));
+        return true;
+      }
+    }
+  }catch(e){}
+  return false;
+}
+async function syncLottiToCloud(){
+  try{ await fetch('/api/lotti', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(lotti) }); }catch(e){}
+}
 
 async function syncFromCloud(){
   try{
@@ -1266,6 +1341,148 @@ async function changeCardVariant(id, colorId){
   save(); render();
   toast(`Variante ${variant.colorName} — AVG €${(fig.prezzoAvgUsato||0).toFixed(2)}`);
 }
+// === LOTTI (solo blocco) ===
+function toggleLottoSelect(id){
+  if(!isLocal()){
+    toast('Solo dal gestionale locale puoi creare lotti');
+    return;
+  }
+  if(selectedForLotto.has(id)) selectedForLotto.delete(id);
+  else selectedForLotto.add(id);
+  updateLottoBar();
+  render();
+}
+function updateLottoBar(){
+  const bar=document.getElementById('lottoBar');
+  const cnt=document.getElementById('lottoCount');
+  if(!bar || !cnt) return;
+  const n=selectedForLotto.size;
+  cnt.textContent=n;
+  if(n>=2) bar.classList.remove('hidden');
+  else if(n===0) bar.classList.add('hidden');
+  else {
+    bar.classList.remove('hidden');
+  }
+  if(isOnline()) bar.classList.add('hidden');
+}
+function clearLottoSelection(){
+  selectedForLotto.clear();
+  updateLottoBar();
+  render();
+}
+function openLottoModal(editId=null){
+  if(!isLocal()) return toast('Solo locale');
+  if(editId){
+    const lot=lotti.find(l=>l.id===editId);
+    if(!lot) return;
+    document.getElementById('lottoId').value=lot.id;
+    document.getElementById('lottoNome').value=lot.nome;
+    document.getElementById('lottoPrezzo').value=lot.prezzo;
+    document.getElementById('lottoStato').value=lot.stato;
+    document.getElementById('lottoNote').value=lot.note||'';
+    selectedForLotto=new Set(lot.figIds);
+  } else {
+    if(selectedForLotto.size<2) return toast('Seleziona almeno 2 pezzi');
+    document.getElementById('lottoId').value='';
+    document.getElementById('lottoNome').value='Lotto '+selectedForLotto.size+' pezzi';
+    const somma=[...selectedForLotto].reduce((s,id)=>{ const f=figs.find(x=>x.id===id); return s+(f? (f.prezzoVendita||f.prezzoAvgUsato||0):0); },0);
+    document.getElementById('lottoPrezzo').value=somma.toFixed(2);
+    document.getElementById('lottoStato').value='Disponibile';
+    document.getElementById('lottoNote').value='Solo blocco - non divisibile';
+  }
+  const preview=document.getElementById('lottoPreview');
+  const ids=[...selectedForLotto];
+  const somma2=ids.reduce((s,id)=>{ const f=figs.find(x=>x.id===id); return s+(f? (f.prezzoVendita||f.prezzoAvgUsato||0):0); },0);
+  document.getElementById('lottoSomma').textContent=euro(somma2);
+  preview.innerHTML=ids.map(id=>{
+    const f=figs.find(x=>x.id===id);
+    if(!f) return '';
+    return '<div class="bg-white rounded-xl border p-2 flex flex-col items-center gap-1"><img src="'+getImageSrc(f.foto)+'" class="w-16 h-16 object-contain"><span class="text-[10px] font-mono font-bold truncate w-full text-center">'+f.codice+'</span><span class="text-[10px] font-bold truncate w-full text-center">'+f.nome.slice(0,22)+'</span><button type="button" onclick="selectedForLotto.delete(\''+id+'\'); openLottoModal();" class="text-[10px] text-red-600 underline">Rimuovi</button></div>';
+  }).join('');
+  document.getElementById('lottoModal').classList.remove('hidden');
+}
+function closeLottoModal(){ document.getElementById('lottoModal').classList.add('hidden'); }
+function saveLotto(e){
+  e.preventDefault();
+  const id=document.getElementById('lottoId').value||uid();
+  const nome=document.getElementById('lottoNome').value.trim();
+  const prezzo=parseFloat(document.getElementById('lottoPrezzo').value)||0;
+  const stato=document.getElementById('lottoStato').value;
+  const note=document.getElementById('lottoNote').value.trim();
+  if(!nome) return toast('Nome lotto obbligatorio');
+  const figIds=[...selectedForLotto];
+  if(figIds.length<2) return toast('Minimo 2 pezzi per lotto');
+  const giaInLotto=figIds.filter(fid=>{
+    const f=figs.find(x=>x.id===fid);
+    return f && f.lottoId && f.lottoId!==id;
+  });
+  if(giaInLotto.length) return toast('Alcuni pezzi sono gia in un altro lotto');
+  const existingIdx=lotti.findIndex(l=>l.id===id);
+  const lot={ id, nome, prezzo, stato, note, figIds, qta:1, created: existingIdx>=0? lotti[existingIdx].created: Date.now(), updated: Date.now() };
+  if(existingIdx>=0) lotti[existingIdx]=lot;
+  else lotti.unshift(lot);
+  figIds.forEach(fid=>{
+    const f=figs.find(x=>x.id===fid);
+    if(f){ f.lottoId=id; f.soloLotto=true; f.updated=Date.now(); }
+  });
+  figs.forEach(f=>{
+    if(f.lottoId===id && !figIds.includes(f.id)){
+      f.lottoId=null; f.soloLotto=false;
+    }
+  });
+  saveLotti(); save(); render();
+  closeLottoModal();
+  clearLottoSelection();
+  toast(existingIdx>=0?'Lotto aggiornato':'Lotto creato — solo blocco');
+}
+function deleteLotto(id){
+  if(!confirm('Eliminare lotto? I pezzi torneranno singoli.')) return;
+  const lot=lotti.find(l=>l.id===id);
+  if(!lot) return;
+  lot.figIds.forEach(fid=>{
+    const f=figs.find(x=>x.id===fid);
+    if(f && f.lottoId===id){ f.lottoId=null; f.soloLotto=false; }
+  });
+  lotti=lotti.filter(l=>l.id!==id);
+  let cart=getCart();
+  cart=cart.filter(c=> !(c.lottoId===id));
+  setCart(cart);
+  saveLotti(); save(); render();
+  toast('Lotto eliminato');
+}
+function editLotto(id){
+  selectedForLotto=new Set(lotti.find(l=>l.id===id)?.figIds||[]);
+  openLottoModal(id);
+}
+function addLottoToCart(lottoId){
+  if(!isLogged()){
+    window._pendingCartId=lottoId;
+    toast('Registrati per aggiungere al carrello');
+    openRegister();
+    return;
+  }
+  const lot=lotti.find(l=>l.id===lottoId);
+  if(!lot) return toast('Lotto non trovato');
+  if(lot.stato!=='Disponibile') return toast('Lotto non disponibile');
+  const nonDisp=lot.figIds.filter(fid=>{
+    const f=figs.find(x=>x.id===fid);
+    return !f || f.stato!=='Disponibile';
+  });
+  if(nonDisp.length) return toast('Alcuni pezzi del lotto non sono piu disponibili');
+  let cart=getCart();
+  const ex=cart.find(x=>x.lottoId===lottoId);
+  if(ex) return toast('Lotto gia nel carrello');
+  const firstFig=figs.find(f=>f.id===lot.figIds[0]);
+  cart.push({ id:'lotto-'+lot.id, lottoId: lot.id, codice: 'LOTTO '+lot.figIds.length, nome: lot.nome, categoria: 'Lotto', foto: firstFig? firstFig.foto : '', prezzoVendita: lot.prezzo, prezzoAvgUsato: lot.prezzo, qta:1, isLotto:true, figIds: lot.figIds });
+  setCart(cart);
+  lot.stato='Prenotato'; lot.updated=Date.now();
+  lot.figIds.forEach(fid=>{
+    const f=figs.find(x=>x.id===fid);
+    if(f){ f.stato='Prenotato'; f.updated=Date.now(); }
+  });
+  saveLotti(); save(); render();
+  toast('Lotto aggiunto al carrello — solo blocco');
+}
 // Gallery helpers - copertina BrickLink sempre prima, poi foto reali
 function cardGal(event,id,dir){
   event.stopPropagation();
@@ -1399,6 +1616,8 @@ function render(){
   if(typeof isOnline==='function' && isOnline()){
     list=list.filter(f=>f.stato!=='Venduto');
   }
+  // Solo lotto: nascondi dal grid/table i pezzi già in un lotto (vedi solo il lotto)
+  list=list.filter(f=> !(f.soloLotto && f.lottoId));
   // Ordinamento fisso: Disponibili in alto (nuovi prima), poi Prenotati, poi Venduti in basso. Modifica prezzo non sposta.
   const order={Disponibile:0, Prenotato:1, Venduto:2, Esaurito:3};
   list.sort((a,b)=>{
@@ -1422,6 +1641,40 @@ function render(){
   const valAvgTot = figs.filter(f=>f.stato!=='Venduto').reduce((s,f)=>s+(f.prezzoAvgUsato||0)*(f.qta||1),0);
   document.getElementById('statValore').textContent=euro(valVenditaTot);
   document.getElementById('statValoreAvg').textContent=`AVG Usato ${euro(valAvgTot)}`;
+    // Render lotti (solo blocco) - sempre visibili anche online, ma creazione solo locale
+  const lottiGrid=document.getElementById('lottiGrid');
+  if(lottiGrid){
+    const lottiVisibili = isOnline() ? lotti.filter(l=>l.stato!=='Venduto') : lotti;
+    if(lottiVisibili.length){
+      lottiGrid.classList.remove('hidden');
+      lottiGrid.innerHTML=lottiVisibili.map(l=>{
+        const figsInLotto=l.figIds.map(id=>figs.find(f=>f.id===id)).filter(Boolean);
+        const somma=l.figIds.reduce((s,id)=>{ const f=figs.find(x=>x.id===id); return s+(f? (f.prezzoVendita||f.prezzoAvgUsato||0):0); },0);
+        return `<div class="bg-gradient-to-br from-amber-50 to-white rounded-2xl border-2 border-amber-400 overflow-hidden shadow-sm flex flex-col">
+          <div class="bg-amber-400 text-zinc-900 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1.5 flex items-center justify-between">
+            <span><i class="fa-solid fa-boxes-stacked mr-1"></i> LOTTO • ${l.figIds.length} PEZZI • SOLO BLOCCO</span>
+            <span class="bg-white px-2 py-0.5 rounded-full text-xs">${l.stato}</span>
+          </div>
+          <div class="p-3 grid grid-cols-4 gap-1 h-[100px] bg-zinc-100">${figsInLotto.slice(0,4).map(f=>`<div class="bg-white rounded-lg overflow-hidden border aspect-square flex items-center justify-center p-1"><img src="${getImageSrc(f.foto)}" class="max-w-full max-h-full object-contain"></div>`).join('')}${figsInLotto.length>4? `<div class="bg-zinc-900 text-white rounded-lg flex items-center justify-center text-xs font-bold">+${figsInLotto.length-4}</div>`:''}</div>
+          <div class="p-4 flex-1 flex flex-col">
+            <h3 class="font-bold text-sm leading-tight">${l.nome}</h3>
+            <div class="text-xs text-zinc-600 mt-1">${l.figIds.map(id=>{ const f=figs.find(x=>x.id===id); return f? f.codice : id; }).join(' • ')}</div>
+            <div class="text-[11px] text-zinc-500 mt-1 line-clamp-2">${l.note||'Solo blocco, non divisibile'}</div>
+            <div class="mt-2 flex items-baseline gap-2"><span class="font-display font-bold text-lg text-amber-700">${euro(l.prezzo)}</span><span class="text-xs text-zinc-500">somma singoli ${euro(somma)}</span></div>
+            <div class="mt-3 flex gap-2">
+              <button onclick="addLottoToCart('${l.id}')" class="flex-1 py-2.5 rounded-xl bg-zinc-900 text-white text-xs font-bold hover:bg-black"><i class="fa-solid fa-cart-plus mr-1"></i> Carrello Lotto</button>
+              <button onclick="editLotto('${l.id}')" class="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button>
+              <button onclick="deleteLotto('${l.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button>
+            </div>
+            <div class="mt-2 text-[10px] text-center text-zinc-500">${l.figIds.length} pezzi • solo blocco</div>
+          </div>
+        </div>`;
+      }).join('');
+    } else {
+      lottiGrid.classList.add('hidden');
+      lottiGrid.innerHTML='';
+    }
+  }
   const grid=document.getElementById('gridView');
   grid.innerHTML=list.map(f=>{
     const cls=f.stato==='Disponibile'?'bg-emerald-500 text-white':f.stato==='Prenotato'?'bg-amber-400 text-zinc-900':'bg-lego-red text-white';
@@ -1432,9 +1685,10 @@ function render(){
     const curSrc=allPhotos[safeIdx]||f.foto;
     const imgSrc=getImageSrc(curSrc);
     const showNav=total>1;
-    const badgeLabel=getCoverLabel(safeIdx);
-    return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-auto sm:h-[520px] min-h-[480px] sm:min-h-0">
-      <div class="gallery-wrap bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[180px] sm:h-[200px] select-none" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" onclick="openGallery('${f.id}', ${safeIdx})">
+        const isInLotto = f.lottoId && lotti.some(l=>l.id===f.lottoId);
+    const isSelectedForLotto = selectedForLotto.has(f.id);
+    const badgeLabel=getCoverLabel(safeIdx);  return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-auto sm:h-[520px] min-h-[480px] sm:min-h-0">
+      ${isLocal()? `<div class="absolute top-2 left-10 z-10 ${isInLotto?'hidden':''}"><label class="flex items-center gap-1 bg-white/90 backdrop-blur border border-zinc-300 rounded-full px-2 py-1 cursor-pointer shadow"><input type="checkbox" ${isSelectedForLotto?'checked':''} onchange="toggleLottoSelect('${f.id}')" class="w-4 h-4 rounded"><span class="text-[10px] font-bold">Lotto</span></label></div>` : ''}<div class="gallery-wrap bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[180px] sm:h-[200px] select-none" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" onclick="openGallery('${f.id}', ${safeIdx})">
         <img id="card-img-${f.id}" src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm cursor-zoom-in" loading="lazy" onerror="this.onerror=null; this.style.display='none'; const ph=this.nextElementSibling; if(ph) ph.style.display='flex'"><div style="display:none;" class="w-full h-full flex items-center justify-center flex-col gap-2 text-zinc-400"><i class="fa-regular fa-image text-3xl"></i><span class="text-[10px] font-bold">Immagine non disponibile</span><span class="text-[9px] font-mono">${f.codice}</span></div>
         <span class="absolute top-2 left-2 text-[11px] font-bold px-2 py-1 rounded-full ${cls}">${f.stato}</span>
         <span class="absolute top-2 right-2 text-[10px] font-mono font-bold bg-white border border-zinc-200 px-2 py-1 rounded-full">${f.codice} • ${f.tipoCode}</span>
@@ -1452,12 +1706,12 @@ function render(){
           <div class="bg-amber-50 border border-amber-200 rounded-xl p-2 avg-only-local"><div class="text-[9px] font-bold tracking-widest uppercase text-amber-700">AVG Usato</div><div class="font-display font-bold text-amber-700 text-sm">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'�'}</div></div>
           <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div><div class="font-display font-bold text-emerald-700 text-sm">${f.prezzoVendita? euro(f.prezzoVendita):'�'}</div></div>
         </div>
+        ${isInLotto ? `<div class="mt-2 text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-center"><i class="fa-solid fa-lock mr-1"></i> In lotto — solo blocco</div>` : ''}
         <div class="mt-3 flex gap-1">
-          <button onclick="addToCart('${f.id}')" class="flex-1 py-2 rounded-xl bg-zinc-900 text-white text-xs font-bold hover:bg-black"><i class="fa-solid fa-cart-plus mr-1"></i> Carrello</button>
+          <button onclick="addToCart('${f.id}')" class="flex-1 py-2 rounded-xl ${isInLotto?'bg-zinc-300 text-zinc-500 cursor-not-allowed':'bg-zinc-900 text-white hover:bg-black'} text-xs font-bold" ${isInLotto?'disabled':''}><i class="fa-solid fa-cart-plus mr-1"></i> ${isInLotto?'In lotto':'Carrello'}</button>
           <select onchange="quickStato('${f.id}', this.value)" class="stato-edit-only-local w-10 text-xs font-bold px-1 py-2 rounded-xl border border-zinc-200 bg-white" title="Cambia stato"><option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>D</option><option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>P</option><option value="Venduto" ${f.stato==='Venduto'?'selected':''}>V</option></select>
           <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button>
         </div>
-        <a href="https://www.bricklink.com/v2/catalog/catalogitem.page?${f.tipoCode}=${f.codiceBrickLink||f.codice}" target="_blank" class="mt-2 text-[11px] text-center text-blue-600 underline">BrickLink ${f.codiceBrickLink && f.codiceBrickLink!==f.codice? `(${f.codiceBrickLink})`:''} <i class="fa-solid fa-up-right-from-square"></i></a>
       </div>
     </div>`;
   }).join('');
@@ -1662,12 +1916,13 @@ function openPhotoWizardFromCard(id){
 (async()=>{
   load();
   await syncFromCloud();
+  await syncLottiFromCloud();
   checkServer();
   setView(localStorage.getItem('brickfig_view')||'grid');
   document.getElementById('sortBy').value='recent';
   render();
   // Polling ogni 15s per sync tra locale e online
-  setInterval(async()=>{ if(await syncFromCloud()) render(); }, 15000);
+  setInterval(async()=>{ let u=false; if(await syncFromCloud()) u=true; if(await syncLottiFromCloud()) u=true; if(u) render(); }, 15000);
   // Migrazione automatica prezzi AVG Used (fix 27.23 -> 4.95 per cas099 e simili) - eseguita una sola volta
   const MIGRATION_VERSION='v3-fix-avg-used';
   if(localStorage.getItem('migration_avg_used')!==MIGRATION_VERSION && figs.length>0){

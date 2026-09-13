@@ -317,20 +317,47 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
       } else if (colorId && tryType === 'M' && colorId !== '0' && colorId !== '-1') {
         foto = `https://img.bricklink.com/ItemImage/MN/${colorId}/${code}.png`;
       }
-      // Estrae tutte le varianti colore per parti come 6026c01 (PN/6 verde, PN/10 grigio, PN/80 verde scuro)
+      // Estrae tutte le varianti colore - metodo primario: parsing dropdown BrickLink (data-name preciso, es. 2566 Blue 7)
+      let fotoVariantiFromDropdown = [];
+      try {
+        $('div.pciSelectColorColorItem').each((i, el) => {
+          const c = String($(el).attr('data-color') || '').trim();
+          const n = String($(el).attr('data-name') || '').trim();
+          let img = String($(el).attr('data-imgurl') || '').trim();
+          if (c && n && c !== '-1' && c !== '-99') {
+            if (img.startsWith('//')) img = 'https:' + img;
+            // Converti thumb PT in PN per immagine grande
+            let image = img ? img.replace('/PT/', '/PN/').replace('.t1.png', '.png').replace('.t2.png', '.png') : `https://img.bricklink.com/ItemImage/PN/${c}/${code}.png`;
+            if (!image.includes('/PN/') && !image.includes('/MN/')) image = `https://img.bricklink.com/ItemImage/PN/${c}/${code}.png`;
+            // Assicura estensione .png
+            if (!image.endsWith('.png')) image = image.split('?')[0];
+            fotoVariantiFromDropdown.push({ colorId: c, colorName: n, thumb: `https://img.bricklink.com/ItemImage/PT/${c}/${code}.t1.png`, image });
+          }
+        });
+      } catch(e) {}
+      // Fallback: estrai da ItemImage/PT/*/PN pattern se dropdown non presente (vecchio layout)
       const colorImgs = [...html.matchAll(/ItemImage\/P[NT]\/(\d+)\/[^'"]+\.png/g)].map(m => m[0]);
       const uniqColors = [...new Set(colorImgs.map(p => p.match(/\/(\d+)\//)?.[1]).filter(Boolean))];
-      // Costruisci lista varianti colore con URL e nome colore approssimativo
-      const colorMap = { '0':'Multi', '1':'White', '2':'Tan', '3':'Green', '4':'Red', '5':'Red', '6':'Green', '7':'Light Gray','10':'Light Gray','11':'Black','12':'Trans-Clear','14':'Trans-Dark Blue','15':'White','21':'Chrome Gold','22':'Chrome Silver','26':'Black','34':'Lime','57':'Chrome Antique Brass','59':'Dark Red','80':'Dark Green','85':'Dark Bluish Gray','86':'Light Bluish Gray','88':'Reddish Brown','122':'Chrome Black','150':'Light Nougat','48':'Sand Green' };
-      fotoVarianti = uniqColors.map(c => ({
+      // Mappa corretta BrickLink (fix 7=Blue non Light Gray, 3=Yellow non Green, 10=Dark Gray ecc.)
+      const colorMap = { '0':'Multi','1':'White','2':'Tan','3':'Yellow','4':'Orange','5':'Red','6':'Green','7':'Blue','8':'Brown','9':'Light Gray','10':'Dark Gray','11':'Black','12':'Trans-Clear','14':'Trans-Dark Blue','21':'Chrome Gold','22':'Chrome Silver','26':'Black','34':'Lime','36':'Bright Green','47':'Dark Pink','48':'Sand Green','57':'Chrome Antique Brass','59':'Dark Red','80':'Dark Green','85':'Dark Bluish Gray','86':'Light Bluish Gray','88':'Reddish Brown','89':'Dark Purple','90':'Light Nougat','103':'Bright Light Yellow','104':'Bright Pink','110':'Bright Light Orange','122':'Chrome Black','150':'Medium Nougat','153':'Dark Azure','156':'Medium Azure','212':'Bright Light Blue' };
+      let fallbackVarianti = uniqColors.map(c => ({
         colorId: c,
         colorName: colorMap[c] || `Colore ${c}`,
         thumb: `https://img.bricklink.com/ItemImage/PT/${c}/${code}.t1.png`,
         image: `https://img.bricklink.com/ItemImage/PN/${c}/${code}.png`
       }));
+      // Usa dropdown se trovato (più accurato per nomi), altrimenti fallback
+      if (fotoVariantiFromDropdown.length > 0) {
+        // Unisci anche colori trovati solo nel fallback (alcuni parts hanno Known Colors non nel dropdown PG)
+        const seen = new Set(fotoVariantiFromDropdown.map(v=>v.colorId));
+        fallbackVarianti.forEach(v=>{ if(!seen.has(v.colorId) && v.colorId!=='0' && v.colorId!=='-1') fotoVariantiFromDropdown.push(v); });
+        fotoVarianti = fotoVariantiFromDropdown;
+      } else {
+        fotoVarianti = fallbackVarianti;
+      }
       // Se non trovate varianti, usa foto principale
       if (fotoVarianti.length === 0 && foto) {
-        const m = foto.match(/\/PN\/(\d+)\//);
+        const m = foto.match(/\/PN\/(\d+)\//) || foto.match(/\/PT\/(\d+)\//);
         if (m) fotoVarianti.push({ colorId: m[1], colorName: colorMap[m[1]]||`Colore ${m[1]}`, thumb: foto.replace('/PN/','/PT/').replace('.png','.t1.png'), image: foto });
       }
 
@@ -506,6 +533,50 @@ app.post('/api/sync', express.json({ limit: '50mb' }), async (req, res) => {
       console.log('GitHub sync fallito:', t.slice(0,300));
     } else console.log('GitHub sync OK');
   } catch(e){ console.log('GitHub sync errore:', e.message); }
+  res.json({ ok: true });
+});
+
+// Sync lotti (vendita in blocco)
+const LOTTI_PATH = path.join(__dirname, 'data', 'lotti.json');
+app.get('/api/lotti', async (req, res) => {
+  try {
+    try {
+      const r = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/lotti.json`, { headers: { 'Cache-Control': 'no-cache' } });
+      if (r.ok) {
+        const j = await r.json();
+        try { fs.mkdirSync(path.dirname(LOTTI_PATH), { recursive: true }); fs.writeFileSync(LOTTI_PATH, JSON.stringify(j, null, 2)); } catch(e){}
+        return res.json(j);
+      }
+    } catch(e){}
+    if (fs.existsSync(LOTTI_PATH)) {
+      const j = JSON.parse(fs.readFileSync(LOTTI_PATH, 'utf8') || '[]');
+      return res.json(j);
+    }
+    res.json([]);
+  } catch(e){ res.json([]); }
+});
+app.post('/api/lotti', express.json({ limit: '50mb' }), async (req, res) => {
+  const data = req.body;
+  if (!Array.isArray(data)) return res.status(400).json({ error: 'Formato non valido' });
+  try {
+    fs.mkdirSync(path.dirname(LOTTI_PATH), { recursive: true });
+    fs.writeFileSync(LOTTI_PATH, JSON.stringify(data, null, 2));
+  } catch(e){}
+  try {
+    const getFile = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/lotti.json`, { headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync' } });
+    let sha = null;
+    if (getFile.ok) { const j = await getFile.json(); sha = j.sha; }
+    const content = Buffer.from(JSON.stringify(data, null, 2)).toString('base64');
+    const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/lotti.json`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: `Sync lotti ${new Date().toISOString()}`, content, sha: sha || undefined })
+    });
+    if (!putRes.ok) {
+      const t = await putRes.text();
+      console.log('GitHub lotti sync fallito:', t.slice(0,300));
+    } else console.log('GitHub lotti sync OK');
+  } catch(e){ console.log('GitHub lotti sync errore:', e.message); }
   res.json({ ok: true });
 });
 
