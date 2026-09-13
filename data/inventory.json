@@ -1,5 +1,41 @@
 [
   {
+    "id": "cltqvdh",
+    "codice": "sw0448",
+    "codiceBrickLink": "sw0448",
+    "nome": "Commando Droid Captain",
+    "categoria": "Star Wars > Star Wars The Clone Wars",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0448.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0448.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0448.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.44,
+    "prezzoVendita": 3.49,
+    "variante": "Sw0448 ? sw0448",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 6.87,
+      "soldUsed": 4.44,
+      "currentNew": 10.92,
+      "currentUsed": 5.14,
+      "listinoUsato": 4.44
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294942426,
+    "created": 1789294942426
+  },
+  {
     "id": "upgd952",
     "codice": "sw0445",
     "codiceBrickLink": "sw0445",
