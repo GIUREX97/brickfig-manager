@@ -6,33 +6,19 @@
     "nome": "Spider-Man 2099",
     "categoria": "Super Heroes > Spider-Man",
     "categoriaMacro": "Super Heroes",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0539.png",
     "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0539.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0539.png"
-      }
-    ],
+    "fotoVarianti": [],
     "prezzoAvgUsato": 25.44,
-    "prezzoVendita": 29.69,
+    "prezzoVendita": 25.49,
     "variante": "Sh0539 ? sh0539",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 46.64,
-      "soldUsed": 25.44,
-      "currentNew": 75.25,
-      "currentUsed": 37.48,
-      "listinoUsato": 25.44
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789295247845,
+    "updated": 1789295260298,
     "created": 1789295247845
   },
   {
