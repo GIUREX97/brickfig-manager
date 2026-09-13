@@ -1,5 +1,41 @@
 [
   {
+    "id": "y507pev",
+    "codice": "sw0630",
+    "codiceBrickLink": "sw0630",
+    "nome": "Imperial Stormtrooper Sergeant",
+    "categoria": "Star Wars > Star Wars Rebels",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0630.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0630.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0630.png"
+      }
+    ],
+    "prezzoAvgUsato": 9.91,
+    "prezzoVendita": 3.99,
+    "variante": "Sw0630 ? sw0630",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 12.46,
+      "soldUsed": 9.91,
+      "currentNew": 17.48,
+      "currentUsed": 12.37,
+      "listinoUsato": 9.91
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294979377,
+    "created": 1789294979377
+  },
+  {
     "id": "3718q4r",
     "codice": "sw0627",
     "codiceBrickLink": "sw0627",
