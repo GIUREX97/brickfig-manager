@@ -1,5 +1,41 @@
 [
   {
+    "id": "6zoco3l",
+    "codice": "sh1039",
+    "codiceBrickLink": "sh1039",
+    "nome": "Pepper Potts - Black Suit, Reddish Orange Ponytail",
+    "categoria": "Super Heroes > The Infinity Saga",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh1039.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh1039.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh1039.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.94,
+    "prezzoVendita": 3.49,
+    "variante": "Sh1039 ? sh1039",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 3.24,
+      "soldUsed": 2.94,
+      "currentNew": 4.82,
+      "currentUsed": 3.84,
+      "listinoUsato": 2.94
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789295301721,
+    "created": 1789295301721
+  },
+  {
     "id": "ryoacfd",
     "codice": "sh0963",
     "codiceBrickLink": "sh0963",
