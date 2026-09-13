@@ -7,7 +7,7 @@
     "categoria": "Antenna",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/9/3144.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/60/3144.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -47,21 +47,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/60/3144.png"
       }
     ],
-    "prezzoAvgUsato": 14.9,
+    "prezzoAvgUsato": 4.47,
     "prezzoVendita": 14.9,
-    "variante": "(Not Applicable)",
+    "variante": "Milky White",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "60",
     "prezziDettaglio": {
-      "soldNew": 35.17,
-      "soldUsed": 14.9,
-      "currentNew": 37.36,
-      "currentUsed": 20.8,
-      "listinoUsato": 14.9
+      "soldNew": 9.84,
+      "soldUsed": 4.47,
+      "currentNew": 10.77,
+      "currentUsed": 5.7,
+      "listinoUsato": 4.47
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789293250228,
+    "updated": 1789293254341,
     "created": 1789293250228
   },
   {
