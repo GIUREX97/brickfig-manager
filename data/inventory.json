@@ -8,7 +8,7 @@
     "categoriaMacro": "Minifigure, Utensil",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/65/90398.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/48/90398.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -144,21 +144,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/67/90398.png"
       }
     ],
-    "prezzoAvgUsato": 1.57,
+    "prezzoAvgUsato": 0.28,
     "prezzoVendita": 2.39,
-    "variante": "(Not Applicable)",
+    "variante": "Sand Green",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "48",
     "prezziDettaglio": {
-      "soldNew": 3.2,
-      "soldUsed": 1.57,
-      "currentNew": 3.93,
-      "currentUsed": 1.75,
-      "listinoUsato": 1.57
+      "soldNew": 0.18,
+      "soldUsed": 0.28,
+      "currentNew": 0.27,
+      "currentUsed": 0.38,
+      "listinoUsato": 0.28
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789294035343,
+    "updated": 1789294041949,
     "created": 1789294035343
   },
   {
