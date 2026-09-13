@@ -1,5 +1,41 @@
 [
   {
+    "id": "hpo0fpn",
+    "codice": "cas037",
+    "codiceBrickLink": "cas037",
+    "nome": "Knights' Kingdom - Knight 1",
+    "categoria": "Castle > Knights' Kingdom",
+    "categoriaMacro": "Castle",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cas037.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/cas037.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/cas037.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.67,
+    "prezzoVendita": 4.59,
+    "variante": "Cas037 ? cas037",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 10.1,
+      "soldUsed": 4.67,
+      "currentNew": 16.57,
+      "currentUsed": 5.44,
+      "listinoUsato": 4.67
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304461224,
+    "created": 1789304461224
+  },
+  {
     "id": "ql96otp",
     "codice": "elephant1c02",
     "codiceBrickLink": "elephant1c02",
