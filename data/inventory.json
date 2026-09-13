@@ -1,5 +1,41 @@
 [
   {
+    "id": "drg3jcm",
+    "codice": "sh0569",
+    "codiceBrickLink": "sh0569",
+    "nome": "Rocket Raccoon - White Jumpsuit, Dark Bluish Gray Head",
+    "categoria": "Super Heroes > Avengers Endgame",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0569.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0569.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0569.png"
+      }
+    ],
+    "prezzoAvgUsato": 6.55,
+    "prezzoVendita": 6.49,
+    "variante": "Sh0569 ? sh0569",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 9.03,
+      "soldUsed": 6.55,
+      "currentNew": 14.25,
+      "currentUsed": 8.2,
+      "listinoUsato": 6.55
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295272901,
+    "created": 1789295272901
+  },
+  {
     "id": "xpma8z4",
     "codice": "sh0539",
     "codiceBrickLink": "sh0539",
@@ -510,78 +546,6 @@
     "stato": "Disponibile",
     "updated": 1789295145640,
     "created": 1789295145640
-  },
-  {
-    "id": "45b1z0v",
-    "codice": "sh0016",
-    "codiceBrickLink": "sh0016",
-    "nome": "Batman - Black Suit with Yellow Belt and Crest (Type 1 Cowl)",
-    "categoria": "Super Heroes > Batman II",
-    "categoriaMacro": "Super Heroes",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0016.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0016.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0016.png"
-      }
-    ],
-    "prezzoAvgUsato": 5.65,
-    "prezzoVendita": 4.79,
-    "variante": "Sh0016 ? sh0016",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 17.54,
-      "soldUsed": 5.65,
-      "currentNew": 80.04,
-      "currentUsed": 48.54,
-      "listinoUsato": 5.65
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295137361,
-    "created": 1789295137361
-  },
-  {
-    "id": "x485atz",
-    "codice": "sw1506",
-    "codiceBrickLink": "sw1506",
-    "nome": "R2-D2 - SMART Tag on Back",
-    "categoria": "Star Wars > Star Wars Episode 4/5/6",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw1506.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw1506.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw1506.png"
-      }
-    ],
-    "prezzoAvgUsato": 6.94,
-    "prezzoVendita": 6.99,
-    "variante": "Sw1506 ? sw1506",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 11.62,
-      "soldUsed": 6.94,
-      "currentNew": 12.76,
-      "currentUsed": 6.9,
-      "listinoUsato": 6.94
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295129611,
-    "created": 1789295129611
   },
   {
     "id": "fl4yof6",
