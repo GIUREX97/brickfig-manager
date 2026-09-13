@@ -1,5 +1,41 @@
 [
   {
+    "id": "9i6027u",
+    "codice": "sh0171",
+    "codiceBrickLink": "sh0171",
+    "nome": "Hydra Henchman - Chitauri Armor",
+    "categoria": "Super Heroes > Avengers Age of Ultron",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0171.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0171.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0171.png"
+      }
+    ],
+    "prezzoAvgUsato": 1.66,
+    "prezzoVendita": 1.59,
+    "variante": "Sh0171 ? sh0171",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 3.66,
+      "soldUsed": 1.66,
+      "currentNew": 4.64,
+      "currentUsed": 2.16,
+      "listinoUsato": 1.66
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295150771,
+    "created": 1789295150771
+  },
+  {
     "id": "0f3htpa",
     "codice": "sh0166",
     "codiceBrickLink": "sh0166",
