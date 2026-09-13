@@ -1,5 +1,41 @@
 [
   {
+    "id": "3718q4r",
+    "codice": "sw0627",
+    "codiceBrickLink": "sw0627",
+    "nome": "Wookiee - Reddish Brown with Dark Tan Fur, Printed Legs, Band on Left Arm",
+    "categoria": "Star Wars > Star Wars Rebels",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0627.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0627.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0627.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.83,
+    "prezzoVendita": 5.49,
+    "variante": "Sw0627 ? sw0627",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.21,
+      "soldUsed": 5.83,
+      "currentNew": 13.22,
+      "currentUsed": 7.1,
+      "listinoUsato": 5.83
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789294972049,
+    "created": 1789294972049
+  },
+  {
     "id": "abjoj72",
     "codice": "sw0617",
     "codiceBrickLink": "sw0617",
