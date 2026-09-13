@@ -1,5 +1,41 @@
 [
   {
+    "id": "nguhawe",
+    "codice": "sw0857",
+    "codiceBrickLink": "sw0857",
+    "nome": "Rose Tico - Dark Tan Outfit, Hair",
+    "categoria": "Star Wars > Star Wars Episode 8",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0857.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0857.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0857.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.6,
+    "prezzoVendita": 2.49,
+    "variante": "Sw0857 ? sw0857",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 4.2,
+      "soldUsed": 2.6,
+      "currentNew": 6,
+      "currentUsed": 3.2,
+      "listinoUsato": 2.6
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789298098246,
+    "created": 1789298098246
+  },
+  {
     "id": "r7r78vu",
     "codice": "sw0851",
     "codiceBrickLink": "sw0851",
