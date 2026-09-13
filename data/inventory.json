@@ -1,5 +1,41 @@
 [
   {
+    "id": "57na2wo",
+    "codice": "sh0737",
+    "codiceBrickLink": "sh0737",
+    "nome": "Hydra Agent",
+    "categoria": "Super Heroes > The Infinity Saga",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0737.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0737.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0737.png"
+      }
+    ],
+    "prezzoAvgUsato": 1.97,
+    "prezzoVendita": 1.99,
+    "variante": "Sh0737 ? sh0737",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 2.9,
+      "soldUsed": 1.97,
+      "currentNew": 3.71,
+      "currentUsed": 2.45,
+      "listinoUsato": 1.97
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295281525,
+    "created": 1789295281525
+  },
+  {
     "id": "utlm9gn",
     "codice": "sh0665",
     "codiceBrickLink": "sh0665",
