@@ -8,7 +8,7 @@
     "categoriaMacro": "Animali",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/150/64452pb01c01.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/88/64452pb01c01.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -30,21 +30,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/88/64452pb01c01.png"
       }
     ],
-    "prezzoAvgUsato": 7.14,
+    "prezzoAvgUsato": 17.81,
     "prezzoVendita": 17.99,
-    "variante": "(Not Applicable)",
+    "variante": "Reddish Brown",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "88",
     "prezziDettaglio": {
-      "soldNew": 10.88,
-      "soldUsed": 7.14,
-      "currentNew": 15.17,
-      "currentUsed": 9.7,
-      "listinoUsato": 7.14
+      "soldNew": 28.95,
+      "soldUsed": 17.81,
+      "currentNew": 30.99,
+      "currentUsed": 22.49,
+      "listinoUsato": 17.81
     },
     "qta": 3,
     "stato": "Disponibile",
-    "updated": 1789304378022,
+    "updated": 1789304380912,
     "created": 1789304378022
   },
   {
