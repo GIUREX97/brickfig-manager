@@ -1,5 +1,41 @@
 [
   {
+    "id": "1s4vfq0",
+    "codice": "sp009",
+    "codiceBrickLink": "sp009",
+    "nome": "Exploriens Chief",
+    "categoria": "Space > Exploriens",
+    "categoriaMacro": "Space",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sp009.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Default",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sp009.png",
+        "thumb": "https://img.bricklink.com/ItemImage/MN/0/sp009.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.52,
+    "prezzoVendita": 2.49,
+    "variante": "Sp009 ? sp009",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 4.88,
+      "soldUsed": 2.52,
+      "currentNew": 18.08,
+      "currentUsed": 3.18,
+      "listinoUsato": 2.52
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294362937,
+    "created": 1789294362937
+  },
+  {
     "id": "1e6a4zo",
     "codice": "sp008",
     "codiceBrickLink": "sp008",
