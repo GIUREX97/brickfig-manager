@@ -385,6 +385,11 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         <div id="galLightBadge" class="absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-white border border-zinc-200 shadow">BRICKLINK</div>
       </div>
       <div id="galLightThumbs" class="mt-3 flex gap-2 overflow-x-auto max-w-full pb-1"></div>
+      <div id="galVariantBox" class="mt-3 hidden w-full max-w-[880px] flex items-center gap-2 justify-center bg-white rounded-xl p-3 border-2 border-amber-200 shadow">
+        <i class="fa-solid fa-palette text-amber-600"></i>
+        <span class="text-xs font-bold text-amber-700 uppercase hidden sm:inline">Variante BrickLink</span>
+        <select id="galVariantSelect" onchange="changeCardVariant(galleryCurrent.id, this.value); setTimeout(renderLightbox, 300);" class="flex-1 text-sm font-bold px-3 py-2 rounded-xl border-2 border-amber-300 bg-amber-50"></select>
+      </div>
       <div class="mt-2 text-[11px] text-zinc-300 text-center">Freccie ? ? o swipe � Copertina sempre BrickLink, a seguire le tue foto reali</div>
     </div>
   </div>
@@ -600,6 +605,21 @@ function getCodeVariantsLocal(code){
   if(!/^col\d+[-_]\d+/.test(code)){
     let m=code.match(/^col0*(\d+)[-_\.]0*(\d+)$/);
     if(m){ let s=parseInt(m[1],10), n=parseInt(m[2],10), g=(s-1)*16+n, p='col'+String(g).padStart(3,'0'); if(!v.includes(p)) v.push(p); }
+  }
+  if(code.includes('-') || code.includes('_')){
+    let noHyphen=code.replace(/[-_]/g,'');
+    if(!v.includes(noHyphen)) v.push(noHyphen);
+  }
+  if(/^\d+[a-z]+$/i.test(code)){
+    let base=code.replace(/[a-z]+$/i,'');
+    if(base && /^\d+$/.test(base) && !v.includes(base)) v.push(base);
+  }
+  const mLetterPb=code.match(/^(\d+)[a-z](pb.*|c\d+.*)$/i);
+  if(mLetterPb){
+    let alt=mLetterPb[1]+mLetterPb[2];
+    if(!v.includes(alt)) v.push(alt);
+    let base2=mLetterPb[1];
+    if(!v.includes(base2) && /^\d+$/.test(base2)) v.push(base2);
   }
   return [...new Set(v)];
 }
@@ -1146,7 +1166,9 @@ async function quickAdd(){
     else data=await fetchBricklink(raw, detectType(raw));
     if(figs.some(f=>f.codice===data.codice)) throw new Error('Gi� in inventario: '+data.codice);
     const prezzoVendita = prezzoVenditaInput || data.prezzoAvgUsato || 0;
-    const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, fotoExtra:[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante:`${raw} ? ${data.codice}`, note:'', coloreId:'', prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
+    const selColorId = data.fotoVarianti && data.fotoVarianti.length ? (data.fotoVarianti.find(v=>v.image===data.foto)?.colorId || data.fotoVarianti[0].colorId || '') : '';
+    const selVariante = data.fotoVarianti && data.fotoVarianti.length>1 ? (data.fotoVarianti.find(v=>v.image===data.foto)?.colorName || '') : `${raw} ? ${data.codice}`;
+    const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, fotoExtra:[], fotoVarianti:data.fotoVarianti||[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: selVariante, note:'', coloreId: selColorId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
     figs.unshift(obj); save(); render();
     document.getElementById('quickCode').value=''; document.getElementById('quickPrezzoVendita').value=''; delete document.getElementById('quickCode').dataset.cache;
     document.getElementById('quickPreview').textContent='Scrivi codice ? automatico';
@@ -1192,7 +1214,7 @@ async function saveFig(e){
   if(coverFoto && coverFoto.startsWith('data:') && data.foto && !data.foto.startsWith('data:')){
     coverFoto = data.foto;
   }
-  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:coverFoto, fotoExtra: extraToSave.slice(0,5), prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} ? ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
+  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:coverFoto, fotoExtra: extraToSave.slice(0,5), fotoVarianti: data.fotoVarianti||[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} ? ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
   if(existing>=0) figs[existing]=obj; else figs.unshift(obj);
   save(); closeModal(); render(); toast(existing>=0?'Aggiornato':'Aggiunto');
 }
@@ -1209,6 +1231,33 @@ function quickStato(id, v){
 function setStatoFromCart(id, nuovoStato){
   const f=figs.find(x=>x.id===id); if(!f) return;
   f.stato=nuovoStato; f.updated=Date.now(); save(); render();
+}
+async function changeCardVariant(id, colorId){
+  if(!colorId) return;
+  const fig=figs.find(f=>f.id===id);
+  if(!fig || !fig.fotoVarianti) return;
+  const variant=fig.fotoVarianti.find(v=>String(v.colorId)===String(colorId));
+  if(!variant) return;
+  // Aggiorna subito UI per feedback immediato
+  fig.foto=variant.image;
+  fig.coloreId=colorId;
+  fig.variante=variant.colorName;
+  const img=document.getElementById('card-img-'+id);
+  if(img) img.src=getImageSrc(variant.image);
+  // Aggiorna prezzo BrickLink per quel colore
+  try{
+    const data=await fetchBricklink(fig.codice, fig.tipoCode, colorId);
+    fig.prezzoAvgUsato=data.prezzoAvgUsato||fig.prezzoAvgUsato;
+    fig.prezziDettaglio=data.prezziDettaglio||fig.prezziDettaglio;
+    // Mantieni foto variante (non sovrascrivere con eventuale foto diversa del server)
+    fig.foto=variant.image;
+    fig.coloreId=colorId;
+    fig.variante=variant.colorName;
+    fig.fotoVarianti=data.fotoVarianti||fig.fotoVarianti;
+  }catch(e){}
+  fig.updated=Date.now();
+  save(); render();
+  toast(`Variante ${variant.colorName} — AVG €${(fig.prezzoAvgUsato||0).toFixed(2)}`);
 }
 // Gallery helpers - copertina BrickLink sempre prima, poi foto reali
 function cardGal(event,id,dir){
@@ -1267,6 +1316,19 @@ function renderLightbox(){
     const active=i===galleryCurrent.idx;
     return `<button onclick="galleryCurrent.idx=${i}; renderLightbox()" class="shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 ${active?'border-amber-400 ring-2 ring-amber-200':'border-zinc-200'} bg-white"><img src="${src}" class="w-full h-full object-cover"></button>`;
   }).join('');
+  // Variante cromatica BrickLink dove prevista (es. 59 Chrome Gold/Silver)
+  const variantBox=document.getElementById('galVariantBox');
+  const variantSelect=document.getElementById('galVariantSelect');
+  if(variantBox && variantSelect){
+    if(f.fotoVarianti && f.fotoVarianti.length>1){
+      variantBox.classList.remove('hidden');
+      variantBox.classList.add('flex');
+      variantSelect.innerHTML='<option value="">Scegli variante BrickLink...</option>'+f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('');
+    } else {
+      variantBox.classList.add('hidden');
+      variantBox.classList.remove('flex');
+    }
+  }
 }
 function galLightPrev(e){
   if(e) e.stopPropagation();
@@ -1373,8 +1435,9 @@ function render(){
         ${showNav ? `<button onclick="cardGal(event,'${f.id}',-1)" class="gal-arrow prev" title="Precedente"><i class="fa-solid fa-chevron-left text-xs"></i></button><button onclick="cardGal(event,'${f.id}',1)" class="gal-arrow next" title="Successiva"><i class="fa-solid fa-chevron-right text-xs"></i></button><div class="gal-counter">${safeIdx+1} / ${total}</div><div class="gal-badge ${safeIdx===0?'bg-amber-400 text-zinc-900 border-amber-300':'bg-emerald-600 text-white border-emerald-500'} border">${badgeLabel}</div><div class="gal-dots">${allPhotos.map((_,i)=>`<span class="gal-dot ${i===safeIdx?'active':''}" onclick="event.stopPropagation(); cardGalGo('${f.id}',${i})"></span>`).join('')}</div>` : `<div class="gal-badge bg-amber-400 text-zinc-900 border border-amber-300">BRICKLINK</div>`}
         ${total>1 ? `<span class="absolute bottom-2 left-2 bg-white/90 backdrop-blur border border-zinc-200 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-images text-[10px]"></i> ${total} foto</span>` : ''}
       </div>
+      ${f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="px-3 py-2 bg-amber-50/70 border-b border-amber-100 flex items-center gap-2"><i class="fa-solid fa-palette text-amber-600 text-xs"></i><span class="text-[10px] font-bold text-amber-700 uppercase hidden sm:inline">Variante BrickLink</span><select onchange="changeCardVariant('${f.id}', this.value)" class="flex-1 text-xs font-bold px-2 py-1.5 rounded-xl border-2 border-amber-200 bg-white focus:border-amber-400 outline-none"><option value="">Scegli colore...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}
       <div class="p-4 flex-1 flex flex-col">
-        <div class="flex items-start justify-between gap-2 min-h-[38px]"><h3 class="font-bold text-[13px] leading-tight line-clamp-2 flex-1">${f.nome}</h3><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center shrink-0"><i class="fa-solid fa-pen text-xs"></i></button></div>
+        <div class="flex items-start justify-between gap-2 min-h-[38px]"><h3 class="font-bold text-[13px] leading-tight line-clamp-2 flex-1">${f.nome}</h3><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center shrink-0 admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button></div>
         <div class="text-[11px] text-zinc-500 mt-1 line-clamp-1 min-h-[16px]">${f.categoria||''}</div>
         <div class="min-h-[18px] mt-1">${f.variante? `<div class="text-[11px] font-semibold text-amber-700">Variante: ${f.variante}</div>`:''}</div>
         <div class="min-h-[64px] mt-1">${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 border border-zinc-100 rounded-xl p-2 line-clamp-3 h-[64px] overflow-hidden">${f.note}</div>`:`<div class="h-[64px]"></div>`}</div>
@@ -1386,7 +1449,7 @@ function render(){
         <div class="mt-3 flex gap-1">
           <button onclick="addToCart('${f.id}')" class="flex-1 py-2 rounded-xl bg-zinc-900 text-white text-xs font-bold hover:bg-black"><i class="fa-solid fa-cart-plus mr-1"></i> Carrello</button>
           <select onchange="quickStato('${f.id}', this.value)" class="stato-edit-only-local w-10 text-xs font-bold px-1 py-2 rounded-xl border border-zinc-200 bg-white" title="Cambia stato"><option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>D</option><option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>P</option><option value="Venduto" ${f.stato==='Venduto'?'selected':''}>V</option></select>
-          <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center"><i class="fa-regular fa-trash-can text-xs"></i></button>
+          <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button>
         </div>
         <a href="https://www.bricklink.com/v2/catalog/catalogitem.page?${f.tipoCode}=${f.codiceBrickLink||f.codice}" target="_blank" class="mt-2 text-[11px] text-center text-blue-600 underline">BrickLink ${f.codiceBrickLink && f.codiceBrickLink!==f.codice? `(${f.codiceBrickLink})`:''} <i class="fa-solid fa-up-right-from-square"></i></a>
       </div>
@@ -1396,7 +1459,7 @@ function render(){
   tbody.innerHTML=list.map(f=>{
     const photos=getAllPhotos(f);
     const hasExtra=photos.length>1;
-    return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td><td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td>  <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-red-100 text-red-700 border-red-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
+    return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td>  <td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="mt-1 flex items-center gap-1"><i class="fa-solid fa-palette text-amber-600 text-[10px]"></i><select onchange="changeCardVariant('${f.id}', this.value)" class="text-[11px] font-bold px-2 py-1 rounded-lg border-2 border-amber-200 bg-amber-50"><option value="">Cambia variante...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td>  <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-red-100 text-red-700 border-red-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
   }).join('');
   document.getElementById('emptyState').classList.toggle('hidden', list.length!==0);
 }

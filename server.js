@@ -60,6 +60,20 @@ function getCodeVariants(input) {
     let noHyphen = input.replace(/[-_]/g, '');
     if (!variants.includes(noHyphen)) variants.push(noHyphen);
   }
+  // Fix parti con suffisso variante lettera: 3069b -> 3069, 3040b -> 3040, 3005a -> 3005
+  // BrickLink ha unificato molte varianti "b" nella base senza lettera
+  if (/^\d+[a-z]+$/i.test(input)) {
+    let base = input.replace(/[a-z]+$/i, '');
+    if (base && /^\d+$/.test(base) && !variants.includes(base)) variants.push(base);
+  }
+  // Caso 3069bpb01 / 3040bpb001 -> rimuovi la lettera variante prima di pb/c
+  const mLetterPb = input.match(/^(\d+)[a-z](pb.*|c\d+.*)$/i);
+  if (mLetterPb) {
+    let alt = mLetterPb[1] + mLetterPb[2];
+    if (!variants.includes(alt)) variants.push(alt);
+    let base2 = mLetterPb[1];
+    if (!variants.includes(base2) && /^\d+$/.test(base2)) variants.push(base2);
+  }
   return [...new Set(variants)];
 }
 
