@@ -1,5 +1,65 @@
 [
   {
+    "id": "lw6s14h",
+    "codice": "6026c01",
+    "codiceBrickLink": "6026c01",
+    "nome": "Alligator / Crocodile with 8 Teeth",
+    "categoria": "Animal, Water",
+    "categoriaMacro": "Animali",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/6/6026c01.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/6026c01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/6/6026c01.png"
+      },
+      {
+        "colorId": "36",
+        "colorName": "Bright Green",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/36/6026c01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/36/6026c01.png"
+      },
+      {
+        "colorId": "10",
+        "colorName": "Dark Gray",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/10/6026c01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/10/6026c01.png"
+      },
+      {
+        "colorId": "80",
+        "colorName": "Dark Green",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/80/6026c01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/80/6026c01.png"
+      },
+      {
+        "colorId": "6",
+        "colorName": "Green",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/6/6026c01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/6/6026c01.png"
+      }
+    ],
+    "prezzoAvgUsato": 1.71,
+    "prezzoVendita": 3.89,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 4.88,
+      "soldUsed": 1.71,
+      "currentNew": 7.03,
+      "currentUsed": 2.09,
+      "listinoUsato": 1.71
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789303423915,
+    "created": 1789303423915
+  },
+  {
     "id": "y68o4zw",
     "codice": "4493c01pb04",
     "codiceBrickLink": "4493c01pb04",
