@@ -1,5 +1,41 @@
 [
   {
+    "id": "cr0klq2",
+    "codice": "cas099",
+    "codiceBrickLink": "cas099",
+    "nome": "Black Falcon - Black Legs with Red Hips, Black Neck-Protector",
+    "categoria": "Castle > Black Falcons",
+    "categoriaMacro": "Castle",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cas099.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/cas099.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/cas099.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.95,
+    "prezzoVendita": 4.49,
+    "variante": "Cas099 ? cas099",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": null,
+      "soldUsed": 4.95,
+      "currentNew": 27.24,
+      "currentUsed": 6.03,
+      "listinoUsato": 4.95
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304468747,
+    "created": 1789304468747
+  },
+  {
     "id": "hpo0fpn",
     "codice": "cas037",
     "codiceBrickLink": "cas037",
