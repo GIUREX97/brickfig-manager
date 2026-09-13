@@ -472,11 +472,23 @@ async function syncLottiFromCloud(){
   try{
     const r=await fetch('/api/lotti', { cache:'no-store' });
     if(r.ok){
-      const remote=await r.json();
+      let remote=await r.json();
       if(Array.isArray(remote)){
-        // Filtra lotti con figIds non più esistenti? tieni tutti
-        lotti=remote;
+        // Propaga cancellazioni lotti: se locale ha lotto non più in remote e non è nuovo, rimuovilo
+        const remoteIds=new Set(remote.map(l=>l.id));
+        const now=Date.now();
+        // Tieni i lotti locali solo se sono in remote o sono nuovi (<2min)
+        const keepLocal=lotti.filter(l=> remoteIds.has(l.id) || (l.created && now - l.created < 2*60*1000) || (l.updated && now - l.updated < 2*60*1000));
+        // Merge: remote prevale, ma tieni i nuovi locali non ancora in remote
+        const merged=new Map(remote.map(l=>[l.id,l]));
+        keepLocal.forEach(l=>{ if(!merged.has(l.id)) merged.set(l.id,l); });
+        lotti=[...merged.values()];
         localStorage.setItem(LOTTI_KEY, JSON.stringify(lotti));
+        // Pulisci fig.lottoId se lotto non esiste più
+        const validLottoIds=new Set(lotti.map(l=>l.id));
+        let changed=false;
+        figs.forEach(f=>{ if(f.lottoId && !validLottoIds.has(f.lottoId)){ f.lottoId=null; f.soloLotto=false; changed=true; }});
+        if(changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
         return true;
       }
     }
@@ -502,6 +514,16 @@ async function syncFromCloud(){
         figs=[...localMap.values()];
         // Assicura che in locale non rimangano quelli marcati come cancellati
         figs=figs.filter(f=>!deletedIds.has(f.id));
+        // Propaga cancellazioni/aggiunte da remoto: se locale ha un id non più in remoto e non è nuovo, rimuovilo (sync bidirezionale tranne carrello)
+        const remoteIds=new Set(remote.map(r=>r.id));
+        const now=Date.now();
+        figs=figs.filter(f=>{
+          if(remoteIds.has(f.id)) return true;
+          // Tieni solo se creato/aggiornato negli ultimi 2 min (non ancora pushato)
+          if(f.created && now - f.created < 2*60*1000) return true;
+          if(f.updated && now - f.updated < 2*60*1000) return true;
+          return false;
+        });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
         return true;
       } else if(Array.isArray(remote) && remote.length===0 && figs.length>0){
@@ -1475,13 +1497,8 @@ function addLottoToCart(lottoId){
   const firstFig=figs.find(f=>f.id===lot.figIds[0]);
   cart.push({ id:'lotto-'+lot.id, lottoId: lot.id, codice: 'LOTTO '+lot.figIds.length, nome: lot.nome, categoria: 'Lotto', foto: firstFig? firstFig.foto : '', prezzoVendita: lot.prezzo, prezzoAvgUsato: lot.prezzo, qta:1, isLotto:true, figIds: lot.figIds });
   setCart(cart);
-  lot.stato='Prenotato'; lot.updated=Date.now();
-  lot.figIds.forEach(fid=>{
-    const f=figs.find(x=>x.id===fid);
-    if(f){ f.stato='Prenotato'; f.updated=Date.now(); }
-  });
-  saveLotti(); save(); render();
-  toast('Lotto aggiunto al carrello — solo blocco');
+  toast('Lotto aggiunto al carrello — prenotazione al momento dell\'invio mail');
+  render();
 }
 // Gallery helpers - copertina BrickLink sempre prima, poi foto reali
 function cardGal(event,id,dir){
@@ -1996,16 +2013,8 @@ function addToCart(id){
   if(ex) ex.qta=Math.min(ex.qta+1, fig.qta);
   else cart.push({ id:fig.id, codice:fig.codice, nome:fig.nome, categoria:fig.categoria, foto:fig.foto, prezzoVendita:fig.prezzoVendita||fig.prezzoAvgUsato||0, prezzoAvgUsato:fig.prezzoAvgUsato||0, qta:1 });
   setCart(cart);
-  // Aggiorna stato a Prenotato sia online che in locale quando finisce in carrello
-  if(fig.stato==='Disponibile'){
-    fig.stato='Prenotato';
-    fig.updated=Date.now();
-    save();
-    render();
-    toast('Aggiunto al carrello — stato ora Prenotato');
-  } else {
-    toast('Aggiunto al carrello');
-  }
+  toast('Aggiunto al carrello — prenotazione al momento dell\'invio mail');
+  render();
 }
 function openCart(){ renderCart(); document.getElementById('cartDrawer').classList.remove('hidden'); }
 function closeCart(){ document.getElementById('cartDrawer').classList.add('hidden'); }
@@ -2069,9 +2078,23 @@ async function checkoutCart(){
     const r=await fetch('/api/cart', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ customer, items: cart, total }) });
     const j=await r.json();
     if(!r.ok) throw new Error(j.error||'Errore invio');
-    toast('Richiesta inviata! Ti contatto per il saldo');
+    // Prenota in inventario sia online che in locale (solo qui, come richiesto)
+    cart.forEach(ci=>{
+      if(ci.isLotto && ci.lottoId){
+        const lot=lotti.find(l=>l.id===ci.lottoId);
+        if(lot){ lot.stato='Prenotato'; lot.updated=Date.now(); }
+        (ci.figIds||[]).forEach(fid=>{
+          const f=figs.find(x=>x.id===fid);
+          if(f){ f.stato='Prenotato'; f.updated=Date.now(); }
+        });
+      } else {
+        const f=figs.find(x=>x.id===ci.id);
+        if(f){ f.stato='Prenotato'; f.updated=Date.now(); }
+      }
+    });
+    saveLotti(); save(); render();
+    toast('Richiesta inviata! Ti contatto per il saldo — prenotato anche in locale');
     setCart([]); closeCart();
-    // Aggiorna giacenze? metti prenotato?
   }catch(e){ toast('Errore: '+e.message); }
   btn.disabled=false; btn.innerHTML='Invia richiesta ? Riceverai risposta per il saldo';
 }
