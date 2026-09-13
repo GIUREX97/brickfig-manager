@@ -1,5 +1,41 @@
 [
   {
+    "id": "45b1z0v",
+    "codice": "sh0016",
+    "codiceBrickLink": "sh0016",
+    "nome": "Batman - Black Suit with Yellow Belt and Crest (Type 1 Cowl)",
+    "categoria": "Super Heroes > Batman II",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0016.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0016.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0016.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.65,
+    "prezzoVendita": 4.79,
+    "variante": "Sh0016 ? sh0016",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 17.54,
+      "soldUsed": 5.65,
+      "currentNew": 80.04,
+      "currentUsed": 48.54,
+      "listinoUsato": 5.65
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295137361,
+    "created": 1789295137361
+  },
+  {
     "id": "x485atz",
     "codice": "sw1506",
     "codiceBrickLink": "sw1506",
