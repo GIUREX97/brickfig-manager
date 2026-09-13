@@ -1,5 +1,41 @@
 [
   {
+    "id": "267gfbn",
+    "codice": "sh0398",
+    "codiceBrickLink": "sh0398",
+    "nome": "Harley Quinn - Pigtails, Black Eye Mask, Black and Red Tutu",
+    "categoria": "Super Heroes > The LEGO Batman Movie",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0398.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0398.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0398.png"
+      }
+    ],
+    "prezzoAvgUsato": 32.18,
+    "prezzoVendita": 27.99,
+    "variante": "Sh0398 ? sh0398",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 45.39,
+      "soldUsed": 32.18,
+      "currentNew": 68.68,
+      "currentUsed": 38.27,
+      "listinoUsato": 32.18
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295191113,
+    "created": 1789295191113
+  },
+  {
     "id": "fovwtmv",
     "codice": "sh0397",
     "codiceBrickLink": "sh0397",
