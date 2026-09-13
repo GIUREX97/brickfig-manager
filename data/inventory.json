@@ -1,5 +1,41 @@
 [
   {
+    "id": "84k5hzz",
+    "codice": "sw0828",
+    "codiceBrickLink": "sw0828",
+    "nome": "Bossk - Olive Green",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0828.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0828.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0828.png"
+      }
+    ],
+    "prezzoAvgUsato": 11.73,
+    "prezzoVendita": 11.99,
+    "variante": "Sw0828 ? sw0828",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 17.3,
+      "soldUsed": 11.73,
+      "currentNew": 22.56,
+      "currentUsed": 14.9,
+      "listinoUsato": 11.73
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295082750,
+    "created": 1789295082750
+  },
+  {
     "id": "drie4gs",
     "codice": "sw0810",
     "codiceBrickLink": "sw0810",
