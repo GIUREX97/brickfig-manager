@@ -1,5 +1,41 @@
 [
   {
+    "id": "d3och1d",
+    "codice": "col06-16",
+    "codiceBrickLink": "col06-16",
+    "nome": "Genie, Series 6 (Complete Set with Stand and Accessories) : Set",
+    "categoria": "Collectible Minifigures > Series 6 Minifigures > 2012",
+    "categoriaMacro": "Collezionabili",
+    "tipo": "Set",
+    "tipoCode": "S",
+    "foto": "https://img.bricklink.com/ItemImage/SN/0/col06-16.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/ST/0/col06-16.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/SN/0/col06-16.png"
+      }
+    ],
+    "prezzoAvgUsato": 6.74,
+    "prezzoVendita": 6.49,
+    "variante": "Col06-16 ? col06-16",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.33,
+      "soldUsed": 6.74,
+      "currentNew": 11.43,
+      "currentUsed": 6.58,
+      "listinoUsato": 6.74
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304710932,
+    "created": 1789304710932
+  },
+  {
     "id": "6vkp9u4",
     "codice": "col05-6",
     "codiceBrickLink": "col05-6",
