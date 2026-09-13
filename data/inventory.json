@@ -1,5 +1,41 @@
 [
   {
+    "id": "83aper8",
+    "codice": "sh0349",
+    "codiceBrickLink": "sh0349",
+    "nome": "Bizarro - Short Legs",
+    "categoria": "Super Heroes > Mighty Micros > Superman",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0349.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0349.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0349.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.87,
+    "prezzoVendita": 4.89,
+    "variante": "Sh0349 ? sh0349",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 9.65,
+      "soldUsed": 4.87,
+      "currentNew": 13.38,
+      "currentUsed": 6.47,
+      "listinoUsato": 4.87
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295159744,
+    "created": 1789295159744
+  },
+  {
     "id": "ykoftqk",
     "codice": "sh0217",
     "codiceBrickLink": "sh0217",
@@ -582,78 +618,6 @@
     "stato": "Disponibile",
     "updated": 1789295037949,
     "created": 1789295037949
-  },
-  {
-    "id": "xvoi99k",
-    "codice": "sw0704",
-    "codiceBrickLink": "sw0704",
-    "nome": "Obi-Wan Kenobi (Headset)",
-    "categoria": "Star Wars > Star Wars Episode 3",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0704.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0704.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0704.png"
-      }
-    ],
-    "prezzoAvgUsato": 5.51,
-    "prezzoVendita": 5.39,
-    "variante": "Sw0704 ? sw0704",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 13,
-      "soldUsed": 5.51,
-      "currentNew": 18.52,
-      "currentUsed": 6.24,
-      "listinoUsato": 5.51
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295030961,
-    "created": 1789295030961
-  },
-  {
-    "id": "3yyoguw",
-    "codice": "sw0692",
-    "codiceBrickLink": "sw0692",
-    "nome": "Imperial Shock Trooper",
-    "categoria": "Star Wars > Star Wars Battlefront",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0692.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0692.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0692.png"
-      }
-    ],
-    "prezzoAvgUsato": 10.26,
-    "prezzoVendita": 9.89,
-    "variante": "Sw0692 ? sw0692",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 17.64,
-      "soldUsed": 10.26,
-      "currentNew": 22.49,
-      "currentUsed": 12.1,
-      "listinoUsato": 10.26
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295023682,
-    "created": 1789295023682
   },
   {
     "id": "fl4yof6",
