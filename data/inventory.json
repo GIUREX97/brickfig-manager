@@ -1,5 +1,52 @@
 [
   {
+    "id": "d64zjok",
+    "codice": "2586px10",
+    "codiceBrickLink": "2586px10",
+    "nome": "Minifigure, Shield Oval with Islanders Mask Pattern",
+    "categoria": "Minifigure, Shield",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/1/2586px10.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/2586px10.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/1/2586px10.png"
+      },
+      {
+        "colorId": "9",
+        "colorName": "Light Gray",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/9/2586px10.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/9/2586px10.png"
+      },
+      {
+        "colorId": "1",
+        "colorName": "White",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/1/2586px10.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/1/2586px10.png"
+      }
+    ],
+    "prezzoAvgUsato": 0.96,
+    "prezzoVendita": 1,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 2.77,
+      "soldUsed": 0.96,
+      "currentNew": 4.76,
+      "currentUsed": 1.24,
+      "listinoUsato": 0.96
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789293232097,
+    "created": 1789293232097
+  },
+  {
     "id": "6p01k4c",
     "codice": "2566",
     "codiceBrickLink": "2566",
