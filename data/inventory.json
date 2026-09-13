@@ -5,63 +5,19 @@
     "codiceBrickLink": "3144",
     "nome": "Antenna with Side Spokes",
     "categoria": "Antenna",
-    "tipo": "Parte Sfusa",
     "tipoCode": "P",
     "foto": "https://img.bricklink.com/ItemImage/PN/60/3144.png",
     "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "(Not Applicable)",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/0/3144.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/9/3144.png"
-      },
-      {
-        "colorId": "86",
-        "colorName": "Light Bluish Gray",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/86/3144.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/86/3144.png"
-      },
-      {
-        "colorId": "9",
-        "colorName": "Light Gray",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/9/3144.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/9/3144.png"
-      },
-      {
-        "colorId": "5",
-        "colorName": "Red",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/5/3144.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/5/3144.png"
-      },
-      {
-        "colorId": "1",
-        "colorName": "White",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/1/3144.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/1/3144.png"
-      },
-      {
-        "colorId": "60",
-        "colorName": "Milky White",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/60/3144.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/60/3144.png"
-      }
-    ],
+    "fotoVarianti": [],
     "prezzoAvgUsato": 4.47,
-    "prezzoVendita": 14.9,
+    "prezzoVendita": 4.49,
     "variante": "Milky White",
     "note": "",
     "coloreId": "60",
-    "prezziDettaglio": {
-      "soldNew": 9.84,
-      "soldUsed": 4.47,
-      "currentNew": 10.77,
-      "currentUsed": 5.7,
-      "listinoUsato": 4.47
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789293254341,
+    "updated": 1789293262837,
     "created": 1789293250228
   },
   {
