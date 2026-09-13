@@ -1,5 +1,41 @@
 [
   {
+    "id": "qs8e6ge",
+    "codice": "sw0807",
+    "codiceBrickLink": "sw0807",
+    "nome": "Imperial Death Trooper - Black Armor",
+    "categoria": "Star Wars > Star Wars Rogue One",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0807.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0807.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0807.png"
+      }
+    ],
+    "prezzoAvgUsato": 8.66,
+    "prezzoVendita": 12.99,
+    "variante": "Sw0807 ? sw0807",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 13.54,
+      "soldUsed": 8.66,
+      "currentNew": 18.62,
+      "currentUsed": 10.04,
+      "listinoUsato": 8.66
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295057399,
+    "created": 1789295057399
+  },
+  {
     "id": "8la8pr2",
     "codice": "sw0807",
     "codiceBrickLink": "sw0807",
