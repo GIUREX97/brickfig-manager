@@ -1,5 +1,41 @@
 [
   {
+    "id": "drie4gs",
+    "codice": "sw0810",
+    "codiceBrickLink": "sw0810",
+    "nome": "Qui-Gon Jinn, without Cape",
+    "categoria": "Star Wars > Star Wars Episode 1",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0810.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0810.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0810.png"
+      }
+    ],
+    "prezzoAvgUsato": 8.67,
+    "prezzoVendita": 7.99,
+    "variante": "Sw0810 ? sw0810",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 12.95,
+      "soldUsed": 8.67,
+      "currentNew": 22.9,
+      "currentUsed": 10.92,
+      "listinoUsato": 8.67
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295077585,
+    "created": 1789295077585
+  },
+  {
     "id": "qs8e6ge",
     "codice": "sw0807",
     "codiceBrickLink": "sw0807",
