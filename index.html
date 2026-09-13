@@ -29,13 +29,12 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 .gallery-wrap .gal-dot.active{background:#FFD500;border-color:#FFD500;box-shadow:0 0 0 2px rgba(255,213,0,.35)}
 /* lightbox */
 #galleryModal .gal-lightbox-img{max-width:92vw;max-height:72vh;object-fit:contain}
-/* Smartphone: no spazio vuoto a destra, header centrato */
+/* Smartphone: no spazio vuoto a destra */
 @media (max-width: 639px){
   html,body{overflow-x:hidden; max-width:100vw}
-  .max-w-\[1400px\]{max-width:100% !important; width:100% !important}
   #btnNuovo{display:none !important}
-  #gridView{padding-left:12px !important; padding-right:12px !important}
 }
+</style>
 </head>
 <body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased overflow-x-hidden">
 <header class="sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-sm overflow-x-hidden">
@@ -52,9 +51,9 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
     </div>
     <div class="ml-auto flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center sm:justify-end mt-1 sm:mt-0">
       <button onclick="openCart()" class="relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-cart-shopping"></i> <span class="hidden sm:inline">Carrello</span><span class="sm:hidden">Cart</span> <span id="cartCount" class="bg-lego-yellow text-zinc-900 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span></button>
-      <button onclick="exportData()" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold"><i class="fa-solid fa-download"></i> Backup</button>
-      <label class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold cursor-pointer"><i class="fa-solid fa-upload"></i> Ripristina<input type="file" accept=".json" class="hidden" onchange="importData(event)"></label>
-      <button id="btnNuovo" onclick="openModal()" class="hidden sm:inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-plus"></i> Nuovo</button>
+      <button onclick="exportData()" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold admin-only-local"><i class="fa-solid fa-download"></i> Backup</button>
+      <label class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold cursor-pointer admin-only-local"><i class="fa-solid fa-upload"></i> Ripristina<input type="file" accept=".json" class="hidden" onchange="importData(event)"></label>
+      <button id="btnNuovo" onclick="openModal()" class="hidden sm:inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-lego-red hover:bg-red-700 text-white text-xs sm:text-sm font-bold shadow admin-only-local"><i class="fa-solid fa-plus"></i> Nuovo</button>
     </div>
   </div>
 </header>
@@ -1668,7 +1667,7 @@ updateCartCount();
 // Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu) + fix card online
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:none !important} .price-diff{color:#dc2626 !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:none !important} .price-diff{color:#dc2626 !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
