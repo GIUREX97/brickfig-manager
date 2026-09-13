@@ -509,6 +509,12 @@ async function syncFromCloud(){
       if(Array.isArray(remote) && remote.length>0){
         // Filtra dal remoto quelli che hai eliminato in locale (non resuscitare)
         remote=remote.filter(f=>!deletedIds.has(f.id));
+        // ONLINE: fonte di verità è GitHub — sovrascrivi locale con remoto (pulisce spada gold stale)
+        if(isOnline()){
+          figs=[...remote].filter(f=>!deletedIds.has(f.id));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
+          return true;
+        }
         const localMap=new Map(figs.map(f=>[f.id,f]));
         remote.forEach(f=>{ if(!localMap.has(f.id) || (f.updated||0) > (localMap.get(f.id).updated||0)) localMap.set(f.id,f); });
         figs=[...localMap.values()];
@@ -1207,6 +1213,10 @@ async function onCodeInput(isQuick=false){
     const colorSelect=document.getElementById('colorSelect');
     const debugEl=document.getElementById('colorDebug');
     let varianti = data.fotoVarianti || [];
+    // Fix 30274: aggiungi Dark Bluish Gray 85 se mancante (BrickLink dropdown non lo elenca ma serve)
+    if(data.codice==='30274' && !varianti.some(v=>String(v.colorId)==='85')){
+      varianti.push({colorId:'85', colorName:'Dark Bluish Gray', thumb:'https://img.bricklink.com/ItemImage/PT/85/30274.t1.png', image:'https://img.bricklink.com/ItemImage/PN/85/30274.png'});
+    }
     // Fallback per codici noti se server non ha varianti (cache vecchia)
     if(varianti.length===0 || (data.codice==='6026c01' && varianti.length!==3) || (data.codice==='64452pb01c01' && varianti.length!==2)){
       if(data.codice==='6026c01'){
@@ -1248,18 +1258,64 @@ async function onCodeInput(isQuick=false){
     // Fallback varianti anche se fetch fallito (per codici noti)
     const fallbackSel=document.getElementById('colorSelector');
     const fallbackSelect=document.getElementById('colorSelect');
-    if(code==='6026c01' || code==='64452pb01c01'){
-      const isAlligator=code==='6026c01';
-      const varianti=isAlligator?[
-        {colorId:'6', colorName:'Green', image:'https://img.bricklink.com/ItemImage/PN/6/6026c01.png'},
-        {colorId:'10', colorName:'Light Gray', image:'https://img.bricklink.com/ItemImage/PN/10/6026c01.png'},
-        {colorId:'80', colorName:'Dark Green', image:'https://img.bricklink.com/ItemImage/PN/80/6026c01.png'}
-      ]:[
-        {colorId:'150', colorName:'Light Nougat', image:'https://img.bricklink.com/ItemImage/PN/150/64452pb01c01.png'},
-        {colorId:'88', colorName:'Reddish Brown', image:'https://img.bricklink.com/ItemImage/PN/88/64452pb01c01.png'}
-      ];
-      fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
-      fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+    if(code==='6026c01' || code==='64452pb01c01' || code==='30274' || code==='45183'){
+      let varianti;
+      if(code==='6026c01'){
+        varianti=[
+          {colorId:'6', colorName:'Green', image:'https://img.bricklink.com/ItemImage/PN/6/6026c01.png'},
+          {colorId:'10', colorName:'Light Gray', image:'https://img.bricklink.com/ItemImage/PN/10/6026c01.png'},
+          {colorId:'80', colorName:'Dark Green', image:'https://img.bricklink.com/ItemImage/PN/80/6026c01.png'}
+        ];
+      } else if(code==='64452pb01c01'){
+        varianti=[
+          {colorId:'150', colorName:'Light Nougat', image:'https://img.bricklink.com/ItemImage/PN/150/64452pb01c01.png'},
+          {colorId:'88', colorName:'Reddish Brown', image:'https://img.bricklink.com/ItemImage/PN/88/64452pb01c01.png'}
+        ];
+      } else if(code==='30274'){
+        varianti=[
+          {colorId:'150', colorName:'Medium Nougat', image:'https://img.bricklink.com/ItemImage/PN/150/30274.png', thumb:'https://img.bricklink.com/ItemImage/PT/150/30274.t1.png'},
+          {colorId:'85', colorName:'Dark Bluish Gray', image:'https://img.bricklink.com/ItemImage/PN/85/30274.png', thumb:'https://img.bricklink.com/ItemImage/PT/85/30274.t1.png'},
+          {colorId:'86', colorName:'Light Bluish Gray', image:'https://img.bricklink.com/ItemImage/PN/86/30274.png', thumb:'https://img.bricklink.com/ItemImage/PT/86/30274.t1.png'},
+          {colorId:'10', colorName:'Dark Gray', image:'https://img.bricklink.com/ItemImage/PN/10/30274.png', thumb:'https://img.bricklink.com/ItemImage/PT/10/30274.t1.png'},
+          {colorId:'2', colorName:'Tan', image:'https://img.bricklink.com/ItemImage/PN/2/30274.png', thumb:'https://img.bricklink.com/ItemImage/PT/2/30274.t1.png'}
+        ];
+        // Pre-compila fallback per permettere salvataggio anche se BrickLink in WAF
+        lastFetched={codice:'30274', nome:'Brick, Modified 2 x 3 x 3 with Cutout and Lion Head - 6 Hollow Studs', categoria:'Brick, Modified', foto:'https://img.bricklink.com/ItemImage/PN/150/30274.png', prezzoAvgUsato:null, fotoVarianti:varianti, tipoCode:'P', prezziDettaglio:null};
+        document.getElementById('f_nome').value=lastFetched.nome;
+        document.getElementById('f_categoria').value=lastFetched.categoria;
+        document.getElementById('f_foto').value=lastFetched.foto;
+        document.getElementById('f_tipoEffettivo').value='P';
+        document.getElementById('autoNome').textContent=lastFetched.nome;
+        document.getElementById('autoCategoria').textContent=lastFetched.categoria;
+        updatePreview(lastFetched.foto);
+        status.innerHTML='⚠ BrickLink temporaneamente non disponibile — uso dati locali per <b>30274</b> (variante Dark Bluish Gray inclusa)';
+        status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-amber-50 border border-amber-200 text-amber-800';
+      } else if(code==='45183'){
+        varianti=[
+          {colorId:'2', colorName:'Tan', image:'https://img.bricklink.com/ItemImage/PN/2/45183.png', thumb:'https://img.bricklink.com/ItemImage/PT/2/45183.t1.png'}
+        ];
+        lastFetched={codice:'45183', nome:'Cloth Sail Junk with Dark Green Oriental Dragon Pattern', categoria:'Cloth', foto:'https://img.bricklink.com/ItemImage/PN/2/45183.png', prezzoAvgUsato:3.41, fotoVarianti:varianti, tipoCode:'P', prezziDettaglio:null};
+        document.getElementById('f_nome').value=lastFetched.nome;
+        document.getElementById('f_categoria').value=lastFetched.categoria;
+        document.getElementById('f_foto').value=lastFetched.foto;
+        document.getElementById('f_tipoEffettivo').value='P';
+        document.getElementById('f_prezzo').value='3.41';
+        document.getElementById('autoNome').textContent=lastFetched.nome;
+        document.getElementById('autoCategoria').textContent=lastFetched.categoria;
+        document.getElementById('autoPrezzo').textContent='€ 3.41';
+        document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-sm font-extrabold text-amber-700';
+        updatePreview(lastFetched.foto);
+        updateSummary();
+        status.innerHTML='⚠ BrickLink temporaneamente non disponibile — uso dati locali per <b>45183</b>';
+        status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-amber-50 border border-amber-200 text-amber-800';
+      }
+      if(code==='6026c01' || code==='64452pb01c01'){
+        fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
+        fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+      } else {
+        fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
+        fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+      }
     }
   }
   document.getElementById('f_codeSpinner').classList.add('hidden');
