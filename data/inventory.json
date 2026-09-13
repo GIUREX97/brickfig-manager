@@ -8,7 +8,7 @@
     "categoriaMacro": "Minifigure, Body Part",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/85/85863.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/65/85863.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -156,21 +156,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/65/85863.png"
       }
     ],
-    "prezzoAvgUsato": 1.53,
+    "prezzoAvgUsato": 5.87,
     "prezzoVendita": 5.99,
-    "variante": "(Not Applicable)",
+    "variante": "Metallic Gold",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "65",
     "prezziDettaglio": {
-      "soldNew": 2.06,
-      "soldUsed": 1.53,
-      "currentNew": 2.67,
-      "currentUsed": 1.49,
-      "listinoUsato": 1.53
+      "soldNew": null,
+      "soldUsed": null,
+      "currentNew": null,
+      "currentUsed": 5.87,
+      "listinoUsato": 5.87
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789293881866,
+    "updated": 1789293887320,
     "created": 1789293881866
   },
   {
