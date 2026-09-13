@@ -1,5 +1,41 @@
 [
   {
+    "id": "30oi5u5",
+    "codice": "sh0419",
+    "codiceBrickLink": "sh0419",
+    "nome": "Batgirl - Minifigure, Dark Purple Suit, Yellow Cape, Wink and Open Mouth Smile / Angry",
+    "categoria": "Super Heroes > The LEGO Batman Movie",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0419.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0419.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0419.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.8,
+    "prezzoVendita": 4.99,
+    "variante": "Sh0419 ? sh0419",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.07,
+      "soldUsed": 5.8,
+      "currentNew": 14.77,
+      "currentUsed": 8.88,
+      "listinoUsato": 5.8
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295201980,
+    "created": 1789295201980
+  },
+  {
     "id": "ojtiffq",
     "codice": "sh0403",
     "codiceBrickLink": "sh0403",
@@ -632,64 +668,6 @@
     "stato": "Disponibile",
     "updated": 1789295082750,
     "created": 1789295082750
-  },
-  {
-    "id": "drie4gs",
-    "codice": "sw0810",
-    "codiceBrickLink": "sw0810",
-    "nome": "Qui-Gon Jinn, without Cape",
-    "categoria": "Star Wars > Star Wars Episode 1",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0810.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0810.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0810.png"
-      }
-    ],
-    "prezzoAvgUsato": 8.67,
-    "prezzoVendita": 7.99,
-    "variante": "Sw0810 ? sw0810",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 12.95,
-      "soldUsed": 8.67,
-      "currentNew": 22.9,
-      "currentUsed": 10.92,
-      "listinoUsato": 8.67
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295077585,
-    "created": 1789295077585
-  },
-  {
-    "id": "qs8e6ge",
-    "codice": "sw0807",
-    "codiceBrickLink": "sw0807",
-    "nome": "Imperial Death Trooper - Black Armor",
-    "categoria": "Star Wars > Star Wars Rogue One",
-    "categoriaMacro": "Star Wars",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0807.png",
-    "fotoExtra": [],
-    "fotoVarianti": [],
-    "prezzoAvgUsato": 8.66,
-    "prezzoVendita": 12.99,
-    "variante": "Sw0807 ? sw0807",
-    "note": "NUOVO E SEALED",
-    "coloreId": "0",
-    "prezziDettaglio": null,
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295070330,
-    "created": 1789295057399
   },
   {
     "id": "fl4yof6",
