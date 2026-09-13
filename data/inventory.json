@@ -1,5 +1,40 @@
 [
   {
+    "id": "jlmjif2",
+    "codice": "30163c02",
+    "codiceBrickLink": "30163c02",
+    "nome": "Container, Coffin with Vampire Relief Lid",
+    "categoria": "Container",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/8/30163c02.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "8",
+        "colorName": "Brown",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/8/30163c02.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/8/30163c02.png"
+      }
+    ],
+    "prezzoAvgUsato": 12.72,
+    "prezzoVendita": 13.99,
+    "variante": "30163c02 ? 30163c02",
+    "note": "",
+    "coloreId": "8",
+    "prezziDettaglio": {
+      "soldNew": 19.28,
+      "soldUsed": 12.72,
+      "currentNew": 21.66,
+      "currentUsed": 13.3,
+      "listinoUsato": 12.72
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789293310070,
+    "created": 1789293310070
+  },
+  {
     "id": "07e3plv",
     "codice": "18605c02pb20",
     "codiceBrickLink": "18605c02pb20",
