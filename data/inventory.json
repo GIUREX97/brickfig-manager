@@ -1,5 +1,41 @@
 [
   {
+    "id": "ou57lwn",
+    "codice": "cas525",
+    "codiceBrickLink": "cas525",
+    "nome": "Castle - Dragon Knight Scale Mail with Dragon Shield and Shoulder Armor, Helmet with Neck Protector, Black Beard",
+    "categoria": "Castle > Castle (2013 Relaunch)",
+    "categoriaMacro": "Castle",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cas525.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/cas525.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/cas525.png"
+      }
+    ],
+    "prezzoAvgUsato": 6.07,
+    "prezzoVendita": 6.09,
+    "variante": "Cas525 ? cas525",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.14,
+      "soldUsed": 6.07,
+      "currentNew": 19.52,
+      "currentUsed": 7.85,
+      "listinoUsato": 6.07
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304547443,
+    "created": 1789304547443
+  },
+  {
     "id": "t6og5r3",
     "codice": "cas344",
     "codiceBrickLink": "cas344",
