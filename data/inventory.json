@@ -1,5 +1,41 @@
 [
   {
+    "id": "3slqm4n",
+    "codice": "sw0711",
+    "codiceBrickLink": "sw0711",
+    "nome": "Boba Fett - Pauldron Cloth with Dark Orange Stripe Pattern",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0711.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0711.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0711.png"
+      }
+    ],
+    "prezzoAvgUsato": 10.94,
+    "prezzoVendita": 10.89,
+    "variante": "Sw0711 ? sw0711",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 18.2,
+      "soldUsed": 10.94,
+      "currentNew": 30.96,
+      "currentUsed": 14.24,
+      "listinoUsato": 10.94
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789339649590,
+    "created": 1789339649590
+  },
+  {
     "id": "y68o4zw",
     "codice": "4493c01pb04",
     "codiceBrickLink": "4493c01pb04",
