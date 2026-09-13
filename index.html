@@ -491,7 +491,23 @@ function getAllPhotos(f){
   return cover ? [cover, ...extra] : [...extra];
 }
 function getCoverLabel(idx){ return idx===0 ? 'BRICKLINK' : 'REALE'; }
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(figs)); syncToCloud(); }
+function save(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
+  }catch(e){
+    console.error('localStorage quota', e);
+    toast('⚠️ Memoria locale piena: foto troppo grandi, ne tengo solo le più recenti');
+    // Prova a ridurre: tieni solo ultime 3 fotoExtra per ogni fig e riprova
+    try{
+      const slim=figs.map(f=> ({...f, fotoExtra: Array.isArray(f.fotoExtra)? f.fotoExtra.slice(-3): []}));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(slim));
+      toast('Salvato in versione ridotta (ultime 3 foto per pezzo)');
+    }catch(e2){
+      toast('Errore salvataggio locale: svuota cache o usa foto più piccole');
+    }
+  }
+  syncToCloud();
+}
 function uid(){ return Math.random().toString(36).slice(2,9); }
 function euro(n){ return (Number(n)||0).toLocaleString('it-IT',{style:'currency',currency:'EUR'}); }
 function getImageSrc(url){
@@ -499,6 +515,36 @@ function getImageSrc(url){
   if(url.startsWith('data:')) return url;
   if(url.includes('img.bricklink.com')) return '/api/image?url='+encodeURIComponent(url);
   return url;
+}
+function compressImageFile(file, maxW=1000, quality=0.72){
+  return new Promise(res=>{
+    if(!file || !file.type.startsWith('image/')) return res(null);
+    // Se già piccola (<600KB) usa diretta per velocità
+    if(file.size < 600*1024){
+      const r=new FileReader();
+      r.onload=()=>res(r.result);
+      r.onerror=()=>res(null);
+      r.readAsDataURL(file);
+      return;
+    }
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      let w=img.width, h=img.height;
+      if(w>maxW || h>maxW){
+        const ratio=Math.min(maxW/w, maxW/h);
+        w=Math.round(w*ratio); h=Math.round(h*ratio);
+      }
+      const canvas=document.createElement('canvas');
+      canvas.width=w; canvas.height=h;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url);
+      try{ res(canvas.toDataURL('image/jpeg', quality)); }catch(e){ res(null); }
+    };
+    img.onerror=()=>{ URL.revokeObjectURL(url); const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>res(null); r.readAsDataURL(file); };
+    img.src=url;
+  });
 }
 function getCodeVariantsLocal(code){
   code=code.trim().toLowerCase().replace(/\s+/g,'');
@@ -643,35 +689,29 @@ function updatePreview(url){
     img.onload=()=>{ if(lo) lo.classList.add('hidden'); delete img.dataset.tried; ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink</div>'; };
   } else { img.classList.add('hidden'); ph.classList.remove('hidden'); }
 }
-function handleUpload(e){
+async function handleUpload(e){
   const file=e.target.files[0]; if(!file) return;
-  if(file.size>4*1024*1024) return toast('File troppo grande (max 4MB)');
-  const reader=new FileReader();
-  reader.onload=()=>{
-    const url=reader.result;
-    if(tempFotoExtra.length>=12) return toast('Max 12 foto reali');
-    tempFotoExtra.push(url);
-    renderExtraGrid();
-    toast('Foto reale aggiunta (scorrerà dopo copertina BrickLink)');
-  };
-  reader.readAsDataURL(file);
+  if(tempFotoExtra.length>=12) return toast('Max 12 foto reali');
+  toast('Comprimo foto...');
+  const url=await compressImageFile(file);
+  if(!url) return toast('Errore lettura foto');
+  tempFotoExtra.push(url);
+  renderExtraGrid();
+  toast('Foto reale aggiunta (scorrerà dopo copertina BrickLink)');
   e.target.value='';
 }
-function handleMainDrop(e){
+async function handleMainDrop(e){
   e.preventDefault();
   document.getElementById('mainDropZone').classList.remove('border-zinc-900');
   const file=e.dataTransfer.files[0];
   if(file && file.type.startsWith('image/')){
-    if(file.size>4*1024*1024) return toast('Max 4MB');
     if(tempFotoExtra.length>=12) return toast('Max 12 foto reali');
-    const reader=new FileReader();
-    reader.onload=()=>{
-      const url=reader.result;
-      tempFotoExtra.push(url);
-      renderExtraGrid();
-      toast('Foto reale aggiunta (scorrerà dopo BrickLink)');
-    };
-    reader.readAsDataURL(file);
+    toast('Comprimo foto...');
+    const url=await compressImageFile(file);
+    if(!url) return toast('Errore foto');
+    tempFotoExtra.push(url);
+    renderExtraGrid();
+    toast('Foto reale aggiunta (scorrerà dopo BrickLink)');
   }
 }
 function renderExtraGrid(){
@@ -728,48 +768,34 @@ function renderExtraGrid(){
     grid.appendChild(div);
   });
 }
-function handleExtraUpload(e){
+async function handleExtraUpload(e){
   const files=[...e.target.files];
   if(!files.length) return;
   const slots=12-tempFotoExtra.length;
   if(slots<=0) return toast('Max 12 foto reali');
+  toast('Comprimo '+Math.min(files.length, slots)+' foto...');
   let added=0;
   const toLoad=files.slice(0,slots);
-  const promises=toLoad.map(file=>new Promise(res=>{
-    if(file.size>4*1024*1024){ toast('Max 4MB: '+file.name); return res(null); }
-    if(!file.type.startsWith('image/')){ toast('Non immagine: '+file.name); return res(null); }
-    const r=new FileReader();
-    r.onload=()=>res(r.result);
-    r.onerror=()=>res(null);
-    r.readAsDataURL(file);
-  }));
-  Promise.all(promises).then(results=>{
-    results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
-    renderExtraGrid();
-    if(added) toast(added===1? '1 foto reale aggiunta' : added+' foto reali aggiunte');
-    e.target.value='';
-  });
+  const results=await Promise.all(toLoad.map(f=>compressImageFile(f)));
+  results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
+  renderExtraGrid();
+  if(added) toast(added===1? '1 foto reale aggiunta' : added+' foto reali aggiunte');
+  e.target.value='';
 }
-function handleExtraDrop(e){
+async function handleExtraDrop(e){
   e.preventDefault();
   e.currentTarget.classList.remove('border-zinc-900','bg-zinc-100');
   const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
   if(!files.length) return toast('Trascina immagini');
   const slots=12-tempFotoExtra.length;
   if(slots<=0) return toast('Max 12 foto');
+  toast('Comprimo foto...');
   let added=0;
   const toLoad=files.slice(0,slots);
-  const promises=toLoad.map(file=>new Promise(res=>{
-    if(file.size>4*1024*1024) return res(null);
-    const r=new FileReader();
-    r.onload=()=>res(r.result);
-    r.readAsDataURL(file);
-  }));
-  Promise.all(promises).then(results=>{
-    results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
-    renderExtraGrid();
-    if(added) toast(added+' foto reali aggiunte');
-  });
+  const results=await Promise.all(toLoad.map(f=>compressImageFile(f)));
+  results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
+  renderExtraGrid();
+  if(added) toast(added+' foto reali aggiunte');
 }
 function removeExtra(idx){
   tempFotoExtra.splice(idx,1);
@@ -1096,6 +1122,7 @@ async function saveFig(e){
     btn.disabled=false; btn.innerHTML='Salva in inventario';
   }
   const qta=parseInt(document.getElementById('f_qta').value)||1;
+  const existing=figs.findIndex(f=>f.id===id);
   let stato=document.querySelector('input[name="f_stato"]:checked').value;
   // Online: non permettere cambio stato manuale, mantieni quello esistente
   if(isOnline() && existing>=0){
@@ -1107,7 +1134,6 @@ async function saveFig(e){
   const coloreId=document.getElementById('f_coloreId').value.trim();
   // Mantieni il codice come l'hai scritto (Col03-9) ma usa i dati di col041
   const codiceDaSalvare = raw.trim();
-  const existing=figs.findIndex(f=>f.id===id);
   let coverFoto = data.foto || document.getElementById('f_foto').value.trim();
   let extraToSave = [...tempFotoExtra];
   const manualFoto = document.getElementById('f_foto').value.trim();
@@ -1477,21 +1503,20 @@ function handleWizardDrop(e){
   const file=e.dataTransfer.files[0];
   if(file) handleWizardFile(file);
 }
-function handleWizardFile(file){
-  if(file.size>4*1024*1024) return toast('Max 4MB');
+async function handleWizardFile(file){
+  if(!file || !file.type.startsWith('image/')) return toast('Solo immagini');
   const fig=wizardList[wizardIndex];
   if(!Array.isArray(fig.fotoExtra)) fig.fotoExtra=[];
   if(fig.fotoExtra.length>=12) return toast('Max 12 foto reali per '+fig.codice);
-  const reader=new FileReader();
-  reader.onload=()=>{
-    fig.fotoExtra.push(reader.result);
-    fig.updated=Date.now();
-    const globalIdx=figs.findIndex(x=>x.id===fig.id);
-    if(globalIdx>=0) figs[globalIdx]=fig;
-    save(); render(); renderWizard();
-    toast('Foto reale aggiunta per '+fig.codice+' ('+fig.fotoExtra.length+'/12)');
-  };
-  reader.readAsDataURL(file);
+  toast('Comprimo foto...');
+  const url=await compressImageFile(file);
+  if(!url) return toast('Errore foto');
+  fig.fotoExtra.push(url);
+  fig.updated=Date.now();
+  const globalIdx=figs.findIndex(x=>x.id===fig.id);
+  if(globalIdx>=0) figs[globalIdx]=fig;
+  save(); render(); renderWizard();
+  toast('Foto reale aggiunta per '+fig.codice+' ('+fig.fotoExtra.length+'/12)');
 }
 // Mostra overlay durante drag
 document.addEventListener('DOMContentLoaded', ()=>{
