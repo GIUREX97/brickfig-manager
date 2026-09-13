@@ -7,7 +7,7 @@
     "categoria": "Bar",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/88/2566.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/7/2566.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -71,21 +71,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/3/2566.png"
       }
     ],
-    "prezzoAvgUsato": 0.98,
+    "prezzoAvgUsato": 14.65,
     "prezzoVendita": 15.99,
-    "variante": "Reddish Brown",
+    "variante": "Blue",
     "note": "",
-    "coloreId": "88",
+    "coloreId": "7",
     "prezziDettaglio": {
-      "soldNew": 0.45,
-      "soldUsed": 0.98,
-      "currentNew": 0.98,
-      "currentUsed": 1.31,
-      "listinoUsato": 0.98
+      "soldNew": 22.22,
+      "soldUsed": 14.65,
+      "currentNew": 26.73,
+      "currentUsed": 20.49,
+      "listinoUsato": 14.65
     },
     "qta": 3,
     "stato": "Disponibile",
-    "updated": 1789292214181,
+    "updated": 1789292217332,
     "created": 1789291944134
   },
   {
