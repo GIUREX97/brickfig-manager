@@ -187,7 +187,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
               <div class="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shadow"><i class="fa-solid fa-camera text-xs"></i></div>
             </label>
             <div class="text-[10px] text-center text-zinc-400 mt-1 font-mono truncate" id="f_foto_url"></div>
-            <div id="colorSelector" class="hidden mt-2 p-2 bg-white border-2 border-zinc-200 rounded-xl">
+            <div id="colorSelector" class="hidden mt-2 p-2 bg-white border-2 border-zinc-200 rounded-xl variant-only-local">
               <label class="text-[11px] font-bold tracking-widest uppercase text-zinc-600">Colore / Variante BrickLink</label>
               <select id="colorSelect" onchange="onColorSelect(this.value)" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-zinc-200 bg-white text-sm font-bold">
                 <option value="">Seleziona colore...</option>
@@ -261,7 +261,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
           </div>
         </div>
 
-        <div>
+        <div class="variant-only-local">
           <label class="text-xs font-bold tracking-widest uppercase text-zinc-600">Variante disponibile <span class="text-zinc-400 normal-case">(es. colore, versione)</span></label>
           <input id="f_variante" placeholder="es. Grigio Chiaro, Verde, Con elmo..." class="mt-1 w-full px-3 py-3 rounded-xl border border-zinc-200 text-sm">
           <div class="text-[10px] text-zinc-500 mt-1">Seleziona colore BrickLink sopra o scrivi a mano</div>
@@ -437,7 +437,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
         <div id="galLightBadge" class="absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-white border border-zinc-200 shadow">BRICKLINK</div>
       </div>
       <div id="galLightThumbs" class="mt-3 flex gap-2 overflow-x-auto max-w-full pb-1"></div>
-      <div id="galVariantBox" class="mt-3 hidden w-full max-w-[880px] flex items-center gap-2 justify-center bg-white rounded-xl p-3 border-2 border-amber-200 shadow admin-only-local">
+      <div id="galVariantBox" class="mt-3 hidden w-full max-w-[880px] flex items-center gap-2 justify-center bg-white rounded-xl p-3 border-2 border-amber-200 shadow admin-only-local variant-only-local">
         <i class="fa-solid fa-palette text-amber-600"></i>
         <span class="text-xs font-bold text-amber-700 uppercase hidden sm:inline">Variante BrickLink</span>
         <select id="galVariantSelect" onchange="changeCardVariant(galleryCurrent.id, this.value); setTimeout(renderLightbox, 300);" class="flex-1 text-sm font-bold px-3 py-2 rounded-xl border-2 border-amber-300 bg-amber-50"></select>
@@ -623,8 +623,9 @@ function save(){
   console.error('localStorage quota full, provo a ridurre solo in locale');
   toast('⚠️ Memoria locale piena: ottimizzo locale ma mantengo TUTTO sul cloud...');
   // IMPORTANTE: non mutare figs (che va sul cloud) - salva solo una copia ridotta in locale
+  // FIX 15-09-2026: prova a tenere 5, poi scala a 4,3,2,1,0 per non perdere foto sul cloud
   let savedLocal=false;
-  for(let keep of [2,1,0]){
+  for(let keep of [5,4,3,2,1,0]){
     const slim=figs.map(f=> ({...f, fotoExtra: Array.isArray(f.fotoExtra)? f.fotoExtra.slice(-keep): []}));
     if(trySave(slim)){
       toast(`Locale ottimizzato: ${keep} foto per pezzo in locale. Tutte le 5 foto restano al sicuro sul cloud e torneranno visibili dopo sync.`);
@@ -1246,8 +1247,8 @@ async function onCodeInput(isQuick=false){
     }
     if(debugEl) debugEl.textContent=`Debug: ${varianti.length} varianti | foto=${data.foto?.split('/').pop()} | tipo=${data.tipoCode} | code=${data.codice}`;
     console.log('FotoVarianti per', data.codice, ':', varianti);
-    // Mostra menu SOLO se ci sono varianti reali (come BrickLink) � diretto collegamento
-    if(varianti.length > 1){
+    // Mostra menu SOLO se ci sono varianti reali (come BrickLink) — nascosto online (solo locale può scegliere variante)
+    if(!isOnline() && varianti.length > 1){
       colorSel.classList.remove('hidden');
       colorSel.style.display='block';
       colorSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName.replace(/"/g,'&quot;')}" data-colorid="${v.colorId}" ${v.image===data.foto?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('');
@@ -1321,12 +1322,17 @@ async function onCodeInput(isQuick=false){
         status.innerHTML='⚠ BrickLink temporaneamente non disponibile — uso dati locali per <b>45183</b>';
         status.className='mt-3 text-xs px-3 py-2.5 rounded-xl font-semibold bg-amber-50 border border-amber-200 text-amber-800';
       }
-      if(code==='6026c01' || code==='64452pb01c01'){
-        fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
-        fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+      if(!isOnline()){
+        if(code==='6026c01' || code==='64452pb01c01'){
+          fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
+          fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+        } else {
+          fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
+          fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+        }
       } else {
-        fallbackSel.classList.remove('hidden'); fallbackSel.style.display='block';
-        fallbackSelect.innerHTML='<option value="">Seleziona colore...</option>'+varianti.map(v=>`<option value="${v.image}" data-colorname="${v.colorName}" data-colorid="${v.colorId}">${v.colorName} [${v.colorId}]</option>`).join('');
+        fallbackSel.style.display='none';
+        fallbackSel.classList.add('hidden');
       }
     }
   }
@@ -1657,7 +1663,7 @@ function renderLightbox(){
   const variantBox=document.getElementById('galVariantBox');
   const variantSelect=document.getElementById('galVariantSelect');
   if(variantBox && variantSelect){
-    if(f.fotoVarianti && f.fotoVarianti.length>1){
+    if(!isOnline() && f.fotoVarianti && f.fotoVarianti.length>1){
       variantBox.classList.remove('hidden');
       variantBox.classList.add('flex');
       variantSelect.innerHTML='<option value="">Scegli variante BrickLink...</option>'+f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('');
@@ -1894,7 +1900,7 @@ function render(){
         ${showNav ? `<button onclick="cardGal(event,'${f.id}',-1)" class="gal-arrow prev" title="Precedente"><i class="fa-solid fa-chevron-left text-xs"></i></button><button onclick="cardGal(event,'${f.id}',1)" class="gal-arrow next" title="Successiva"><i class="fa-solid fa-chevron-right text-xs"></i></button><div class="gal-counter">${safeIdx+1} / ${total}</div><div class="gal-badge ${safeIdx===0?'bg-amber-400 text-zinc-900 border-amber-300':'bg-emerald-600 text-white border-emerald-500'} border">${badgeLabel}</div><div class="gal-dots">${allPhotos.map((_,i)=>`<span class="gal-dot ${i===safeIdx?'active':''}" onclick="event.stopPropagation(); cardGalGo('${f.id}',${i})"></span>`).join('')}</div>` : `<div class="gal-badge bg-amber-400 text-zinc-900 border border-amber-300">BRICKLINK</div>`}
         ${total>1 ? `<span class="absolute bottom-2 left-2 bg-white/90 backdrop-blur border border-zinc-200 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-images text-[10px]"></i> ${total} foto</span>` : ''}
       </div>
-      ${f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="px-3 py-2 bg-amber-50/70 border-b border-amber-100 flex items-center gap-2"><i class="fa-solid fa-palette text-amber-600 text-xs"></i><span class="text-[10px] font-bold text-amber-700 uppercase hidden sm:inline">Variante BrickLink</span><select onchange="changeCardVariant('${f.id}', this.value)" class="flex-1 text-xs font-bold px-2 py-1.5 rounded-xl border-2 border-amber-200 bg-white focus:border-amber-400 outline-none"><option value="">Scegli colore...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}
+      ${!isOnline() && f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="px-3 py-2 bg-amber-50/70 border-b border-amber-100 flex items-center gap-2 variant-only-local"><i class="fa-solid fa-palette text-amber-600 text-xs"></i><span class="text-[10px] font-bold text-amber-700 uppercase hidden sm:inline">Variante BrickLink</span><select onchange="changeCardVariant('${f.id}', this.value)" class="flex-1 text-xs font-bold px-2 py-1.5 rounded-xl border-2 border-amber-200 bg-white focus:border-amber-400 outline-none"><option value="">Scegli colore...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}
       <div class="p-4 flex-1 flex flex-col">
         <div class="flex items-start justify-between gap-2 min-h-[38px]"><h3 class="font-bold text-[13px] leading-tight line-clamp-2 flex-1">${f.nome}</h3><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center shrink-0 admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button></div>
         <div class="text-[11px] text-zinc-500 mt-1 line-clamp-1 min-h-[16px]">${f.categoria||''}</div>
@@ -1925,7 +1931,7 @@ function render(){
     } else { const f=item.fig;
     const photos=getAllPhotos(f);
     const hasExtra=photos.length>1;
-    return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td>  <td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="mt-1 flex items-center gap-1"><i class="fa-solid fa-palette text-amber-600 text-[10px]"></i><select onchange="changeCardVariant('${f.id}', this.value)" class="text-[11px] font-bold px-2 py-1 rounded-lg border-2 border-amber-200 bg-amber-50"><option value="">Cambia variante...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td>  <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-red-100 text-red-700 border-red-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700 avg-only-local">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100 admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600 admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
+    return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td>  <td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${!isOnline() && f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="mt-1 flex items-center gap-1 variant-only-local"><i class="fa-solid fa-palette text-amber-600 text-[10px]"></i><select onchange="changeCardVariant('${f.id}', this.value)" class="text-[11px] font-bold px-2 py-1 rounded-lg border-2 border-amber-200 bg-amber-50"><option value="">Cambia variante...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td>  <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-red-100 text-red-700 border-red-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700 avg-only-local">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100 admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600 admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
     }
   }).join('');
   document.getElementById('emptyState').classList.toggle('hidden', unified.length!==0);
@@ -2326,7 +2332,7 @@ updateCartCount();
 // Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu) + fix card online
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:grid !important; grid-template-columns:1fr !important; gap:0.5rem !important} .price-boxes-online-hide .bg-emerald-50{grid-column:1 / -1 !important; text-align:center !important; padding:0.75rem !important} .price-boxes-online-hide .bg-emerald-50 .font-display{font-size:1.15rem !important} .price-diff{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:grid !important; grid-template-columns:1fr !important; gap:0.5rem !important} .price-boxes-online-hide .bg-emerald-50{grid-column:1 / -1 !important; text-align:center !important; padding:0.75rem !important} .price-boxes-online-hide .bg-emerald-50 .font-display{font-size:1.15rem !important} .price-diff{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important} .variant-only-local{display:none !important} #colorSelector{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });

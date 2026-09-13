@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "miypcd9",
+    "nome": "Lotto 3 pezzi",
+    "prezzo": 1.49,
+    "stato": "Disponibile",
+    "note": "Solo blocco - non divisibile",
+    "figIds": [
+      "k8i1hyt",
+      "loug1iv",
+      "slo2nsg"
+    ],
+    "qta": 1,
+    "created": 1789335918749,
+    "updated": 1789335918749
+  }
+]
