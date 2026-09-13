@@ -380,8 +380,8 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
             <div class="text-xs font-mono font-bold text-zinc-500" id="wizardCode">col001 � M</div>
             <div class="font-bold text-sm leading-tight mt-1" id="wizardName">Nome</div>
             <div class="text-xs text-zinc-500" id="wizardCat">Categoria</div>
-            <label for="wizardFile" class="mt-2 block text-[11px] text-center font-bold text-white bg-zinc-900 hover:bg-black rounded-xl py-2.5 cursor-pointer"><i class="fa-solid fa-upload mr-1"></i> Clicca qui per scegliere foto</label>
-            <input type="file" id="wizardFile" accept="image/*" class="hidden" onchange="handleWizardUpload(event)">
+            <label for="wizardFile" class="mt-2 block text-[11px] text-center font-bold text-white bg-zinc-900 hover:bg-black rounded-xl py-2.5 cursor-pointer"><i class="fa-solid fa-upload mr-1"></i> Clicca qui per scegliere foto (1-5 insieme)</label>
+            <input type="file" id="wizardFile" accept="image/*" multiple class="hidden" onchange="handleWizardUpload(event)">
           </div>
         </div>
         <div class="w-full bg-zinc-100 rounded-full h-2 overflow-hidden"><div id="wizardProgress" class="h-2 bg-emerald-500 transition-all" style="width:10%"></div></div>
@@ -1963,31 +1963,43 @@ function wizardNext(){
   else { closePhotoWizard(); toast('Foto completate'); }
 }
 async function handleWizardUpload(e){
-  const file=e.target.files[0]; if(!file) return;
+  const files=[...e.target.files];
+  if(!files.length) return;
   e.target.value='';
-  await handleWizardFile(file);
+  await handleWizardFiles(files);
 }
 async function handleWizardDrop(e){
   e.preventDefault();
   document.getElementById('wizardDropZone').classList.remove('border-zinc-900','bg-zinc-100');
   document.getElementById('wizardDropOverlay').classList.add('hidden');
-  const file=e.dataTransfer.files[0];
-  if(file) await handleWizardFile(file);
+  const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
+  if(files.length) await handleWizardFiles(files);
+  else toast('Trascina immagini');
 }
-async function handleWizardFile(file){
-  if(!file || !file.type.startsWith('image/')) return toast('Solo immagini');
+async function handleWizardFiles(files){
   const fig=wizardList[wizardIndex];
   if(!Array.isArray(fig.fotoExtra)) fig.fotoExtra=[];
-  if(fig.fotoExtra.length>=5) return toast('Max 5 foto reali per '+fig.codice+' (+ BrickLink)');
-  toast('Comprimo foto...');
-  const url=await compressImageFile(file);
-  if(!url) return toast('Errore foto');
-  fig.fotoExtra.push(url);
-  fig.updated=Date.now();
-  const globalIdx=figs.findIndex(x=>x.id===fig.id);
-  if(globalIdx>=0) figs[globalIdx]=fig;
-  save(); render(); renderWizard();
-  toast('Foto reale aggiunta per '+fig.codice+' ('+fig.fotoExtra.length+'/5)');
+  const slots = 5 - fig.fotoExtra.length;
+  if(slots<=0) return toast('Max 5 foto reali per '+fig.codice+' (+ BrickLink) - già al limite');
+  const toLoad = files.filter(f=>f.type.startsWith('image/')).slice(0, slots);
+  if(!toLoad.length) return toast('Solo immagini');
+  if(toLoad.length < files.length) toast(`Hai già ${fig.fotoExtra.length}/5 - carico solo ${toLoad.length} delle ${files.length} selezionate`);
+  else toast(`Comprimo ${toLoad.length} foto...`);
+  const results = await Promise.all(toLoad.map(f=>compressImageFile(f)));
+  let added=0;
+  results.forEach(url=>{ if(url){ fig.fotoExtra.push(url); added++; } });
+  if(added){
+    fig.updated=Date.now();
+    const globalIdx=figs.findIndex(x=>x.id===fig.id);
+    if(globalIdx>=0) figs[globalIdx]=fig;
+    save(); render(); renderWizard();
+    toast(`${added} foto reali aggiunte per ${fig.codice} (${fig.fotoExtra.length}/5)`);
+  } else toast('Errore foto');
+}
+async function handleWizardFile(file){
+  // Retrocompatibilità: singolo file -> delega a multi
+  if(!file) return;
+  await handleWizardFiles([file]);
 }
 // Mostra overlay durante drag
 document.addEventListener('DOMContentLoaded', ()=>{
