@@ -1,5 +1,41 @@
 [
   {
+    "id": "06rvc1v",
+    "codice": "sw0654",
+    "codiceBrickLink": "sw0654",
+    "nome": "First Order Crew Member (Fleet Engineer / Gunner) - Reddish Brown Head",
+    "categoria": "Star Wars > Star Wars Episode 7",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0654.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0654.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0654.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.5,
+    "prezzoVendita": 2.29,
+    "variante": "Sw0654 ? sw0654",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 4.15,
+      "soldUsed": 2.5,
+      "currentNew": 6.64,
+      "currentUsed": 3.28,
+      "listinoUsato": 2.5
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294995783,
+    "created": 1789294995783
+  },
+  {
     "id": "y507pev",
     "codice": "sw0630",
     "codiceBrickLink": "sw0630",
