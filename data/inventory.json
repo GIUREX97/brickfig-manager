@@ -1,5 +1,41 @@
 [
   {
+    "id": "x485atz",
+    "codice": "sw1506",
+    "codiceBrickLink": "sw1506",
+    "nome": "R2-D2 - SMART Tag on Back",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw1506.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw1506.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw1506.png"
+      }
+    ],
+    "prezzoAvgUsato": 6.94,
+    "prezzoVendita": 6.99,
+    "variante": "Sw1506 ? sw1506",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 11.62,
+      "soldUsed": 6.94,
+      "currentNew": 12.76,
+      "currentUsed": 6.9,
+      "listinoUsato": 6.94
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295129611,
+    "created": 1789295129611
+  },
+  {
     "id": "4vzp6os",
     "codice": "sw1170",
     "codiceBrickLink": "sw1170",
