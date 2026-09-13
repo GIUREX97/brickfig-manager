@@ -135,6 +135,7 @@ function getMacroCategoria(full){
   const first=full.split('>')[0].trim();
   return first || 'Altro';
 }
+function extractAvgUsedPrice(pgtabHtml) {
   // Estrae SOLO la riga "Avg Price:" dai 4 blocchi summary in ordine: New Sold, Used Sold, New Current, Used Current
   // Usa Cheerio per precisione, evita di confondere Qty Avg Price e dettagli mensili
   try {
