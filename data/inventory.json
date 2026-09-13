@@ -445,12 +445,12 @@
     "prezzoAvgUsato": 3.84,
     "prezzoVendita": 3.79,
     "variante": "Njo0640 ? njo0640",
-    "note": "",
+    "note": "NO SPALLINE",
     "coloreId": "0",
     "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789290323738,
+    "updated": 1789290754380,
     "created": 1789252228085
   },
   {
@@ -467,12 +467,12 @@
     "prezzoAvgUsato": 4.31,
     "prezzoVendita": 4.09,
     "variante": "Njo0598 #2 ? njo0598#2",
-    "note": "",
+    "note": "NO SPALLINE",
     "coloreId": "0",
     "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789290302451,
+    "updated": 1789290741803,
     "created": 1789252221170
   },
   {
@@ -511,12 +511,12 @@
     "prezzoAvgUsato": 3.09,
     "prezzoVendita": 1.99,
     "variante": "Njo0580 ? njo0580",
-    "note": "",
+    "note": "SOLO FIG",
     "coloreId": "0",
     "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789290285219,
+    "updated": 1789290725515,
     "created": 1789252216578
   },
   {
