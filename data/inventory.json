@@ -1,5 +1,41 @@
 [
   {
+    "id": "8jtac87",
+    "codice": "pi139",
+    "codiceBrickLink": "pi139",
+    "nome": "Mermaid - Dark Red Hair Ponytail Long with Side Bangs",
+    "categoria": "Pirates > Pirates (2009 Relaunch)",
+    "categoriaMacro": "Pirati",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/pi139.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Default",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/pi139.png",
+        "thumb": "https://img.bricklink.com/ItemImage/MN/0/pi139.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.71,
+    "prezzoVendita": 4.59,
+    "variante": "Pi139 ? pi139",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 7.19,
+      "soldUsed": 4.71,
+      "currentNew": 10.27,
+      "currentUsed": 5.82,
+      "listinoUsato": 4.71
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294313546,
+    "created": 1789294313546
+  },
+  {
     "id": "vw3jiq3",
     "codice": "x376px2",
     "codiceBrickLink": "x376px2",
