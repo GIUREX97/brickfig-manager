@@ -1266,10 +1266,13 @@ async function quickAdd(){
     const cached=document.getElementById('quickCode').dataset.cache;
     if(cached) data=JSON.parse(cached);
     else data=await fetchBricklink(raw, detectType(raw));
-    if(figs.some(f=>f.codice===data.codice)) throw new Error('Gi� in inventario: '+data.codice);
     const prezzoVendita = prezzoVenditaInput || data.prezzoAvgUsato || 0;
     const selColorId = data.fotoVarianti && data.fotoVarianti.length ? (data.fotoVarianti.find(v=>v.image===data.foto)?.colorId || data.fotoVarianti[0].colorId || '') : '';
     const selVariante = data.fotoVarianti && data.fotoVarianti.length>1 ? (data.fotoVarianti.find(v=>v.image===data.foto)?.colorName || '') : `${raw} ? ${data.codice}`;
+    // In locale permetti duplicati (stessa minifigure/parte più volte), online blocca duplicato stesso colore
+    if(isOnline() && figs.some(f=>f.codice===data.codice && String(f.coloreId||'')===String(selColorId))){
+      throw new Error('Già in inventario: '+data.codice + (selColorId? ' ['+selColorId+']' : ''));
+    }
     const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, fotoExtra:[], fotoVarianti:data.fotoVarianti||[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: selVariante, note:'', coloreId: selColorId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
     figs.unshift(obj); save(); render();
     document.getElementById('quickCode').value=''; document.getElementById('quickPrezzoVendita').value=''; delete document.getElementById('quickCode').dataset.cache;
