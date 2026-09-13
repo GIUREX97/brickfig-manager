@@ -1,5 +1,41 @@
 [
   {
+    "id": "yjvz38j",
+    "codice": "sw0666",
+    "codiceBrickLink": "sw0666",
+    "nome": "First Order Flametrooper",
+    "categoria": "Star Wars > Star Wars Episode 7",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0666.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0666.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0666.png"
+      }
+    ],
+    "prezzoAvgUsato": 3.85,
+    "prezzoVendita": 3.49,
+    "variante": "Sw0666 ? sw0666",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 6.1,
+      "soldUsed": 3.85,
+      "currentNew": 8.92,
+      "currentUsed": 4.75,
+      "listinoUsato": 3.85
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295007665,
+    "created": 1789295007665
+  },
+  {
     "id": "vmbk8eo",
     "codice": "sw0657",
     "codiceBrickLink": "sw0657",
