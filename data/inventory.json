@@ -42,33 +42,19 @@
     "nome": "Gentleman Ghost",
     "categoria": "Super Heroes > The LEGO Batman Movie",
     "categoriaMacro": "Super Heroes",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0455.png",
     "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0455.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0455.png"
-      }
-    ],
+    "fotoVarianti": [],
     "prezzoAvgUsato": 58.16,
-    "prezzoVendita": 49.99,
+    "prezzoVendita": 55.99,
     "variante": "Sh0455 ? sh0455",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 64.9,
-      "soldUsed": 58.16,
-      "currentNew": 100.58,
-      "currentUsed": 66.69,
-      "listinoUsato": 58.16
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789295212135,
+    "updated": 1789295224925,
     "created": 1789295212135
   },
   {
