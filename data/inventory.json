@@ -1,5 +1,59 @@
 [
   {
+    "id": "spf412r",
+    "codice": "30478",
+    "codiceBrickLink": "30478",
+    "nome": "Dinosaur Pteranodon with 2 Studs",
+    "categoria": "Animal, Dinosaur",
+    "categoriaMacro": "Animali",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/68/30478.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/30478.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/68/30478.png"
+      },
+      {
+        "colorId": "68",
+        "colorName": "Dark Orange",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/68/30478.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/68/30478.png"
+      },
+      {
+        "colorId": "5",
+        "colorName": "Red",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/5/30478.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/5/30478.png"
+      },
+      {
+        "colorId": "2",
+        "colorName": "Tan",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/2/30478.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/2/30478.png"
+      }
+    ],
+    "prezzoAvgUsato": 1.91,
+    "prezzoVendita": 1.79,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 3.42,
+      "soldUsed": 1.91,
+      "currentNew": 7.2,
+      "currentUsed": 2.46,
+      "listinoUsato": 1.91
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304333872,
+    "created": 1789304333872
+  },
+  {
     "id": "1ya0alw",
     "codice": "24207pb01",
     "codiceBrickLink": "24207pb01",
