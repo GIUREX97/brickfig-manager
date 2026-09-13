@@ -1,5 +1,32 @@
 [
   {
+    "id": "ugrp3jy",
+    "codice": "59",
+    "codiceBrickLink": "59",
+    "nome": "Minifigure, Weapon Sword, Greatsword Round",
+    "categoria": "Minifigure, Weapon",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/21/59.png",
+    "fotoExtra": [],
+    "prezzoAvgUsato": 3.29,
+    "prezzoVendita": 2.69,
+    "variante": "59 ? 59",
+    "note": "",
+    "coloreId": "",
+    "prezziDettaglio": {
+      "soldNew": 5.36,
+      "soldUsed": 3.29,
+      "currentNew": 10.62,
+      "currentUsed": 4.53,
+      "listinoUsato": 3.29
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789290891173,
+    "created": 1789290891173
+  },
+  {
     "id": "7wujacb",
     "codice": "892406",
     "codiceBrickLink": "892406",
