@@ -1,5 +1,41 @@
 [
   {
+    "id": "u1zvgno",
+    "codice": "sw0963",
+    "codiceBrickLink": "sw0963",
+    "nome": "Antoc Merrick",
+    "categoria": "Star Wars > Star Wars Rogue One",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0963.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0963.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0963.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.57,
+    "prezzoVendita": 6.49,
+    "variante": "Sw0963 ? sw0963",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 6.96,
+      "soldUsed": 4.57,
+      "currentNew": 8.73,
+      "currentUsed": 5.12,
+      "listinoUsato": 4.57
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295120290,
+    "created": 1789295120290
+  },
+  {
     "id": "f5vtoh8",
     "codice": "sw0902",
     "codiceBrickLink": "sw0902",
