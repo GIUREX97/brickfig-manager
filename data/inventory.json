@@ -8,7 +8,7 @@
     "categoriaMacro": "Animali",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/6/6026c01.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/10/6026c01.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -42,21 +42,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/6/6026c01.png"
       }
     ],
-    "prezzoAvgUsato": 1.71,
+    "prezzoAvgUsato": 3.91,
     "prezzoVendita": 3.89,
-    "variante": "(Not Applicable)",
+    "variante": "Dark Gray",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "10",
     "prezziDettaglio": {
-      "soldNew": 4.88,
-      "soldUsed": 1.71,
-      "currentNew": 7.03,
-      "currentUsed": 2.09,
-      "listinoUsato": 1.71
+      "soldNew": 10.34,
+      "soldUsed": 3.91,
+      "currentNew": 17.64,
+      "currentUsed": 4.98,
+      "listinoUsato": 3.91
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789303423915,
+    "updated": 1789303429163,
     "created": 1789303423915
   },
   {
