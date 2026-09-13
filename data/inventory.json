@@ -1,5 +1,41 @@
 [
   {
+    "id": "jabvufs",
+    "codice": "sw0576",
+    "codiceBrickLink": "sw0576",
+    "nome": "Hera Syndulla - Dark Tan Arms",
+    "categoria": "Star Wars > Star Wars Rebels",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0576.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0576.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0576.png"
+      }
+    ],
+    "prezzoAvgUsato": 14.39,
+    "prezzoVendita": 13.49,
+    "variante": "Sw0576 ? sw0576",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 18.78,
+      "soldUsed": 14.39,
+      "currentNew": 35.78,
+      "currentUsed": 19.66,
+      "listinoUsato": 14.39
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789294949525,
+    "created": 1789294949525
+  },
+  {
     "id": "cltqvdh",
     "codice": "sw0448",
     "codiceBrickLink": "sw0448",
