@@ -2080,7 +2080,7 @@ updateCartCount();
 // Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu) + fix card online
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:none !important} .price-diff{color:#dc2626 !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:none !important} .price-diff{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
