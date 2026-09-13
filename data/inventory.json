@@ -1,5 +1,41 @@
 [
   {
+    "id": "qgp4x0h",
+    "codice": "sw0028",
+    "codiceBrickLink": "sw0028",
+    "nome": "Astromech Droid, R2-D2",
+    "categoria": "Star Wars",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0028.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0028.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0028.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.21,
+    "prezzoVendita": 2.19,
+    "variante": "Sw0028 ? sw0028",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 6.13,
+      "soldUsed": 2.21,
+      "currentNew": 10.06,
+      "currentUsed": 2.92,
+      "listinoUsato": 2.21
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294798987,
+    "created": 1789294798987
+  },
+  {
     "id": "mua0bfw",
     "codice": "sw0010",
     "codiceBrickLink": "sw0010",
