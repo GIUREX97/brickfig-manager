@@ -469,7 +469,7 @@ function load(){
         }
         if(brickFoto){ f.fotoExtra=[f.foto]; f.foto=brickFoto; }
       }
-      if(f.fotoExtra.length>12) f.fotoExtra=f.fotoExtra.slice(0,12);
+      if(f.fotoExtra.length>5) f.fotoExtra=f.fotoExtra.slice(0,5);
       // Fix cover PN/0 -> PN/{coloreId} per parti con colore (es. horse 4493c01pb04 PN/1)
       if(f.foto && f.foto.includes('/PN/0/') && f.coloreId && f.coloreId!=='0' && f.coloreId!==''){
         f.foto = f.foto.replace('/PN/0/', '/PN/'+f.coloreId+'/');
@@ -739,7 +739,7 @@ function updatePreview(url){
 }
 async function handleUpload(e){
   const file=e.target.files[0]; if(!file) return;
-  if(tempFotoExtra.length>=12) return toast('Max 12 foto reali');
+  if(tempFotoExtra.length>=5) return toast('Max 5 foto reali (+ BrickLink)');
   toast('Comprimo foto...');
   const url=await compressImageFile(file);
   if(!url) return toast('Errore lettura foto');
@@ -753,7 +753,7 @@ async function handleMainDrop(e){
   document.getElementById('mainDropZone').classList.remove('border-zinc-900');
   const file=e.dataTransfer.files[0];
   if(file && file.type.startsWith('image/')){
-    if(tempFotoExtra.length>=12) return toast('Max 12 foto reali');
+    if(tempFotoExtra.length>=5) return toast('Max 5 foto reali (+ BrickLink)');
     toast('Comprimo foto...');
     const url=await compressImageFile(file);
     if(!url) return toast('Errore foto');
@@ -819,8 +819,8 @@ function renderExtraGrid(){
 async function handleExtraUpload(e){
   const files=[...e.target.files];
   if(!files.length) return;
-  const slots=12-tempFotoExtra.length;
-  if(slots<=0) return toast('Max 12 foto reali');
+  const slots=5-tempFotoExtra.length;
+  if(slots<=0) return toast('Max 5 foto reali (+ BrickLink)');
   toast('Comprimo '+Math.min(files.length, slots)+' foto...');
   let added=0;
   const toLoad=files.slice(0,slots);
@@ -835,8 +835,8 @@ async function handleExtraDrop(e){
   e.currentTarget.classList.remove('border-zinc-900','bg-zinc-100');
   const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
   if(!files.length) return toast('Trascina immagini');
-  const slots=12-tempFotoExtra.length;
-  if(slots<=0) return toast('Max 12 foto');
+  const slots=5-tempFotoExtra.length;
+  if(slots<=0) return toast('Max 5 foto');
   toast('Comprimo foto...');
   let added=0;
   const toLoad=files.slice(0,slots);
@@ -1186,13 +1186,13 @@ async function saveFig(e){
   let extraToSave = [...tempFotoExtra];
   const manualFoto = document.getElementById('f_foto').value.trim();
   if(manualFoto && manualFoto.startsWith('data:') && !extraToSave.includes(manualFoto)){
-    if(extraToSave.length<12) extraToSave.unshift(manualFoto);
+    if(extraToSave.length<5) extraToSave.unshift(manualFoto);
     coverFoto = data.foto;
   }
   if(coverFoto && coverFoto.startsWith('data:') && data.foto && !data.foto.startsWith('data:')){
     coverFoto = data.foto;
   }
-  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:coverFoto, fotoExtra: extraToSave.slice(0,12), prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} ? ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
+  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:coverFoto, fotoExtra: extraToSave.slice(0,5), prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} ? ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
   if(existing>=0) figs[existing]=obj; else figs.unshift(obj);
   save(); closeModal(); render(); toast(existing>=0?'Aggiornato':'Aggiunto');
 }
@@ -1462,7 +1462,7 @@ async function handleBulkUpload(e){
     if(!fig){ notFound.push(file.name); continue; }
     const dataUrl=await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); });
     if(!Array.isArray(fig.fotoExtra)) fig.fotoExtra=[];
-    if(fig.fotoExtra.length<12) fig.fotoExtra.push(dataUrl);
+    if(fig.fotoExtra.length<5) fig.fotoExtra.push(dataUrl);
     else fig.foto=dataUrl; // fallback if extra full
     fig.updated=Date.now();
     ok++;
@@ -1555,7 +1555,7 @@ async function handleWizardFile(file){
   if(!file || !file.type.startsWith('image/')) return toast('Solo immagini');
   const fig=wizardList[wizardIndex];
   if(!Array.isArray(fig.fotoExtra)) fig.fotoExtra=[];
-  if(fig.fotoExtra.length>=12) return toast('Max 12 foto reali per '+fig.codice);
+  if(fig.fotoExtra.length>=5) return toast('Max 5 foto reali per '+fig.codice+' (+ BrickLink)');
   toast('Comprimo foto...');
   const url=await compressImageFile(file);
   if(!url) return toast('Errore foto');
@@ -1564,7 +1564,7 @@ async function handleWizardFile(file){
   const globalIdx=figs.findIndex(x=>x.id===fig.id);
   if(globalIdx>=0) figs[globalIdx]=fig;
   save(); render(); renderWizard();
-  toast('Foto reale aggiunta per '+fig.codice+' ('+fig.fotoExtra.length+'/12)');
+  toast('Foto reale aggiunta per '+fig.codice+' ('+fig.fotoExtra.length+'/5)');
 }
 // Mostra overlay durante drag
 document.addEventListener('DOMContentLoaded', ()=>{
