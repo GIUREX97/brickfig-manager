@@ -525,9 +525,23 @@ async function syncFromCloud(){
           localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
           return true;
         }
-        // LOCALE: merge conservativo - FIX 14-09-2026: non cancellare più inserzioni locali dopo 2min
+        // LOCALE: merge conservativo - FIX 15-09-2026: non cancellare più inserzioni e ripristina fotoExtra se cloud ne ha di più
         const localMap=new Map(figs.map(f=>[f.id,f]));
-        remote.forEach(f=>{ if(!localMap.has(f.id) || (f.updated||0) > (localMap.get(f.id).updated||0)) localMap.set(f.id,f); });
+        remote.forEach(f=>{
+          if(!localMap.has(f.id)){
+            localMap.set(f.id,f);
+          } else {
+            const local = localMap.get(f.id);
+            const remoteFoto = Array.isArray(f.fotoExtra)? f.fotoExtra.length : 0;
+            const localFoto = Array.isArray(local.fotoExtra)? local.fotoExtra.length : 0;
+            // Se il cloud ha più foto originali, ripristinale (fix trim a 1)
+            if(remoteFoto > localFoto){
+              localMap.set(f.id, {...local, fotoExtra: f.fotoExtra, foto: f.foto, updated: Math.max(local.updated||0, f.updated||0)});
+            } else if((f.updated||0) > (local.updated||0)){
+              localMap.set(f.id,f);
+            }
+          }
+        });
         figs=[...localMap.values()];
         // Assicura che in locale non rimangano quelli marcati come cancellati
         figs=figs.filter(f=>!deletedIds.has(f.id));
