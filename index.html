@@ -492,16 +492,34 @@ function getAllPhotos(f){
 }
 function getCoverLabel(idx){ return idx===0 ? 'BRICKLINK' : 'REALE'; }
 function save(){
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
-  }catch(e){
-    console.error('localStorage quota', e);
-    toast('⚠️ Memoria locale piena: foto troppo grandi, ne tengo solo le più recenti');
-    // Prova a ridurre: tieni solo ultime 3 fotoExtra per ogni fig e riprova
+  const trySave=(arr)=>{
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); return true; }catch(e){ return false; }
+  };
+  if(trySave(figs)){
+    syncToCloud();
+    return;
+  }
+  console.error('localStorage quota full, provo a ridurre');
+  toast('⚠️ Memoria locale piena: comprimo e tengo solo le più recenti...');
+  // Prova a ridurre progressivamente: 2, poi 1, poi 0 fotoExtra
+  for(let keep of [2,1,0]){
+    const slim=figs.map(f=> ({...f, fotoExtra: Array.isArray(f.fotoExtra)? f.fotoExtra.slice(-keep): []}));
+    if(trySave(slim)){
+      // Aggiorna anche in memoria per coerenza (così non ricompaiono al refresh come mancanti)
+      figs.forEach((f,i)=>{ if(Array.isArray(f.fotoExtra) && f.fotoExtra.length>keep) figs[i].fotoExtra=f.fotoExtra.slice(-keep); });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
+      toast(`Salvato ridotto: tengo solo ultime ${keep} foto reali per pezzo. Le altre restano sul cloud.`);
+      break;
+    }
+  }
+  // Se ancora fallisce, prova a tenere solo cover
+  if(!trySave(figs)){
     try{
-      const slim=figs.map(f=> ({...f, fotoExtra: Array.isArray(f.fotoExtra)? f.fotoExtra.slice(-3): []}));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(slim));
-      toast('Salvato in versione ridotta (ultime 3 foto per pezzo)');
+      const minimal=figs.map(f=> ({...f, fotoExtra: []}));
+      if(trySave(minimal)){
+        figs.forEach((f,i)=> f.fotoExtra=[]);
+        toast('Salvato solo cover BrickLink in locale, foto extra solo su cloud. Ricarica foto più piccole.');
+      }
     }catch(e2){
       toast('Errore salvataggio locale: svuota cache o usa foto più piccole');
     }
@@ -516,33 +534,63 @@ function getImageSrc(url){
   if(url.includes('img.bricklink.com')) return '/api/image?url='+encodeURIComponent(url);
   return url;
 }
-function compressImageFile(file, maxW=1000, quality=0.72){
+function compressImageFile(file, maxW=800, quality=0.65){
   return new Promise(res=>{
     if(!file || !file.type.startsWith('image/')) return res(null);
-    // Se già piccola (<600KB) usa diretta per velocità
-    if(file.size < 600*1024){
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    let timeout=setTimeout(()=>{
+      URL.revokeObjectURL(url);
+      // Fallback a FileReader se l'immagine non carica in 3s (es. HEIC)
       const r=new FileReader();
       r.onload=()=>res(r.result);
       r.onerror=()=>res(null);
       r.readAsDataURL(file);
-      return;
-    }
-    const img=new Image();
-    const url=URL.createObjectURL(file);
+    }, 3000);
     img.onload=()=>{
+      clearTimeout(timeout);
       let w=img.width, h=img.height;
-      if(w>maxW || h>maxW){
-        const ratio=Math.min(maxW/w, maxW/h);
-        w=Math.round(w*ratio); h=Math.round(h*ratio);
+      // Comprimi sempre, anche se già piccola, per stare in localStorage
+      if(w>maxW || h>maxW || file.size>300*1024){
+        const ratio=Math.min(maxW/w, maxW/h, 1);
+        if(ratio<1){ w=Math.round(w*ratio); h=Math.round(h*ratio); }
+      } else if(file.size < 300*1024){
+        // Se molto piccola, usa diretta per qualità
+        URL.revokeObjectURL(url);
+        const r=new FileReader();
+        r.onload=()=>res(r.result);
+        r.onerror=()=>res(null);
+        r.readAsDataURL(file);
+        return;
       }
       const canvas=document.createElement('canvas');
       canvas.width=w; canvas.height=h;
       const ctx=canvas.getContext('2d');
+      // Sfondo bianco per PNG trasparenti (evita nero)
+      ctx.fillStyle='#ffffff';
+      ctx.fillRect(0,0,w,h);
       ctx.drawImage(img,0,0,w,h);
       URL.revokeObjectURL(url);
-      try{ res(canvas.toDataURL('image/jpeg', quality)); }catch(e){ res(null); }
+      try{
+        // Prova JPEG prima, se fallisce prova PNG
+        let dataUrl=canvas.toDataURL('image/jpeg', quality);
+        // Se ancora troppo grande (>350KB), ricomprimi più aggressivo
+        if(dataUrl.length > 350*1024){
+          dataUrl=canvas.toDataURL('image/jpeg', 0.5);
+        }
+        res(dataUrl);
+      }catch(e){
+        try{ res(canvas.toDataURL('image/png')); }catch(e2){ res(null); }
+      }
     };
-    img.onerror=()=>{ URL.revokeObjectURL(url); const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>res(null); r.readAsDataURL(file); };
+    img.onerror=()=>{
+      clearTimeout(timeout);
+      URL.revokeObjectURL(url);
+      const r=new FileReader();
+      r.onload=()=>res(r.result);
+      r.onerror=()=>res(null);
+      r.readAsDataURL(file);
+    };
     img.src=url;
   });
 }
@@ -1491,17 +1539,17 @@ function wizardNext(){
   if(wizardIndex<wizardList.length-1){ wizardIndex++; renderWizard(); }
   else { closePhotoWizard(); toast('Foto completate'); }
 }
-function handleWizardUpload(e){
+async function handleWizardUpload(e){
   const file=e.target.files[0]; if(!file) return;
-  handleWizardFile(file);
   e.target.value='';
+  await handleWizardFile(file);
 }
-function handleWizardDrop(e){
+async function handleWizardDrop(e){
   e.preventDefault();
   document.getElementById('wizardDropZone').classList.remove('border-zinc-900','bg-zinc-100');
   document.getElementById('wizardDropOverlay').classList.add('hidden');
   const file=e.dataTransfer.files[0];
-  if(file) handleWizardFile(file);
+  if(file) await handleWizardFile(file);
 }
 async function handleWizardFile(file){
   if(!file || !file.type.startsWith('image/')) return toast('Solo immagini');
