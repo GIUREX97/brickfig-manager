@@ -1,5 +1,41 @@
 [
   {
+    "id": "otxaruy",
+    "codice": "sw0585",
+    "codiceBrickLink": "sw0585",
+    "nome": "Imperial Stormtrooper - Printed Legs, Dark Blue Helmet Vents",
+    "categoria": "Star Wars",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0585.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0585.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0585.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.94,
+    "prezzoVendita": 4.99,
+    "variante": "Sw0585 ? sw0585",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.71,
+      "soldUsed": 4.94,
+      "currentNew": 12.04,
+      "currentUsed": 6.02,
+      "listinoUsato": 4.94
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789294958206,
+    "created": 1789294958206
+  },
+  {
     "id": "jabvufs",
     "codice": "sw0576",
     "codiceBrickLink": "sw0576",
