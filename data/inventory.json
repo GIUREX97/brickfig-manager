@@ -1,5 +1,41 @@
 [
   {
+    "id": "n94w5zs",
+    "codice": "sw0806",
+    "codiceBrickLink": "sw0806",
+    "nome": "Rebel Trooper - Reddish Brown Head, Helmet with Pearl Dark Gray Band (Corporal Tonc)",
+    "categoria": "Star Wars > Star Wars Rogue One",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0806.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0806.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0806.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.02,
+    "prezzoVendita": 3.49,
+    "variante": "Sw0806 ? sw0806",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 7.21,
+      "soldUsed": 4.02,
+      "currentNew": 9.53,
+      "currentUsed": 4.84,
+      "listinoUsato": 4.02
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789297964697,
+    "created": 1789297964697
+  },
+  {
     "id": "e5xhr0w",
     "codice": "sw0788",
     "codiceBrickLink": "sw0788",
