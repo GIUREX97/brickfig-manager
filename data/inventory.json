@@ -1,5 +1,41 @@
 [
   {
+    "id": "upgd952",
+    "codice": "sw0445",
+    "codiceBrickLink": "sw0445",
+    "nome": "Clone Trooper, 501st Legion (Phase 2) - Blue Arms, Large Eyes",
+    "categoria": "Star Wars > Star Wars The Clone Wars",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0445.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0445.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0445.png"
+      }
+    ],
+    "prezzoAvgUsato": 7,
+    "prezzoVendita": 6.49,
+    "variante": "Sw0445 ? sw0445",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 12.18,
+      "soldUsed": 7,
+      "currentNew": 21.2,
+      "currentUsed": 9.04,
+      "listinoUsato": 7
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294938565,
+    "created": 1789294938565
+  },
+  {
     "id": "wcg3k2j",
     "codice": "sw0444",
     "codiceBrickLink": "sw0444",
