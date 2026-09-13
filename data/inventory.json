@@ -1,5 +1,41 @@
 [
   {
+    "id": "rf0007b",
+    "codice": "sw0692",
+    "codiceBrickLink": "sw0692",
+    "nome": "Imperial Shock Trooper",
+    "categoria": "Star Wars > Star Wars Battlefront",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0692.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0692.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0692.png"
+      }
+    ],
+    "prezzoAvgUsato": 10.26,
+    "prezzoVendita": 9.89,
+    "variante": "Sw0692 ? sw0692",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 17.64,
+      "soldUsed": 10.26,
+      "currentNew": 22.49,
+      "currentUsed": 12.09,
+      "listinoUsato": 10.26
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789297913060,
+    "created": 1789297913060
+  },
+  {
     "id": "66jfbr1",
     "codice": "sw0010",
     "codiceBrickLink": "sw0010",
