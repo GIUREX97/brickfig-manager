@@ -39,6 +39,22 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   #btnNuovo{display:none !important}
 }
 </style>
+<script>
+// Early hide: online (non-localhost) nasconde subito selettori varianti per evitare flash
+(function(){
+  try{
+    var h=location.hostname;
+    var isOnline = h!=='localhost' && h!=='127.0.0.1' && h!=='::1' && !h.startsWith('192.168.') && !h.startsWith('10.') && !h.endsWith('.local');
+    if(isOnline){
+      var s=document.createElement('style');
+      s.id='early-online-hide';
+      s.textContent='.variant-only-local{display:none !important} #colorSelector{display:none !important}';
+      document.head.appendChild(s);
+      document.documentElement.classList.add('is-online');
+    }
+  }catch(e){}
+})();
+</script>
 </head>
 <body class="bg-[#f8f7f5] text-zinc-900 font-sans antialiased overflow-x-hidden">
 <header class="sticky top-0 z-40 bg-white border-b border-zinc-200 shadow-sm overflow-x-hidden">
@@ -464,7 +480,10 @@ let autoTimer=null;
 let tempFotoExtra=[]; // buffer per foto reali extra in modal
 let galleryCurrent={id:null, idx:0}; // lightbox state
 let cardGalleryIdx={}; // indice per ogni card (id -> idx)
-function isOnline(){ return window.location.hostname.includes('vercel.app'); }
+function isOnline(){
+  const h=window.location.hostname;
+  return h!=='localhost' && h!=='127.0.0.1' && h!=='::1' && !h.startsWith('192.168.') && !h.startsWith('10.') && !h.endsWith('.local');
+}
 function isLocal(){ return !isOnline(); }
 function saveDeletedIds(){ try{ localStorage.setItem(DELETED_KEY, JSON.stringify([...deletedIds])); }catch(e){} }
 function saveLotti(){ try{ localStorage.setItem(LOTTI_KEY, JSON.stringify(lotti)); }catch(e){} syncLottiToCloud(); }
@@ -2343,8 +2362,8 @@ async function checkoutCart(){
 }
 // Aggiorna conteggio carrello all'avvio
 updateCartCount();
-// Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu) + fix card online
-if(window.location.hostname.includes('vercel.app')){
+// Nascondi AVG, banda rapida, Foto a step e selettori varianti su ONLINE (tutto ciò che non è localhost), mostrali solo in locale
+if(typeof isOnline==='function' ? isOnline() : window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
   style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:grid !important; grid-template-columns:1fr !important; gap:0.5rem !important} .price-boxes-online-hide .bg-emerald-50{grid-column:1 / -1 !important; text-align:center !important; padding:0.75rem !important} .price-boxes-online-hide .bg-emerald-50 .font-display{font-size:1.15rem !important} .price-diff{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important} .variant-only-local{display:none !important} #colorSelector{display:none !important}';
   document.head.appendChild(style);
