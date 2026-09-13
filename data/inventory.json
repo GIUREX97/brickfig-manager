@@ -1,5 +1,41 @@
 [
   {
+    "id": "vw3jiq3",
+    "codice": "x376px2",
+    "codiceBrickLink": "x376px2",
+    "nome": "Cloth Flag 8 x 5 Wave with Red Border and Fright Knights Bat Emblem Pattern",
+    "categoria": "Cloth",
+    "categoriaMacro": "Cloth",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/9/x376px2.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "9",
+        "colorName": "Light Gray",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/9/x376px2.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/9/x376px2.png"
+      }
+    ],
+    "prezzoAvgUsato": 17.43,
+    "prezzoVendita": 14.99,
+    "variante": "x376px2 ? x376px2",
+    "note": "",
+    "coloreId": "9",
+    "prezziDettaglio": {
+      "soldNew": 28.62,
+      "soldUsed": 17.43,
+      "currentNew": 29.28,
+      "currentUsed": 21.16,
+      "listinoUsato": 17.43
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294059788,
+    "created": 1789294059788
+  },
+  {
     "id": "mnna1uv",
     "codice": "90398",
     "codiceBrickLink": "90398",
