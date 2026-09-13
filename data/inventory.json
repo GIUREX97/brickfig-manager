@@ -1,5 +1,41 @@
 [
   {
+    "id": "p9mcfu0",
+    "codice": "sw0851",
+    "codiceBrickLink": "sw0851",
+    "nome": "Rowan - Tan Jacket",
+    "categoria": "Star Wars > Star Wars Other > Star Wars The Freemaker Adventures",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0851.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0851.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0851.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.12,
+    "prezzoVendita": 1.99,
+    "variante": "Sw0851 ? sw0851",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 3.14,
+      "soldUsed": 2.12,
+      "currentNew": 4.59,
+      "currentUsed": 2.63,
+      "listinoUsato": 2.12
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295090489,
+    "created": 1789295090489
+  },
+  {
     "id": "84k5hzz",
     "codice": "sw0828",
     "codiceBrickLink": "sw0828",
