@@ -18,6 +18,8 @@ app.use(express.static(__dirname));
 // Cache in memoria per velocità
 const cache = new Map();
 const CACHE_TTL = 1000 * 60 * 60 * 6; // 6 ore
+// FIX 13-09-2026: protezione anti-resurrect RIMOSSA (causava perdita inserzioni locali dopo 2min) - mantenuta variabile per compat ma non usata
+let resetProtectionUntil = 0;
 
 function normalizeCode(input) {
   return input.trim().toLowerCase().replace(/\s+/g, '');
@@ -556,12 +558,36 @@ const GITHUB_REPO = 'GIUREX97/brickfig-manager';
 
 app.get('/api/sync', async (req, res) => {
   try {
-    // Prova prima GitHub raw (fonte di verità per Vercel)
+    // 1) Prova GitHub API (fresco, no cache CDN) se token presente - gestisce file grandi >1MB via git blob
+    if (GITHUB_TOKEN) {
+      try {
+        const r = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/inventory.json`, { headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync', 'Cache-Control': 'no-cache' } });
+        if (r.ok) {
+          const j = await r.json();
+          let arr = null;
+          if (j.content) {
+            const decoded = Buffer.from(j.content, 'base64').toString('utf8');
+            arr = JSON.parse(decoded || '[]');
+          } else if (j.git_url) {
+            const br = await fetch(j.git_url, { headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync' } });
+            if (br.ok) {
+              const bj = await br.json();
+              const decoded2 = Buffer.from(bj.content, 'base64').toString('utf8');
+              arr = JSON.parse(decoded2 || '[]');
+            }
+          }
+          if (arr) {
+            try { fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true }); fs.writeFileSync(DATA_PATH, JSON.stringify(arr, null, 2)); } catch(e){}
+            return res.json(arr);
+          }
+        }
+      } catch(e){}
+    }
+    // 2) Fallback GitHub raw con cache-bust
     try {
-      const r = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/inventory.json`, { headers: { 'Cache-Control': 'no-cache' } });
+      const r = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/inventory.json?t=${Date.now()}`, { headers: { 'Cache-Control': 'no-cache' } });
       if (r.ok) {
         const j = await r.json();
-        // Sincronizza anche locale
         try { fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true }); fs.writeFileSync(DATA_PATH, JSON.stringify(j, null, 2)); } catch(e){}
         return res.json(j);
       }
@@ -578,6 +604,43 @@ app.get('/api/sync', async (req, res) => {
 app.post('/api/sync', express.json({ limit: '50mb' }), async (req, res) => {
   const data = req.body;
   if (!Array.isArray(data)) return res.status(400).json({ error: 'Formato non valido' });
+  // FIX 15-09-2026: protezione anti-azzeramento accidentale + backup
+  // Prima causava perdita se push vuoto sovrascriveva 223 pezzi; ora salva backup e richiede header/query per confermare
+  let existingLen = 0;
+  let existingArr = null;
+  try {
+    if (fs.existsSync(DATA_PATH)) {
+      existingArr = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8') || '[]');
+      existingLen = Array.isArray(existingArr) ? existingArr.length : 0;
+    }
+  } catch(e) {}
+  // Se arriva [] mentre su disco ci sono dati -> azzeramento: salva backup e richiedi conferma
+  if (data.length === 0 && existingLen > 0) {
+    try {
+      const backupDir = path.join(__dirname, 'data');
+      fs.mkdirSync(backupDir, { recursive: true });
+      const ts = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupPath = path.join(backupDir, `inventory.backup-${ts}.json`);
+      fs.writeFileSync(backupPath, JSON.stringify(existingArr, null, 2));
+      console.log(`[BACKUP] Inventario salvato ${backupPath} (${existingLen} pezzi) prima di azzeramento`);
+    } catch(e) { console.log('[BACKUP] errore', e.message); }
+    const allowClear = req.query.force === '1' || req.query.confirm === '1' || req.headers['x-allow-clear'] === '1';
+    if (!allowClear) {
+      console.log(`[PROTEZIONE] POST /api/sync bloccato: tentativo di azzerare ${existingLen} pezzi con [] senza conferma`);
+      return res.status(409).json({ error: `Rifiutato azzeramento di ${existingLen} pezzi. Usa /force-clear?confirm=1 o header X-Allow-Clear:1`, existing: existingLen, received: 0 });
+    }
+  }
+  // Drop massivo (>70%) con file grande: backup ma permetti (log warning)
+  if (data.length > 0 && existingLen > 50 && data.length < existingLen * 0.3) {
+    try {
+      const backupDir = path.join(__dirname, 'data');
+      fs.mkdirSync(backupDir, { recursive: true });
+      const ts = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupPath = path.join(backupDir, `inventory.backup-${ts}.json`);
+      fs.writeFileSync(backupPath, JSON.stringify(existingArr, null, 2));
+      console.log(`[BACKUP-WARN] Drop ${existingLen} -> ${data.length} salvato ${backupPath}`);
+    } catch(e) {}
+  }
   try {
     fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true });
     fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2));
@@ -605,8 +668,32 @@ app.post('/api/sync', express.json({ limit: '50mb' }), async (req, res) => {
 const LOTTI_PATH = path.join(__dirname, 'data', 'lotti.json');
 app.get('/api/lotti', async (req, res) => {
   try {
+    if (GITHUB_TOKEN) {
+      try {
+        const r = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/lotti.json`, { headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync', 'Cache-Control': 'no-cache' } });
+        if (r.ok) {
+          const j = await r.json();
+          let arr = null;
+          if (j.content) {
+            const decoded = Buffer.from(j.content, 'base64').toString('utf8');
+            arr = JSON.parse(decoded || '[]');
+          } else if (j.git_url) {
+            const br = await fetch(j.git_url, { headers: { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync' } });
+            if (br.ok) {
+              const bj = await br.json();
+              const decoded2 = Buffer.from(bj.content, 'base64').toString('utf8');
+              arr = JSON.parse(decoded2 || '[]');
+            }
+          }
+          if (arr) {
+            try { fs.mkdirSync(path.dirname(LOTTI_PATH), { recursive: true }); fs.writeFileSync(LOTTI_PATH, JSON.stringify(arr, null, 2)); } catch(e){}
+            return res.json(arr);
+          }
+        }
+      } catch(e){}
+    }
     try {
-      const r = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/lotti.json`, { headers: { 'Cache-Control': 'no-cache' } });
+      const r = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/lotti.json?t=${Date.now()}`, { headers: { 'Cache-Control': 'no-cache' } });
       if (r.ok) {
         const j = await r.json();
         try { fs.mkdirSync(path.dirname(LOTTI_PATH), { recursive: true }); fs.writeFileSync(LOTTI_PATH, JSON.stringify(j, null, 2)); } catch(e){}
@@ -623,6 +710,30 @@ app.get('/api/lotti', async (req, res) => {
 app.post('/api/lotti', express.json({ limit: '50mb' }), async (req, res) => {
   const data = req.body;
   if (!Array.isArray(data)) return res.status(400).json({ error: 'Formato non valido' });
+  // FIX 15-09-2026: protezione lotti + backup analoga a inventario
+  let existingLen = 0;
+  let existingArr = null;
+  try {
+    if (fs.existsSync(LOTTI_PATH)) {
+      existingArr = JSON.parse(fs.readFileSync(LOTTI_PATH, 'utf8') || '[]');
+      existingLen = Array.isArray(existingArr) ? existingArr.length : 0;
+    }
+  } catch(e) {}
+  if (data.length === 0 && existingLen > 0) {
+    try {
+      const backupDir = path.join(__dirname, 'data');
+      fs.mkdirSync(backupDir, { recursive: true });
+      const ts = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupPath = path.join(backupDir, `lotti.backup-${ts}.json`);
+      fs.writeFileSync(backupPath, JSON.stringify(existingArr, null, 2));
+      console.log(`[BACKUP] Lotti salvato ${backupPath} (${existingLen}) prima di azzeramento`);
+    } catch(e) {}
+    const allowClear = req.query.force === '1' || req.query.confirm === '1' || req.headers['x-allow-clear'] === '1';
+    if (!allowClear) {
+      console.log(`[PROTEZIONE] POST /api/lotti bloccato: azzeramento ${existingLen} lotti`);
+      return res.status(409).json({ error: `Rifiutato azzeramento di ${existingLen} lotti. Usa header X-Allow-Clear:1`, existing: existingLen });
+    }
+  }
   try {
     fs.mkdirSync(path.dirname(LOTTI_PATH), { recursive: true });
     fs.writeFileSync(LOTTI_PATH, JSON.stringify(data, null, 2));
@@ -645,6 +756,35 @@ app.post('/api/lotti', express.json({ limit: '50mb' }), async (req, res) => {
   res.json({ ok: true });
 });
 
+// Endpoint azzeramento forzato locale (richiesto utente 13-09-2026) - svuota localStorage e cloud
+// FIX 15-09-2026: protetto da ?confirm=1 e header X-Allow-Clear per evitare wipe accidentali (crawling, prefetch)
+app.get('/force-clear', (req, res) => {
+  if (req.query.confirm !== '1') {
+    return res.send(`<!doctype html><meta charset="utf-8"><title>Conferma azzeramento</title><body style="font-family:sans-serif;text-align:center;padding:40px"><h1>⚠️ Azzeramento gestionale</h1><p>Stai per cancellare <b>TUTTE</b> le inserzioni locali + cloud.</p><p>Backup automatico verrà salvato su server.</p><p><a href="/force-clear?confirm=1" style="display:inline-block;padding:12px 24px;background:#E3000B;color:#fff;border-radius:12px;text-decoration:none;font-weight:800">CONFERMA AZZERA TUTTO</a> <a href="/" style="padding:12px 24px;background:#e4e4e7;border-radius:12px;text-decoration:none">Annulla</a></p></body>`);
+  }
+  res.send(`<!doctype html><meta charset="utf-8"><title>Azzeramento</title><script>
+    try{
+      localStorage.removeItem('brickfig_pro_v1');
+      localStorage.removeItem('brickfig_lotti_v1');
+      localStorage.removeItem('brickfig_deleted_v1');
+      localStorage.removeItem('brickfig_cart');
+      localStorage.setItem('brickfig_reset_20260913_test_clear_v1','1');
+      localStorage.setItem('brickfig_pro_v1', JSON.stringify([]));
+      localStorage.setItem('brickfig_lotti_v1', JSON.stringify([]));
+    }catch(e){}
+    fetch('/api/sync?force=1',{method:'POST',headers:{'Content-Type':'application/json','X-Allow-Clear':'1'},body:'[]'}).catch(()=>{});
+    fetch('/api/lotti?force=1',{method:'POST',headers:{'Content-Type':'application/json','X-Allow-Clear':'1'},body:'[]'}).catch(()=>{});
+    document.write('<h1 style="font-family:sans-serif;text-align:center;margin-top:40px">Gestionale azzerato - tra 2s torni al catalogo vuoto</h1>');
+    setTimeout(()=>location.href='/',1500);
+  <\/script>`);
+});
+app.get('/api/force-clear-status', async (req,res)=>{
+  try{
+    const inv = JSON.parse(fs.readFileSync(path.join(__dirname,'data','inventory.json'),'utf8')||'[]');
+    const lot = JSON.parse(fs.readFileSync(path.join(__dirname,'data','lotti.json'),'utf8')||'[]');
+    res.json({inventory: inv.length, lotti: lot.length});
+  }catch(e){ res.json({error:e.message})}
+});
 // Fallback per SPA
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));

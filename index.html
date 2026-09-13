@@ -78,7 +78,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
   <select id="filterStato" onchange="render()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-2"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
   <select id="filterTipo" onchange="render()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-3"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
   <select id="filterCategoria" onchange="render()" class="flex-1 sm:flex-none min-w-[130px] sm:min-w-[160px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-4"><option value="">Tutte le categorie</option></select>
-  <select id="sortBy" onchange="render()" class="flex-1 sm:flex-none px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm order-5"><option value="recent">Pi� recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ?</option></select>
+  <select id="sortBy" onchange="saveSortPref();render()" class="flex-1 sm:flex-none px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm order-5"><option value="categoria-codice">Categoria → Codice</option><option value="recent">Pi� recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ?</option></select>
   <div class="flex items-center gap-1 order-6"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="hidden sm:flex w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
   <button onclick="updateAllPrices()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local order-7"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
   <button id="btnPhotoWizard" onclick="openPhotoWizard()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold order-7"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
@@ -474,17 +474,27 @@ async function syncLottiFromCloud(){
     if(r.ok){
       let remote=await r.json();
       if(Array.isArray(remote)){
-        // Propaga cancellazioni lotti: se locale ha lotto non più in remote e non è nuovo, rimuovilo
         const remoteIds=new Set(remote.map(l=>l.id));
-        const now=Date.now();
-        // Tieni i lotti locali solo se sono in remote o sono nuovi (<2min)
-        const keepLocal=lotti.filter(l=> remoteIds.has(l.id) || (l.created && now - l.created < 2*60*1000) || (l.updated && now - l.updated < 2*60*1000));
-        // Merge: remote prevale, ma tieni i nuovi locali non ancora in remote
+        // FIX 14-09-2026: tieni TUTTI i lotti locali non in remote (creazioni locali) - prima cancellava dopo 2min causando perdita inserzioni
         const merged=new Map(remote.map(l=>[l.id,l]));
-        keepLocal.forEach(l=>{ if(!merged.has(l.id)) merged.set(l.id,l); });
+        let hasLocalOnly=false;
+        lotti.forEach(l=>{
+          if(!merged.has(l.id)){
+            merged.set(l.id,l);
+            hasLocalOnly=true;
+          } else {
+            const existing=merged.get(l.id);
+            if((l.updated||0) > (existing.updated||0)) merged.set(l.id,l);
+          }
+        });
         lotti=[...merged.values()];
         localStorage.setItem(LOTTI_KEY, JSON.stringify(lotti));
-        // Pulisci fig.lottoId se lotto non esiste più
+        if(hasLocalOnly){
+          // Pusha in background i lotti locali non ancora su cloud
+          syncLottiToCloud();
+        }
+        // Pulisci fig.lottoId se lotto non esiste più in remote E non è lotto locale appena creato
+        // Ora puliamo solo se lotto non esiste né in remote né in merged (quindi davvero cancellato)
         const validLottoIds=new Set(lotti.map(l=>l.id));
         let changed=false;
         figs.forEach(f=>{ if(f.lottoId && !validLottoIds.has(f.lottoId)){ f.lottoId=null; f.soloLotto=false; changed=true; }});
@@ -509,32 +519,34 @@ async function syncFromCloud(){
       if(Array.isArray(remote) && remote.length>0){
         // Filtra dal remoto quelli che hai eliminato in locale (non resuscitare)
         remote=remote.filter(f=>!deletedIds.has(f.id));
-        // ONLINE: fonte di verità è GitHub — sovrascrivi locale con remoto (pulisce spada gold stale)
+        // ONLINE: fonte di verità è GitHub — sovrascrivi locale con remoto
         if(isOnline()){
           figs=[...remote].filter(f=>!deletedIds.has(f.id));
           localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
           return true;
         }
+        // LOCALE: merge conservativo - FIX 14-09-2026: non cancellare più inserzioni locali dopo 2min
         const localMap=new Map(figs.map(f=>[f.id,f]));
         remote.forEach(f=>{ if(!localMap.has(f.id) || (f.updated||0) > (localMap.get(f.id).updated||0)) localMap.set(f.id,f); });
         figs=[...localMap.values()];
         // Assicura che in locale non rimangano quelli marcati come cancellati
         figs=figs.filter(f=>!deletedIds.has(f.id));
-        // Propaga cancellazioni/aggiunte da remoto: se locale ha un id non più in remoto e non è nuovo, rimuovilo (sync bidirezionale tranne carrello)
+        // FIX: tieni TUTTE le inserzioni locali non in remote (creazioni locali non ancora pushato)
+        // Prima cancellava dopo 2min causando perdita inserzioni se push falliva
         const remoteIds=new Set(remote.map(r=>r.id));
-        const now=Date.now();
-        figs=figs.filter(f=>{
-          if(remoteIds.has(f.id)) return true;
-          // Tieni solo se creato/aggiornato negli ultimi 2 min (non ancora pushato)
-          if(f.created && now - f.created < 2*60*1000) return true;
-          if(f.updated && now - f.updated < 2*60*1000) return true;
-          return false;
-        });
+        const hasLocalOnly = figs.some(f=>!remoteIds.has(f.id));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
+        if(hasLocalOnly){
+          // Pusha in background le inserzioni locali non ancora su cloud
+          syncToCloud();
+        }
         return true;
       } else if(Array.isArray(remote) && remote.length===0 && figs.length>0){
-        // Cloud vuoto ma locale ha dati ? pusha locale su cloud (primo sync)
+        // Cloud vuoto ma locale ha dati -> pusha locale su cloud (primo sync)
         await syncToCloud();
+        return false;
+      } else if(Array.isArray(remote) && remote.length===0 && figs.length===0){
+        // Entrambi vuoti -> niente da fare
         return false;
       }
     }
@@ -759,13 +771,14 @@ function getMacroCategoria(full){
 
 async function checkServer(){
   const el=document.getElementById('serverStatus');
+  if(!el) return;
   try{
     const r=await fetch('/api/health', {signal: AbortSignal.timeout(3000)});
     const j=await r.json();
-    el.textContent=`✓ Server OK � cache ${j.cacheSize}`;
+    el.textContent=`✓ Server OK — cache ${j.cacheSize}`;
     el.className='text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold';
   }catch(e){
-    el.textContent='⚠ Server offline � avvia server.js';
+    el.textContent='⚠ Server offline — avvia server.js';
     el.className='text-xs bg-red-500 text-white px-2.5 py-1 rounded-full font-bold';
   }
 }
@@ -1695,6 +1708,7 @@ if(galModalEl){
 }
 
 function setView(v){ view=v; document.getElementById('btnGrid').className=v==='grid'?'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center':'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center'; document.getElementById('btnTable').className=v==='table'?'w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center':'w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 flex items-center justify-center'; document.getElementById('gridView').classList.toggle('hidden',v!=='grid'); document.getElementById('tableView').classList.toggle('hidden',v!=='table'); localStorage.setItem('brickfig_view',v); }
+function saveSortPref(){ try{ const s=document.getElementById('sortBy')?.value; if(s) localStorage.setItem('brickfig_sort', s); }catch(e){} }
 function render(){
   const q=document.getElementById('searchInput').value.toLowerCase().trim();
   const fs=document.getElementById('filterStato').value;
@@ -1718,15 +1732,31 @@ function render(){
   }
   // Solo lotto: nascondi dal grid/table i pezzi già in un lotto (vedi solo il lotto)
   list=list.filter(f=> !(f.soloLotto && f.lottoId));
-  // Ordinamento fisso: Disponibili in alto (nuovi prima), poi Prenotati, poi Venduti in basso. Modifica prezzo non sposta.
+  // Ordinamento: default Categoria → Codice (sw0000→sw9999, sh0000→sh9999 raggruppati per categoria), costantemente applicato anche su nuovi inserimenti
   const order={Disponibile:0, Prenotato:1, Venduto:2, Esaurito:3};
+  function categoriaCodiceCmp(a,b){
+    const catA=(a.categoriaMacro||getMacroCategoria(a.categoria||'')).toLowerCase();
+    const catB=(b.categoriaMacro||getMacroCategoria(b.categoria||'')).toLowerCase();
+    if(catA<catB) return -1;
+    if(catA>catB) return 1;
+    // Usa codiceBrickLink normalizzato (es. col03-9 -> col041) per ordine cronologico corretto CMF
+    const codeA=(a.codiceBrickLink||a.codice||'');
+    const codeB=(b.codiceBrickLink||b.codice||'');
+    const codeCmp=codeA.localeCompare(codeB, 'it', {numeric:true, sensitivity:'base'});
+    if(codeCmp!==0) return codeCmp;
+    // tie-breaker: codice digitato, variante/colore e data creazione
+    const rawCmp=(a.codice||'').localeCompare(b.codice||'', 'it', {numeric:true, sensitivity:'base'});
+    if(rawCmp!==0) return rawCmp;
+    return (a.created||0)-(b.created||0);
+  }
   list.sort((a,b)=>{
+    if(sort==='categoria-codice') return categoriaCodiceCmp(a,b);
     if(sort==='recent') return (order[a.stato]??9)-(order[b.stato]??9) || b.created-a.created;
-    if(sort==='codice') return a.codice.localeCompare(b.codice);
-    if(sort==='categoria') return (a.categoriaMacro||getMacroCategoria(a.categoria||'')).localeCompare(b.categoriaMacro||getMacroCategoria(b.categoria||'')) || a.codice.localeCompare(b.codice);
+    if(sort==='codice') return a.codice.localeCompare(b.codice, 'it', {numeric:true, sensitivity:'base'});
+    if(sort==='categoria') return (a.categoriaMacro||getMacroCategoria(a.categoria||'')).localeCompare(b.categoriaMacro||getMacroCategoria(b.categoria||''), 'it', {sensitivity:'base'}) || a.codice.localeCompare(b.codice, 'it', {numeric:true, sensitivity:'base'});
     if(sort==='nome') return a.nome.localeCompare(b.nome);
     if(sort==='prezzo-desc') return (b.prezzoAvgUsato||0)-(a.prezzoAvgUsato||0);
-    return (order[a.stato]??9)-(order[b.stato]??9) || b.created-a.created;
+    return categoriaCodiceCmp(a,b);
   });
   const gDisp=figs.filter(f=>f.stato==='Disponibile'), gPren=figs.filter(f=>f.stato==='Prenotato'), gVend=figs.filter(f=>f.stato==='Venduto');
   document.getElementById('statTotal').textContent=figs.length;
@@ -1741,42 +1771,110 @@ function render(){
   const valAvgTot = figs.filter(f=>f.stato!=='Venduto').reduce((s,f)=>s+(f.prezzoAvgUsato||0)*(f.qta||1),0);
   document.getElementById('statValore').textContent=euro(valVenditaTot);
   document.getElementById('statValoreAvg').textContent=`AVG Usato ${euro(valAvgTot)}`;
-    // Render lotti (solo blocco) - sempre visibili anche online, ma creazione solo locale
+    // Lotti: non più in evidenza separata, ma inseriti tra le normali inserzioni (richiesta utente) - ordinati per Categoria → Codice come le minifigure
   const lottiGrid=document.getElementById('lottiGrid');
-  if(lottiGrid){
-    const lottiVisibili = isOnline() ? lotti.filter(l=>l.stato!=='Venduto') : lotti;
-    if(lottiVisibili.length){
-      lottiGrid.classList.remove('hidden');
-      lottiGrid.innerHTML=lottiVisibili.map(l=>{
-        const figsInLotto=l.figIds.map(id=>figs.find(f=>f.id===id)).filter(Boolean);
-        const somma=l.figIds.reduce((s,id)=>{ const f=figs.find(x=>x.id===id); return s+(f? (f.prezzoVendita||f.prezzoAvgUsato||0):0); },0);
-        return `<div class="bg-gradient-to-br from-amber-50 to-white rounded-2xl border-2 border-amber-400 overflow-hidden shadow-sm flex flex-col">
-          <div class="bg-amber-400 text-zinc-900 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1.5 flex items-center justify-between">
-            <span><i class="fa-solid fa-boxes-stacked mr-1"></i> LOTTO • ${l.figIds.length} PEZZI • SOLO BLOCCO</span>
-            <span class="bg-white px-2 py-0.5 rounded-full text-xs">${l.stato}</span>
-          </div>
-          <div class="p-3 grid grid-cols-4 gap-1 h-[100px] bg-zinc-100">${figsInLotto.slice(0,4).map(f=>`<div class="bg-white rounded-lg overflow-hidden border aspect-square flex items-center justify-center p-1"><img src="${getImageSrc(f.foto)}" class="max-w-full max-h-full object-contain"></div>`).join('')}${figsInLotto.length>4? `<div class="bg-zinc-900 text-white rounded-lg flex items-center justify-center text-xs font-bold">+${figsInLotto.length-4}</div>`:''}</div>
-          <div class="p-4 flex-1 flex flex-col">
-            <h3 class="font-bold text-sm leading-tight">${l.nome}</h3>
-            <div class="text-xs text-zinc-600 mt-1">${l.figIds.map(id=>{ const f=figs.find(x=>x.id===id); return f? f.codice : id; }).join(' • ')}</div>
-            <div class="text-[11px] text-zinc-500 mt-1 line-clamp-2">${l.note||'Solo blocco, non divisibile'}</div>
-            <div class="mt-2 flex items-baseline gap-2"><span class="font-display font-bold text-lg text-amber-700">${euro(l.prezzo)}</span><span class="text-xs text-zinc-500">somma singoli ${euro(somma)}</span></div>
-            <div class="mt-3 flex gap-2">
-              <button onclick="addLottoToCart('${l.id}')" class="flex-1 py-2.5 rounded-xl bg-zinc-900 text-white text-xs font-bold hover:bg-black"><i class="fa-solid fa-cart-plus mr-1"></i> Carrello Lotto</button>
-              <button onclick="editLotto('${l.id}')" class="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button>
-              <button onclick="deleteLotto('${l.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button>
-            </div>
-            <div class="mt-2 text-[10px] text-center text-zinc-500">${l.figIds.length} pezzi • solo blocco</div>
-          </div>
-        </div>`;
-      }).join('');
-    } else {
-      lottiGrid.classList.add('hidden');
-      lottiGrid.innerHTML='';
-    }
+  if(lottiGrid){ lottiGrid.classList.add('hidden'); lottiGrid.innerHTML=''; }
+  // Prepara lotti visibili con stessi filtri di ricerca/stato/categoria
+  let lottiVisibili = isOnline() ? lotti.filter(l=>l.stato!=='Venduto') : [...lotti];
+  if(q){
+    lottiVisibili = lottiVisibili.filter(l=>{
+      const hay = (l.nome+' '+(l.note||'')+' '+l.figIds.join(' ')).toLowerCase();
+      const codiciInLotto = l.figIds.map(id=>{ const ff=figs.find(x=>x.id===id); return ff? (ff.codice+' '+ff.nome+' '+(ff.categoria||'')+' '+(ff.categoriaMacro||'')) : ''; }).join(' ').toLowerCase();
+      return hay.includes(q) || codiciInLotto.includes(q);
+    });
   }
+  if(fs) lottiVisibili = lottiVisibili.filter(l=>l.stato===fs);
+  if(fc){
+    lottiVisibili = lottiVisibili.filter(l=>{
+      const figsInL = l.figIds.map(id=>figs.find(x=>x.id===id)).filter(Boolean);
+      if(!figsInL.length) return false;
+      return figsInL.some(ff=> (ff.categoriaMacro||getMacroCategoria(ff.categoria||''))===fc);
+    });
+  }
+  if(ft){
+    lottiVisibili = lottiVisibili.filter(l=>{
+      const figsInL = l.figIds.map(id=>figs.find(x=>x.id===id)).filter(Boolean);
+      return figsInL.some(ff=> ff.tipo===ft);
+    });
+  }
+  const lottiItems = lottiVisibili.map(l=>{
+    const figsInLotto = l.figIds.map(id=>figs.find(x=>x.id===id)).filter(Boolean);
+    let sortCat = 'Lotto';
+    let sortCode = l.nome||'zzz';
+    let sortPrezzo = l.prezzo||0;
+    let sortNome = l.nome||'';
+    if(figsInLotto.length){
+      const catCount={};
+      figsInLotto.forEach(ff=>{ const c=(ff.categoriaMacro||getMacroCategoria(ff.categoria||''))||'Lotto'; catCount[c]=(catCount[c]||0)+1; });
+      sortCat = Object.entries(catCount).sort((a,b)=>b[1]-a[1])[0][0];
+      const codes = figsInLotto.map(ff=>ff.codiceBrickLink||ff.codice||'').sort((a,b)=>a.localeCompare(b,'it',{numeric:true, sensitivity:'base'}));
+      sortCode = codes[0]||sortCode;
+      sortNome = l.nome||figsInLotto.map(ff=>ff.nome).join(' ');
+    }
+    return { _isLotto:true, _sortCategoria: sortCat, _sortCodice: sortCode, _sortPrezzo: sortPrezzo, _sortNome: sortNome, lotto:l, figsInLotto, _created: l.created||0, _stato: l.stato };
+  });
+  const figItems = list.map(f=> ({ _isLotto:false, _sortCategoria: f.categoriaMacro||getMacroCategoria(f.categoria||''), _sortCodice: f.codiceBrickLink||f.codice||'', _sortPrezzo: f.prezzoVendita||f.prezzoAvgUsato||0, _sortNome: f.nome||'', fig:f, _created: f.created||0, _stato: f.stato }));
+  let unified = [...figItems, ...lottiItems];
+  unified.sort((a,b)=>{
+    if(sort==='categoria-codice'){
+      const ca=(a._sortCategoria||'').toLowerCase(); const cb=(b._sortCategoria||'').toLowerCase();
+      if(ca<cb) return -1; if(ca>cb) return 1;
+      const cmp=(a._sortCodice||'').localeCompare(b._sortCodice||'','it',{numeric:true, sensitivity:'base'});
+      if(cmp!==0) return cmp;
+      return (a._created||0)-(b._created||0);
+    }
+    if(sort==='recent'){
+      const order={Disponibile:0, Prenotato:1, Venduto:2, Esaurito:3};
+      const oa=order[a._stato]??9, ob=order[b._stato]??9;
+      if(oa!==ob) return oa-ob;
+      return (b._created||0)-(a._created||0);
+    }
+    if(sort==='codice') return (a._sortCodice||'').localeCompare(b._sortCodice||'','it',{numeric:true, sensitivity:'base'});
+    if(sort==='categoria'){
+      const ca=(a._sortCategoria||''); const cb=(b._sortCategoria||'');
+      const cmp=ca.localeCompare(cb,'it',{sensitivity:'base'});
+      if(cmp!==0) return cmp;
+      return (a._sortCodice||'').localeCompare(b._sortCodice||'','it',{numeric:true, sensitivity:'base'});
+    }
+    if(sort==='nome') return (a._sortNome||'').localeCompare(b._sortNome||'');
+    if(sort==='prezzo-desc') return (b._sortPrezzo||0)-(a._sortPrezzo||0);
+    const ca=(a._sortCategoria||'').toLowerCase(); const cb=(b._sortCategoria||'').toLowerCase();
+    if(ca<cb) return -1; if(ca>cb) return 1;
+    const cmp=(a._sortCodice||'').localeCompare(b._sortCodice||'','it',{numeric:true, sensitivity:'base'});
+    if(cmp!==0) return cmp;
+    return (a._created||0)-(b._created||0);
+  });
   const grid=document.getElementById('gridView');
-  grid.innerHTML=list.map(f=>{
+  grid.innerHTML=unified.map(item=>{
+    if(item._isLotto){
+      const l=item.lotto; const figsInLotto=item.figsInLotto;
+      const somma=l.figIds.reduce((s,id)=>{ const ff=figs.find(x=>x.id===id); return s+(ff? (ff.prezzoVendita||ff.prezzoAvgUsato||0):0); },0);
+      const clsLotto=l.stato==='Disponibile'?'bg-emerald-500 text-white':l.stato==='Prenotato'?'bg-amber-400 text-zinc-900':'bg-lego-red text-white';
+      const catLabel=item._sortCategoria||'Lotto';
+      return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-auto sm:h-[520px] min-h-[480px] sm:min-h-0 relative">
+        <div class="bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[180px] sm:h-[200px] select-none" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;">
+          <div class="w-full h-full grid grid-cols-2 gap-1.5 place-items-center">${figsInLotto.slice(0,4).map(ff=>`<div class="bg-white rounded-xl overflow-hidden border aspect-square w-full h-full flex items-center justify-center p-1"><img src="${getImageSrc(ff.foto)}" class="max-w-full max-h-full object-contain"></div>`).join('')}${figsInLotto.length>4? `<div class="bg-zinc-900 text-white rounded-xl w-full h-full flex items-center justify-center text-xs font-bold border">+${figsInLotto.length-4}</div>`:''}</div>
+          <span class="absolute top-2 left-2 text-[10px] font-bold px-2 py-1 rounded-full bg-zinc-900 text-white border border-zinc-800"><i class="fa-solid fa-boxes-stacked mr-1"></i>LOTTO • ${l.figIds.length}</span>
+          <span class="absolute top-2 right-2 text-[11px] font-bold px-2 py-1 rounded-full ${clsLotto}">${l.stato}</span>
+          <span class="absolute bottom-2 right-2 bg-white border border-zinc-200 text-[10px] font-mono font-bold px-2 py-1 rounded-full">${catLabel} • ${item._sortCodice}</span>
+        </div>
+        <div class="p-4 flex-1 flex flex-col">
+          <div class="flex items-start justify-between gap-2 min-h-[38px]"><h3 class="font-bold text-[13px] leading-tight line-clamp-2 flex-1">${l.nome}</h3><span class="shrink-0 bg-zinc-900 text-white text-[10px] font-bold px-2 py-1 rounded-full">SOLO BLOCCO</span></div>
+          <div class="text-[11px] text-zinc-500 mt-1 line-clamp-1 min-h-[16px]">${l.figIds.map(id=>{ const ff=figs.find(x=>x.id===id); return ff? ff.codice : id; }).join(' • ')}</div>
+          <div class="text-[11px] text-zinc-500 mt-1">${catLabel}</div>
+          <div class="min-h-[64px] mt-1">${l.note? `<div class="text-xs text-zinc-600 bg-zinc-50 border border-zinc-100 rounded-xl p-2 line-clamp-3 h-[64px] overflow-hidden">${l.note}</div>`:`<div class="h-[64px]"></div>`}</div>
+          <div class="mt-2 grid grid-cols-2 gap-2 mt-auto">
+            <div class="bg-zinc-50 border border-zinc-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-zinc-500">Somma singoli</div><div class="font-display font-bold text-zinc-700 text-sm">${euro(somma)}</div></div>
+            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Prezzo lotto</div><div class="font-display font-bold text-emerald-700 text-sm">${euro(l.prezzo)}</div></div>
+          </div>
+          <div class="mt-3 flex gap-1">
+            <button onclick="addLottoToCart('${l.id}')" class="flex-1 py-2 rounded-xl bg-zinc-900 text-white hover:bg-black text-xs font-bold"><i class="fa-solid fa-cart-plus mr-1"></i> Carrello Lotto</button>
+            <button onclick="editLotto('${l.id}')" class="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button>
+            <button onclick="deleteLotto('${l.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button>
+          </div>
+        </div>
+      </div>`;
+    } else { const f=item.fig;
     const cls=f.stato==='Disponibile'?'bg-emerald-500 text-white':f.stato==='Prenotato'?'bg-amber-400 text-zinc-900':'bg-lego-red text-white';
     const allPhotos=getAllPhotos(f);
     const total=allPhotos.length;
@@ -1814,14 +1912,23 @@ function render(){
         </div>
       </div>
     </div>`;
+    }
   }).join('');
   const tbody=document.getElementById('tableBody');
-  tbody.innerHTML=list.map(f=>{
+  tbody.innerHTML=unified.map(item=>{
+    if(item._isLotto){
+      const l=item.lotto; const figsInLotto=item.figsInLotto;
+      const somma=l.figIds.reduce((s,id)=>{ const ff=figs.find(x=>x.id===id); return s+(ff? (ff.prezzoVendita||ff.prezzoAvgUsato||0):0); },0);
+      const firstFig=figsInLotto[0];
+      const thumb = firstFig? getImageSrc(firstFig.foto) : '';
+      return `<tr class="hover:bg-zinc-50 bg-amber-50/20"><td class="px-4 py-2"><div class="relative w-12 h-12 flex items-center justify-center bg-zinc-100 rounded-xl border overflow-hidden"><img src="${thumb}" class="w-12 h-12 object-contain p-1" onerror="this.style.display='none'"><span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">${figsInLotto.length}</span></div></td><td class="px-2 py-2 font-mono text-xs font-bold">LOTTO<br><span class="text-[10px] text-zinc-500">${l.figIds.length} pezzi</span></td><td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${l.nome} <span class="ml-1 text-[10px] bg-zinc-900 text-white px-1.5 py-0.5 rounded-full">SOLO BLOCCO</span></div><div class="text-xs text-zinc-500">${l.figIds.map(id=>{ const ff=figs.find(x=>x.id===id); return ff? ff.codice : id; }).join(' • ')}</div><div class="text-xs text-zinc-500">${item._sortCategoria}</div>${l.note? `<div class="text-xs text-zinc-600 bg-white border rounded px-1 py-0.5 mt-1 line-clamp-2">${l.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">1</td><td class="px-2 py-2 text-center"><span class="text-xs font-bold px-2 py-1 rounded-full ${l.stato==='Disponibile'?'bg-emerald-500 text-white':l.stato==='Prenotato'?'bg-amber-400 text-zinc-900':'bg-lego-red text-white'}">${l.stato}</span></td><td class="px-2 py-2 text-right avg-only-local text-amber-700 font-bold">${euro(somma)}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${euro(l.prezzo)}</td><td class="px-4 py-2 text-right"><div class="flex gap-1 justify-end"><button onclick="addLottoToCart('${l.id}')" class="px-3 py-1.5 rounded-lg bg-zinc-900 text-white text-xs font-bold">Carrello</button><button onclick="editLotto('${l.id}')" class="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="deleteLotto('${l.id}')" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
+    } else { const f=item.fig;
     const photos=getAllPhotos(f);
     const hasExtra=photos.length>1;
     return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td>  <td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="mt-1 flex items-center gap-1"><i class="fa-solid fa-palette text-amber-600 text-[10px]"></i><select onchange="changeCardVariant('${f.id}', this.value)" class="text-[11px] font-bold px-2 py-1 rounded-lg border-2 border-amber-200 bg-amber-50"><option value="">Cambia variante...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td>  <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-red-100 text-red-700 border-red-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700 avg-only-local">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100 admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600 admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
+    }
   }).join('');
-  document.getElementById('emptyState').classList.toggle('hidden', list.length!==0);
+  document.getElementById('emptyState').classList.toggle('hidden', unified.length!==0);
 }
 function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.remove('hidden'); clearTimeout(t._to); t._to=setTimeout(()=>t.classList.add('hidden'), 2500); }
 function exportData(){ if(!figs.length) return toast('Vuoto'); const b=new Blob([JSON.stringify(figs,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`brickfig-${new Date().toISOString().slice(0,10)}.json`; a.click(); toast('Backup scaricato'); }
@@ -1906,16 +2013,23 @@ let wizardIndex=0;
 let wizardList=[];
 function openPhotoWizard(){
   if(!figs.length) return toast('Inventario vuoto');
-  // Coda solo minifigure SENZA foto reale (richiesta utente: rimuovi dalla coda quelle con già foto)
+  // Coda Minifigure + Parte Sfusa + Set/Gear con <2 foto reali (incl. col28-9/col28-11 tipo S), ordinate per categoria -> codice
   const senzaFoto=[...figs].filter(f=>{
-    const isMinifig = (f.tipoCode==='M' || f.tipo==='Minifigure');
-    const hasExtra = Array.isArray(f.fotoExtra) && f.fotoExtra.length>0;
-    return isMinifig && !hasExtra;
-  }).sort((a,b)=>a.created-b.created);
+    const isValidTipo = ['M','P','S','G'].includes(f.tipoCode) || ['Minifigure','Parte Sfusa','Set','Gear'].includes(f.tipo);
+    const extraLen = Array.isArray(f.fotoExtra) ? f.fotoExtra.length : 0;
+    return isValidTipo && extraLen < 2;
+  }).sort((a,b)=>{
+    const catA = (a.categoriaMacro || getMacroCategoria(a.categoria||'')).toLowerCase();
+    const catB = (b.categoriaMacro || getMacroCategoria(b.categoria||'')).toLowerCase();
+    if(catA < catB) return -1;
+    if(catA > catB) return 1;
+    // stessa categoria: ordine naturale per codice (sw2 < sw10, col001 < col010)
+    return (a.codice||'').localeCompare(b.codice||'', 'it', {numeric:true, sensitivity:'base'});
+  });
   if(senzaFoto.length===0){
-    const totalMinifig=figs.filter(f=>f.tipoCode==='M'||f.tipo==='Minifigure').length;
-    const conFoto=figs.filter(f=> (f.tipoCode==='M'||f.tipo==='Minifigure') && Array.isArray(f.fotoExtra) && f.fotoExtra.length>0).length;
-    toast(`Tutte le minifigure hanno già foto reali ✅ (${conFoto}/${totalMinifig})`);
+    const total=figs.filter(f=> ['M','P','S','G'].includes(f.tipoCode) || ['Minifigure','Parte Sfusa','Set','Gear'].includes(f.tipo)).length;
+    const gestite=figs.filter(f=> (['M','P','S','G'].includes(f.tipoCode) || ['Minifigure','Parte Sfusa','Set','Gear'].includes(f.tipo)) && Array.isArray(f.fotoExtra) && f.fotoExtra.length>=2).length;
+    toast(`Tutti i pezzi gestiti ✅ (${gestite}/${total} con 2+ foto reali)`);
     return;
   }
   wizardList=senzaFoto;
@@ -2026,12 +2140,26 @@ function openPhotoWizardFromCard(id){
   if(idx>=0){ wizardIndex=idx; renderWizard(); document.getElementById('photoWizard').classList.remove('hidden'); }
 }
 (async()=>{
+  // FIX 14-09-2026: azzeramento test rimosso - prima causava perdita inserzioni al primo avvio
+  try{
+    const RESET_KEY='brickfig_reset_20260913_test_clear_v1';
+    if(!localStorage.getItem(RESET_KEY)){
+      localStorage.setItem(RESET_KEY,'1');
+      console.log('[RESET] Flag inizializzato (nessun azzeramento - fix 14-09-2026)');
+    }
+  }catch(e){}
   load();
   await syncFromCloud();
   await syncLottiFromCloud();
   checkServer();
   setView(localStorage.getItem('brickfig_view')||'grid');
-  document.getElementById('sortBy').value='recent';
+  // Default gestionale locale: Categoria → Codice (sw0000→sw9999, sh0000→sh9999 raggruppati). Online resta "recent" se non salvato.
+  const savedSort = localStorage.getItem('brickfig_sort');
+  const defaultSort = savedSort || (typeof isLocal==='function' && isLocal() ? 'categoria-codice' : 'recent');
+  const sel = document.getElementById('sortBy');
+  if(sel){
+    sel.value = [...sel.options].some(o=>o.value===defaultSort) ? defaultSort : (typeof isLocal==='function' && isLocal() ? 'categoria-codice' : 'recent');
+  }
   render();
   // Polling ogni 15s per sync tra locale e online
   setInterval(async()=>{ let u=false; if(await syncFromCloud()) u=true; if(await syncLottiFromCloud()) u=true; if(u) render(); }, 15000);
