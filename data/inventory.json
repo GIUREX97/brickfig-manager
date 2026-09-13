@@ -1,5 +1,41 @@
 [
   {
+    "id": "zj7i9w5",
+    "codice": "cas103",
+    "codiceBrickLink": "cas103",
+    "nome": "Black Falcon - Light Gray Legs with Black Hips, Black Neck-Protector",
+    "categoria": "Castle > Black Falcons",
+    "categoriaMacro": "Castle",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cas103.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/cas103.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/cas103.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.93,
+    "prezzoVendita": 4.79,
+    "variante": "Cas103 ? cas103",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": null,
+      "soldUsed": 4.93,
+      "currentNew": 48.5,
+      "currentUsed": 6.26,
+      "listinoUsato": 4.93
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304514029,
+    "created": 1789304514029
+  },
+  {
     "id": "9nfrkyr",
     "codice": "cas101a",
     "codiceBrickLink": "cas101a",
