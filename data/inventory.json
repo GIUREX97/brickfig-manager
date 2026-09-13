@@ -1,5 +1,41 @@
 [
   {
+    "id": "k6rb39c",
+    "codice": "sp039",
+    "codiceBrickLink": "sp039",
+    "nome": "Spyrius",
+    "categoria": "Space > Spyrius",
+    "categoriaMacro": "Space",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sp039.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Default",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sp039.png",
+        "thumb": "https://img.bricklink.com/ItemImage/MN/0/sp039.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.49,
+    "prezzoVendita": 2.29,
+    "variante": "Sp039 ? sp039",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 6.11,
+      "soldUsed": 2.49,
+      "currentNew": 13.71,
+      "currentUsed": 3.15,
+      "listinoUsato": 2.49
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789294391408,
+    "created": 1789294391408
+  },
+  {
     "id": "iv35t1k",
     "codice": "sp016",
     "codiceBrickLink": "sp016",
