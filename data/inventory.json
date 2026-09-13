@@ -1,5 +1,41 @@
 [
   {
+    "id": "ag8g9pr",
+    "codice": "sw0404",
+    "codiceBrickLink": "sw0404",
+    "nome": "Bib Fortuna - Dark Blue Robe, Light Nougat Skin",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0404.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0404.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0404.png"
+      }
+    ],
+    "prezzoAvgUsato": 17.9,
+    "prezzoVendita": 17.29,
+    "variante": "Sw0404 ? sw0404",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 24.36,
+      "soldUsed": 17.9,
+      "currentNew": 38.52,
+      "currentUsed": 24.04,
+      "listinoUsato": 17.9
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294920942,
+    "created": 1789294920942
+  },
+  {
     "id": "ff9doo1",
     "codice": "sw0272",
     "codiceBrickLink": "sw0272",
@@ -92,42 +128,6 @@
     "stato": "Disponibile",
     "updated": 1789294798987,
     "created": 1789294798987
-  },
-  {
-    "id": "mua0bfw",
-    "codice": "sw0010",
-    "codiceBrickLink": "sw0010",
-    "nome": "C-3PO - Pearl Light Gold",
-    "categoria": "Star Wars > Star Wars Episode 4/5/6",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0010.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0010.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0010.png"
-      }
-    ],
-    "prezzoAvgUsato": 6.62,
-    "prezzoVendita": 6.49,
-    "variante": "Sw0010 ? sw0010",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 9.5,
-      "soldUsed": 6.62,
-      "currentNew": 16.49,
-      "currentUsed": 8.13,
-      "listinoUsato": 6.62
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789294792484,
-    "created": 1789294792484
   },
   {
     "id": "cfjyb6c",
