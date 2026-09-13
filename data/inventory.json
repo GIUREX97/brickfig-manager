@@ -1,5 +1,41 @@
 [
   {
+    "id": "fl4yof6",
+    "codice": "sw0691",
+    "codiceBrickLink": "sw0691",
+    "nome": "Imperial Jet Pack Trooper (Jumptrooper)",
+    "categoria": "Star Wars > Star Wars Battlefront",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0691.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0691.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0691.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.62,
+    "prezzoVendita": 5.39,
+    "variante": "Sw0691 ? sw0691",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 10.15,
+      "soldUsed": 5.62,
+      "currentNew": 11.81,
+      "currentUsed": 6.83,
+      "listinoUsato": 5.62
+    },
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789295015901,
+    "created": 1789295015901
+  },
+  {
     "id": "yjvz38j",
     "codice": "sw0666",
     "codiceBrickLink": "sw0666",
