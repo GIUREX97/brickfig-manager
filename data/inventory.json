@@ -1,5 +1,41 @@
 [
   {
+    "id": "fovwtmv",
+    "codice": "sh0397",
+    "codiceBrickLink": "sh0397",
+    "nome": "Polka-Dot Man",
+    "categoria": "Super Heroes > The LEGO Batman Movie",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0397.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0397.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0397.png"
+      }
+    ],
+    "prezzoAvgUsato": 30.8,
+    "prezzoVendita": 23.69,
+    "variante": "Sh0397 ? sh0397",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 48.13,
+      "soldUsed": 30.8,
+      "currentNew": 80.35,
+      "currentUsed": 45.11,
+      "listinoUsato": 30.8
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295184296,
+    "created": 1789295184296
+  },
+  {
     "id": "4pqmrex",
     "codice": "sh0391",
     "codiceBrickLink": "sh0391",
