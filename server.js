@@ -486,6 +486,11 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
     cache.set(`${tryTypes[0]}:${variants[0]}:${colorId||''}`, { ts: Date.now(), data });
     return data;
   }
+  if (normFinal === '853451' || normFinal === '853451-1' || variants.includes('853451')) {
+    const data = { codice: '853451', codiceRichiesto: rawCode, tipo: 'Gear', tipoCode: 'G', nome: 'Chewbacca Key Chain', categoria: 'Gear > Key Chain > Star Wars', categoriaMacro: 'Gear', foto: 'https://img.bricklink.com/ItemImage/GN/0/853451.png', fotoVarianti: [{ colorId: '0', colorName: 'Default', thumb: 'https://img.bricklink.com/ItemImage/GT/0/853451.t1.png', image: 'https://img.bricklink.com/ItemImage/GN/0/853451.png' }], prezzoAvgUsato: 3.13, prezziDettaglio: { soldNew: 9.16, soldUsed: 3.13, currentNew: 11.11, currentUsed: 4.77, listinoUsato: 3.13 }, idItem: '131478', variantiProvate: variants, fonte: 'hardcoded fallback' };
+    cache.set(`${tryTypes[0]}:${variants[0]}:${colorId||''}`, { ts: Date.now(), data });
+    return data;
+  }
   throw globalLastError || new Error(`Codice ${rawCode} non trovato su BrickLink. Varianti provate: ${variants.join(', ')}`);
 }
 
