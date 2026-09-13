@@ -1,5 +1,41 @@
 [
   {
+    "id": "4kx8mgn",
+    "codice": "sw0074",
+    "codiceBrickLink": "sw0074",
+    "nome": "B'Omarr Monk - Trans-Neon Orange Plate",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0074.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0074.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0074.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.81,
+    "prezzoVendita": 5.39,
+    "variante": "Sw0074 ? sw0074",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.4,
+      "soldUsed": 4.81,
+      "currentNew": 10.66,
+      "currentUsed": 5.8,
+      "listinoUsato": 4.81
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294831370,
+    "created": 1789294831370
+  },
+  {
     "id": "qgp4x0h",
     "codice": "sw0028",
     "codiceBrickLink": "sw0028",
