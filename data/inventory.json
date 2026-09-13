@@ -6,51 +6,19 @@
     "nome": "Horse with Black Eyes, White Pupils and Dark Orange Bridle Pattern",
     "categoria": "Animal, Land",
     "categoriaMacro": "Animali",
-    "tipo": "Parte Sfusa",
     "tipoCode": "P",
     "foto": "https://img.bricklink.com/ItemImage/PN/1/4493c01pb04.png",
     "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "(Not Applicable)",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/0/4493c01pb04.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/1/4493c01pb04.png"
-      },
-      {
-        "colorId": "11",
-        "colorName": "Black",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/11/4493c01pb04.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/11/4493c01pb04.png"
-      },
-      {
-        "colorId": "8",
-        "colorName": "Brown",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/8/4493c01pb04.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/8/4493c01pb04.png"
-      },
-      {
-        "colorId": "1",
-        "colorName": "White",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/1/4493c01pb04.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/1/4493c01pb04.png"
-      }
-    ],
+    "fotoVarianti": [],
     "prezzoAvgUsato": 2.01,
     "prezzoVendita": 1,
     "variante": "(Not Applicable)",
-    "note": "",
+    "note": "ROVINATO",
     "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 7.49,
-      "soldUsed": 2.01,
-      "currentNew": 13.3,
-      "currentUsed": 2.61,
-      "listinoUsato": 2.01
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789303410436,
+    "updated": 1789303417415,
     "created": 1789303410436
   }
 ]
