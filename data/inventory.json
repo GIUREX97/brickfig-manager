@@ -1,5 +1,41 @@
 [
   {
+    "id": "o83n0bk",
+    "codice": "cas158",
+    "codiceBrickLink": "cas158",
+    "nome": "Scale Mail - Red with Blue Arms, Light Gray Legs with Black Hips, Dark Gray Chin-Guard",
+    "categoria": "Castle > Royal Knights",
+    "categoriaMacro": "Castle",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cas158.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/cas158.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/cas158.png"
+      }
+    ],
+    "prezzoAvgUsato": 4.42,
+    "prezzoVendita": 4.39,
+    "variante": "Cas158 ? cas158",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": null,
+      "soldUsed": 4.42,
+      "currentNew": 31.46,
+      "currentUsed": 5.94,
+      "listinoUsato": 4.42
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304529719,
+    "created": 1789304529719
+  },
+  {
     "id": "apd5en3",
     "codice": "cas151a",
     "codiceBrickLink": "cas151a",
