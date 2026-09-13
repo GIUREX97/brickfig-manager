@@ -1,5 +1,41 @@
 [
   {
+    "id": "ryoacfd",
+    "codice": "sh0963",
+    "codiceBrickLink": "sh0963",
+    "nome": "Mr. Freeze - Flat Silver and Black Outfit",
+    "categoria": "Super Heroes > Batman The Animated Series",
+    "categoriaMacro": "Super Heroes",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0963.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0963.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0963.png"
+      }
+    ],
+    "prezzoAvgUsato": 7.35,
+    "prezzoVendita": 4.99,
+    "variante": "Sh0963 ? sh0963",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.12,
+      "soldUsed": 7.35,
+      "currentNew": 10.36,
+      "currentUsed": 8.43,
+      "listinoUsato": 7.35
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295294493,
+    "created": 1789295294493
+  },
+  {
     "id": "v636f5a",
     "codice": "sh0875",
     "codiceBrickLink": "sh0875",
@@ -474,78 +510,6 @@
     "stato": "Disponibile",
     "updated": 1789295176135,
     "created": 1789295176135
-  },
-  {
-    "id": "jng3veo",
-    "codice": "sh0366",
-    "codiceBrickLink": "sh0366",
-    "nome": "Super-Adaptoid",
-    "categoria": "Super Heroes > Avengers",
-    "categoriaMacro": "Super Heroes",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0366.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0366.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0366.png"
-      }
-    ],
-    "prezzoAvgUsato": 5.12,
-    "prezzoVendita": 4.59,
-    "variante": "Sh0366 ? sh0366",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 9.35,
-      "soldUsed": 5.12,
-      "currentNew": 13.19,
-      "currentUsed": 6.22,
-      "listinoUsato": 5.12
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295165036,
-    "created": 1789295165036
-  },
-  {
-    "id": "83aper8",
-    "codice": "sh0349",
-    "codiceBrickLink": "sh0349",
-    "nome": "Bizarro - Short Legs",
-    "categoria": "Super Heroes > Mighty Micros > Superman",
-    "categoriaMacro": "Super Heroes",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sh0349.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sh0349.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sh0349.png"
-      }
-    ],
-    "prezzoAvgUsato": 4.87,
-    "prezzoVendita": 4.89,
-    "variante": "Sh0349 ? sh0349",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 9.65,
-      "soldUsed": 4.87,
-      "currentNew": 13.38,
-      "currentUsed": 6.47,
-      "listinoUsato": 4.87
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789295159744,
-    "created": 1789295159744
   },
   {
     "id": "fl4yof6",
