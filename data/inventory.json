@@ -10100,42 +10100,6 @@
     "created": 1789338221296
   },
   {
-    "id": "axml8kw",
-    "codice": "sw0011a",
-    "codiceBrickLink": "sw0011a",
-    "nome": "Chewbacca - Reddish Brown",
-    "categoria": "Star Wars",
-    "categoriaMacro": "Star Wars",
-    "tipo": "Minifigure",
-    "tipoCode": "M",
-    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0011a.png",
-    "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0011a.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0011a.png"
-      }
-    ],
-    "prezzoAvgUsato": 2.94,
-    "prezzoVendita": 2.99,
-    "variante": "Sw0011a ? sw0011a",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 4.86,
-      "soldUsed": 2.94,
-      "currentNew": 6.71,
-      "currentUsed": 3.81,
-      "listinoUsato": 2.94
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789338233528,
-    "created": 1789338233528
-  },
-  {
     "id": "oyrek43",
     "codice": "toy002",
     "codiceBrickLink": "toy002",
