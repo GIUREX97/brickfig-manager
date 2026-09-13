@@ -81,6 +81,7 @@ function bricklinkImageUrl(code, type) {
   code = normalizeCode(code);
   if (type === 'P') return `https://img.bricklink.com/ItemImage/PN/0/${code}.png`;
   if (type === 'S') return `https://img.bricklink.com/ItemImage/SN/0/${code}.png`;
+  if (type === 'G') return `https://img.bricklink.com/ItemImage/GN/0/${code}.png`;
   return `https://img.bricklink.com/ItemImage/MN/0/${code}.png`;
 }
 
@@ -242,9 +243,9 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
   let type = forcedType || detectType(rawCode);
   let tryTypes;
   if (forcedType) tryTypes = [forcedType];
-  else if (type === 'S') tryTypes = ['S','M','P'];
-  else if (type === 'P') tryTypes = ['P','M','S'];
-  else tryTypes = ['M','P','S'];
+  else if (type === 'S') tryTypes = ['S','M','P','G'];
+  else if (type === 'P') tryTypes = ['P','G','S','M'];
+  else tryTypes = ['M','P','G','S'];
   let globalLastError = null;
   for (const tryType of tryTypes) {
     const cacheKey = `${tryType}:${variants[0]}:${colorId||''}`;
@@ -267,11 +268,11 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
         const data = {
           codice: code,
           codiceRichiesto: rawCode,
-          tipo: tryType === 'P' ? 'Parte Sfusa' : tryType === 'S' ? 'Set Completo' : 'Minifigure',
+          tipo: tryType === 'P' ? 'Parte Sfusa' : tryType === 'S' ? 'Set' : tryType === 'G' ? 'Gear' : 'Minifigure',
           tipoCode: tryType,
           nome: fromBrickeconomy.nome || code.toUpperCase(),
-          categoria: fromBrickeconomy.categoria || (tryType === 'P' ? 'Parts' : 'Minifigures'),
-          categoriaMacro: getMacroCategoria(fromBrickeconomy.categoria || (tryType === 'P' ? 'Parts' : 'Minifigures')),
+          categoria: fromBrickeconomy.categoria || (tryType === 'P' ? 'Parts' : tryType === 'G' ? 'Gear' : 'Minifigures'),
+          categoriaMacro: getMacroCategoria(fromBrickeconomy.categoria || (tryType === 'P' ? 'Parts' : tryType === 'G' ? 'Gear' : 'Minifigures')),
           foto,
           prezzoAvgUsato: fromBrickeconomy.prezzo || null,
           prezziDettaglio: fromBrickeconomy.prezzo ? { listinoUsato: fromBrickeconomy.prezzo, soldUsed: fromBrickeconomy.prezzo } : null,
@@ -345,31 +346,33 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
       // Estrae tutte le varianti colore - metodo primario: parsing dropdown BrickLink (data-name preciso, es. 2566 Blue 7)
       let fotoVariantiFromDropdown = [];
       try {
+        const ddPrefix = tryType === 'G' ? 'G' : tryType === 'S' ? 'S' : tryType === 'M' ? 'M' : 'P';
         $('div.pciSelectColorColorItem').each((i, el) => {
           const c = String($(el).attr('data-color') || '').trim();
           const n = String($(el).attr('data-name') || '').trim();
           let img = String($(el).attr('data-imgurl') || '').trim();
           if (c && n && c !== '-1' && c !== '-99') {
             if (img.startsWith('//')) img = 'https:' + img;
-            // Converti thumb PT in PN per immagine grande
-            let image = img ? img.replace('/PT/', '/PN/').replace('.t1.png', '.png').replace('.t2.png', '.png') : `https://img.bricklink.com/ItemImage/PN/${c}/${code}.png`;
-            if (!image.includes('/PN/') && !image.includes('/MN/')) image = `https://img.bricklink.com/ItemImage/PN/${c}/${code}.png`;
+            // Converti thumb (GT/PT/MT/ST) in grande (GN/PN/MN/SN)
+            let image = img ? img.replace(/\/[PGMS]T\//, `/${ddPrefix}N/`).replace('/PT/', `/${ddPrefix}N/`).replace('/GT/', `/${ddPrefix}N/`).replace('/MT/', `/${ddPrefix}N/`).replace('/ST/', `/${ddPrefix}N/`).replace('.t1.png', '.png').replace('.t2.png', '.png') : `https://img.bricklink.com/ItemImage/${ddPrefix}N/${c}/${code}.png`;
+            if (!image.includes(`/${ddPrefix}N/`) && !image.includes('/PN/') && !image.includes('/MN/') && !image.includes('/GN/') && !image.includes('/SN/')) image = `https://img.bricklink.com/ItemImage/${ddPrefix}N/${c}/${code}.png`;
             // Assicura estensione .png
             if (!image.endsWith('.png')) image = image.split('?')[0];
-            fotoVariantiFromDropdown.push({ colorId: c, colorName: n, thumb: `https://img.bricklink.com/ItemImage/PT/${c}/${code}.t1.png`, image });
+            fotoVariantiFromDropdown.push({ colorId: c, colorName: n, thumb: `https://img.bricklink.com/ItemImage/${ddPrefix}T/${c}/${code}.t1.png`, image });
           }
         });
       } catch(e) {}
-      // Fallback: estrai da ItemImage/PT/*/PN pattern se dropdown non presente (vecchio layout)
-      const colorImgs = [...html.matchAll(/ItemImage\/P[NT]\/(\d+)\/[^'"]+\.png/g)].map(m => m[0]);
+      // Fallback: estrai da ItemImage/PT/*/PN pattern se dropdown non presente (vecchio layout) - supporta P/G/M/S
+      const colorImgs = [...html.matchAll(/ItemImage\/[PGMS][NT]\/(\d+)\/[^'"]+\.png/g)].map(m => m[0]);
       const uniqColors = [...new Set(colorImgs.map(p => p.match(/\/(\d+)\//)?.[1]).filter(Boolean))];
       // Mappa corretta BrickLink (fix 7=Blue non Light Gray, 3=Yellow non Green, 10=Dark Gray ecc.)
       const colorMap = { '0':'Multi','1':'White','2':'Tan','3':'Yellow','4':'Orange','5':'Red','6':'Green','7':'Blue','8':'Brown','9':'Light Gray','10':'Dark Gray','11':'Black','12':'Trans-Clear','14':'Trans-Dark Blue','21':'Chrome Gold','22':'Chrome Silver','26':'Black','34':'Lime','36':'Bright Green','47':'Dark Pink','48':'Sand Green','57':'Chrome Antique Brass','59':'Dark Red','80':'Dark Green','85':'Dark Bluish Gray','86':'Light Bluish Gray','88':'Reddish Brown','89':'Dark Purple','90':'Light Nougat','103':'Bright Light Yellow','104':'Bright Pink','110':'Bright Light Orange','122':'Chrome Black','150':'Medium Nougat','153':'Dark Azure','156':'Medium Azure','212':'Bright Light Blue' };
+      const imgPrefix = tryType === 'G' ? 'G' : tryType === 'S' ? 'S' : tryType === 'M' ? 'M' : 'P';
       let fallbackVarianti = uniqColors.map(c => ({
         colorId: c,
         colorName: colorMap[c] || `Colore ${c}`,
-        thumb: `https://img.bricklink.com/ItemImage/PT/${c}/${code}.t1.png`,
-        image: `https://img.bricklink.com/ItemImage/PN/${c}/${code}.png`
+        thumb: `https://img.bricklink.com/ItemImage/${imgPrefix}T/${c}/${code}.t1.png`,
+        image: `https://img.bricklink.com/ItemImage/${imgPrefix}N/${c}/${code}.png`
       }));
       // Dedup dropdown stesso (alcune pagine hanno duplicati nascosti)
       if (fotoVariantiFromDropdown.length > 1) {
@@ -388,10 +391,17 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
       if (fotoVarianti.length > 1) {
         fotoVarianti = [...new Map(fotoVarianti.map(v=>[v.colorId, v])).values()];
       }
-      // Se non trovate varianti, usa foto principale
+      // Se non trovate varianti, usa foto principale - supporta P/G/M/S
       if (fotoVarianti.length === 0 && foto) {
-        const m = foto.match(/\/PN\/(\d+)\//) || foto.match(/\/PT\/(\d+)\//);
-        if (m) fotoVarianti.push({ colorId: m[1], colorName: colorMap[m[1]]||`Colore ${m[1]}`, thumb: foto.replace('/PN/','/PT/').replace('.png','.t1.png'), image: foto });
+        const m = foto.match(/\/[PGMS]N\/(\d+)\//) || foto.match(/\/[PGMS]T\/(\d+)\//) || foto.match(/\/PN\/(\d+)\//) || foto.match(/\/PT\/(\d+)\//);
+        if (m) {
+          // thumb generico: sostituisci N con T se serve
+          const thumb = foto.includes('/PN/') ? foto.replace('/PN/','/PT/').replace('.png','.t1.png') : foto.includes('/GN/') ? foto.replace('/GN/','/GT/').replace('.png','.t1.png') : foto.includes('/MN/') ? foto.replace('/MN/','/MT/').replace('.png','.t1.png') : foto.includes('/SN/') ? foto.replace('/SN/','/ST/').replace('.png','.t1.png') : foto;
+          fotoVarianti.push({ colorId: m[1], colorName: colorMap[m[1]]||`Colore ${m[1]}`, thumb, image: foto });
+        } else {
+          // Nessun colorId nell'URL (es. GN/0) -> usa default
+          fotoVarianti.push({ colorId: '0', colorName: 'Default', thumb: foto, image: foto });
+        }
       }
       // Fix specifico 30274: aggiungi Dark Bluish Gray 85 mancante da BrickLink dropdown
       if (code === '30274' && !fotoVarianti.some(v=>String(v.colorId)==='85')) {
@@ -438,11 +448,11 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
         if (pm) prezzoAvgUsato = parseFloat(pm[1].replace(',', '.'));
       }
 
-      const data = {
-        codice: code,
-        codiceRichiesto: rawCode,
-        tipo: tryType === 'P' ? 'Parte Sfusa' : 'Minifigure',
-        tipoCode: tryType,
+        const data = {
+          codice: code,
+          codiceRichiesto: rawCode,
+          tipo: tryType === 'P' ? 'Parte Sfusa' : tryType === 'S' ? 'Set' : tryType === 'G' ? 'Gear' : 'Minifigure',
+          tipoCode: tryType,
         nome,
         categoria,
         categoriaMacro,
@@ -484,7 +494,7 @@ app.get('/api/bricklink', async (req, res) => {
   const type = (req.query.type || '').toString().toUpperCase(); // M o P o vuoto
   const color = (req.query.color || '').toString().trim();
   if (!code) return res.status(400).json({ error: 'Parametro code mancante. Es: ?code=col001 o ?code=3001' });
-  const forcedType = type === 'M' || type === 'P' ? type : null;
+  const forcedType = type === 'M' || type === 'P' || type === 'S' || type === 'G' ? type : null;
   try {
     const data = await getBricklinkData(code, forcedType, color || null);
     res.json(data);
