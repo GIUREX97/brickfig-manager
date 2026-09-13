@@ -1,5 +1,41 @@
 [
   {
+    "id": "th3jh1y",
+    "codice": "sw0101",
+    "codiceBrickLink": "sw0101",
+    "nome": "Snowtrooper, Light Gray Hips, White Hands",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0101.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0101.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0101.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.73,
+    "prezzoVendita": 1.99,
+    "variante": "Sw0101 ? sw0101",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 4.86,
+      "soldUsed": 2.73,
+      "currentNew": 9.51,
+      "currentUsed": 3.81,
+      "listinoUsato": 2.73
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294899935,
+    "created": 1789294899935
+  },
+  {
     "id": "qgp4x0h",
     "codice": "sw0028",
     "codiceBrickLink": "sw0028",
