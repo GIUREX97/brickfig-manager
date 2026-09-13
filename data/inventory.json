@@ -1,5 +1,41 @@
 [
   {
+    "id": "8cmea20",
+    "codice": "sw0788",
+    "codiceBrickLink": "sw0788",
+    "nome": "Imperial TIE Fighter / Striker Pilot",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0788.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0788.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0788.png"
+      }
+    ],
+    "prezzoAvgUsato": 3.04,
+    "prezzoVendita": 2.99,
+    "variante": "Sw0788 ? sw0788",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 5.38,
+      "soldUsed": 3.04,
+      "currentNew": 8.15,
+      "currentUsed": 3.67,
+      "listinoUsato": 3.04
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295037949,
+    "created": 1789295037949
+  },
+  {
     "id": "xvoi99k",
     "codice": "sw0704",
     "codiceBrickLink": "sw0704",
