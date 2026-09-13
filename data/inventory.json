@@ -1,5 +1,41 @@
 [
   {
+    "id": "apd5en3",
+    "codice": "cas151a",
+    "codiceBrickLink": "cas151a",
+    "nome": "Scale Mail - Red with Blue Arms, Blue Legs with Black Hips, Dark Gray Chin-Guard, Quiver",
+    "categoria": "Castle > Black Knights",
+    "categoriaMacro": "Castle",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cas151a.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/cas151a.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/cas151a.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.42,
+    "prezzoVendita": 5.19,
+    "variante": "Cas151a ? cas151a",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": null,
+      "soldUsed": 5.42,
+      "currentNew": 49.69,
+      "currentUsed": 6.52,
+      "listinoUsato": 5.42
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304524613,
+    "created": 1789304524613
+  },
+  {
     "id": "md489ib",
     "codice": "cas105",
     "codiceBrickLink": "cas105",
