@@ -1,5 +1,46 @@
 [
   {
+    "id": "lg6kam4",
+    "codice": "3846pb036",
+    "codiceBrickLink": "3846pb036",
+    "nome": "Minifigure, Shield Triangular Short with Black and Gold Lion Head with Crown on Blue and White Background Pattern",
+    "categoria": "Minifigure, Shield",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/86/3846pb036.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/3846pb036.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/86/3846pb036.png"
+      },
+      {
+        "colorId": "86",
+        "colorName": "Light Bluish Gray",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/86/3846pb036.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/86/3846pb036.png"
+      }
+    ],
+    "prezzoAvgUsato": 1.58,
+    "prezzoVendita": 1.59,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 3.05,
+      "soldUsed": 1.58,
+      "currentNew": 5.08,
+      "currentUsed": 1.95,
+      "listinoUsato": 1.58
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789293293198,
+    "created": 1789293293198
+  },
+  {
     "id": "r7uxbfy",
     "codice": "3596pb08",
     "codiceBrickLink": "3596pb08",
