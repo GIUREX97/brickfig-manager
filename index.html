@@ -137,7 +137,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
         <thead class="bg-zinc-50 border-b border-zinc-200 text-[11px] tracking-widest font-bold text-zinc-500 uppercase">
-          <tr><th class="text-left px-4 py-3">Foto</th><th class="text-left px-2 py-3">Codice/Tipo</th><th class="text-left px-2 py-3">Nome / Categoria</th><th class="text-center px-2 py-3">Qt�</th><th class="text-left px-2 py-3">Stato</th><th class="text-right px-2 py-3">AVG Usato</th><th class="text-right px-2 py-3">Vendita</th><th class="text-right px-4 py-3">Azioni</th></tr>
+          <tr><th class="text-left px-4 py-3">Foto</th><th class="text-left px-2 py-3">Codice/Tipo</th><th class="text-left px-2 py-3">Nome / Categoria</th><th class="text-center px-2 py-3">Qt�</th><th class="text-left px-2 py-3">Stato</th><th class="text-right px-2 py-3 avg-only-local">AVG Usato</th><th class="text-right px-2 py-3">Vendita</th><th class="text-right px-4 py-3">Azioni</th></tr>
         </thead>
         <tbody id="tableBody" class="divide-y divide-zinc-100"></tbody>
       </table>
@@ -2080,7 +2080,7 @@ updateCartCount();
 // Nascondi AVG, banda rapida e Foto a step su Vercel (online), mostrali solo in locale (tu) + fix card online
 if(window.location.hostname.includes('vercel.app')){
   const style=document.createElement('style');
-  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:none !important} .price-diff{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important}';
+  style.textContent='.avg-only-local{display:none !important} #quickAddBand,#quickInfoBand,#btnPhotoWizard{display:none !important} .price-boxes-online-hide{display:grid !important; grid-template-columns:1fr !important; gap:0.5rem !important} .price-boxes-online-hide .bg-emerald-50{grid-column:1 / -1 !important; text-align:center !important; padding:0.75rem !important} .price-boxes-online-hide .bg-emerald-50 .font-display{font-size:1.15rem !important} .price-diff{display:none !important} .stato-edit-only-local{display:none !important} #statoEditGroup{display:none !important} .vendute-only-local{display:none !important} .admin-only-local{display:none !important}';
   document.head.appendChild(style);
   // Nascondi subito
   document.querySelectorAll('#autoPrezzo, #autoPrezzoDett, #statValoreAvg').forEach(el=>{ if(el) el.closest('.bg-amber-50, .bg-white')?.classList.add('avg-only-local'); });
