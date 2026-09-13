@@ -1,5 +1,41 @@
 [
   {
+    "id": "ff9doo1",
+    "codice": "sw0272",
+    "codiceBrickLink": "sw0272",
+    "nome": "Clone Trooper (Phase 2) - Black Head, Dotted Mouth",
+    "categoria": "Star Wars > Star Wars Episode 3",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0272.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0272.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0272.png"
+      }
+    ],
+    "prezzoAvgUsato": 12.68,
+    "prezzoVendita": 12.49,
+    "variante": "Sw0272 ? sw0272",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 23.76,
+      "soldUsed": 12.68,
+      "currentNew": 29.82,
+      "currentUsed": 14.4,
+      "listinoUsato": 12.68
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294914573,
+    "created": 1789294914573
+  },
+  {
     "id": "th3jh1y",
     "codice": "sw0101",
     "codiceBrickLink": "sw0101",
