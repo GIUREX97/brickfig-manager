@@ -1,5 +1,41 @@
 [
   {
+    "id": "t6og5r3",
+    "codice": "cas344",
+    "codiceBrickLink": "cas344",
+    "nome": "Fantasy Era - Crown Knight Scale Mail with Chest Strap, Helmet with Broad Brim, Dual Sided Head, Dark Bluish Gray Legs, Quiver",
+    "categoria": "Castle > Castle (2007 Relaunch) {Fantasy Era}",
+    "categoriaMacro": "Castle",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/cas344.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/cas344.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/cas344.png"
+      }
+    ],
+    "prezzoAvgUsato": 6.42,
+    "prezzoVendita": 6.39,
+    "variante": "Cas344 ? cas344",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 9.3,
+      "soldUsed": 6.42,
+      "currentNew": 17.62,
+      "currentUsed": 9.37,
+      "listinoUsato": 6.42
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304542828,
+    "created": 1789304542828
+  },
+  {
     "id": "wiulphw",
     "codice": "cas340",
     "codiceBrickLink": "cas340",
