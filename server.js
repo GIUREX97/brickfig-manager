@@ -346,6 +346,10 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
         thumb: `https://img.bricklink.com/ItemImage/PT/${c}/${code}.t1.png`,
         image: `https://img.bricklink.com/ItemImage/PN/${c}/${code}.png`
       }));
+      // Dedup dropdown stesso (alcune pagine hanno duplicati nascosti)
+      if (fotoVariantiFromDropdown.length > 1) {
+        fotoVariantiFromDropdown = [...new Map(fotoVariantiFromDropdown.map(v=>[v.colorId, v])).values()];
+      }
       // Usa dropdown se trovato (più accurato per nomi), altrimenti fallback
       if (fotoVariantiFromDropdown.length > 0) {
         // Unisci anche colori trovati solo nel fallback (alcuni parts hanno Known Colors non nel dropdown PG)
@@ -354,6 +358,10 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
         fotoVarianti = fotoVariantiFromDropdown;
       } else {
         fotoVarianti = fallbackVarianti;
+      }
+      // Dedup finale
+      if (fotoVarianti.length > 1) {
+        fotoVarianti = [...new Map(fotoVarianti.map(v=>[v.colorId, v])).values()];
       }
       // Se non trovate varianti, usa foto principale
       if (fotoVarianti.length === 0 && foto) {
