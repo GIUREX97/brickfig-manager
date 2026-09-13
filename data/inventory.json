@@ -1,5 +1,41 @@
 [
   {
+    "id": "l2aqfdy",
+    "codice": "sw0443",
+    "codiceBrickLink": "sw0443",
+    "nome": "Sith Trooper - Black Armor, Printed Legs",
+    "categoria": "Star Wars > Star Wars Legends > Star Wars The Old Republic",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0443.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0443.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0443.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.57,
+    "prezzoVendita": 5.39,
+    "variante": "Sw0443 ? sw0443",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 10.04,
+      "soldUsed": 5.57,
+      "currentNew": 14.67,
+      "currentUsed": 6.67,
+      "listinoUsato": 5.57
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294926120,
+    "created": 1789294926120
+  },
+  {
     "id": "ag8g9pr",
     "codice": "sw0404",
     "codiceBrickLink": "sw0404",
