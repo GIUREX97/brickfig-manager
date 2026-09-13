@@ -1,5 +1,41 @@
 [
   {
+    "id": "5ekhtn6",
+    "codice": "pi140b",
+    "codiceBrickLink": "pi140b",
+    "nome": "Merman - Dark Orange Hair, Reddish Brown Eyebrows",
+    "categoria": "Pirates > Pirates (2009 Relaunch)",
+    "categoriaMacro": "Pirati",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/pi140b.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Default",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/pi140b.png",
+        "thumb": "https://img.bricklink.com/ItemImage/MN/0/pi140b.png"
+      }
+    ],
+    "prezzoAvgUsato": 3.77,
+    "prezzoVendita": 4.09,
+    "variante": "Pi140b ? pi140b",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 4.96,
+      "soldUsed": 3.77,
+      "currentNew": 10.5,
+      "currentUsed": 4.82,
+      "listinoUsato": 3.77
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789294320297,
+    "created": 1789294320297
+  },
+  {
     "id": "8jtac87",
     "codice": "pi139",
     "codiceBrickLink": "pi139",
