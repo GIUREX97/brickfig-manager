@@ -394,7 +394,9 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:
 
 <script>
 const STORAGE_KEY='brickfig_pro_v1';
+const DELETED_KEY='brickfig_deleted_v1';
 let figs=[];
+let deletedIds=new Set(JSON.parse(localStorage.getItem(DELETED_KEY)||'[]'));
 let view='grid';
 let lastFetched=null;
 let autoTimer=null;
@@ -403,16 +405,23 @@ let galleryCurrent={id:null, idx:0}; // lightbox state
 let cardGalleryIdx={}; // indice per ogni card (id -> idx)
 function isOnline(){ return window.location.hostname.includes('vercel.app'); }
 function isLocal(){ return !isOnline(); }
+function saveDeletedIds(){ try{ localStorage.setItem(DELETED_KEY, JSON.stringify([...deletedIds])); }catch(e){} }
 
 async function syncFromCloud(){
   try{
+    // Ricarica lista cancellati (potrebbe essere stata aggiornata)
+    try{ deletedIds=new Set(JSON.parse(localStorage.getItem(DELETED_KEY)||'[]')); }catch(e){}
     const r=await fetch('/api/sync', { cache:'no-store' });
     if(r.ok){
-      const remote=await r.json();
+      let remote=await r.json();
       if(Array.isArray(remote) && remote.length>0){
+        // Filtra dal remoto quelli che hai eliminato in locale (non resuscitare)
+        remote=remote.filter(f=>!deletedIds.has(f.id));
         const localMap=new Map(figs.map(f=>[f.id,f]));
         remote.forEach(f=>{ if(!localMap.has(f.id) || (f.updated||0) > (localMap.get(f.id).updated||0)) localMap.set(f.id,f); });
         figs=[...localMap.values()];
+        // Assicura che in locale non rimangano quelli marcati come cancellati
+        figs=figs.filter(f=>!deletedIds.has(f.id));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
         return true;
       } else if(Array.isArray(remote) && remote.length===0 && figs.length>0){
@@ -470,6 +479,9 @@ function load(){
         f.foto = f.foto.replace('/PN/0/', '/PN/1/');
       }
     });
+    // Rimuovi dal caricamento locale quelli che avevi già eliminato (fix refresh che resuscita)
+    try{ deletedIds=new Set(JSON.parse(localStorage.getItem(DELETED_KEY)||'[]')); }catch(e){}
+    figs=figs.filter(f=>!deletedIds.has(f.id));
   }catch(e){figs=[];}
 }
 // Helpers gallery - copertina sempre BrickLink, extra = foto reali
@@ -1111,7 +1123,7 @@ async function saveFig(e){
   save(); closeModal(); render(); toast(existing>=0?'Aggiornato':'Aggiunto');
 }
 
-function delFig(id){ if(!confirm('Eliminare?')) return; figs=figs.filter(f=>f.id!==id); save(); render(); toast('Eliminato'); }
+function delFig(id){ if(!confirm('Eliminare?')) return; deletedIds.add(id); saveDeletedIds(); figs=figs.filter(f=>f.id!==id); save(); render(); toast('Eliminato'); }
 function quickStato(id, v){
   if(isOnline()){
     toast('Stato modificabile solo dal gestionale locale');
