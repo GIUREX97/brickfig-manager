@@ -11,26 +11,26 @@
     "fotoExtra": [],
     "fotoVarianti": [
       {
+        "colorId": "7",
+        "colorName": "Light Gray",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/7/2566.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/7/2566.png"
+      },
+      {
         "colorId": "11",
         "colorName": "Black",
         "thumb": "https://img.bricklink.com/ItemImage/PT/11/2566.t1.png",
         "image": "https://img.bricklink.com/ItemImage/PN/11/2566.png"
       },
       {
-        "colorId": "7",
-        "colorName": "Blue",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/7/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/7/2566.png"
-      },
-      {
         "colorId": "8",
-        "colorName": "Brown",
+        "colorName": "Colore 8",
         "thumb": "https://img.bricklink.com/ItemImage/PT/8/2566.t1.png",
         "image": "https://img.bricklink.com/ItemImage/PN/8/2566.png"
       },
       {
         "colorId": "47",
-        "colorName": "Dark Pink",
+        "colorName": "Colore 47",
         "thumb": "https://img.bricklink.com/ItemImage/PT/47/2566.t1.png",
         "image": "https://img.bricklink.com/ItemImage/PN/47/2566.png"
       },
@@ -66,14 +66,14 @@
       },
       {
         "colorId": "3",
-        "colorName": "Yellow",
+        "colorName": "Green",
         "thumb": "https://img.bricklink.com/ItemImage/PT/3/2566.t1.png",
         "image": "https://img.bricklink.com/ItemImage/PN/3/2566.png"
       }
     ],
     "prezzoAvgUsato": 14.65,
     "prezzoVendita": 15.99,
-    "variante": "Blue",
+    "variante": "Light Gray",
     "note": "",
     "coloreId": "7",
     "prezziDettaglio": {
@@ -85,7 +85,7 @@
     },
     "qta": 3,
     "stato": "Disponibile",
-    "updated": 1789292217332,
+    "updated": 1789291944134,
     "created": 1789291944134
   },
   {
@@ -3616,24 +3616,98 @@
     "fotoExtra": []
   },
   {
-    "id": "jrskp0y",
+    "id": "uj4qv1x",
     "codice": "col001",
-    "codiceBrickLink": "col001",
     "nome": "Tribal Hunter, Series 1",
     "categoria": "Collectible Minifigures > Series 1 Minifigures",
+    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col001.png",
-    "fotoExtra": [],
-    "fotoVarianti": [],
     "prezzoAvgUsato": 9.81,
     "prezzoVendita": 12.5,
-    "variante": "Mappato col001 ? col001",
+    "qta": 2,
+    "stato": "Disponibile",
+    "updated": 1789292034874,
+    "created": 1789292034874,
+    "variante": "",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": null,
+    "fotoExtra": []
+  },
+  {
+    "id": "kaa73cz",
+    "codice": "sw1159",
+    "nome": "Fennec Shand - Helmet",
+    "categoria": "Star Wars > The Mandalorian",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw1159.png",
+    "prezzoAvgUsato": 10.12,
+    "prezzoVendita": 14,
     "qta": 1,
+    "stato": "Prenotato",
+    "updated": 1789292034874,
+    "created": 1789292034874,
+    "variante": "",
+    "note": "",
+    "coloreId": "0",
+    "fotoExtra": []
+  },
+  {
+    "id": "jrskp0y",
+    "codice": "col001",
+    "nome": "Tribal Hunter, Series 1",
+    "categoria": "Collectible Minifigures > Series 1 Minifigures",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/col001.png",
+    "prezzoAvgUsato": 9.81,
+    "prezzoVendita": 12.5,
+    "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789292185624,
-    "created": 1789205959459
+    "updated": 1789205959459,
+    "created": 1789205959459,
+    "variante": "",
+    "note": "",
+    "coloreId": "0",
+    "fotoExtra": []
+  },
+  {
+    "id": "kcpccvh",
+    "codice": "3001",
+    "nome": "Brick 2 x 4",
+    "categoria": "Brick",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/0/3001.png",
+    "prezzoAvgUsato": 0.11,
+    "prezzoVendita": 0.25,
+    "qta": 50,
+    "stato": "Disponibile",
+    "updated": 1789205959459,
+    "created": 1789205959459,
+    "variante": "",
+    "note": "",
+    "coloreId": "0",
+    "fotoExtra": []
+  },
+  {
+    "id": "4ddihq0",
+    "codice": "sw1159",
+    "nome": "Fennec Shand - Helmet",
+    "categoria": "Star Wars > The Mandalorian",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw1159.png",
+    "prezzoAvgUsato": 10.12,
+    "prezzoVendita": 14,
+    "qta": 1,
+    "stato": "Prenotato",
+    "updated": 1789205959459,
+    "created": 1789205959459,
+    "variante": "",
+    "note": "",
+    "coloreId": "0",
+    "fotoExtra": []
   }
 ]
