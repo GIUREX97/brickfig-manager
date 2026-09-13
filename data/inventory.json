@@ -1,5 +1,41 @@
 [
   {
+    "id": "xvoi99k",
+    "codice": "sw0704",
+    "codiceBrickLink": "sw0704",
+    "nome": "Obi-Wan Kenobi (Headset)",
+    "categoria": "Star Wars > Star Wars Episode 3",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0704.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0704.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0704.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.51,
+    "prezzoVendita": 5.39,
+    "variante": "Sw0704 ? sw0704",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 13,
+      "soldUsed": 5.51,
+      "currentNew": 18.52,
+      "currentUsed": 6.24,
+      "listinoUsato": 5.51
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789295030961,
+    "created": 1789295030961
+  },
+  {
     "id": "3yyoguw",
     "codice": "sw0692",
     "codiceBrickLink": "sw0692",
