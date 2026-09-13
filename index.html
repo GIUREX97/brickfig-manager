@@ -608,31 +608,30 @@ function save(){
     syncToCloud();
     return;
   }
-  console.error('localStorage quota full, provo a ridurre');
-  toast('⚠️ Memoria locale piena: comprimo e tengo solo le più recenti...');
-  // Prova a ridurre progressivamente: 2, poi 1, poi 0 fotoExtra
+  console.error('localStorage quota full, provo a ridurre solo in locale');
+  toast('⚠️ Memoria locale piena: ottimizzo locale ma mantengo TUTTO sul cloud...');
+  // IMPORTANTE: non mutare figs (che va sul cloud) - salva solo una copia ridotta in locale
+  let savedLocal=false;
   for(let keep of [2,1,0]){
     const slim=figs.map(f=> ({...f, fotoExtra: Array.isArray(f.fotoExtra)? f.fotoExtra.slice(-keep): []}));
     if(trySave(slim)){
-      // Aggiorna anche in memoria per coerenza (così non ricompaiono al refresh come mancanti)
-      figs.forEach((f,i)=>{ if(Array.isArray(f.fotoExtra) && f.fotoExtra.length>keep) figs[i].fotoExtra=f.fotoExtra.slice(-keep); });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
-      toast(`Salvato ridotto: tengo solo ultime ${keep} foto reali per pezzo. Le altre restano sul cloud.`);
+      toast(`Locale ottimizzato: ${keep} foto per pezzo in locale. Tutte le 5 foto restano al sicuro sul cloud e torneranno visibili dopo sync.`);
+      savedLocal=true;
       break;
     }
   }
-  // Se ancora fallisce, prova a tenere solo cover
-  if(!trySave(figs)){
+  if(!savedLocal){
     try{
       const minimal=figs.map(f=> ({...f, fotoExtra: []}));
       if(trySave(minimal)){
-        figs.forEach((f,i)=> f.fotoExtra=[]);
-        toast('Salvato solo cover BrickLink in locale, foto extra solo su cloud. Ricarica foto più piccole.');
+        toast('Locale: solo cover BrickLink, ma foto extra al sicuro sul cloud.');
+        savedLocal=true;
       }
     }catch(e2){
-      toast('Errore salvataggio locale: svuota cache o usa foto più piccole');
+      toast('Errore salvataggio locale: svuota cache o usa foto più piccole. Cloud comunque aggiornato.');
     }
   }
+  // Sync sul cloud con i dati COMPLETI originali (figs non mutato), così non perdi mai foto
   syncToCloud();
 }
 function uid(){ return Math.random().toString(36).slice(2,9); }
@@ -1907,16 +1906,16 @@ let wizardIndex=0;
 let wizardList=[];
 function openPhotoWizard(){
   if(!figs.length) return toast('Inventario vuoto');
-  // Solo minifigure senza foto reali già caricate (richiesta utente: non mostrare tutte, solo quelle da gestire)
+  // Mostra minifigure con meno di 5 foto reali (max 5 per inserzione - richiesta utente)
   const senzaFoto=[...figs].filter(f=>{
     const isMinifig = (f.tipoCode==='M' || f.tipo==='Minifigure');
-    const hasExtra = Array.isArray(f.fotoExtra) && f.fotoExtra.length>0;
-    return isMinifig && !hasExtra;
+    const extraLen = Array.isArray(f.fotoExtra) ? f.fotoExtra.length : 0;
+    return isMinifig && extraLen < 5;
   }).sort((a,b)=>a.created-b.created);
   if(senzaFoto.length===0){
     const totalMinifig=figs.filter(f=>f.tipoCode==='M'||f.tipo==='Minifigure').length;
-    const conFoto=figs.filter(f=> (f.tipoCode==='M'||f.tipo==='Minifigure') && Array.isArray(f.fotoExtra) && f.fotoExtra.length>0).length;
-    toast(`Tutte le minifigure hanno già foto reali ✅ (${conFoto}/${totalMinifig})`);
+    const conFoto=figs.filter(f=> (f.tipoCode==='M'||f.tipo==='Minifigure') && Array.isArray(f.fotoExtra) && f.fotoExtra.length>=5).length;
+    toast(`Tutte le minifigure hanno già 5 foto reali ✅ (${conFoto}/${totalMinifig} complete)`);
     return;
   }
   wizardList=senzaFoto;
