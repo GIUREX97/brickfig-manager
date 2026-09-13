@@ -7,7 +7,7 @@
     "categoria": "Bar",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/7/2566.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/47/2566.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -71,21 +71,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/3/2566.png"
       }
     ],
-    "prezzoAvgUsato": 14.65,
+    "prezzoAvgUsato": 4.24,
     "prezzoVendita": 14.65,
-    "variante": "Light Gray",
+    "variante": "Colore 47",
     "note": "",
-    "coloreId": "7",
+    "coloreId": "47",
     "prezziDettaglio": {
-      "soldNew": 22.22,
-      "soldUsed": 14.65,
-      "currentNew": 26.73,
-      "currentUsed": 20.49,
-      "listinoUsato": 14.65
+      "soldNew": null,
+      "soldUsed": 4.24,
+      "currentNew": 9.42,
+      "currentUsed": 5.14,
+      "listinoUsato": 4.24
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789291912448,
+    "updated": 1789291928222,
     "created": 1789291912448
   },
   {
