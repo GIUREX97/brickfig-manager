@@ -580,6 +580,7 @@ function load(){
       if(f.codice==='4493c01pb04' && f.foto.includes('/PN/0/')){
         f.foto = f.foto.replace('/PN/0/', '/PN/1/');
       }
+      if(f.categoriaMacro===undefined) f.categoriaMacro=getMacroCategoria(f.categoria||'');
     });
     // Rimuovi dal caricamento locale quelli che avevi già eliminato (fix refresh che resuscita)
     try{ deletedIds=new Set(JSON.parse(localStorage.getItem(DELETED_KEY)||'[]')); }catch(e){}
@@ -725,6 +726,30 @@ function detectType(code){
   if(/^col\d+[-_]\d+/.test(code)) return 'S';
   if(/^\d/.test(code)) return 'P';
   return 'M';
+}
+function getMacroCategoria(full){
+  if(!full) return 'Altro';
+  const l=full.toLowerCase();
+  if(l.startsWith('collectible minifigures')) return 'Collezionabili';
+  if(l.startsWith('ninjago')) return 'Ninjago';
+  if(l.startsWith('harry potter')) return 'Harry Potter';
+  if(l.startsWith('star wars')) return 'Star Wars';
+  if(l.startsWith('animal')) return 'Animali';
+  if(l.startsWith('castle')) return 'Castle';
+  if(l.startsWith('holiday')) return 'Holiday';
+  if(l.startsWith('despicable me')) return 'Despicable Me';
+  if(l.startsWith('vikings')) return 'Vikings';
+  if(l.startsWith('road sign')) return 'Accessori';
+  if(l.startsWith('minecraft')) return 'Minecraft';
+  if(l.startsWith('adventurers')) return 'Adventurers';
+  if(l.startsWith('indiana jones')) return 'Indiana Jones';
+  if(l.startsWith('pirates')) return 'Pirati';
+  if(l.startsWith('town') || l.startsWith('city')) return 'City';
+  if(l.startsWith('space')) return 'Space';
+  if(l.startsWith('disney')) return 'Disney';
+  if(l.startsWith('marvel')) return 'Marvel';
+  const first=full.split('>')[0].trim();
+  return first || 'Altro';
 }
 
 async function checkServer(){
@@ -1273,7 +1298,7 @@ async function quickAdd(){
     if(isOnline() && figs.some(f=>f.codice===data.codice && String(f.coloreId||'')===String(selColorId))){
       throw new Error('Già in inventario: '+data.codice + (selColorId? ' ['+selColorId+']' : ''));
     }
-    const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, fotoExtra:[], fotoVarianti:data.fotoVarianti||[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: selVariante, note:'', coloreId: selColorId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
+    const obj={id:uid(), codice:raw.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, categoriaMacro: data.categoriaMacro || getMacroCategoria(data.categoria||''), tipo:data.tipo, tipoCode:data.tipoCode, foto:data.foto, fotoExtra:[], fotoVarianti:data.fotoVarianti||[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: selVariante, note:'', coloreId: selColorId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created:Date.now()};
     figs.unshift(obj); save(); render();
     document.getElementById('quickCode').value=''; document.getElementById('quickPrezzoVendita').value=''; delete document.getElementById('quickCode').dataset.cache;
     document.getElementById('quickPreview').textContent='Scrivi codice ? automatico';
@@ -1320,7 +1345,7 @@ async function saveFig(e){
   if(coverFoto && coverFoto.startsWith('data:') && data.foto && !data.foto.startsWith('data:')){
     coverFoto = data.foto;
   }
-  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, tipo:data.tipo, tipoCode:data.tipoCode, foto:coverFoto, fotoExtra: extraToSave.slice(0,5), fotoVarianti: data.fotoVarianti||[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} ? ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
+  const obj={id, codice:codiceDaSalvare.toLowerCase(), codiceBrickLink:data.codice, nome:data.nome, categoria:data.categoria, categoriaMacro: data.categoriaMacro || getMacroCategoria(data.categoria||''), tipo:data.tipo, tipoCode:data.tipoCode, foto:coverFoto, fotoExtra: extraToSave.slice(0,5), fotoVarianti: data.fotoVarianti||[], prezzoAvgUsato:data.prezzoAvgUsato||0, prezzoVendita, variante: variante || `Mappato ${raw} ? ${data.codice}`, note, coloreId, prezziDettaglio:data.prezziDettaglio||null, qta, stato, updated:Date.now(), created: existing>=0? figs[existing].created:Date.now()};
   if(existing>=0) figs[existing]=obj; else figs.unshift(obj);
   save(); closeModal(); render(); toast(existing>=0?'Aggiornato':'Aggiunto');
 }
@@ -1621,17 +1646,17 @@ function render(){
   const ft=document.getElementById('filterTipo').value;
   const fc=document.getElementById('filterCategoria').value;
   const sort=document.getElementById('sortBy').value;
-  // popola menu categorie dinamico
-  const cats=[...new Set(figs.map(f=>f.categoria).filter(Boolean))].sort();
+  // popola menu categorie dinamico - MACRO snelle (Collezionabili, Ninjago, ecc.)
+  const cats=[...new Set(figs.map(f=>f.categoriaMacro||getMacroCategoria(f.categoria||'')).filter(Boolean))].sort();
   const selCat=document.getElementById('filterCategoria');
   const curCat=selCat.value;
   selCat.innerHTML='<option value="">Tutte le categorie</option>'+cats.map(c=>`<option value="${c}">${c}</option>`).join('');
   selCat.value=curCat;
   let list=[...figs];
-  if(q) list=list.filter(f=> f.codice.toLowerCase().includes(q) || f.nome.toLowerCase().includes(q) || (f.categoria||'').toLowerCase().includes(q));
+  if(q) list=list.filter(f=> f.codice.toLowerCase().includes(q) || f.nome.toLowerCase().includes(q) || (f.categoria||'').toLowerCase().includes(q) || (f.categoriaMacro||getMacroCategoria(f.categoria||'')).toLowerCase().includes(q));
   if(fs) list=list.filter(f=>f.stato===fs);
   if(ft) list=list.filter(f=>f.tipo===ft);
-  if(fc) list=list.filter(f=>f.categoria===fc);
+  if(fc) list=list.filter(f=> (f.categoriaMacro||getMacroCategoria(f.categoria||''))===fc);
   // Online: nascondi Vendute (solo locale le vede) — richiesto utente
   if(typeof isOnline==='function' && isOnline()){
     list=list.filter(f=>f.stato!=='Venduto');
@@ -1643,7 +1668,7 @@ function render(){
   list.sort((a,b)=>{
     if(sort==='recent') return (order[a.stato]??9)-(order[b.stato]??9) || b.created-a.created;
     if(sort==='codice') return a.codice.localeCompare(b.codice);
-    if(sort==='categoria') return (a.categoria||'').localeCompare(b.categoria||'') || a.codice.localeCompare(b.codice);
+    if(sort==='categoria') return (a.categoriaMacro||getMacroCategoria(a.categoria||'')).localeCompare(b.categoriaMacro||getMacroCategoria(b.categoria||'')) || a.codice.localeCompare(b.codice);
     if(sort==='nome') return a.nome.localeCompare(b.nome);
     if(sort==='prezzo-desc') return (b.prezzoAvgUsato||0)-(a.prezzoAvgUsato||0);
     return (order[a.stato]??9)-(order[b.stato]??9) || b.created-a.created;

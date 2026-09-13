@@ -111,8 +111,30 @@ function extractCategory($, html) {
   if (catMeta) return { full: decodeURIComponent(catMeta[1]), main: decodeURIComponent(catMeta[1]), primary: decodeURIComponent(catMeta[1]) };
   return null;
 }
-
-function extractAvgUsedPrice(pgtabHtml) {
+function getMacroCategoria(full){
+  if(!full) return 'Altro';
+  const l=full.toLowerCase();
+  if(l.startsWith('collectible minifigures')) return 'Collezionabili';
+  if(l.startsWith('ninjago')) return 'Ninjago';
+  if(l.startsWith('harry potter')) return 'Harry Potter';
+  if(l.startsWith('star wars')) return 'Star Wars';
+  if(l.startsWith('animal')) return 'Animali';
+  if(l.startsWith('castle')) return 'Castle';
+  if(l.startsWith('holiday')) return 'Holiday';
+  if(l.startsWith('despicable me')) return 'Despicable Me';
+  if(l.startsWith('vikings')) return 'Vikings';
+  if(l.startsWith('road sign')) return 'Accessori';
+  if(l.startsWith('minecraft')) return 'Minecraft';
+  if(l.startsWith('adventurers')) return 'Adventurers';
+  if(l.startsWith('indiana jones')) return 'Indiana Jones';
+  if(l.startsWith('pirates')) return 'Pirati';
+  if(l.startsWith('town') || l.startsWith('city')) return 'City';
+  if(l.startsWith('space')) return 'Space';
+  if(l.startsWith('disney')) return 'Disney';
+  if(l.startsWith('marvel')) return 'Marvel';
+  const first=full.split('>')[0].trim();
+  return first || 'Altro';
+}
   // Estrae SOLO la riga "Avg Price:" dai 4 blocchi summary in ordine: New Sold, Used Sold, New Current, Used Current
   // Usa Cheerio per precisione, evita di confondere Qty Avg Price e dettagli mensili
   try {
@@ -248,6 +270,7 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
           tipoCode: tryType,
           nome: fromBrickeconomy.nome || code.toUpperCase(),
           categoria: fromBrickeconomy.categoria || (tryType === 'P' ? 'Parts' : 'Minifigures'),
+          categoriaMacro: getMacroCategoria(fromBrickeconomy.categoria || (tryType === 'P' ? 'Parts' : 'Minifigures')),
           foto,
           prezzoAvgUsato: fromBrickeconomy.prezzo || null,
           prezziDettaglio: fromBrickeconomy.prezzo ? { listinoUsato: fromBrickeconomy.prezzo, soldUsed: fromBrickeconomy.prezzo } : null,
@@ -292,6 +315,7 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
       // Categoria
       const cat = extractCategory($, html);
       const categoria = cat ? cat.full : (tryType === 'P' ? 'Parts' : 'Minifigures');
+      const categoriaMacro = getMacroCategoria(categoria);
 
       // idItem per prezzo
       let idMatch = html.match(/idItem\s*[:=]\s*"?(\d+)"?/) || html.match(/"idItem"\s*:\s*(\d+)/) || html.match(/idItem=(\d+)/);
@@ -416,6 +440,7 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
         tipoCode: tryType,
         nome,
         categoria,
+        categoriaMacro,
         foto,
         fotoVarianti: fotoVarianti.length ? fotoVarianti : [{ colorId: '0', colorName: 'Default', image: foto, thumb: foto }],
         prezzoAvgUsato, // null se non trovato
