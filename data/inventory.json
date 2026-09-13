@@ -1,5 +1,41 @@
 [
   {
+    "id": "a76vp52",
+    "codice": "col008",
+    "codiceBrickLink": "col008",
+    "nome": "Demolition Dummy, Series 1 (Minifigure Only without Stand and Accessories)",
+    "categoria": "Collectible Minifigures > Series 1 Minifigures",
+    "categoriaMacro": "Collezionabili",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/col008.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/col008.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/col008.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.4,
+    "prezzoVendita": 5.39,
+    "variante": "Col008 ? col008",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 12.56,
+      "soldUsed": 5.4,
+      "currentNew": 17.31,
+      "currentUsed": 6.53,
+      "listinoUsato": 5.4
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789304717627,
+    "created": 1789304717627
+  },
+  {
     "id": "d3och1d",
     "codice": "col06-16",
     "codiceBrickLink": "col06-16",
