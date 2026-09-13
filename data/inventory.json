@@ -6,33 +6,19 @@
     "nome": "Microfigure City Alarm Police Officer (4656046 / 6020809)",
     "categoria": "Games > Town > City > Police",
     "categoriaMacro": "Games",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/85863pb074.png",
     "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Default",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/85863pb074.png",
-        "thumb": "https://img.bricklink.com/ItemImage/MN/0/85863pb074.png"
-      }
-    ],
+    "fotoVarianti": [],
     "prezzoAvgUsato": 0.39,
     "prezzoVendita": 1,
     "variante": "85863pb074 ? 85863pb074",
-    "note": "",
+    "note": "PREZZO INTESO PER IL LOTTO",
     "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 0.29,
-      "soldUsed": 0.39,
-      "currentNew": 1.47,
-      "currentUsed": 0.46,
-      "listinoUsato": 0.39
-    },
+    "prezziDettaglio": null,
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789293912901,
+    "updated": 1789293928041,
     "created": 1789293912901
   },
   {
