@@ -1,5 +1,41 @@
 [
   {
+    "id": "66jfbr1",
+    "codice": "sw0010",
+    "codiceBrickLink": "sw0010",
+    "nome": "C-3PO - Pearl Light Gold",
+    "categoria": "Star Wars > Star Wars Episode 4/5/6",
+    "categoriaMacro": "Star Wars",
+    "tipo": "Minifigure",
+    "tipoCode": "M",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/sw0010.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Multi",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/sw0010.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/sw0010.png"
+      }
+    ],
+    "prezzoAvgUsato": 6.62,
+    "prezzoVendita": 6.49,
+    "variante": "Sw0010 ? sw0010",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 9.5,
+      "soldUsed": 6.62,
+      "currentNew": 16.49,
+      "currentUsed": 8.12,
+      "listinoUsato": 6.62
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789297736169,
+    "created": 1789297736169
+  },
+  {
     "id": "nsz7buu",
     "codice": "uagt028",
     "codiceBrickLink": "uagt028",
