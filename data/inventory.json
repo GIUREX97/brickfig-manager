@@ -7,7 +7,7 @@
     "categoria": "Brick, Modified",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/150/30274.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/10/30274.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -47,21 +47,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/2/30274.png"
       }
     ],
-    "prezzoAvgUsato": 1.97,
+    "prezzoAvgUsato": 2.68,
     "prezzoVendita": 3.49,
-    "variante": "(Not Applicable)",
+    "variante": "Dark Gray",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "10",
     "prezziDettaglio": {
-      "soldNew": 4.55,
-      "soldUsed": 1.97,
-      "currentNew": 7.53,
-      "currentUsed": 2.42,
-      "listinoUsato": 1.97
+      "soldNew": null,
+      "soldUsed": 2.68,
+      "currentNew": 13.3,
+      "currentUsed": 4.01,
+      "listinoUsato": 2.68
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789293319037,
+    "updated": 1789293327990,
     "created": 1789293319037
   },
   {
