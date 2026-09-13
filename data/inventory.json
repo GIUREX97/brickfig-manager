@@ -37,8 +37,10 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789292743875,
-    "created": 1789292743875
+    "updated": 1789292763915,
+    "created": 1789292743875,
+    "lottoId": "wsmnlsw",
+    "soloLotto": true
   },
   {
     "id": "t1p1z46",
@@ -78,8 +80,10 @@
     },
     "qta": 2,
     "stato": "Disponibile",
-    "updated": 1789292684235,
-    "created": 1789292684235
+    "updated": 1789292763915,
+    "created": 1789292684235,
+    "lottoId": "wsmnlsw",
+    "soloLotto": true
   },
   {
     "id": "ll7wgxy",
@@ -87,87 +91,19 @@
     "codiceBrickLink": "2566",
     "nome": "Bar 1.2L with Top Stud and 4 Bar Arms Up (Palm Tree Top)",
     "categoria": "Bar",
-    "tipo": "Parte Sfusa",
     "tipoCode": "P",
     "foto": "https://img.bricklink.com/ItemImage/PN/7/2566.png",
     "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "11",
-        "colorName": "Black",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/11/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/11/2566.png"
-      },
-      {
-        "colorId": "7",
-        "colorName": "Blue",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/7/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/7/2566.png"
-      },
-      {
-        "colorId": "8",
-        "colorName": "Brown",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/8/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/8/2566.png"
-      },
-      {
-        "colorId": "47",
-        "colorName": "Dark Pink",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/47/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/47/2566.png"
-      },
-      {
-        "colorId": "6",
-        "colorName": "Green",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/6/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/6/2566.png"
-      },
-      {
-        "colorId": "86",
-        "colorName": "Light Bluish Gray",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/86/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/86/2566.png"
-      },
-      {
-        "colorId": "88",
-        "colorName": "Reddish Brown",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/88/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/88/2566.png"
-      },
-      {
-        "colorId": "2",
-        "colorName": "Tan",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/2/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/2/2566.png"
-      },
-      {
-        "colorId": "1",
-        "colorName": "White",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/1/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/1/2566.png"
-      },
-      {
-        "colorId": "3",
-        "colorName": "Yellow",
-        "thumb": "https://img.bricklink.com/ItemImage/PT/3/2566.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/PN/3/2566.png"
-      }
-    ],
+    "fotoVarianti": [],
     "prezzoAvgUsato": 14.65,
     "prezzoVendita": 15.99,
     "variante": "Blue",
-    "note": "",
+    "note": "CONDIZIONI PERFETTE",
     "coloreId": "7",
-    "prezziDettaglio": {
-      "soldNew": 22.22,
-      "soldUsed": 14.65,
-      "currentNew": 26.73,
-      "currentUsed": 20.49,
-      "listinoUsato": 14.65
-    },
-    "qta": 3,
+    "prezziDettaglio": null,
+    "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789292217332,
+    "updated": 1789292863433,
     "created": 1789291944134
   },
   {
