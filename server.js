@@ -155,24 +155,24 @@ function getMacroCategoria(full){
 }
 
 // === CODICI INTERNI SFUSO AL KG (gestionale locale, non BrickLink) ===
-// Mappatura codici interni -> dati sfuso. Accetta varianti con/senza trattino, maiuscole/minuscole.
+// Solo sfuso: NESSUNA immagine BrickLink di copertina (foto=''), solo foto reali caricate dall'utente
 const SFUSO_INTERNI = {
-  'sfusomisto':               { nome: 'Sfuso Misto',                categoria: 'Sfuso > Misto - al Kg',              foto: 'https://img.bricklink.com/ItemImage/PN/0/3001.png',  colore: 'Misto' },
-  'sfusotechnic':             { nome: 'Sfuso Technic',              categoria: 'Sfuso > Technic - al Kg',            foto: 'https://img.bricklink.com/ItemImage/PN/0/3701.png',  colore: 'Technic' },
-  'sfusodarkbluishgrey':      { nome: 'Sfuso Dark Bluish Grey',     categoria: 'Sfuso > Dark Bluish Grey - al Kg',   foto: 'https://img.bricklink.com/ItemImage/PN/85/3001.png', colore: 'Dark Bluish Grey' },
-  'sfusodbg':                 { nome: 'Sfuso Dark Bluish Grey',     categoria: 'Sfuso > Dark Bluish Grey - al Kg',   foto: 'https://img.bricklink.com/ItemImage/PN/85/3001.png', colore: 'Dark Bluish Grey' },
-  'sfusolightbluishgrey':     { nome: 'Sfuso Light Bluish Grey',    categoria: 'Sfuso > Light Bluish Grey - al Kg',  foto: 'https://img.bricklink.com/ItemImage/PN/86/3001.png', colore: 'Light Bluish Grey' },
-  'sfusolbg':                 { nome: 'Sfuso Light Bluish Grey',    categoria: 'Sfuso > Light Bluish Grey - al Kg',  foto: 'https://img.bricklink.com/ItemImage/PN/86/3001.png', colore: 'Light Bluish Grey' },
-  'sfusotan':                 { nome: 'Sfuso Tan',                  categoria: 'Sfuso > Tan - al Kg',                foto: 'https://img.bricklink.com/ItemImage/PN/2/3001.png',  colore: 'Tan' },
-  'sfusoreddishbrown':        { nome: 'Sfuso Reddish Brown',        categoria: 'Sfuso > Reddish Brown - al Kg',      foto: 'https://img.bricklink.com/ItemImage/PN/88/3001.png', colore: 'Reddish Brown' },
-  'sfusorb':                  { nome: 'Sfuso Reddish Brown',        categoria: 'Sfuso > Reddish Brown - al Kg',      foto: 'https://img.bricklink.com/ItemImage/PN/88/3001.png', colore: 'Reddish Brown' },
-  'sfusodarktan':             { nome: 'Sfuso Dark Tan',             categoria: 'Sfuso > Dark Tan - al Kg',           foto: 'https://img.bricklink.com/ItemImage/PN/69/3001.png', colore: 'Dark Tan' },
-  'sfusodt':                  { nome: 'Sfuso Dark Tan',             categoria: 'Sfuso > Dark Tan - al Kg',           foto: 'https://img.bricklink.com/ItemImage/PN/69/3001.png', colore: 'Dark Tan' },
-  'sfusopearlgold':           { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
-  'sfusopg':                  { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
-  'sfusopearlgold':           { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
-  'sfusofig':                 { nome: 'Sfuso Fig',                  categoria: 'Sfuso > Fig - al Kg',                foto: 'https://img.bricklink.com/ItemImage/MN/0/973.png',     colore: 'Fig' },
-  'sfusotile':                { nome: 'Sfuso Tile',                 categoria: 'Sfuso > Tile - al Kg',               foto: 'https://img.bricklink.com/ItemImage/PN/0/3069.png',  colore: 'Tile' },
+  'sfusomisto':               { nome: 'Sfuso Misto',                categoria: 'Sfuso > Misto - al Kg',              foto: '',  colore: 'Misto' },
+  'sfusotechnic':             { nome: 'Sfuso Technic',              categoria: 'Sfuso > Technic - al Kg',            foto: '',  colore: 'Technic' },
+  'sfusodarkbluishgrey':      { nome: 'Sfuso Dark Bluish Grey',     categoria: 'Sfuso > Dark Bluish Grey - al Kg',   foto: '', colore: 'Dark Bluish Grey' },
+  'sfusodbg':                 { nome: 'Sfuso Dark Bluish Grey',     categoria: 'Sfuso > Dark Bluish Grey - al Kg',   foto: '', colore: 'Dark Bluish Grey' },
+  'sfusolightbluishgrey':     { nome: 'Sfuso Light Bluish Grey',    categoria: 'Sfuso > Light Bluish Grey - al Kg',  foto: '', colore: 'Light Bluish Grey' },
+  'sfusolbg':                 { nome: 'Sfuso Light Bluish Grey',    categoria: 'Sfuso > Light Bluish Grey - al Kg',  foto: '', colore: 'Light Bluish Grey' },
+  'sfusotan':                 { nome: 'Sfuso Tan',                  categoria: 'Sfuso > Tan - al Kg',                foto: '',  colore: 'Tan' },
+  'sfusoreddishbrown':        { nome: 'Sfuso Reddish Brown',        categoria: 'Sfuso > Reddish Brown - al Kg',      foto: '', colore: 'Reddish Brown' },
+  'sfusorb':                  { nome: 'Sfuso Reddish Brown',        categoria: 'Sfuso > Reddish Brown - al Kg',      foto: '', colore: 'Reddish Brown' },
+  'sfusodarktan':             { nome: 'Sfuso Dark Tan',             categoria: 'Sfuso > Dark Tan - al Kg',           foto: '', colore: 'Dark Tan' },
+  'sfusodt':                  { nome: 'Sfuso Dark Tan',             categoria: 'Sfuso > Dark Tan - al Kg',           foto: '', colore: 'Dark Tan' },
+  'sfusopearlgold':           { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: '',colore: 'Pearl Gold' },
+  'sfusopg':                  { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: '',colore: 'Pearl Gold' },
+  'sfusopearlgold':           { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: '',colore: 'Pearl Gold' },
+  'sfusofig':                 { nome: 'Sfuso Fig',                  categoria: 'Sfuso > Fig - al Kg',                foto: '',     colore: 'Fig' },
+  'sfusotile':                { nome: 'Sfuso Tile',                 categoria: 'Sfuso > Tile - al Kg',               foto: '',  colore: 'Tile' },
 };
 function normalizeSfusoKey(input){
   return input.trim().toLowerCase().replace(/[\s\-_]+/g, '').replace(/[^a-z0-9]/g,'');
@@ -181,11 +181,11 @@ function getSfusoInterno(rawCode){
   const key = normalizeSfusoKey(rawCode);
   // accetta anche con prefisso sfuso- generico: sfuso-qualcosa -> cerca esatto o crea generico
   if (SFUSO_INTERNI[key]) return { key, data: SFUSO_INTERNI[key] };
-  // se inizia con sfuso ma non in mappa, crea generico al volo
+  // se inizia con sfuso ma non in mappa, crea generico al volo - SENZA foto BrickLink
   if (key.startsWith('sfuso') && key.length>5){
     const suffix = rawCode.trim().replace(/^sfuso[\s\-_]*/i,'').trim() || key.slice(5);
     const nome = 'Sfuso ' + suffix.split(/[\s\-_]+/).map(w=> w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ');
-    return { key, data: { nome: nome, categoria: 'Sfuso > '+suffix+' - al Kg', foto: 'https://img.bricklink.com/ItemImage/PN/0/3001.png', colore: suffix } };
+    return { key, data: { nome: nome, categoria: 'Sfuso > '+suffix+' - al Kg', foto: '', colore: suffix } };
   }
   return null;
 }
@@ -294,6 +294,7 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
     const cached = cache.get(cacheKey);
     if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.data;
     const base = sfusoHit.data;
+    const hasFoto = base.foto && base.foto.startsWith('http');
     const data = {
       codice: rawCode.trim().toLowerCase().replace(/\s+/g,'-'),
       codiceRichiesto: rawCode,
@@ -302,8 +303,8 @@ async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
       nome: base.nome,
       categoria: base.categoria,
       categoriaMacro: 'Sfuso',
-      foto: base.foto,
-      fotoVarianti: [{ colorId: '0', colorName: base.colore, thumb: base.foto.replace('/PN/','/PT/').replace('.png','.t1.png'), image: base.foto }],
+      foto: base.foto || '',
+      fotoVarianti: hasFoto ? [{ colorId: '0', colorName: base.colore, thumb: base.foto.replace('/PN/','/PT/').replace('.png','.t1.png'), image: base.foto }] : [],
       prezzoAvgUsato: null,
       prezziDettaglio: null,
       idItem: null,

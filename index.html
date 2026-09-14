@@ -307,7 +307,7 @@ setTimeout(function(){
             </div>
             <input type="file" id="f_upload" accept="image/*" class="hidden" onchange="handleUpload(event)">
             <input id="f_foto_manual" placeholder="O incolla URL immagine..." class="mt-2 w-full px-3 py-2 rounded-xl border border-zinc-200 text-xs" oninput="document.getElementById('f_foto').value=this.value; document.getElementById('f_foto_url').textContent=this.value; updatePreview(this.value);">
-            <div class="text-[10px] text-zinc-500 mt-1 text-center">Copertina sempre BrickLink — foto reali qui sotto (extra scorrevoli)</div>
+            <div id="coverNoteModal" class="text-[10px] text-zinc-500 mt-1 text-center">Copertina sempre BrickLink — foto reali qui sotto (extra scorrevoli)</div>
           </div>
           <div class="space-y-3">
             <div><div class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Nome (BrickLink)</div><div id="autoNome" class="mt-1 min-h-[44px] px-3 py-3 rounded-xl bg-white border border-zinc-200 text-sm font-bold flex items-center"><span class="text-zinc-400 font-normal">In attesa di codice...</span></div></div>
@@ -322,7 +322,7 @@ setTimeout(function(){
             <label class="text-xs font-bold tracking-widest uppercase text-zinc-700"><i class="fa-solid fa-images mr-1"></i> Foto reali aggiuntive <span class="text-zinc-400 normal-case">(scorrevoli dopo copertina BrickLink)</span></label>
             <span id="extraCount" class="text-[11px] font-bold bg-zinc-900 text-white px-2 py-1 rounded-full">0 foto</span>
           </div>
-          <div class="text-[11px] text-zinc-500 mt-1">Copertina = sempre BrickLink sopra. Qui aggiungi 1 o pi� <b>foto reali</b> fatte da te: nel gestionale scorreranno dopo la copertina (swipe/freccia/lightbox).</div>
+          <div id="coverNoteExtra" class="text-[11px] text-zinc-500 mt-1">Copertina = sempre BrickLink sopra. Qui aggiungi 1 o pi� <b>foto reali</b> fatte da te: nel gestionale scorreranno dopo la copertina (swipe/freccia/lightbox).</div>
           <div id="extraPreviewGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-3"></div>
           <div id="extraEmpty" class="mt-3 bg-zinc-50 border-2 border-dashed border-zinc-200 rounded-xl p-4 text-center text-xs text-zinc-500">Nessuna foto reale aggiunta � trascina qui o clicca �Aggiungi foto reali�.</div>
           <div id="extraDropZone" class="mt-3 border-2 border-dashed border-zinc-300 rounded-xl p-3 flex flex-col items-center justify-center gap-2 bg-zinc-50 hover:bg-zinc-100 hover:border-zinc-400 cursor-pointer" onclick="document.getElementById('f_extra_upload').click()" ondragover="event.preventDefault(); this.classList.add('border-zinc-900','bg-zinc-100')" ondragleave="this.classList.remove('border-zinc-900','bg-zinc-100')" ondrop="handleExtraDrop(event)">
@@ -548,7 +548,7 @@ setTimeout(function(){
         <span class="text-xs font-bold text-amber-700 uppercase hidden sm:inline">Variante BrickLink</span>
         <select id="galVariantSelect" onchange="changeCardVariant(galleryCurrent.id, this.value); setTimeout(renderLightbox, 300);" class="flex-1 text-sm font-bold px-3 py-2 rounded-xl border-2 border-amber-300 bg-amber-50"></select>
       </div>
-      <div class="mt-2 text-[11px] text-zinc-300 text-center">Freccie ? ? o swipe � Copertina sempre BrickLink, a seguire le tue foto reali</div>
+      <div id="galCoverNote" class="mt-2 text-[11px] text-zinc-300 text-center">Freccie → ← o swipe — Copertina sempre BrickLink, a seguire le tue foto reali</div>
     </div>
   </div>
 </div>
@@ -711,6 +711,7 @@ window.addEventListener('pagehide', flushSync);
 function load(){
   try{
     figs=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+    let _migratedSfuso=false;
     // Migrazione per vecchi dati senza prezzoVendita/variante/note/coloreId
     figs.forEach(f=>{
       if(f.prezzoAvgUsato===undefined && f.prezzoListino!==undefined) f.prezzoAvgUsato=f.prezzoListino;
@@ -748,8 +749,25 @@ function load(){
       if(f.codice==='4493c01pb04' && f.foto.includes('/PN/0/')){
         f.foto = f.foto.replace('/PN/0/', '/PN/1/');
       }
+      // Migrazione sfuso: rimuovi cover BrickLink (solo sfuso senza immagine, richiesto 14-09-2026)
+      const isSfusoMig=(f.categoriaMacro==='Sfuso' || f.tipo==='Sfuso al Kg' || (f.codice&&f.codice.replace(/[\s\-_]+/g,'').toLowerCase().startsWith('sfuso')));
+      if(isSfusoMig && f.foto && f.foto.includes('img.bricklink.com')){
+        f.foto='';
+        f.fotoVarianti=[];
+        f.updated=Date.now();
+        _migratedSfuso=true;
+      }
+      if(isSfusoMig && Array.isArray(f.fotoVarianti) && f.fotoVarianti.length && f.fotoVarianti[0]?.image?.includes('img.bricklink.com')){
+        f.fotoVarianti=[];
+        _migratedSfuso=true;
+      }
+      if(isSfusoMig && f.foto && f.foto.includes('img.bricklink.com')){
+        // già gestito sopra, ma per sicurezza
+        _migratedSfuso=true;
+      }
       if(f.categoriaMacro===undefined) f.categoriaMacro=getMacroCategoria(f.categoria||'');
     });
+    if(_migratedSfuso){ try{localStorage.setItem(STORAGE_KEY, JSON.stringify(figs)); console.log('[migrate] sfuso cover rimossa'); setTimeout(()=>{ try{syncToCloud();}catch(e){} },800);}catch(e){} }
     // Rimuovi dal caricamento locale quelli che avevi già eliminato (fix refresh che resuscita)
     try{ deletedIds=new Set(JSON.parse(localStorage.getItem(DELETED_KEY)||'[]')); }catch(e){}
     figs=figs.filter(f=>!deletedIds.has(f.id));
@@ -761,7 +779,18 @@ function getAllPhotos(f){
   const extra = Array.isArray(f.fotoExtra) ? f.fotoExtra : [];
   return cover ? [cover, ...extra] : [...extra];
 }
-function getCoverLabel(idx){ return idx===0 ? 'BRICKLINK' : 'REALE'; }
+function getCoverLabel(idx, f=null){
+  if(f && (f.categoriaMacro==='Sfuso' || f.tipo==='Sfuso al Kg' || (f.codice&&f.codice.replace(/[\s\-_]+/g,'').toLowerCase().startsWith('sfuso')))){
+    // Sfuso: mai BrickLink, solo REALE/SFUSO
+    if(idx===0){
+      // se ha cover BrickLink (vecchi sfuso) mostra SFUSO, altrimenti REALE
+      if(f.foto && f.foto.includes('img.bricklink.com')) return 'SFUSO';
+      return 'REALE';
+    }
+    return 'REALE';
+  }
+  return idx===0 ? 'BRICKLINK' : 'REALE';
+}
 function save(){
   const trySave=(arr)=>{
     try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); return true; }catch(e){ return false; }
@@ -923,22 +952,23 @@ function getMacroCategoria(full){
   return first || 'Altro';
 }
 // === CODICI INTERNI SFUSO AL KG (solo locale, non BrickLink) ===
+// Solo sfuso: NESSUNA cover BrickLink, solo foto reali (foto='')
 const SFUSO_INTERNI = {
-  'sfusomisto':           { nome: 'Sfuso Misto',             categoria: 'Sfuso > Misto - al Kg',            foto: 'https://img.bricklink.com/ItemImage/PN/0/3001.png',  colore: 'Misto' },
-  'sfusotechnic':         { nome: 'Sfuso Technic',           categoria: 'Sfuso > Technic - al Kg',          foto: 'https://img.bricklink.com/ItemImage/PN/0/3701.png',  colore: 'Technic' },
-  'sfusodarkbluishgrey':  { nome: 'Sfuso Dark Bluish Grey',  categoria: 'Sfuso > Dark Bluish Grey - al Kg', foto: 'https://img.bricklink.com/ItemImage/PN/85/3001.png', colore: 'Dark Bluish Grey' },
-  'sfusodbg':             { nome: 'Sfuso Dark Bluish Grey',  categoria: 'Sfuso > Dark Bluish Grey - al Kg', foto: 'https://img.bricklink.com/ItemImage/PN/85/3001.png', colore: 'Dark Bluish Grey' },
-  'sfusolightbluishgrey': { nome: 'Sfuso Light Bluish Grey', categoria: 'Sfuso > Light Bluish Grey - al Kg',foto: 'https://img.bricklink.com/ItemImage/PN/86/3001.png', colore: 'Light Bluish Grey' },
-  'sfusolbg':             { nome: 'Sfuso Light Bluish Grey', categoria: 'Sfuso > Light Bluish Grey - al Kg',foto: 'https://img.bricklink.com/ItemImage/PN/86/3001.png', colore: 'Light Bluish Grey' },
-  'sfusotan':             { nome: 'Sfuso Tan',               categoria: 'Sfuso > Tan - al Kg',              foto: 'https://img.bricklink.com/ItemImage/PN/2/3001.png',  colore: 'Tan' },
-  'sfusoreddishbrown':    { nome: 'Sfuso Reddish Brown',     categoria: 'Sfuso > Reddish Brown - al Kg',    foto: 'https://img.bricklink.com/ItemImage/PN/88/3001.png', colore: 'Reddish Brown' },
-  'sfusorb':              { nome: 'Sfuso Reddish Brown',     categoria: 'Sfuso > Reddish Brown - al Kg',    foto: 'https://img.bricklink.com/ItemImage/PN/88/3001.png', colore: 'Reddish Brown' },
-  'sfusodarktan':         { nome: 'Sfuso Dark Tan',          categoria: 'Sfuso > Dark Tan - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/69/3001.png', colore: 'Dark Tan' },
-  'sfusodt':              { nome: 'Sfuso Dark Tan',          categoria: 'Sfuso > Dark Tan - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/69/3001.png', colore: 'Dark Tan' },
-  'sfusopearlgold':       { nome: 'Sfuso Pearl Gold',        categoria: 'Sfuso > Pearl Gold - al Kg',       foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
-  'sfusopg':              { nome: 'Sfuso Pearl Gold',        categoria: 'Sfuso > Pearl Gold - al Kg',       foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
-  'sfusofig':             { nome: 'Sfuso Fig',               categoria: 'Sfuso > Fig - al Kg',              foto: 'https://img.bricklink.com/ItemImage/MN/0/973.png',     colore: 'Fig' },
-  'sfusotile':            { nome: 'Sfuso Tile',              categoria: 'Sfuso > Tile - al Kg',             foto: 'https://img.bricklink.com/ItemImage/PN/0/3069.png',  colore: 'Tile' },
+  'sfusomisto':           { nome: 'Sfuso Misto',             categoria: 'Sfuso > Misto - al Kg',            foto: '',  colore: 'Misto' },
+  'sfusotechnic':         { nome: 'Sfuso Technic',           categoria: 'Sfuso > Technic - al Kg',          foto: '',  colore: 'Technic' },
+  'sfusodarkbluishgrey':  { nome: 'Sfuso Dark Bluish Grey',  categoria: 'Sfuso > Dark Bluish Grey - al Kg', foto: '', colore: 'Dark Bluish Grey' },
+  'sfusodbg':             { nome: 'Sfuso Dark Bluish Grey',  categoria: 'Sfuso > Dark Bluish Grey - al Kg', foto: '', colore: 'Dark Bluish Grey' },
+  'sfusolightbluishgrey': { nome: 'Sfuso Light Bluish Grey', categoria: 'Sfuso > Light Bluish Grey - al Kg',foto: '', colore: 'Light Bluish Grey' },
+  'sfusolbg':             { nome: 'Sfuso Light Bluish Grey', categoria: 'Sfuso > Light Bluish Grey - al Kg',foto: '', colore: 'Light Bluish Grey' },
+  'sfusotan':             { nome: 'Sfuso Tan',               categoria: 'Sfuso > Tan - al Kg',              foto: '',  colore: 'Tan' },
+  'sfusoreddishbrown':    { nome: 'Sfuso Reddish Brown',     categoria: 'Sfuso > Reddish Brown - al Kg',    foto: '', colore: 'Reddish Brown' },
+  'sfusorb':              { nome: 'Sfuso Reddish Brown',     categoria: 'Sfuso > Reddish Brown - al Kg',    foto: '', colore: 'Reddish Brown' },
+  'sfusodarktan':         { nome: 'Sfuso Dark Tan',          categoria: 'Sfuso > Dark Tan - al Kg',         foto: '', colore: 'Dark Tan' },
+  'sfusodt':              { nome: 'Sfuso Dark Tan',          categoria: 'Sfuso > Dark Tan - al Kg',         foto: '', colore: 'Dark Tan' },
+  'sfusopearlgold':       { nome: 'Sfuso Pearl Gold',        categoria: 'Sfuso > Pearl Gold - al Kg',       foto: '',colore: 'Pearl Gold' },
+  'sfusopg':              { nome: 'Sfuso Pearl Gold',        categoria: 'Sfuso > Pearl Gold - al Kg',       foto: '',colore: 'Pearl Gold' },
+  'sfusofig':             { nome: 'Sfuso Fig',               categoria: 'Sfuso > Fig - al Kg',              foto: '',     colore: 'Fig' },
+  'sfusotile':            { nome: 'Sfuso Tile',              categoria: 'Sfuso > Tile - al Kg',             foto: '',  colore: 'Tile' },
 };
 function normalizeSfusoKey(input){ return input.trim().toLowerCase().replace(/[\s\-_]+/g,'').replace(/[^a-z0-9]/g,''); }
 function getSfusoInterno(rawCode){
@@ -947,7 +977,7 @@ function getSfusoInterno(rawCode){
   if(key.startsWith('sfuso') && key.length>5){
     const suffix=rawCode.trim().replace(/^sfuso[\s\-_]*/i,'').trim() || key.slice(5);
     const nome='Sfuso '+suffix.split(/[\s\-_]+/).map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ');
-    return {key, data:{nome: nome, categoria:'Sfuso > '+suffix+' - al Kg', foto:'https://img.bricklink.com/ItemImage/PN/0/3001.png', colore: suffix}};
+    return {key, data:{nome: nome, categoria:'Sfuso > '+suffix+' - al Kg', foto:'', colore: suffix}};
   }
   return null;
 }
@@ -1077,13 +1107,16 @@ function updatePreview(url){
   const u=url||document.getElementById('f_foto').value.trim();
   const srcToShow = u ? getImageSrc(u) : '';
   const manualEl=document.getElementById('f_foto_manual');
+  const codeCheck=document.getElementById('f_codice')?.value.trim().toLowerCase()||'';
+  const isSfusoPreview=codeCheck.replace(/[\s\-_]+/g,'').startsWith('sfuso');
   if(manualEl && u) manualEl.value=u.startsWith('data:')?'[Foto caricata]':u;
   if(u){
     img.src=srcToShow; img.classList.remove('hidden'); ph.classList.add('hidden');
     img.onerror=()=>{
       // Fallback: prova alternative PN/MN e poi mostra placeholder con invito a caricare
       const code=document.getElementById('f_codice').value.trim().toLowerCase();
-      if(code && u.includes('img.bricklink.com') && !u.includes('data:')){
+      const isSfusoErr=code.replace(/[\s\-_]+/g,'').startsWith('sfuso');
+      if(!isSfusoErr && code && u.includes('img.bricklink.com') && !u.includes('data:')){
         // prova colore alternativo per parti: PN/0 -> PN/1 -> PN/7
         const alts=[`https://img.bricklink.com/ItemImage/PN/1/${code}.png`,`https://img.bricklink.com/ItemImage/PN/7/${code}.png`,`https://img.bricklink.com/ItemImage/MN/0/${code}.png`];
         const next=alts.find(a=>a!==u);
@@ -1096,10 +1129,29 @@ function updatePreview(url){
         }
       }
       img.classList.add('hidden'); ph.classList.remove('hidden'); if(lo) lo.classList.add('hidden');
-      ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-amber-600 mt-2 font-bold">Foto BrickLink non trovata<br>clicca Carica tua foto</div>';
+      if(isSfusoErr){
+        ph.innerHTML='<i class="fa-solid fa-cubes text-3xl text-amber-400"></i><div class="text-[11px] text-zinc-700 mt-2 font-bold">Sfuso al Kg<br><span class="text-zinc-500 font-normal">Aggiungi tue foto reali</span></div>';
+      } else {
+        ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-amber-600 mt-2 font-bold">Foto BrickLink non trovata<br>clicca Carica tua foto</div>';
+      }
     };
-    img.onload=()=>{ if(lo) lo.classList.add('hidden'); delete img.dataset.tried; ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink</div>'; };
-  } else { img.classList.add('hidden'); ph.classList.remove('hidden'); }
+    img.onload=()=>{
+      if(lo) lo.classList.add('hidden');
+      delete img.dataset.tried;
+      if(isSfusoPreview){
+        ph.innerHTML='<i class="fa-solid fa-cubes text-3xl text-amber-400"></i><div class="text-[11px] text-zinc-700 mt-2 font-semibold">Sfuso al Kg</div>';
+      } else {
+        ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink</div>';
+      }
+    };
+  } else {
+    img.classList.add('hidden'); ph.classList.remove('hidden');
+    if(isSfusoPreview){
+      ph.innerHTML='<i class="fa-solid fa-cubes text-3xl text-amber-400"></i><div class="text-[11px] text-zinc-700 mt-2 font-bold">Sfuso al Kg<br><span class="text-zinc-500 font-normal">Nessuna cover BrickLink<br>aggiungi foto reali sotto</span></div>';
+    } else {
+      ph.innerHTML='<i class="fa-regular fa-image text-3xl text-zinc-300"></i><div class="text-[11px] text-zinc-400 mt-2 font-semibold">Foto<br>BrickLink</div>';
+    }
+  }
 }
 async function handleUpload(e){
   const file=e.target.files[0]; if(!file) return;
@@ -1331,10 +1383,11 @@ document.getElementById('f_prezzo')?.addEventListener('input', ()=>{updateSummar
 document.querySelectorAll('input[name="f_stato"]').forEach(r=>r.addEventListener('change', updateSummary));
 
 async function fetchBricklink(code, tipo, colorId=null){
-  // Intercetta codici interni sfuso: risposta immediata senza rete
+  // Intercetta codici interni sfuso: risposta immediata senza rete, SENZA foto BrickLink
   const sfusoLocal = getSfusoInterno(code);
   if(sfusoLocal){
     const base=sfusoLocal.data;
+    const hasFoto=base.foto && base.foto.startsWith('http');
     return {
       codice: code.trim().toLowerCase().replace(/\s+/g,'-'),
       codiceRichiesto: code,
@@ -1343,8 +1396,8 @@ async function fetchBricklink(code, tipo, colorId=null){
       nome: base.nome,
       categoria: base.categoria,
       categoriaMacro: 'Sfuso',
-      foto: base.foto,
-      fotoVarianti: [{ colorId:'0', colorName: base.colore, thumb: base.foto.replace('/PN/','/PT/').replace('.png','.t1.png'), image: base.foto }],
+      foto: base.foto || '',
+      fotoVarianti: hasFoto ? [{ colorId:'0', colorName: base.colore, thumb: base.foto.replace('/PN/','/PT/').replace('.png','.t1.png'), image: base.foto }] : [],
       prezzoAvgUsato: null,
       prezziDettaglio: null,
       idItem: null,
@@ -1440,6 +1493,24 @@ async function onCodeInput(isQuick=false){
     document.getElementById('f_foto_url').textContent=data.foto;
     updatePreview(data.foto);
     updateSummary();
+    // Cover note per sfuso: cambia testo se è Sfuso al Kg
+    const isSfusoData=(data.tipo==='Sfuso al Kg' || (data.categoria&&data.categoria.toLowerCase().startsWith('sfuso')));
+    const cnModal=document.getElementById('coverNoteModal');
+    if(cnModal) cnModal.textContent=isSfusoData ? 'Sfuso al Kg — nessuna cover BrickLink, aggiungi foto reali (saranno copertina)' : 'Copertina sempre BrickLink — foto reali qui sotto (extra scorrevoli)';
+    const cnExtra=document.getElementById('coverNoteExtra');
+    if(cnExtra) cnExtra.textContent=isSfusoData ? 'Nessuna cover BrickLink per sfuso — le foto reali qui sotto saranno la galleria/copertina.' : 'Copertina = sempre BrickLink sopra. Qui aggiungi 1 o più foto reali fatte da te: nel gestionale scorreranno dopo la copertina (swipe/freccia/lightbox).';
+    const extraLabel=document.querySelector('#extraPhotosSection label');
+    if(extraLabel){
+      extraLabel.innerHTML=isSfusoData ? '<i class="fa-solid fa-cubes mr-1"></i> Foto sfuso <span class="text-zinc-400 normal-case">(saranno copertina/galleria)</span>' : '<i class="fa-solid fa-images mr-1"></i> Foto reali aggiuntive <span class="text-zinc-400 normal-case">(scorrevoli dopo copertina BrickLink)</span>';
+    }
+    // Nascondi AVG per sfuso (prezzo libero)
+    const avgBox=document.getElementById('autoPrezzo')?.closest('div')?.parentElement;
+    if(avgBox && isSfusoData){
+      document.getElementById('autoPrezzo').textContent='—';
+      document.getElementById('autoPrezzo').className='mt-1 px-3 py-2.5 rounded-xl bg-zinc-100 border border-zinc-200 text-sm font-bold text-zinc-500';
+      const det=document.getElementById('autoPrezzoDett');
+      if(det){ det.classList.add('hidden'); det.textContent='Sfuso al Kg — imposta tu prezzo al Kg'; }
+    }
     // Varianti colore BrickLink (menu a tendina) � FORZATO per debug
     const colorSel=document.getElementById('colorSelector');
     const colorSelect=document.getElementById('colorSelect');
@@ -1848,7 +1919,11 @@ function openGallery(id, idx){
   const f=figs.find(x=>x.id===id);
   if(!f) return;
   const photos=getAllPhotos(f);
-  if(!photos.length) return;
+  if(!photos.length){
+    const isSfuso=(f.categoriaMacro==='Sfuso'||f.tipo==='Sfuso al Kg');
+    if(isSfuso) toast('Nessuna foto per '+f.codice+' — aggiungila: Modifica → Foto reali');
+    return;
+  }
   galleryCurrent={id, idx: Math.min(idx||0, photos.length-1)};
   document.getElementById('galleryModal').classList.remove('hidden');
   document.getElementById('galTitle').textContent=f.nome;
@@ -1870,8 +1945,15 @@ function renderLightbox(){
   img.onerror=()=>{ img.src='https://via.placeholder.com/600/eeeeee/666666?text='+encodeURIComponent(f.codice); };
   document.getElementById('galLightCounter').textContent=(galleryCurrent.idx+1)+' / '+photos.length;
   const badge=document.getElementById('galLightBadge');
-  badge.textContent=getCoverLabel(galleryCurrent.idx);
-  badge.className=galleryCurrent.idx===0? 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-amber-400 text-zinc-900 border border-amber-300 shadow' : 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-emerald-600 text-white border border-emerald-500 shadow';
+  const isSfusoGal=(f.categoriaMacro==='Sfuso'||f.tipo==='Sfuso al Kg');
+  badge.textContent=getCoverLabel(galleryCurrent.idx, f);
+  if(isSfusoGal){
+    badge.className=galleryCurrent.idx===0? 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-zinc-900 text-white border border-zinc-800 shadow' : 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-emerald-600 text-white border border-emerald-500 shadow';
+  } else {
+    badge.className=galleryCurrent.idx===0? 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-amber-400 text-zinc-900 border border-amber-300 shadow' : 'absolute top-3 left-1/2 -translate-x-1/2 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full bg-emerald-600 text-white border border-emerald-500 shadow';
+  }
+  const galNote=document.getElementById('galCoverNote');
+  if(galNote) galNote.textContent=isSfusoGal ? 'Sfuso al Kg — solo foto reali (nessuna cover BrickLink)' : 'Freccie → ← o swipe — Copertina sempre BrickLink, a seguire le tue foto reali';
   const thumbs=document.getElementById('galLightThumbs');
   thumbs.innerHTML=photos.map((p,i)=> {
     const src=getImageSrc(p);
@@ -2117,13 +2199,14 @@ function render(){
     const showNav=total>1;
         const isInLotto = f.lottoId && lotti.some(l=>l.id===f.lottoId);
     const isSelectedForLotto = selectedForLotto.has(f.id);
-    const badgeLabel=getCoverLabel(safeIdx);  return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-auto sm:h-[520px] min-h-[480px] sm:min-h-0">
+    const isSfuso = (f.categoriaMacro==='Sfuso' || f.tipo==='Sfuso al Kg' || (f.codice&&f.codice.replace(/[\s\-_]+/g,'').toLowerCase().startsWith('sfuso')));
+    const badgeLabel=getCoverLabel(safeIdx, f);  return `<div class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm card-hover flex flex-col h-auto sm:h-[520px] min-h-[480px] sm:min-h-0">
       ${isLocal()? `<div class="absolute top-2 left-10 z-10 ${isInLotto?'hidden':''}"><label class="flex items-center gap-1 bg-white/90 backdrop-blur border border-zinc-300 rounded-full px-2 py-1 cursor-pointer shadow"><input type="checkbox" ${isSelectedForLotto?'checked':''} onchange="toggleLottoSelect('${f.id}')" class="w-4 h-4 rounded"><span class="text-[10px] font-bold">Lotto</span></label></div>` : ''}<div class="gallery-wrap bg-zinc-100 relative flex items-center justify-center p-3 shrink-0 h-[180px] sm:h-[200px] select-none" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 12px 12px;" onclick="openGallery('${f.id}', ${safeIdx})">
-        <img id="card-img-${f.id}" src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm cursor-zoom-in" ${idx<8 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy" fetchpriority="low"'} decoding="async" onerror="this.onerror=null; this.style.display='none'; const ph=this.nextElementSibling; if(ph) ph.style.display='flex'"><div style="display:none;" class="w-full h-full flex items-center justify-center flex-col gap-2 text-zinc-400"><i class="fa-regular fa-image text-3xl"></i><span class="text-[10px] font-bold">Immagine non disponibile</span><span class="text-[9px] font-mono">${f.codice}</span></div>
+        <img id="card-img-${f.id}" src="${imgSrc}" alt="${f.nome}" class="max-w-full max-h-full object-contain drop-shadow-sm cursor-zoom-in" ${idx<8 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy" fetchpriority="low"'} decoding="async" onerror="this.onerror=null; this.style.display='none'; const ph=this.nextElementSibling; if(ph) ph.style.display='flex'"><div style="${imgSrc ? 'display:none;' : 'display:flex;'}" class="w-full h-full flex items-center justify-center flex-col gap-2 ${isSfuso ? 'text-amber-600' : 'text-zinc-400'}">${isSfuso ? `<i class="fa-solid fa-cubes text-3xl"></i><span class="text-[10px] font-bold text-zinc-700">Sfuso al Kg</span><span class="text-[9px] font-mono text-zinc-500">${f.codice}</span><span class="text-[9px] font-bold bg-amber-400 text-zinc-900 px-2 py-0.5 rounded-full">Aggiungi foto</span>` : `<i class="fa-regular fa-image text-3xl"></i><span class="text-[10px] font-bold">Immagine non disponibile</span><span class="text-[9px] font-mono">${f.codice}</span>`}</div>
         <span class="absolute top-2 left-2 text-[11px] font-bold px-2 py-1 rounded-full ${cls}">${f.stato}</span>
         <span class="absolute top-2 right-2 text-[10px] font-mono font-bold bg-white border border-zinc-200 px-2 py-1 rounded-full">${f.codice} • ${f.tipoCode}</span>
         <span class="absolute bottom-2 right-2 bg-zinc-900 text-white text-xs font-bold px-2 py-1 rounded-full">x${f.qta}</span>
-        ${showNav ? `<button onclick="cardGal(event,'${f.id}',-1)" class="gal-arrow prev" title="Precedente"><i class="fa-solid fa-chevron-left text-xs"></i></button><button onclick="cardGal(event,'${f.id}',1)" class="gal-arrow next" title="Successiva"><i class="fa-solid fa-chevron-right text-xs"></i></button><div class="gal-counter">${safeIdx+1} / ${total}</div><div class="gal-badge ${safeIdx===0?'bg-amber-400 text-zinc-900 border-amber-300':'bg-emerald-600 text-white border-emerald-500'} border">${badgeLabel}</div><div class="gal-dots">${allPhotos.map((_,i)=>`<span class="gal-dot ${i===safeIdx?'active':''}" onclick="event.stopPropagation(); cardGalGo('${f.id}',${i})"></span>`).join('')}</div>` : `<div class="gal-badge bg-amber-400 text-zinc-900 border border-amber-300">BRICKLINK</div>`}
+        ${total===0 ? (isSfuso ? `<div class="gal-badge bg-zinc-900 text-white border border-zinc-800">SFUSO</div>` : `<div class="gal-badge bg-zinc-100 text-zinc-500 border border-zinc-200">NESSUNA FOTO</div>`) : (showNav ? `<button onclick="cardGal(event,'${f.id}',-1)" class="gal-arrow prev" title="Precedente"><i class="fa-solid fa-chevron-left text-xs"></i></button><button onclick="cardGal(event,'${f.id}',1)" class="gal-arrow next" title="Successiva"><i class="fa-solid fa-chevron-right text-xs"></i></button><div class="gal-counter">${safeIdx+1} / ${total}</div><div class="gal-badge ${safeIdx===0?(isSfuso?'bg-zinc-900 text-white border-zinc-800':'bg-amber-400 text-zinc-900 border-amber-300'):'bg-emerald-600 text-white border-emerald-500'} border">${badgeLabel}</div><div class="gal-dots">${allPhotos.map((_,i)=>`<span class="gal-dot ${i===safeIdx?'active':''}" onclick="event.stopPropagation(); cardGalGo('${f.id}',${i})"></span>`).join('')}</div>` : `<div class="gal-badge ${isSfuso?'bg-zinc-900 text-white border-zinc-800':'bg-amber-400 text-zinc-900 border-amber-300'}">${badgeLabel}</div>` )}
         ${total>1 ? `<span class="absolute bottom-2 left-2 bg-white/90 backdrop-blur border border-zinc-200 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-images text-[10px]"></i> ${total} foto</span>` : ''}
       </div>
       ${!isOnline() && f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="px-3 py-2 bg-amber-50/70 border-b border-amber-100 flex items-center gap-2 variant-only-local"><i class="fa-solid fa-palette text-amber-600 text-xs"></i><span class="text-[10px] font-bold text-amber-700 uppercase hidden sm:inline">Variante BrickLink</span><select onchange="changeCardVariant('${f.id}', this.value)" class="flex-1 text-xs font-bold px-2 py-1.5 rounded-xl border-2 border-amber-200 bg-white focus:border-amber-400 outline-none"><option value="">Scegli colore...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}
