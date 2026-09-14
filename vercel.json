@@ -5,19 +5,9 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/server.js" },
-    { "src": "/output.css", "dest": "/output.css" },
-    { "src": "/input.css", "dest": "/input.css" },
-    { "src": "/(output\\.css|input\\.css|tailwind\\.js)", "dest": "/server.js" },
     { "src": "/(.*)", "dest": "/server.js" }
   ],
   "headers": [
-    {
-      "source": "/output.css",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
-        { "key": "Content-Type", "value": "text/css; charset=utf-8" }
-      ]
-    },
     {
       "source": "/api/image(.*)",
       "headers": [
