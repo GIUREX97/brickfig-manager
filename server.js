@@ -912,6 +912,28 @@ app.get('/api/force-clear-status', async (req,res)=>{
     res.json({inventory: inv.length, lotti: lot.length});
   }catch(e){ res.json({error:e.message})}
 });
+// Hotfix Vercel: serve output.css esplicitamente (file tracing @vercel/node non include root css altrimenti 404)
+app.get('/output.css', (req,res)=>{
+  res.setHeader('Content-Type','text/css; charset=utf-8');
+  res.setHeader('Cache-Control','public, max-age=31536000, immutable');
+  res.sendFile(path.join(__dirname,'output.css'), (err)=>{ if(err) res.status(404).send('/* output.css not found */'); });
+});
+app.get('/input.css', (req,res)=>{
+  res.setHeader('Content-Type','text/css; charset=utf-8');
+  res.sendFile(path.join(__dirname,'input.css'), (err)=>{ if(err) res.status(404).end(); });
+});
+app.get('/tailwind.js', (req,res)=>{
+  res.setHeader('Cache-Control','public, max-age=31536000, immutable');
+  res.sendFile(path.join(__dirname,'tailwind.js'), (err)=>{ if(err) res.status(404).end(); });
+});
+// Debug: lista file per verifica deploy
+app.get('/api/debug-files', (req,res)=>{
+  try{
+    const files=fs.readdirSync(__dirname).filter(f=> f.endsWith('.css')||f.endsWith('.js')||f.endsWith('.html')).slice(0,20);
+    const hasOutput=fs.existsSync(path.join(__dirname,'output.css'));
+    res.json({dirname:__dirname, hasOutput, files, size: hasOutput? fs.statSync(path.join(__dirname,'output.css')).size:0});
+  }catch(e){ res.json({error:e.message}); }
+});
 // Fallback per SPA
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));

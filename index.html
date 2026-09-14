@@ -12,7 +12,33 @@
 <link rel="preconnect" href="https://img.bricklink.com" crossorigin>
 <link rel="dns-prefetch" href="https://www.bricklink.com">
 <link rel="preload" href="output.css" as="style">
-<link rel="stylesheet" href="output.css">
+<link rel="stylesheet" href="output.css" onerror="this.onerror=null;console.warn('output.css 404 fallback CDN');window.tailwind={config:{theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Fredoka','sans-serif']},colors:{lego:{yellow:'#FFD500',red:'#E3000B',blue:'#006CB7',green:'#00A651'}}}}}};var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);">
+<script>
+// Config per fallback CDN (se output.css non carica)
+window.tailwind=window.tailwind||{config:{theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Fredoka','sans-serif']},colors:{lego:{yellow:'#FFD500',red:'#E3000B',blue:'#006CB7',green:'#00A651'}}}}}};
+// Fallback aggiuntivo: se output.css non applicato entro 1.8s, carica CDN (hotfix Vercel)
+setTimeout(function(){
+  var probe=document.createElement('div');
+  probe.className='hidden';
+  probe.style.display='none';
+  try{ document.body.appendChild(probe); }catch(e){ return; }
+  // se hidden non funziona, vuol dire che tailwind non è caricato
+  var ok=false;
+  try{ ok=getComputedStyle(probe).display==='none'; }catch(e){ ok=false; }
+  probe.remove();
+  if(!ok){
+    console.warn('output.css non applicato, carico CDN fallback');
+    window.tailwind=window.tailwind||{config:{theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Fredoka','sans-serif']},colors:{lego:{yellow:'#FFD500',red:'#E3000B',blue:'#006CB7',green:'#00A651'}}}}}};
+    var l=document.createElement('link');
+    l.rel='stylesheet';
+    l.href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css';
+    document.head.appendChild(l);
+    var s=document.createElement('script');
+    s.src='https://cdn.tailwindcss.com';
+    document.head.appendChild(s);
+  }
+},1800);
+</script>
 <!-- Fonts non-blocking: preload + swap -->
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet"></noscript>
