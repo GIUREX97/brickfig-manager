@@ -1,5 +1,305 @@
 [
   {
+    "id": "mjqed10",
+    "codice": "sfuso-tile",
+    "codiceBrickLink": "sfuso-tile",
+    "nome": "Sfuso Tile",
+    "categoria": "Sfuso > Tile - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/0/3069.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Tile",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/3069.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/0/3069.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Tile",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116698,
+    "created": 1789379116698
+  },
+  {
+    "id": "v5g2zti",
+    "codice": "sfuso-fig",
+    "codiceBrickLink": "sfuso-fig",
+    "nome": "Sfuso Fig",
+    "categoria": "Sfuso > Fig - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/MN/0/973.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Fig",
+        "thumb": "https://img.bricklink.com/ItemImage/MT/0/973.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/MN/0/973.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Fig",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116698,
+    "created": 1789379116698
+  },
+  {
+    "id": "cn1p28j",
+    "codice": "sfuso-pg",
+    "codiceBrickLink": "sfuso-pg",
+    "nome": "Sfuso Pearl Gold",
+    "categoria": "Sfuso > Pearl Gold - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/115/3001.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Pearl Gold",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/115/3001.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/115/3001.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Pearl Gold",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116698,
+    "created": 1789379116698
+  },
+  {
+    "id": "8jemir1",
+    "codice": "sfuso-dt",
+    "codiceBrickLink": "sfuso-dt",
+    "nome": "Sfuso Dark Tan",
+    "categoria": "Sfuso > Dark Tan - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/69/3001.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Dark Tan",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/69/3001.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/69/3001.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Dark Tan",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116698,
+    "created": 1789379116698
+  },
+  {
+    "id": "xeytiaf",
+    "codice": "sfuso-rb",
+    "codiceBrickLink": "sfuso-rb",
+    "nome": "Sfuso Reddish Brown",
+    "categoria": "Sfuso > Reddish Brown - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/88/3001.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Reddish Brown",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/88/3001.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/88/3001.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Reddish Brown",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116697,
+    "created": 1789379116697
+  },
+  {
+    "id": "6vgszwt",
+    "codice": "sfuso-tan",
+    "codiceBrickLink": "sfuso-tan",
+    "nome": "Sfuso Tan",
+    "categoria": "Sfuso > Tan - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/2/3001.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Tan",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/2/3001.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/2/3001.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Tan",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116697,
+    "created": 1789379116697
+  },
+  {
+    "id": "nfy5vn2",
+    "codice": "sfuso-lbg",
+    "codiceBrickLink": "sfuso-lbg",
+    "nome": "Sfuso Light Bluish Grey",
+    "categoria": "Sfuso > Light Bluish Grey - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/86/3001.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Light Bluish Grey",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/86/3001.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/86/3001.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Light Bluish Grey",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116697,
+    "created": 1789379116697
+  },
+  {
+    "id": "r60tvhz",
+    "codice": "sfuso-dbg",
+    "codiceBrickLink": "sfuso-dbg",
+    "nome": "Sfuso Dark Bluish Grey",
+    "categoria": "Sfuso > Dark Bluish Grey - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/85/3001.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Dark Bluish Grey",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/85/3001.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/85/3001.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Dark Bluish Grey",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116697,
+    "created": 1789379116697
+  },
+  {
+    "id": "4puauha",
+    "codice": "sfuso-technic",
+    "codiceBrickLink": "sfuso-technic",
+    "nome": "Sfuso Technic",
+    "categoria": "Sfuso > Technic - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/0/3701.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Technic",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/3701.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/0/3701.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Technic",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116697,
+    "created": 1789379116697
+  },
+  {
+    "id": "q7xvr7e",
+    "codice": "sfuso-misto",
+    "codiceBrickLink": "sfuso-misto",
+    "nome": "Sfuso Misto",
+    "categoria": "Sfuso > Misto - al Kg",
+    "categoriaMacro": "Sfuso",
+    "tipo": "Sfuso al Kg",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/0/3001.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "Misto",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/3001.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/0/3001.png"
+      }
+    ],
+    "prezzoAvgUsato": 0,
+    "prezzoVendita": 0,
+    "variante": "Misto",
+    "note": "Sfuso al Kg - modifica Qtà (Kg disponibili) e Prezzo al Kg",
+    "coloreId": "",
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789379116697,
+    "created": 1789379116697
+  },
+  {
     "id": "3slqm4n",
     "codice": "sw0711",
     "codiceBrickLink": "sw0711",
