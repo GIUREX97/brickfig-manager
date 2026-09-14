@@ -10696,7 +10696,6 @@
     "nome": "Sfuso Pearl Gold",
     "categoria": "Sfuso > Pearl Gold - al Kg",
     "categoriaMacro": "Sfuso",
-    "tipo": "Sfuso al Kg",
     "tipoCode": "P",
     "foto": "",
     "fotoExtra": [],
@@ -10708,8 +10707,8 @@
     "coloreId": "",
     "prezziDettaglio": null,
     "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789381329529,
+    "stato": "Venduto",
+    "updated": 1789381643435,
     "created": 1789379116698
   },
   {
