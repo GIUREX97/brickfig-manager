@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as cheerio from 'cheerio';
@@ -11,9 +12,21 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+// Compressione gzip/brotli per tutte le risposte >1KB
+app.use(compression({ threshold: 1024, level: 6, filter: (req,res)=>{ if(req.headers['x-no-compression']) return false; return compression.filter(req,res); } }));
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
-app.use(express.static(__dirname));
+// Cache headers per asset statici: 1 anno per asset con hash, 1 giorno per html
+app.use(express.static(__dirname, {
+  maxAge: '1d',
+  etag: true,
+  lastModified: true,
+  setHeaders: (res, p) => {
+    if (p.endsWith('.html')) { res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate'); }
+    else if (p.endsWith('.css') || p.endsWith('.js')) { res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'); }
+    else if (p.includes('/data/')) { res.setHeader('Cache-Control', 'public, max-age=60, must-revalidate'); }
+  }
+}));
 
 // Cache in memoria per velocità
 const cache = new Map();
@@ -27,6 +40,7 @@ function normalizeCode(input) {
 
 function detectType(code) {
   code = normalizeCode(code);
+  if (code.replace(/[\s\-_]+/g,'').startsWith('sfuso')) return 'P';
   // Se è formato colXX-YY (es. col03-9) è Set completo CMF con stand/accessori, non Minifigure singola
   if (/^col\d+[-_]\d+/.test(code)) return 'S';
   if (/^\d/.test(code)) return 'P';
@@ -117,6 +131,7 @@ function extractCategory($, html) {
 function getMacroCategoria(full){
   if(!full) return 'Altro';
   const l=full.toLowerCase();
+  if(l.startsWith('sfuso')) return 'Sfuso';
   if(l.startsWith('collectible minifigures')) return 'Collezionabili';
   if(l.startsWith('ninjago')) return 'Ninjago';
   if(l.startsWith('harry potter')) return 'Harry Potter';
@@ -137,6 +152,42 @@ function getMacroCategoria(full){
   if(l.startsWith('marvel')) return 'Marvel';
   const first=full.split('>')[0].trim();
   return first || 'Altro';
+}
+
+// === CODICI INTERNI SFUSO AL KG (gestionale locale, non BrickLink) ===
+// Mappatura codici interni -> dati sfuso. Accetta varianti con/senza trattino, maiuscole/minuscole.
+const SFUSO_INTERNI = {
+  'sfusomisto':               { nome: 'Sfuso Misto',                categoria: 'Sfuso > Misto - al Kg',              foto: 'https://img.bricklink.com/ItemImage/PN/0/3001.png',  colore: 'Misto' },
+  'sfusotechnic':             { nome: 'Sfuso Technic',              categoria: 'Sfuso > Technic - al Kg',            foto: 'https://img.bricklink.com/ItemImage/PN/0/3701.png',  colore: 'Technic' },
+  'sfusodarkbluishgrey':      { nome: 'Sfuso Dark Bluish Grey',     categoria: 'Sfuso > Dark Bluish Grey - al Kg',   foto: 'https://img.bricklink.com/ItemImage/PN/85/3001.png', colore: 'Dark Bluish Grey' },
+  'sfusodbg':                 { nome: 'Sfuso Dark Bluish Grey',     categoria: 'Sfuso > Dark Bluish Grey - al Kg',   foto: 'https://img.bricklink.com/ItemImage/PN/85/3001.png', colore: 'Dark Bluish Grey' },
+  'sfusolightbluishgrey':     { nome: 'Sfuso Light Bluish Grey',    categoria: 'Sfuso > Light Bluish Grey - al Kg',  foto: 'https://img.bricklink.com/ItemImage/PN/86/3001.png', colore: 'Light Bluish Grey' },
+  'sfusolbg':                 { nome: 'Sfuso Light Bluish Grey',    categoria: 'Sfuso > Light Bluish Grey - al Kg',  foto: 'https://img.bricklink.com/ItemImage/PN/86/3001.png', colore: 'Light Bluish Grey' },
+  'sfusotan':                 { nome: 'Sfuso Tan',                  categoria: 'Sfuso > Tan - al Kg',                foto: 'https://img.bricklink.com/ItemImage/PN/2/3001.png',  colore: 'Tan' },
+  'sfusoreddishbrown':        { nome: 'Sfuso Reddish Brown',        categoria: 'Sfuso > Reddish Brown - al Kg',      foto: 'https://img.bricklink.com/ItemImage/PN/88/3001.png', colore: 'Reddish Brown' },
+  'sfusorb':                  { nome: 'Sfuso Reddish Brown',        categoria: 'Sfuso > Reddish Brown - al Kg',      foto: 'https://img.bricklink.com/ItemImage/PN/88/3001.png', colore: 'Reddish Brown' },
+  'sfusodarktan':             { nome: 'Sfuso Dark Tan',             categoria: 'Sfuso > Dark Tan - al Kg',           foto: 'https://img.bricklink.com/ItemImage/PN/69/3001.png', colore: 'Dark Tan' },
+  'sfusodt':                  { nome: 'Sfuso Dark Tan',             categoria: 'Sfuso > Dark Tan - al Kg',           foto: 'https://img.bricklink.com/ItemImage/PN/69/3001.png', colore: 'Dark Tan' },
+  'sfusopearlgold':           { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
+  'sfusopg':                  { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
+  'sfusopearlgold':           { nome: 'Sfuso Pearl Gold',           categoria: 'Sfuso > Pearl Gold - al Kg',         foto: 'https://img.bricklink.com/ItemImage/PN/115/3001.png',colore: 'Pearl Gold' },
+  'sfusofig':                 { nome: 'Sfuso Fig',                  categoria: 'Sfuso > Fig - al Kg',                foto: 'https://img.bricklink.com/ItemImage/MN/0/973.png',     colore: 'Fig' },
+  'sfusotile':                { nome: 'Sfuso Tile',                 categoria: 'Sfuso > Tile - al Kg',               foto: 'https://img.bricklink.com/ItemImage/PN/0/3069.png',  colore: 'Tile' },
+};
+function normalizeSfusoKey(input){
+  return input.trim().toLowerCase().replace(/[\s\-_]+/g, '').replace(/[^a-z0-9]/g,'');
+}
+function getSfusoInterno(rawCode){
+  const key = normalizeSfusoKey(rawCode);
+  // accetta anche con prefisso sfuso- generico: sfuso-qualcosa -> cerca esatto o crea generico
+  if (SFUSO_INTERNI[key]) return { key, data: SFUSO_INTERNI[key] };
+  // se inizia con sfuso ma non in mappa, crea generico al volo
+  if (key.startsWith('sfuso') && key.length>5){
+    const suffix = rawCode.trim().replace(/^sfuso[\s\-_]*/i,'').trim() || key.slice(5);
+    const nome = 'Sfuso ' + suffix.split(/[\s\-_]+/).map(w=> w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ');
+    return { key, data: { nome: nome, categoria: 'Sfuso > '+suffix+' - al Kg', foto: 'https://img.bricklink.com/ItemImage/PN/0/3001.png', colore: suffix } };
+  }
+  return null;
 }
 function extractAvgUsedPrice(pgtabHtml) {
   // Estrae SOLO la riga "Avg Price:" dai 4 blocchi summary in ordine: New Sold, Used Sold, New Current, Used Current
@@ -236,6 +287,32 @@ async function fetchBrickeconomyFallback(code, type) {
 }
 
 async function getBricklinkData(rawCode, forcedType = null, colorId = null) {
+  // === CODICI INTERNI SFUSO: bypass BrickLink, dati locali immediati ===
+  const sfusoHit = getSfusoInterno(rawCode);
+  if (sfusoHit) {
+    const cacheKey = `SFUSO:${sfusoHit.key}:${colorId||''}`;
+    const cached = cache.get(cacheKey);
+    if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.data;
+    const base = sfusoHit.data;
+    const data = {
+      codice: rawCode.trim().toLowerCase().replace(/\s+/g,'-'),
+      codiceRichiesto: rawCode,
+      tipo: 'Sfuso al Kg',
+      tipoCode: 'P',
+      nome: base.nome,
+      categoria: base.categoria,
+      categoriaMacro: 'Sfuso',
+      foto: base.foto,
+      fotoVarianti: [{ colorId: '0', colorName: base.colore, thumb: base.foto.replace('/PN/','/PT/').replace('.png','.t1.png'), image: base.foto }],
+      prezzoAvgUsato: null,
+      prezziDettaglio: null,
+      idItem: null,
+      variantiProvate: [normalizeCode(rawCode)],
+      fonte: 'Interno Sfuso'
+    };
+    cache.set(cacheKey, { ts: Date.now(), data });
+    return data;
+  }
   // Override richiesto utente: colspi-11 deve dare il cowboy con cavallo (foto utente), non May Parker
   // Su BrickLink colspi11 è May, ma l'utente ha il cowboy come colspi-11, quindi mappiamo
   if (normalizeCode(rawCode) === 'colspi-11') {

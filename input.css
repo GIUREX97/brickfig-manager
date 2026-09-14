@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@source "./index.html";
+
+@theme {
+  --font-sans: Inter, sans-serif;
+  --font-display: Fredoka, sans-serif;
+  --color-lego-yellow: #FFD500;
+  --color-lego-red: #E3000B;
+  --color-lego-blue: #006CB7;
+  --color-lego-green: #00A651;
+}
