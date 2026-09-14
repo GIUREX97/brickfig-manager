@@ -833,6 +833,56 @@ app.post('/api/lotti', express.json({ limit: '50mb' }), async (req, res) => {
   res.json({ ok: true });
 });
 
+// === SOCIAL LINKS (Facebook / Vinted / eBay) - gestionale online ===
+const SOCIAL_PATH = path.join(__dirname, 'data', 'social.json');
+app.get('/api/social', async (req, res) => {
+  try{
+    if(GITHUB_TOKEN){
+      try{
+        const r=await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/social.json`, {headers:{Authorization:`token ${GITHUB_TOKEN}`,'User-Agent':'brickfig-sync','Cache-Control':'no-cache'}});
+        if(r.ok){
+          const j=await r.json();
+          if(j.content){
+            const dec=Buffer.from(j.content,'base64').toString('utf8');
+            const arr=JSON.parse(dec||'{}');
+            try{ fs.mkdirSync(path.dirname(SOCIAL_PATH),{recursive:true}); fs.writeFileSync(SOCIAL_PATH, JSON.stringify(arr,null,2)); }catch(e){}
+            return res.json(arr);
+          }
+        }
+      }catch(e){}
+    }
+    try{
+      const r=await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/social.json?t=${Date.now()}`, {headers:{'Cache-Control':'no-cache'}});
+      if(r.ok){ const j=await r.json(); try{fs.mkdirSync(path.dirname(SOCIAL_PATH),{recursive:true}); fs.writeFileSync(SOCIAL_PATH, JSON.stringify(j,null,2));}catch(e){} return res.json(j); }
+    }catch(e){}
+    if(fs.existsSync(SOCIAL_PATH)){ const j=JSON.parse(fs.readFileSync(SOCIAL_PATH,'utf8')||'{}'); return res.json(j); }
+    res.json({facebook:'https://www.facebook.com/', vinted:'https://www.vinted.it/', ebay:'https://www.ebay.it/'});
+  }catch(e){ res.json({facebook:'https://www.facebook.com/', vinted:'https://www.vinted.it/', ebay:'https://www.ebay.it/'}); }
+});
+app.post('/api/social', express.json({limit:'100kb'}), async (req,res)=>{
+  const data=req.body;
+  if(!data || typeof data!=='object') return res.status(400).json({error:'Formato non valido'});
+  const clean={
+    facebook: (data.facebook||'').toString().trim() || 'https://www.facebook.com/',
+    vinted: (data.vinted||'').toString().trim() || 'https://www.vinted.it/',
+    ebay: (data.ebay||'').toString().trim() || 'https://www.ebay.it/'
+  };
+  try{ fs.mkdirSync(path.dirname(SOCIAL_PATH),{recursive:true}); fs.writeFileSync(SOCIAL_PATH, JSON.stringify(clean,null,2)); }catch(e){}
+  try{
+    const getFile=await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/social.json`, {headers:{Authorization:`token ${GITHUB_TOKEN}`,'User-Agent':'brickfig-sync'}});
+    let sha=null; if(getFile.ok){ const j=await getFile.json(); sha=j.sha; }
+    const content=Buffer.from(JSON.stringify(clean,null,2)).toString('base64');
+    const putRes=await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/data/social.json`, {
+      method:'PUT',
+      headers:{Authorization:`token ${GITHUB_TOKEN}`,'User-Agent':'brickfig-sync','Content-Type':'application/json'},
+      body: JSON.stringify({message:`Update social links ${new Date().toISOString()}`, content, sha: sha||undefined})
+    });
+    if(!putRes.ok) console.log('GitHub social sync fallito:', (await putRes.text()).slice(0,200));
+    else console.log('GitHub social sync OK');
+  }catch(e){ console.log('GitHub social sync errore:', e.message); }
+  res.json({ok:true, ...clean});
+});
+
 // Endpoint azzeramento forzato locale (richiesto utente 13-09-2026) - svuota localStorage e cloud
 // FIX 15-09-2026: protetto da ?confirm=1 e header X-Allow-Clear per evitare wipe accidentali (crawling, prefetch)
 app.get('/force-clear', (req, res) => {
