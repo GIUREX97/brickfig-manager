@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spedizioni USA ⇄ Italia | Preventivo Istantaneo • Dogana Inclusa</title>
+<meta name="description" content="Spedizioni veloci tra America e Italia. Preventivo istantaneo online, gestione doganale, tracking. Da USA all'Italia e viceversa in 2-12 giorni.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Space Grotesk','sans-serif']},colors:{usa:{blue:'#0d2a54',red:'#bf0a30',light:'#f1f5f9'},italia:{green:'#009246',red:'#ce2b37'}}}}}</script>
+<style>
+  *{scroll-behavior:smooth}
+  .glass{backdrop-filter:blur(16px);background:rgba(255,255,255,.82)}
+  .hero-gradient{background: radial-gradient(1200px 600px at 20% -10%, #bf0a30 0%, transparent 60%), radial-gradient(1000px 500px at 90% 0%, #002868 0%, transparent 55%), linear-gradient(135deg,#0d2a54 0%, #1e3a8a 50%, #0d2a54 100%)}
+  .hero-pattern{background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.12) 1px, transparent 0); background-size: 28px 28px}
+  .card-hover{transition:all .25s}
+  .card-hover:hover{transform:translateY(-4px); box-shadow:0 20px 40px -12px rgba(0,0,0,.15)}
+  .toggle-dot{transition:transform .3s cubic-bezier(.4,.2,.2,1)}
+  .progress-ring{transform:rotate(-90deg)}
+  ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px}
+  input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  .shimmer{position:relative;overflow:hidden}
+  .shimmer:after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);animation:shimmer 2s infinite}
+  @keyframes shimmer{100%{transform:translateX(100%)}}
+</style>
+</head>
+<body class="bg-[#f8fafc] text-slate-900 antialiased overflow-x-hidden">
+<!-- TOP BAR -->
+<div class="bg-slate-900 text-white text-xs">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-4">
+      <span><i class="fa-solid fa-phone mr-1 text-sky-400"></i> +39 02 1234 5678</span>
+      <span class="hidden sm:inline"><i class="fa-solid fa-envelope mr-1 text-sky-400"></i> info@spedizioni-usa-italia.it</span>
+      <span class="hidden md:inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold"><span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> Operativi oggi</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="#tracking" class="hover:text-sky-300 font-semibold"><i class="fa-solid fa-magnifying-glass mr-1"></i> Traccia spedizione</a>
+      <a href="#admin" onclick="openAdmin(event)" class="bg-white text-slate-900 px-3 py-1 rounded-full font-bold hover:bg-slate-100">Area Admin <i class="fa-solid fa-lock ml-1"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 glass border-b border-slate-200">
+  <div class="max-w-[1280px] mx-auto px-4 py-3 flex items-center justify-between gap-4">
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#002868] to-[#bf0a30] flex items-center justify-center text-white font-black text-lg shadow">⇄</div>
+      <div>
+        <div class="font-display font-bold leading-none text-[17px]">USA ⇄ ITALIA <span class="text-[#bf0a30]">EXPRESS</span></div>
+        <div class="text-[11px] tracking-[0.18em] font-bold text-slate-500 uppercase">Spedizioni • Dogana • Logistica</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 font-semibold text-sm">
+      <a href="#servizi" class="px-3 py-2 hover:bg-slate-100 rounded-xl">Servizi</a>
+      <a href="#tariffe" class="px-3 py-2 hover:bg-slate-100 rounded-xl">Tariffe</a>
+      <a href="#preventivo" class="px-4 py-2 bg-slate-900 text-white rounded-xl hover:bg-black">Preventivo Gratis <i class="fa-solid fa-arrow-right ml-1"></i></a>
+    </nav>
+    <button id="mobileMenuBtn" class="lg:hidden w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center"><i class="fa-solid fa-bars"></i></button>
+  </div>
+  <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-1">
+    <a href="#servizi" class="block px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold">Servizi</a>
+    <a href="#tariffe" class="block px-3 py-2 rounded-xl hover:bg-slate-50 font-semibold">Tariffe</a>
+    <a href="#preventivo" class="block px-3 py-2 bg-slate-900 text-white rounded-xl text-center font-bold">Preventivo immediato</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero-gradient hero-pattern text-white relative overflow-hidden">
+  <div class="max-w-[1280px] mx-auto px-4 py-10 lg:py-16 grid lg:grid-cols-[1.15fr_.85fr] gap-8 items-center relative z-10">
+    <div>
+      <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-bold backdrop-blur">
+        <span class="bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-full">NUOVO</span> Dogana inclusa + Tracking realtime <span class="hidden sm:inline">• Da $ / € 32</span>
+      </div>
+      <h1 class="font-display font-bold text-[32px] lg:text-[48px] leading-[0.95] mt-4">
+        Spedisci tra <span class="bg-gradient-to-r from-[#bf0a30] to-white bg-clip-text text-transparent">America</span><br>
+        e <span class="bg-gradient-to-r from-[#009246] via-white to-[#ce2b37] bg-clip-text text-transparent">Italia</span><br>
+        in 2–7 giorni
+      </h1>
+      <p class="text-slate-300 mt-4 text-[15px] leading-relaxed max-w-[560px]">Preventivo istantaneo online. Ritiro a domicilio, sdoganamento completo e consegna tracciata. <b class="text-white">USA → Italia</b> e <b class="text-white">Italia → USA</b> con tariffe trasparenti al kg.</p>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <a href="#preventivo" class="px-6 py-3.5 rounded-xl bg-white text-slate-900 font-extrabold shadow-lg hover:bg-slate-50 flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-500"></i> Calcola preventivo <span class="hidden sm:inline">gratis</span></a>
+        <a href="https://t.me/" target="_blank" class="px-6 py-3.5 rounded-xl bg-[#229ED9] text-white font-bold hover:bg-[#1d8bc0] flex items-center gap-2"><i class="fa-brands fa-telegram"></i> Chatta su Telegram</a>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 mt-6 text-xs">
+        <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Assicurazione inclusa su richiesta</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-file-invoice text-sky-300"></i> Dogana gestita</span>
+        <span class="flex items-center gap-2"><i class="fa-solid fa-star text-amber-400"></i> 4.9/5 (1.200+ spedizioni)</span>
+      </div>
+      <div class="grid grid-cols-3 gap-3 mt-8 max-w-[480px]">
+        <div class="bg-white/10 border border-white/15 rounded-2xl p-3 backdrop-blur">
+          <div class="text-2xl font-black">~3.000</div><div class="text-xs text-slate-300 leading-tight">Pacci consegnati 2025-26</div>
+        </div>
+        <div class="bg-white/10 border border-white/15 rounded-2xl p-3 backdrop-blur">
+          <div class="text-2xl font-black">48h</div><div class="text-xs text-slate-300 leading-tight">Express medio USA-IT</div>
+        </div>
+        <div class="bg-white/10 border border-white/15 rounded-2xl p-3 backdrop-blur">
+          <div class="text-2xl font-black">100%</div><div class="text-xs text-slate-300 leading-tight">Tracciato & assicurabile</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK QUOTE CARD -->
+    <div class="bg-white rounded-[24px] shadow-2xl overflow-hidden text-slate-900">
+      <div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between">
+        <div class="font-bold flex items-center gap-2"><i class="fa-solid fa-calculator text-sky-400"></i> Preventivo lampo</div>
+        <span class="text-xs bg-white/15 px-2 py-1 rounded-full">2 min • senza impegno</span>
+      </div>
+      <div class="p-5 space-y-4">
+        <!-- Direzione toggle -->
+        <div>
+          <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Direzione</label>
+          <div class="mt-2 grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-2xl">
+            <button id="dirUSAITA" onclick="setDirezione('USA->ITA')" class="py-2.5 rounded-xl bg-slate-900 text-white font-bold shadow text-sm"><span class="mr-1">🇺🇸</span> USA → Italia</button>
+            <button id="dirITAUSA" onclick="setDirezione('ITA->USA')" class="py-2.5 rounded-xl font-bold text-slate-600 text-sm"><span class="mr-1">🇮🇹</span> Italia → USA</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs font-bold text-slate-600">Peso reale (kg) *</label><input id="qPeso" type="number" step="0.1" min="0.1" value="2" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-slate-200 font-bold text-center focus:border-slate-900 outline-none"></div>
+          <div><label class="text-xs font-bold text-slate-600">Valore merce €</label><input id="qValore" type="number" step="1" min="0" value="120" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-slate-200 font-bold text-center focus:border-slate-900 outline-none"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div><label class="text-[11px] font-bold text-slate-500">L (cm)</label><input id="qL" type="number" min="0" placeholder="40" class="mt-1 w-full px-2 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-center"></div>
+          <div><label class="text-[11px] font-bold text-slate-500">W (cm)</label><input id="qW" type="number" min="0" placeholder="30" class="mt-1 w-full px-2 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-center"></div>
+          <div><label class="text-[11px] font-bold text-slate-500">H (cm)</label><input id="qH" type="number" min="0" placeholder="20" class="mt-1 w-full px-2 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-center"></div>
+        </div>
+        <div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5">
+          <span class="text-xs font-bold text-slate-600">Servizio</span>
+          <select id="qServizio" class="bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-sm font-bold">
+            <option value="economy">Economy (8-12gg) -12%</option>
+            <option value="priority" selected>Priority (5-7gg)</option>
+            <option value="express">Express (2-4gg) +42%</option>
+          </select>
+        </div>
+        <div id="quickResult" class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-4">
+          <div class="text-xs tracking-widest uppercase text-slate-400 font-bold">Stima immediata</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <div class="text-3xl font-black" id="quickTotale">€ —</div>
+            <div class="text-xs bg-white/15 px-2 py-1 rounded-full" id="quickTempi">—</div>
+          </div>
+          <div class="text-xs text-slate-400 mt-1" id="quickDett">Inserisci peso e dimensioni</div>
+          <div class="grid grid-cols-3 gap-2 mt-3 text-xs">
+            <div class="bg-white/10 rounded-xl p-2 text-center"><div class="text-slate-400">Fatturabile</div><div class="font-bold" id="quickPesoFatt">—</div></div>
+            <div class="bg-white/10 rounded-xl p-2 text-center"><div class="text-slate-400">Volumetrico</div><div class="font-bold" id="quickVol">—</div></div>
+            <div class="bg-white/10 rounded-xl p-2 text-center"><div class="text-slate-400">Doganale</div><div class="font-bold">€18 inc.</div></div>
+          </div>
+        </div>
+        <a href="#preventivo" class="block w-full text-center py-3 rounded-xl bg-[#bf0a30] hover:bg-[#a00828] text-white font-extrabold">Vai al preventivo completo →</a>
+        <p class="text-[10px] text-center text-slate-500">Prezzi IVA inclusa • Dazi non inclusi se valore &gt;€150 • Preventivo finale confermato via Telegram/Email</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="bg-white border-y border-slate-200">
+  <div class="max-w-[1280px] mx-auto px-4 py-4 flex flex-wrap items-center justify-center gap-6 text-xs font-bold text-slate-500">
+    <span class="flex items-center gap-2"><i class="fa-solid fa-plane text-slate-400"></i> Corrieri: DHL • UPS • FedEx</span>
+    <span class="flex items-center gap-2"><i class="fa-solid fa-building-columns text-slate-400"></i> Pagamento: bonifico / carta / PayPal</span>
+    <span class="flex items-center gap-2"><i class="fa-solid fa-headset text-slate-400"></i> Supporto IT/EN in 2h via Telegram</span>
+    <span class="flex items-center gap-2 text-emerald-600"><i class="fa-solid fa-lock"></i> Sito sicuro • Dati GDPR</span>
+  </div>
+</div>
+
+<!-- SERVIZI -->
+<section id="servizi" class="max-w-[1280px] mx-auto px-4 py-10">
+  <div class="text-center max-w-2xl mx-auto">
+    <div class="inline-flex items-center gap-2 bg-slate-900 text-white px-3 py-1 rounded-full text-xs font-bold">SERVIZI COMPLETI</div>
+    <h2 class="font-display font-bold text-3xl mt-3">Tutto incluso, zero stress doganale</h2>
+    <p class="text-slate-600 mt-2">Ritiriamo, imballiamo, sdoganiamo e consegniamo. Tu compili il preventivo, noi pensiamo al resto su entrambe le sponde dell'Atlantico.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-4 mt-8">
+    <div class="card-hover bg-white rounded-[20px] border border-slate-200 p-6">
+      <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl"><i class="fa-solid fa-box-open"></i></div>
+      <h3 class="font-bold mt-4">Ritiro a domicilio</h3><p class="text-sm text-slate-600 mt-1">USA e Italia: ritiro in 24h nelle principali città (NY, LA, Miami, Milano, Roma). Altrimenti drop-off o spedizione al nostro hub.</p>
+      <ul class="text-xs text-slate-500 mt-3 space-y-1"><li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Tracking dal ritiro</li><li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Imballo professionale su richiesta</li></ul>
+    </div>
+    <div class="card-hover bg-white rounded-[20px] border border-slate-200 p-6">
+      <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl"><i class="fa-solid fa-file-shield"></i></div>
+      <h3 class="font-bold mt-4">Dogana gestita</h3><p class="text-sm text-slate-600 mt-1">Fattura, HS code, dazi e IVA: li calcoliamo e gestiamo noi. Pre-advise doganale per evitare fermi.</p>
+      <ul class="text-xs text-slate-500 mt-3 space-y-1"><li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Handling €18 incluso</li><li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Assistenza per valori &gt;€150 / $800</li></ul>
+    </div>
+    <div class="card-hover bg-white rounded-[20px] border border-slate-200 p-6">
+      <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl"><i class="fa-solid fa-truck-fast"></i></div>
+      <h3 class="font-bold mt-4">Consegna tracciata</h3><p class="text-sm text-slate-600 mt-1">3 livelli: Economy, Priority ed Express. Notifiche Telegram/Email ad ogni step.</p>
+      <ul class="text-xs text-slate-500 mt-3 space-y-1"><li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Assicurazione 2% (min €8)</li><li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Prova di consegna firmata</li></ul>
+    </div>
+  </div>
+  <div class="grid lg:grid-cols-3 gap-4 mt-4">
+    <div class="bg-slate-900 text-white rounded-[20px] p-6 flex gap-4 items-start"><i class="fa-solid fa-bag-shopping text-2xl text-sky-400 mt-1"></i><div><div class="font-bold">Per privati & e-commerce</div><div class="text-sm text-slate-300">Shopping USA (Amazon, eBay, StockX) o resi / regali verso USA. Consolidiamo più pacchi in uno.</div></div></div>
+    <div class="bg-white border border-slate-200 rounded-[20px] p-6 flex gap-4 items-start"><i class="fa-solid fa-shield text-2xl text-emerald-500 mt-1"></i><div><div class="font-bold">Merci delicate & valore</div><div class="text-sm text-slate-600">Elettronica, sneaker, vintage, documenti. Imballo antiurto e assicurazione fino al valore dichiarato.</div></div></div>
+    <div class="bg-white border border-slate-200 rounded-[20px] p-6 flex gap-4 items-start"><i class="fa-brands fa-telegram text-2xl text-[#229ED9] mt-1"></i><div><div class="font-bold">Supporto Telegram in 2</div><div class="text-sm text-slate-600">Bot condiviso per te e il tuo socio: stesse notifiche, stessa gestione. Risposta in 2h.</div></div></div>
+  </div>
+</section>
+
+<!-- TARIFFE -->
+<section id="tariffe" class="bg-slate-900 text-white py-10">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1 rounded-full text-xs font-bold">TRASPARENZA TOTALE</div>
+        <h2 class="font-display font-bold text-3xl mt-3">Tariffe al kg • Esempi reali</h2>
+        <p class="text-slate-400 mt-2 max-w-xl">Prezzi Priority (5-7gg) con handling doganale €18 incluso. Economy -8%, Express +42%. Supplemento ITA→USA +6%.</p>
+      </div>
+      <div class="bg-white/10 border border-white/15 rounded-2xl p-3 flex items-center gap-3">
+        <div class="text-xs text-slate-300">Peso<br><b class="text-white">fatturabile</b></div>
+        <div class="text-2xl">→</div>
+        <div class="text-xs">L×W×H / 5000<br><b class="text-white">volumetrico</b> vs reale</div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4 mt-8">
+      <div class="bg-white text-slate-900 rounded-[20px] p-6">
+        <div class="text-xs font-bold tracking-widest uppercase text-slate-500">Fino a 0,5 kg • busta</div><div class="text-3xl font-black mt-1">da €32</div><div class="text-sm text-slate-600">Documenti, sneaker singola, telefono. Priority.</div>
+        <div class="mt-4 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs"><div class="font-bold">Esempio: 0,4kg • 30×20×10 + €120 valore</div><div class="text-slate-600 mt-1">Kg €11,20 + base €22 = €33,20 + dogana €18 → <b class="text-slate-900">~€51 Priority</b> • Economy ~€47</div></div>
+      </div>
+      <div class="bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-[20px] p-6 shadow-xl relative overflow-hidden">
+        <div class="absolute top-3 right-3 bg-white text-blue-600 text-xs font-black px-2 py-1 rounded-full">PIÙ RICHIESTO</div>
+        <div class="text-xs font-bold tracking-widest uppercase text-blue-100">2 – 5 kg • scatola media</div><div class="text-3xl font-black mt-1">€44 – €89</div><div class="text-sm text-blue-100">StockX, Amazon multi-pezzo, abbigliamento. Priority.</div>
+        <div class="mt-4 bg-white/15 border border-white/20 rounded-xl p-3 text-xs"><div class="font-bold">Esempio: 3kg • 40×30×20 + €350</div><div class="text-blue-50 mt-1">3×€15=€45 + €22=€67 + dogana €18 + ass. €8 → <b class="text-white">~€93 Priority</b></div></div>
+      </div>
+      <div class="bg-white text-slate-900 rounded-[20px] p-6">
+        <div class="text-xs font-bold tracking-widest uppercase text-slate-500">10 – 20 kg • bancale leggero</div><div class="text-3xl font-black mt-1">€10,2/kg</div><div class="text-sm text-slate-600">Traslochi leggeri, stock, multipacco consolidato.</div>
+        <div class="mt-4 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs"><div class="font-bold">Esempio: 15kg • 60×40×40 + €800</div><div class="text-slate-600 mt-1">15×€10,2=€153 + €22=€175 + dogana €18 + ass €16 → <b class="text-slate-900">~€209 Priority</b></div></div>
+      </div>
+    </div>
+    <div class="mt-6 bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="text-xs tracking-widest uppercase text-slate-400 border-b border-white/10"><tr><th class="text-left px-4 py-3">Scaglione fatturabile</th><th class="text-right px-4 py-3">€/kg Priority</th><th class="text-left px-4 py-3">Note</th></tr></thead>
+          <tbody class="divide-y divide-white/5">
+            <tr><td class="px-4 py-2">0 – 0,5 kg</td><td class="text-right px-4 py-2 font-bold">€28 (min €32)</td><td class="px-4 py-2 text-slate-400">Minimo assoluto</td></tr>
+            <tr><td class="px-4 py-2">0,5 – 2 kg</td><td class="text-right px-4 py-2 font-bold">€22</td><td class="px-4 py-2 text-slate-400">Buste & piccoli pacchi</td></tr>
+            <tr><td class="px-4 py-2">2 – 5 kg</td><td class="text-right px-4 py-2 font-bold">€15</td><td class="px-4 py-2 text-slate-400">Standard</td></tr>
+            <tr><td class="px-4 py-2">5 – 10 kg</td><td class="text-right px-4 py-2 font-bold">€12,50</td><td class="px-4 py-2 text-slate-400">Scatole medie</td></tr>
+            <tr><td class="px-4 py-2">10 – 20 kg</td><td class="text-right px-4 py-2 font-bold">€10,20</td><td class="px-4 py-2 text-slate-400">Consolidato</td></tr>
+            <tr><td class="px-4 py-2">20 – 30 kg</td><td class="text-right px-4 py-2 font-bold">€9,10</td><td class="px-4 py-2 text-slate-400">Heavy</td></tr>
+            <tr><td class="px-4 py-2">&gt;30 kg</td><td class="text-right px-4 py-2 font-bold">€8,00 → €7,20</td><td class="px-4 py-2 text-slate-400">Bancale / multi-collo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="px-4 py-3 text-xs text-slate-400 bg-black/20">+ Base fee €22 + Handling doganale €18 + Assicurazione 2% (min €8) se selezionata. Dazi/IVA non inclusi (stimati se valore &gt;€150).</div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVENTIVO COMPLETO -->
+<section id="preventivo" class="max-w-[1280px] mx-auto px-4 py-10">
+  <div class="grid lg:grid-cols-[1.4fr_.8fr] gap-6 items-start">
+    <!-- FORM -->
+    <div class="bg-white rounded-[24px] border border-slate-200 shadow-sm overflow-hidden">
+      <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div>
+          <h2 class="font-display font-bold text-xl flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar text-blue-600"></i> Richiedi preventivo — 2 min</h2>
+          <p class="text-xs text-slate-500 mt-1">Compila i campi • calcolo istantaneo • invio a noi + Telegram • risposta in 2h</p>
+        </div>
+        <div class="hidden sm:flex items-center gap-2 text-xs font-bold">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> Risposta media 47 min
+        </div>
+      </div>
+      <form id="preventivoForm" class="p-6 space-y-5" onsubmit="submitPreventivo(event)">
+        <!-- Direzione + servizio -->
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold tracking-widest uppercase text-slate-600">Direzione *</label>
+            <select id="fDirezione" required class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-slate-200 font-bold bg-white">
+              <option value="USA->ITA">🇺🇸 USA → Italia 🇮🇹</option>
+              <option value="ITA->USA">🇮🇹 Italia → USA 🇺🇸</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold tracking-widest uppercase text-slate-600">Servizio *</label>
+            <select id="fServizio" required class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-slate-200 font-bold bg-white">
+              <option value="economy">🐢 Economy — 8-12gg (-8%)</option>
+              <option value="priority" selected>✈️ Priority — 5-7gg (standard)</option>
+              <option value="express">⚡ Express — 2-4gg (+42%)</option>
+            </select>
+          </div>
+        </div>
+        <!-- Contatti -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+          <div class="text-xs font-bold tracking-widest uppercase text-slate-600">I tuoi dati *</div>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <input id="fNome" required placeholder="Nome *" class="px-3 py-3 rounded-xl border border-slate-200 text-sm font-semibold">
+            <input id="fCognome" placeholder="Cognome" class="px-3 py-3 rounded-xl border border-slate-200 text-sm">
+            <input id="fEmail" required type="email" placeholder="Email *" class="px-3 py-3 rounded-xl border border-slate-200 text-sm">
+            <input id="fTelefono" required placeholder="Telefono / WhatsApp *" class="px-3 py-3 rounded-xl border border-slate-200 text-sm font-semibold">
+          </div>
+        </div>
+        <!-- Partenza / Arrivo -->
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+            <div class="text-xs font-bold tracking-widest uppercase text-blue-800">Partenza</div>
+            <input id="fCittaPartenza" placeholder="Città partenza (es. New York)" class="mt-2 w-full px-3 py-2.5 rounded-xl border border-blue-200 text-sm">
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <input id="fCapPartenza" placeholder="ZIP / CAP" class="px-3 py-2.5 rounded-xl border border-blue-200 text-sm">
+              <input id="fStatoPartenza" placeholder="Stato (es. NY / MI)" class="px-3 py-2.5 rounded-xl border border-blue-200 text-sm">
+            </div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+            <div class="text-xs font-bold tracking-widest uppercase text-emerald-800">Arrivo</div>
+            <input id="fCittaArrivo" placeholder="Città arrivo (es. Milano)" class="mt-2 w-full px-3 py-2.5 rounded-xl border border-emerald-200 text-sm">
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <input id="fCapArrivo" placeholder="CAP / ZIP" class="px-3 py-2.5 rounded-xl border border-emerald-200 text-sm">
+              <input id="fStatoArrivo" placeholder="Prov. / State" class="px-3 py-2.5 rounded-xl border border-emerald-200 text-sm">
+            </div>
+          </div>
+        </div>
+        <!-- Pacco -->
+        <div class="border-2 border-slate-200 rounded-2xl p-4">
+          <div class="text-xs font-bold tracking-widest uppercase text-slate-600">Dettagli collo *</div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+            <div><label class="text-xs font-bold text-slate-600">Peso kg *</label><input id="fPeso" required type="number" step="0.1" min="0.1" value="2" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-slate-200 font-bold text-center"></div>
+            <div><label class="text-xs font-bold text-slate-500">Lunghezza cm</label><input id="fL" type="number" min="0" placeholder="40" class="mt-1 w-full px-3 py-3 rounded-xl border border-slate-200 text-center"></div>
+            <div><label class="text-xs font-bold text-slate-500">Larghezza cm</label><input id="fW" type="number" min="0" placeholder="30" class="mt-1 w-full px-3 py-3 rounded-xl border border-slate-200 text-center"></div>
+            <div><label class="text-xs font-bold text-slate-500">Altezza cm</label><input id="fH" type="number" min="0" placeholder="20" class="mt-1 w-full px-3 py-3 rounded-xl border border-slate-200 text-center"></div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <div><label class="text-xs font-bold text-slate-600">Valore merce € *</label><input id="fValore" required type="number" min="0" step="1" value="150" class="mt-1 w-full px-3 py-3 rounded-xl border-2 border-slate-200 font-bold"></div>
+            <div><label class="text-xs font-bold text-slate-600">Contenuto (es. scarpe, elettronica)</label><input id="fContenuto" placeholder="Descrivi brevemente" class="mt-1 w-full px-3 py-3 rounded-xl border border-slate-200 text-sm"></div>
+          </div>
+          <label class="flex items-center gap-2 mt-3 text-sm font-semibold cursor-pointer"><input type="checkbox" id="fAssicurazione" class="w-4 h-4 rounded"> Assicurazione (2% valore, min €8) — consigliata &gt;€100</label>
+          <label class="flex items-center gap-2 mt-2 text-sm font-semibold cursor-pointer"><input type="checkbox" id="fDogana" checked class="w-4 h-4 rounded"> Handling doganale incluso (€18)</label>
+          <textarea id="fNote" rows="2" placeholder="Note / istruzioni (fragile, ritiro, consolidamento...)" class="mt-3 w-full px-3 py-3 rounded-xl border border-slate-200 text-sm"></textarea>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-500"><input type="checkbox" required id="fPrivacy" class="w-4 h-4"> <label for="fPrivacy">Accetto privacy & termini. Preventivo senza impegno.</label></div>
+        <button type="submit" id="btnSubmit" class="w-full py-4 rounded-xl bg-slate-900 hover:bg-black text-white font-extrabold text-base shadow-lg flex items-center justify-center gap-2"><i class="fa-solid fa-paper-plane"></i> Invia richiesta — risposta in 2h</button>
+        <div id="formStatus" class="hidden text-sm px-4 py-3 rounded-xl font-semibold"></div>
+        <p class="text-xs text-center text-slate-500">Oppure scrivici su <a href="#" onclick="openTelegram(event)" class="underline font-bold">Telegram</a> / WhatsApp. Rispondiamo in 2h anche festivi.</p>
+      </form>
+    </div>
+
+    <!-- RIEPILOGO LIVE + INFO -->
+    <div class="space-y-4 sticky top-[72px]">
+      <div class="bg-slate-900 text-white rounded-[24px] overflow-hidden shadow-xl">
+        <div class="px-5 py-4 flex items-center justify-between border-b border-white/10">
+          <div class="font-bold">Riepilogo live</div><span class="text-xs bg-white/15 px-2 py-1 rounded-full" id="liveTempi">—</span>
+        </div>
+        <div class="p-5 space-y-3">
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-white/10 rounded-xl p-3 text-center"><div class="text-slate-400">Reale</div><div class="font-black text-lg" id="liveReale">—</div></div>
+            <div class="bg-white/10 rounded-xl p-3 text-center"><div class="text-slate-400">Volumetrico</div><div class="font-black text-lg" id="liveVol">—</div></div>
+            <div class="bg-amber-400 text-slate-900 rounded-xl p-3 text-center"><div class="text-xs font-bold">Fatturabile</div><div class="font-black text-lg" id="liveFatt">—</div></div>
+          </div>
+          <div class="bg-white/10 rounded-xl p-3 text-xs space-y-1">
+            <div class="flex justify-between"><span class="text-slate-400">Costo al kg</span><span class="font-bold" id="liveCostoKg">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Base fee</span><span class="font-bold">€22,00</span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Subtotale servizio</span><span class="font-bold" id="liveSubtot">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Assicurazione</span><span class="font-bold" id="liveAss">€0,00</span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Handling dogana</span><span class="font-bold" id="liveDogana">€18,00</span></div>
+            <div class="h-px bg-white/10 my-2"></div>
+            <div class="flex justify-between text-base"><span class="font-bold">Totale stimato</span><span class="font-black text-xl text-amber-300" id="liveTotale">—</span></div>
+            <div class="text-[11px] text-slate-400" id="liveDett">—</div>
+          </div>
+          <div id="liveDazi" class="hidden bg-amber-500/20 border border-amber-500/30 rounded-xl p-3 text-xs text-amber-200"></div>
+          <div class="bg-white text-slate-900 rounded-xl p-3 text-xs font-semibold flex items-center gap-2"><i class="fa-solid fa-circle-info text-blue-600"></i> Preventivo finale confermato via Telegram/Email entro 2h.</div>
+        </div>
+      </div>
+
+      <div class="bg-white border border-slate-200 rounded-[20px] p-5">
+        <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-list-check text-emerald-600"></i> Come funziona</h3>
+        <ol class="mt-3 space-y-3 text-sm">
+          <li class="flex gap-3"><span class="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0">1</span><span><b>Calcoli & invii</b> — il totale è istantaneo, invii in 1 click.</span></li>
+          <li class="flex gap-3"><span class="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0">2</span><span><b>Confermiamo su Telegram/Email</b> — noi + soci ricevete la stessa notifica e confermiamo prezzo finale & ritiro.</span></li>
+          <li class="flex gap-3"><span class="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span><span><b>Ritiro & dogana</b> — ritiriamo, sdoganiamo, consegniamo tracciato.</span></li>
+        </ol>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#229ED9] to-[#0d5a8a] text-white rounded-[20px] p-5">
+        <h3 class="font-bold flex items-center gap-2"><i class="fa-brands fa-telegram text-xl"></i> Bot Telegram per 2 admin</h3>
+        <p class="text-sm text-sky-100 mt-2">Stesso bot, due persone. Ricevete entrambi ogni preventivo con pulsanti <b>Accetta / Rifiuta / Contatta</b>. Uno clicca, l'altro vede l'aggiornamento.</p>
+        <div class="mt-3 bg-white/15 rounded-xl p-3 text-xs space-y-1">
+          <div><b>1.</b> Crea bot su @BotFather → copia token in <code class="bg-black/30 px-1 rounded">.env → TELEGRAM_BOT_TOKEN</code></div>
+          <div><b>2.</b> Avvia il bot: <code class="bg-black/30 px-1 rounded">/start → /admin</code></div>
+          <div><b>3.</b> Condividi il link del bot al socio → anche lui fa <code class="bg-black/30 px-1 rounded">/admin</code></div>
+          <div>→ Fatto: notifiche doppie automatiche!</div>
+        </div>
+        <button onclick="openTelegramSetup()" class="mt-3 w-full py-2.5 rounded-xl bg-white text-[#229ED9] font-bold">Configura Telegram →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKING -->
+<section id="tracking" class="bg-white border-y border-slate-200 py-10">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="font-display font-bold text-2xl">Traccia la tua spedizione</h2>
+      <p class="text-slate-600 text-sm mt-2">Inserisci il codice preventivo (es. PREV-2609ABCD) o spedizione (SHIP-...)</p>
+      <div class="mt-4 flex gap-2 max-w-md mx-auto">
+        <input id="trackInput" placeholder="Codice (PREV-... / SHIP-...)" class="flex-1 px-4 py-3 rounded-xl border-2 border-slate-200 font-mono font-bold text-sm">
+        <button onclick="trackCodice()" class="px-6 py-3 rounded-xl bg-slate-900 text-white font-bold">Traccia</button>
+      </div>
+      <div id="trackResult" class="hidden mt-6 text-left bg-slate-50 border border-slate-200 rounded-2xl p-5"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-[1280px] mx-auto px-4 py-10">
+  <h2 class="font-display font-bold text-2xl text-center">Domande frequenti</h2>
+  <div class="grid md:grid-cols-2 gap-4 mt-6 max-w-4xl mx-auto">
+    <details class="bg-white border border-slate-200 rounded-2xl p-4"><summary class="font-bold cursor-pointer">Quanto costa la dogana?</summary><p class="text-sm text-slate-600 mt-2">Handling nostro €18 sempre incluso. Dazi/IVA dipendono dal valore: sotto €150 spesso zero dazi, sopra stimiamo ~4% dazi + IVA 22% sul totale (merce+spedizione+dazi). Ti diamo stima nel preventivo.</p></details>
+    <details class="bg-white border border-slate-200 rounded-2xl p-4"><summary class="font-bold cursor-pointer">Posso consolidare più pacchi?</summary><p class="text-sm text-slate-600 mt-2">Sì! Spedisci i tuoi acquisti USA al nostro hub, li consolidiamo in un unico collo (risparmi sul volumetrico) e poi verso l'Italia.</p></details>
+    <details class="bg-white border border-slate-200 rounded-2xl p-4"><summary class="font-bold cursor-pointer">Cosa non posso spedire?</summary><p class="text-sm text-slate-600 mt-2">No armi, droghe, contraffazione, batterie sciolte non dichiarate. Per alimenti / liquidi chiedi prima: gestiamo con restrizioni.</p></details>
+    <details class="bg-white border border-slate-200 rounded-2xl p-4"><summary class="font-bold cursor-pointer">Come funziona Telegram in 2?</summary><p class="text-sm text-slate-600 mt-2">Un unico bot. Tu e il socio fate /admin nel bot (o nel gruppo). Ogni nuovo preventivo arriva a entrambi con pulsanti. Chi preme Accetta notifica l'altro.</p></details>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-slate-900 text-slate-300 py-10">
+  <div class="max-w-[1280px] mx-auto px-4 grid md:grid-cols-4 gap-8 text-sm">
+    <div>
+      <div class="flex items-center gap-2 font-black text-white"><div class="w-8 h-8 rounded-lg bg-white text-slate-900 flex items-center justify-center">⇄</div> USA ⇄ ITALIA EXPRESS</div>
+      <p class="mt-3 text-slate-400">Spedizioni rapide e sicure tra America e Italia. Preventivi trasparenti, dogana gestita.</p>
+      <div class="mt-3 flex gap-2">
+        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fa-brands fa-telegram"></i></a>
+        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+    <div><div class="font-bold text-white">Contatti</div><div class="mt-3 space-y-1 text-slate-400"><div><i class="fa-solid fa-location-dot mr-1"></i> Hub IT: Milano // Hub USA: New York</div><div>info@spedizioni-usa-italia.it</div><div>+39 02 1234 5678</div></div></div>
+    <div><div class="font-bold text-white">Link</div><div class="mt-3 space-y-1"><a href="#preventivo" class="block hover:text-white">Preventivo</a><a href="#tariffe" class="block hover:text-white">Tariffe</a><a href="#tracking" class="block hover:text-white">Tracking</a><a href="/brickfig.html" class="block hover:text-white">Gestionale BrickFig (legacy)</a></div></div>
+    <div><div class="font-bold text-white">Admin</div><div class="mt-3 space-y-1"><a href="#" onclick="openAdmin(event)" class="block hover:text-white">Area riservata</a><div class="text-xs text-slate-500 mt-2">Login admin per gestire preventivi & spedizioni. Notifiche via Telegram condiviso.</div></div></div>
+  </div>
+  <div class="max-w-[1280px] mx-auto px-4 mt-8 pt-6 border-t border-white/10 text-xs text-slate-500 flex flex-wrap justify-between gap-2">
+    <span>© 2026 USA-Italia Express. Tutti i diritti riservati.</span><span>P.IVA IT01234567890 • Privacy • Termini</span>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-3 rounded-full text-sm font-bold shadow-xl hidden z-50 flex items-center gap-2"><span id="toastText"></span></div>
+
+<!-- MODAL ADMIN -->
+<div id="adminModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeAdmin()"></div>
+  <div class="absolute inset-0 flex items-start justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-[24px] w-full max-w-[920px] my-6 shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div><div class="font-bold text-lg">Area Admin — Preventivi & Spedizioni</div><div class="text-xs text-slate-400">Gestisci in 2 via Telegram • Login locale</div></div>
+        <button onclick="closeAdmin()" class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-4 sm:p-6">
+        <div id="adminLoginBox" class="max-w-md mx-auto">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm">
+            <div class="font-bold">Accesso admin</div>
+            <p class="text-slate-600 mt-1">Di default: lascia vuoto e clicca Entra (locale). Per protezione imposta <code class="bg-white px-1 rounded border">ADMIN_PASSWORD</code> in .env.</p>
+          </div>
+          <form onsubmit="adminLogin(event)" class="mt-4 space-y-3">
+            <input id="adminPass" type="password" placeholder="Password admin (se impostata)" class="w-full px-3 py-3 rounded-xl border-2 border-slate-200">
+            <button type="submit" class="w-full py-3 rounded-xl bg-slate-900 text-white font-bold">Entra</button>
+          </form>
+          <div class="mt-4 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs">
+            <div class="font-bold">Telegram condiviso per 2</div>
+            <div class="mt-1">1) Crea bot da @BotFather, copia token in .env → <code>TELEGRAM_BOT_TOKEN</code></div>
+            <div>2) Riavvia server → nel bot fai <b>/admin</b> → condividi bot al socio → anche lui <b>/admin</b></div>
+            <div class="mt-2 flex gap-2">
+              <button onclick="testTelegram()" class="px-3 py-1.5 rounded-lg bg-[#229ED9] text-white text-xs font-bold">Test bot</button>
+              <span id="tgTestResult" class="text-xs"></span>
+            </div>
+          </div>
+        </div>
+        <div id="adminPanel" class="hidden">
+          <div class="flex flex-wrap gap-2 items-center justify-between">
+            <div class="flex gap-2">
+              <button onclick="loadQuotes('tutte')" class="px-3 py-1.5 rounded-full bg-slate-900 text-white text-xs font-bold">Tutte</button>
+              <button onclick="loadQuotes('nuovo')" class="px-3 py-1.5 rounded-full bg-amber-400 text-xs font-bold">Nuove</button>
+              <button onclick="loadQuotes('accettato')" class="px-3 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-bold">Accettate</button>
+              <button onclick="loadQuotes('spedito')" class="px-3 py-1.5 rounded-full bg-blue-600 text-white text-xs font-bold">Spedite</button>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="loadQuotes()" class="px-3 py-1.5 rounded-xl bg-slate-100 text-xs font-bold"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna</button>
+              <button onclick="adminLogout()" class="px-3 py-1.5 rounded-xl bg-red-50 text-red-700 text-xs font-bold">Esci</button>
+            </div>
+          </div>
+          <div id="quotesList" class="mt-4 grid gap-3 max-h-[60vh] overflow-y-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TELEGRAM SETUP -->
+<div id="tgModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeTelegramSetup()"></div>
+  <div class="absolute inset-0 flex items-center justify-center p-4">
+    <div class="bg-white rounded-[24px] w-full max-w-[640px] shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 bg-[#229ED9] text-white flex items-center justify-between">
+        <div class="font-bold">Configura Telegram condiviso (2 admin)</div>
+        <button onclick="closeTelegramSetup()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-6 space-y-4 text-sm">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+          <div class="font-bold">Passo 1 — Crea il bot</div>
+          <ol class="list-decimal ml-5 mt-2 space-y-1 text-slate-700">
+            <li>Apri Telegram e cerca <b>@BotFather</b></li>
+            <li>Invia <code class="bg-white px-1 border rounded">/newbot</code> → scegli nome (es. Spedizioni USA Italia) e username (es. usa_italia_sped_bot)</li>
+            <li>Copia il <b>token</b> che ti dà (es. <code class="bg-amber-100 px-1 rounded">123456:AAH...</code>)</li>
+          </ol>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+          <div class="font-bold">Passo 2 — Incolla token e riavvia</div>
+          <p class="text-slate-600 mt-1">Apri il file <code class="bg-white px-1 border rounded">.env</code> nella cartella del sito e incolla:</p>
+          <pre class="mt-2 bg-slate-900 text-emerald-300 p-3 rounded-xl text-xs overflow-x-auto">TELEGRAM_BOT_TOKEN=1234567890:AAHxxxx
+TELEGRAM_ADMIN_IDS=</pre>
+          <p class="text-xs text-slate-500 mt-2">Poi riavvia il server (doppio click su <code>avvia-gestionale.bat</code> o <code>npm start</code>). Se sei su Vercel, imposta la variabile su Vercel Dashboard.</p>
+        </div>
+        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+          <div class="font-bold">Passo 3 — Registra i 2 admin</div>
+          <ol class="list-decimal ml-5 mt-2 space-y-1 text-slate-700">
+            <li>Cerca il tuo bot su Telegram (username) → avvia → invia <code class="bg-white px-1 border rounded">/admin</code></li>
+            <li>Riceverai “Registrato come admin”</li>
+            <li><b>Condividi il link del bot al socio</b> → anche lui avvia e fa <code class="bg-white px-1 border rounded">/admin</code></li>
+            <li>Alternative: crea un <b>gruppo Telegram</b> con voi due + bot → nel gruppo fate <code class="bg-white px-1 border rounded">/admin</code> → notifiche nel gruppo</li>
+          </ol>
+          <p class="text-xs text-emerald-700 mt-2 font-semibold">Fatto! Ogni nuovo preventivo arriverà a entrambi con pulsanti Accetta/Rifiuta. Chi clicca notifica l'altro.</p>
+        </div>
+        <button onclick="closeTelegramSetup()" class="w-full py-3 rounded-xl bg-slate-900 text-white font-bold">Ho capito</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let direzione='USA->ITA';
+function setDirezione(d){
+  direzione=d;
+  document.getElementById('fDirezione').value=d;
+  document.getElementById('dirUSAITA').className = d==='USA->ITA' ? 'py-2.5 rounded-xl bg-slate-900 text-white font-bold shadow text-sm' : 'py-2.5 rounded-xl font-bold text-slate-600 text-sm';
+  document.getElementById('dirITAUSA').className = d==='ITA->USA' ? 'py-2.5 rounded-xl bg-slate-900 text-white font-bold shadow text-sm' : 'py-2.5 rounded-xl font-bold text-slate-600 text-sm';
+  calcAll();
+}
+document.getElementById('mobileMenuBtn').onclick=()=> document.getElementById('mobileMenu').classList.toggle('hidden');
+document.getElementById('fDirezione').addEventListener('change', e=> setDirezione(e.target.value));
+
+// calcolo preventivo client side (mirror server)
+function volCalc(l,w,h){ if(!l||!w||!h) return 0; return (Number(l)*Number(w)*Number(h))/5000; }
+function billable(p,l,w,h){ return Math.max(Number(p)||0, volCalc(l,w,h)); }
+function calcPreventivo({direzione,peso,l,w,h,valore,servizio,ass,dogana}){
+  const pesoReal=Math.max(0.1, Number(peso)||0.1);
+  const vol=volCalc(l,w,h);
+  const fatt=billable(pesoReal,l,w,h);
+  const scaglioni=[
+    {fino:0.5, euro:28, min:32},
+    {fino:2, euro:22},
+    {fino:5, euro:15},
+    {fino:10, euro:12.5},
+    {fino:20, euro:10.2},
+    {fino:30, euro:9.1},
+    {fino:70, euro:8},
+    {fino:9999, euro:7.2},
+  ];
+  let sc=scaglioni.find(s=> fatt<=s.fino) || scaglioni[scaglioni.length-1];
+  let costoKg=fatt*sc.euro; if(sc.min && costoKg<sc.min) costoKg=sc.min;
+  let base=costoKg+22;
+  if(direzione==='ITA->USA') base*=1.06;
+  const mult={economy:0.92, priority:1, express:1.42}[servizio]||1;
+  let subtotal=base*mult;
+  let assExtra= ass ? Math.max(8, (Number(valore)||0)*0.02) : 0;
+  let dog= dogana ? 18 : 0;
+  let tot=subtotal+assExtra+dog;
+  tot=Math.round(tot*2)/2;
+  return {vol:Math.round(vol*100)/100, fatt:Math.round(fatt*100)/100, costoKg:Math.round(costoKg*100)/100, subtotal:Math.round(subtotal*100)/100, assExtra:Math.round(assExtra*100)/100, dog, tot, sc, mult};
+}
+function calcAll(){
+  // quick
+  const qPeso=document.getElementById('qPeso').value;
+  const qVal=document.getElementById('qValore').value;
+  const qL=document.getElementById('qL').value;
+  const qW=document.getElementById('qW').value;
+  const qH=document.getElementById('qH').value;
+  const qServ=document.getElementById('qServizio').value;
+  const r=calcPreventivo({direzione, peso:qPeso,l:qL,w:qW,h:qH,valore:qVal,servizio:qServ,ass:false,dogana:true});
+  document.getElementById('quickTotale').textContent='€'+r.tot.toFixed(2);
+  document.getElementById('quickTempi').textContent= qServ==='express'?'2-4gg': qServ==='economy'?'8-12gg':'5-7gg';
+  document.getElementById('quickPesoFatt').textContent=r.fatt+' kg';
+  document.getElementById('quickVol').textContent=r.vol+' kg';
+  document.getElementById('quickDett').textContent=r.sc.euro+'€/kg • base €22 + dogana €18';
+  // live (form)
+  const fPeso=document.getElementById('fPeso')?.value;
+  const fVal=document.getElementById('fValore')?.value;
+  const fL=document.getElementById('fL')?.value;
+  const fW=document.getElementById('fW')?.value;
+  const fH=document.getElementById('fH')?.value;
+  const fServ=document.getElementById('fServizio')?.value;
+  const fAss=document.getElementById('fAssicurazione')?.checked;
+  const fDog=document.getElementById('fDogana')?.checked;
+  const fDir=document.getElementById('fDirezione')?.value||direzione;
+  if(fPeso){
+    const rr=calcPreventivo({direzione:fDir, peso:fPeso,l:fL,w:fW,h:fH,valore:fVal,servizio:fServ,ass:fAss,dogana:fDog});
+    document.getElementById('liveReale').textContent=Number(fPeso).toFixed(1)+' kg';
+    document.getElementById('liveVol').textContent=rr.vol.toFixed(2)+' kg';
+    document.getElementById('liveFatt').textContent=rr.fatt.toFixed(2)+' kg';
+    document.getElementById('liveCostoKg').textContent='€'+rr.costoKg.toFixed(2)+' ('+rr.sc.euro+'€/kg)';
+    document.getElementById('liveSubtot').textContent='€'+rr.subtotal.toFixed(2)+' ×'+rr.mult;
+    document.getElementById('liveAss').textContent='€'+rr.assExtra.toFixed(2);
+    document.getElementById('liveDogana').textContent='€'+rr.dog.toFixed(2);
+    document.getElementById('liveTotale').textContent='€'+rr.tot.toFixed(2);
+    document.getElementById('liveTempi').textContent= fServ==='express'?'⚡ 2-4gg': fServ==='economy'?'🐢 8-12gg':'✈️ 5-7gg';
+    document.getElementById('liveDett').textContent='Scaglione fino a '+rr.sc.fino+'kg • direzione '+fDir;
+    const daziBox=document.getElementById('liveDazi');
+    if(Number(fVal)>150){
+      const stima=Math.round((Number(fVal)*0.04+Number(fVal)*0.22*0.04)*100)/100;
+      daziBox.classList.remove('hidden');
+      daziBox.innerHTML='<b>⚠️ Valore &gt;€150:</b> stima dazi/IVA extra ~€'+stima.toFixed(2)+' non inclusi (dipende da HS code). Te li confermiamo.';
+    } else { daziBox.classList.add('hidden');}
+  }
+}
+['qPeso','qValore','qL','qW','qH','qServizio','fPeso','fValore','fL','fW','fH','fServizio','fDirezione','fAssicurazione','fDogana'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('input', calcAll);
+  if(el) el.addEventListener('change', calcAll);
+});
+calcAll();
+
+function toast(msg, ok=true){
+  const t=document.getElementById('toast');
+  document.getElementById('toastText').textContent=msg;
+  t.classList.remove('hidden');
+  t.style.background = ok ? '#0f172a' : '#dc2626';
+  setTimeout(()=> t.classList.add('hidden'), 3500);
+}
+
+async function submitPreventivo(e){
+  e.preventDefault();
+  const btn=document.getElementById('btnSubmit');
+  const status=document.getElementById('formStatus');
+  const data={
+    direzione: document.getElementById('fDirezione').value,
+    servizio: document.getElementById('fServizio').value,
+    nome: document.getElementById('fNome').value.trim(),
+    cognome: document.getElementById('fCognome').value.trim(),
+    email: document.getElementById('fEmail').value.trim(),
+    telefono: document.getElementById('fTelefono').value.trim(),
+    cittaPartenza: document.getElementById('fCittaPartenza').value.trim(),
+    capPartenza: document.getElementById('fCapPartenza').value.trim(),
+    statoPartenza: document.getElementById('fStatoPartenza').value.trim(),
+    cittaArrivo: document.getElementById('fCittaArrivo').value.trim(),
+    capArrivo: document.getElementById('fCapArrivo').value.trim(),
+    statoArrivo: document.getElementById('fStatoArrivo').value.trim(),
+    peso: document.getElementById('fPeso').value,
+    lunghezza: document.getElementById('fL').value,
+    larghezza: document.getElementById('fW').value,
+    altezza: document.getElementById('fH').value,
+    valore: document.getElementById('fValore').value,
+    contenuto: document.getElementById('fContenuto').value.trim(),
+    assicurazione: document.getElementById('fAssicurazione').checked,
+    doganaInclusa: document.getElementById('fDogana').checked,
+    note: document.getElementById('fNote').value.trim()
+  };
+  btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Invio...';
+  status.className='hidden';
+  try{
+    const r=await fetch('/api/preventivi', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Errore invio');
+    status.className='text-sm px-4 py-3 rounded-xl font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
+    status.innerHTML='✅ <b>Richiesta inviata!</b> Codice: <code class="bg-white px-1 border rounded">'+j.codice+'</code> — Totale stimato €'+j.preventivo.totale.toFixed(2)+' ('+j.preventivo.tempi.label+').<br>Ti rispondiamo su <b>Email/Telegram</b> entro 2h. Salva il codice per tracciare.';
+    status.classList.remove('hidden');
+    toast('Preventivo '+j.codice+' inviato! Ti rispondiamo in 2h');
+    // scroll
+    status.scrollIntoView({behavior:'smooth', block:'center'});
+    // opzionale: apri tracking
+    document.getElementById('trackInput').value=j.codice;
+  }catch(err){
+    status.className='text-sm px-4 py-3 rounded-xl font-semibold bg-red-50 border border-red-200 text-red-800';
+    status.textContent='❌ '+err.message;
+    status.classList.remove('hidden');
+    toast(err.message,false);
+  } finally {
+    btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Invia richiesta — risposta in 2h';
+  }
+}
+
+async function trackCodice(){
+  const code=document.getElementById('trackInput').value.trim();
+  if(!code) return toast('Inserisci un codice', false);
+  const box=document.getElementById('trackResult');
+  box.classList.remove('hidden');
+  box.innerHTML='<div class="text-sm text-slate-500"><i class="fa-solid fa-spinner fa-spin"></i> Cerco '+code+'...</div>';
+  try{
+    const r=await fetch('/api/preventivi/'+encodeURIComponent(code));
+    if(!r.ok){ const j=await r.json(); throw new Error(j.error||'Non trovato'); }
+    const q=await r.json();
+    const p=q.preventivo||{};
+    const statoColor={nuovo:'bg-amber-400 text-slate-900', in_lavorazione:'bg-sky-500 text-white', preventivo_inviato:'bg-blue-600 text-white', accettato:'bg-emerald-500 text-white', spedito:'bg-violet-600 text-white', consegnato:'bg-emerald-700 text-white', rifiutato:'bg-red-500 text-white'}[q.stato]||'bg-slate-200';
+    box.innerHTML=`
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="font-mono font-black text-lg">${q.codice}</div>
+        <span class="px-3 py-1 rounded-full text-xs font-black ${statoColor}">${(q.stato||'').toUpperCase()}</span>
+      </div>
+      <div class="text-sm text-slate-600 mt-1">${q.direzione} • ${q.servizio} • ${q.nome} ${q.cognome||''}</div>
+      <div class="grid sm:grid-cols-3 gap-2 mt-4 text-xs">
+        <div class="bg-white border border-slate-200 rounded-xl p-3"><div class="text-slate-500">Peso fatturabile</div><div class="font-bold text-base">${p.pesoFatturabile||'-'} kg</div><div class="text-slate-500">${p.pesoReale}kg reale • ${p.volumetrico}kg vol</div></div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3"><div class="text-slate-500">Totale stimato</div><div class="font-black text-lg">€${(p.totale||0).toFixed(2)}</div><div class="text-slate-500">${p.tempi?.label||''}</div></div>
+        <div class="bg-slate-900 text-white rounded-xl p-3"><div class="text-slate-400">Tracking</div><div class="font-bold">${q.tracking||'In attesa di conferma'}</div><div class="text-xs text-slate-400 mt-1">Aggiornato: ${q.aggiornatoIl? new Date(q.aggiornatoIl).toLocaleString('it-IT') : new Date(q.creatoIl).toLocaleString('it-IT')}</div></div>
+      </div>
+      ${q.noteInterna? `<div class="mt-3 bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs"><b>Nota admin:</b> ${q.noteInterna}</div>`:''}
+      <div class="mt-4 flex gap-2">
+        <a href="mailto:${q.email}" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold">Contatta cliente</a>
+        <span class="text-xs text-slate-500 self-center">Creato il ${new Date(q.creatoIl).toLocaleString('it-IT')}</span>
+      </div>
+    `;
+  }catch(e){
+    box.innerHTML='<div class="text-sm text-red-600 font-semibold">❌ '+e.message+'</div><div class="text-xs text-slate-500 mt-1">Verifica il codice o richiedi un nuovo preventivo. Codici validi iniziano con PREV- o SHIP-</div>';
+  }
+}
+
+function openTelegram(e){ if(e) e.preventDefault(); document.getElementById('tgModal').classList.remove('hidden'); }
+function closeTelegramSetup(){ document.getElementById('tgModal').classList.add('hidden'); }
+function openTelegramSetup(){ openTelegram(); }
+
+function openAdmin(e){ if(e) e.preventDefault(); document.getElementById('adminModal').classList.remove('hidden'); checkAdminSession(); }
+function closeAdmin(){ document.getElementById('adminModal').classList.add('hidden'); }
+
+async function checkAdminSession(){
+  const token=localStorage.getItem('admin_token');
+  if(token){
+    // prova a caricare
+    document.getElementById('adminLoginBox').classList.add('hidden');
+    document.getElementById('adminPanel').classList.remove('hidden');
+    loadQuotes();
+  } else {
+    document.getElementById('adminLoginBox').classList.remove('hidden');
+    document.getElementById('adminPanel').classList.add('hidden');
+  }
+}
+async function adminLogin(e){
+  e.preventDefault();
+  const pass=document.getElementById('adminPass').value;
+  try{
+    const r=await fetch('/api/admin/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password:pass})});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Login fallito');
+    localStorage.setItem('admin_token', j.token);
+    toast('Accesso admin ok');
+    checkAdminSession();
+  }catch(err){ toast(err.message, false); }
+}
+function adminLogout(){ localStorage.removeItem('admin_token'); checkAdminSession(); toast('Uscito'); }
+async function testTelegram(){
+  const el=document.getElementById('tgTestResult');
+  el.textContent='Verifico...';
+  try{
+    const r=await fetch('/api/telegram/test', {headers:{'Authorization':'Bearer '+(localStorage.getItem('admin_token')||'')}});
+    const j=await r.json();
+    if(j.ok){
+      el.innerHTML='<span class="text-emerald-600 font-bold">✅ Bot @'+j.bot.username+' ok. Admin: '+(j.admins.length||0)+'</span>';
+    } else el.innerHTML='<span class="text-red-600">'+(j.error||'Errore')+'</span>';
+  }catch(e){ el.textContent='Errore: '+e.message; }
+}
+
+async function loadQuotes(filter='tutte'){
+  const box=document.getElementById('quotesList');
+  box.innerHTML='<div class="text-sm text-slate-500"><i class="fa-solid fa-spinner fa-spin"></i> Carico...</div>';
+  try{
+    const token=localStorage.getItem('admin_token')||'';
+    const r=await fetch('/api/preventivi?filter='+filter, {headers:{'Authorization':'Bearer '+token}});
+    if(r.status===401){ adminLogout(); throw new Error('Sessione scaduta, rifai login');}
+    const arr=await r.json();
+    if(!arr.length){ box.innerHTML='<div class="text-center py-10 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl"><div class="text-2xl">📭</div><div class="font-bold mt-2">Nessun preventivo</div><div class="text-xs text-slate-500">'+(filter==='tutte'?'Ancora nessun preventivo ricevuto':'Nessun risultato per '+filter)+'</div></div>'; return; }
+    box.innerHTML = arr.slice().reverse().map(q=>{
+      const p=q.preventivo||{};
+      const statoBadge={
+        nuovo:'bg-amber-400 text-slate-900',
+        in_lavorazione:'bg-sky-100 text-sky-700 border border-sky-200',
+        preventivo_inviato:'bg-blue-600 text-white',
+        accettato:'bg-emerald-500 text-white',
+        spedito:'bg-violet-600 text-white',
+        consegnato:'bg-emerald-700 text-white',
+        rifiutato:'bg-slate-200 text-slate-600',
+        annullato:'bg-red-100 text-red-700'
+      }[q.stato]||'bg-slate-100';
+      return `<div class="bg-white border border-slate-200 rounded-2xl p-4">
+        <div class="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <div class="font-mono font-black">${q.codice} <span class="ml-2 text-xs px-2 py-0.5 rounded-full ${statoBadge}">${(q.stato||'nuovo').toUpperCase()}</span></div>
+            <div class="text-sm font-bold mt-1">${q.direzione} • ${q.servizio} • €${(p.totale||0).toFixed(2)} • ${p.tempi?.label||''}</div>
+            <div class="text-xs text-slate-600 mt-1">👤 ${q.nome} ${q.cognome||''} • 📧 ${q.email} • 📱 ${q.telefono||'-'}</div>
+            <div class="text-xs text-slate-600">📍 ${q.cittaPartenza||''} → ${q.cittaArrivo||''} • 📦 ${q.peso}kg (fatt ${p.pesoFatturabile||'-'}kg) • ${q.lunghezza||'-'}×${q.larghezza||'-'}×${q.altezza||'-'} • €${q.valore||0} • ${q.contenuto||''}</div>
+            ${q.note? `<div class="text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 mt-2">🗒 ${q.note}</div>`:''}
+            <div class="text-[11px] text-slate-400 mt-1">Creato ${new Date(q.creatoIl).toLocaleString('it-IT')} ${q.aggiornatoIl? '• agg. '+new Date(q.aggiornatoIl).toLocaleString('it-IT')+(q.aggiornatoDa?' da '+q.aggiornatoDa:''):''}</div>
+          </div>
+          <div class="flex flex-col gap-1 min-w-[140px]">
+            <select onchange="updateStato('${q.codice}', this.value)" class="px-2 py-1.5 rounded-xl border-2 border-slate-200 text-xs font-bold bg-white">
+              <option value="">Cambia stato...</option>
+              <option value="nuovo">Nuovo</option>
+              <option value="in_lavorazione">In lavorazione</option>
+              <option value="preventivo_inviato">Preventivo inviato</option>
+              <option value="accettato">Accettato</option>
+              <option value="spedito">Spedito</option>
+              <option value="consegnato">Consegnato</option>
+              <option value="rifiutato">Rifiutato</option>
+            </select>
+            <input id="price-${q.codice}" placeholder="Prezzo finale €" type="number" step="0.5" class="px-2 py-1.5 rounded-xl border border-slate-200 text-xs">
+            <button onclick="sendPrice('${q.codice}')" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold">Invia prezzo</button>
+            <button onclick="contactClient('${q.codice}')" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold"><i class="fa-solid fa-envelope mr-1"></i> Email cliente</button>
+            <button onclick="deleteQuote('${q.codice}')" class="px-3 py-1 rounded-xl bg-red-50 text-red-600 text-[11px] font-bold">Elimina</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){ box.innerHTML='<div class="text-red-600 text-sm font-bold">❌ '+e.message+'</div>'; }
+}
+async function updateStato(codice, stato){
+  if(!stato) return;
+  try{
+    const r=await fetch('/api/preventivi/'+codice+'/stato', {method:'PATCH', headers:{'Content-Type':'application/json','Authorization':'Bearer '+(localStorage.getItem('admin_token')||'')}, body: JSON.stringify({stato})});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Errore');
+    toast('Stato '+codice+' → '+stato);
+    loadQuotes();
+  }catch(e){ toast(e.message,false); }
+}
+async function sendPrice(codice){
+  const val=document.getElementById('price-'+codice).value;
+  if(!val) return toast('Inserisci prezzo', false);
+  try{
+    const r=await fetch('/api/preventivi/'+codice+'/prezzo', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+(localStorage.getItem('admin_token')||'')}, body: JSON.stringify({prezzoFinale: Number(val)})});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Errore');
+    toast('Prezzo €'+val+' inviato a '+codice+' (anche via Telegram)');
+    loadQuotes();
+  }catch(e){ toast(e.message,false); }
+}
+function contactClient(codice){
+  // trova email nel DOM? facciamo fetch
+  fetch('/api/preventivi/'+codice).then(r=>r.json()).then(q=>{
+    const subject=encodeURIComponent('Preventivo '+q.codice+' - Spedizione '+q.direzione);
+    const body=encodeURIComponent('Ciao '+q.nome+',\n\nriguardo al tuo preventivo '+q.codice+' ('+q.direzione+', '+q.peso+'kg, totale stimato €'+(q.preventivo?.totale||'')+') ...\n\n');
+    window.location.href='mailto:'+q.email+'?subject='+subject+'&body='+body;
+  });
+}
+async function deleteQuote(codice){
+  if(!confirm('Eliminare '+codice+'?')) return;
+  try{
+    const r=await fetch('/api/preventivi/'+codice, {method:'DELETE', headers:{'Authorization':'Bearer '+(localStorage.getItem('admin_token')||'')}});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Errore');
+    toast('Eliminato '+codice);
+    loadQuotes();
+  }catch(e){ toast(e.message,false); }
+}
+</script>
+</body>
+</html>

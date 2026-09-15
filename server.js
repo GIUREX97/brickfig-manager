@@ -5,6 +5,8 @@ import compression from 'compression';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as cheerio from 'cheerio';
+import { calcolaPreventivo, generaCodicePreventivo } from './spedizioni-logic.js';
+import { initTelegramBot, notifyNewQuote, sendToAllAdmins, testBot, getAdminIds } from './telegram-bot.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -935,20 +937,200 @@ app.get('/api/debug-files', (req,res)=>{
     res.json({dirname:__dirname, hasOutput, files, size: hasOutput? fs.statSync(path.join(__dirname,'output.css')).size:0});
   }catch(e){ res.json({error:e.message}); }
 });
-// Fallback per SPA
+
+// === SPEDIZIONI USA-ITALIA - API PREVENTIVI & TELEGRAM ===
+const QUOTES_PATH = path.join(__dirname, 'data', 'quotes.json');
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+function readQuotes(){
+  try{
+    if(!fs.existsSync(QUOTES_PATH)) return [];
+    return JSON.parse(fs.readFileSync(QUOTES_PATH,'utf8')||'[]');
+  }catch(e){ return []; }
+}
+function writeQuotes(arr){
+  try{ fs.mkdirSync(path.dirname(QUOTES_PATH),{recursive:true}); fs.writeFileSync(QUOTES_PATH, JSON.stringify(arr,null,2)); }catch(e){ console.log('writeQuotes error',e.message); }
+}
+function adminAuth(req,res,next){
+  if(!ADMIN_PASSWORD) return next(); // no password = open
+  const h = req.headers['authorization']||'';
+  const token = h.startsWith('Bearer ') ? h.slice(7) : '';
+  // token è base64 di password o password stessa per semplicità
+  if(token === ADMIN_PASSWORD || token === Buffer.from(ADMIN_PASSWORD).toString('base64')) return next();
+  return res.status(401).json({error:'Non autorizzato - password admin errata'});
+}
+app.post('/api/admin/login', (req,res)=>{
+  const {password} = req.body||{};
+  if(!ADMIN_PASSWORD){
+    // senza password, login sempre ok, token= 'open'
+    return res.json({ok:true, token:'open'});
+  }
+  if(password === ADMIN_PASSWORD) return res.json({ok:true, token: Buffer.from(ADMIN_PASSWORD).toString('base64')});
+  return res.status(401).json({error:'Password errata'});
+});
+app.post('/api/preventivo-calcolo', (req,res)=>{
+  try{
+    const {direzione='USA->ITA', peso, lunghezza, larghezza, altezza, valore=0, servizio='priority', assicurazione=false, doganaInclusa=true} = req.body||{};
+    const preventivo = calcolaPreventivo({direzione, peso, lunghezza, larghezza, altezza, valore, servizio, assicurazione, doganaInclusa});
+    res.json(preventivo);
+  }catch(e){ res.status(400).json({error:e.message}); }
+});
+app.post('/api/preventivi', async (req,res)=>{
+  try{
+    const {direzione, servizio, nome, cognome, email, telefono, cittaPartenza, capPartenza, statoPartenza, cittaArrivo, capArrivo, statoArrivo, peso, lunghezza, larghezza, altezza, valore, contenuto, assicurazione, doganaInclusa, note} = req.body||{};
+    if(!nome || !email || !peso || !valore || !direzione) return res.status(400).json({error:'Campi obbligatori mancanti: nome, email, peso, valore, direzione'});
+    if(!email.includes('@')) return res.status(400).json({error:'Email non valida'});
+    const preventivo = calcolaPreventivo({direzione, peso, lunghezza, larghezza, altezza, valore, servizio: servizio||'priority', assicurazione: !!assicurazione, doganaInclusa: doganaInclusa!==false});
+    const codice = generaCodicePreventivo();
+    const quotes = readQuotes();
+    const entry = {
+      codice,
+      direzione, servizio: servizio||'priority',
+      nome: String(nome).trim(), cognome: String(cognome||'').trim(),
+      email: String(email).trim().toLowerCase(), telefono: String(telefono||'').trim(),
+      cittaPartenza: String(cittaPartenza||'').trim(), capPartenza: String(capPartenza||'').trim(), statoPartenza: String(statoPartenza||'').trim(),
+      cittaArrivo: String(cittaArrivo||'').trim(), capArrivo: String(capArrivo||'').trim(), statoArrivo: String(statoArrivo||'').trim(),
+      peso: Number(peso), lunghezza: lunghezza? Number(lunghezza): null, larghezza: larghezza? Number(larghezza): null, altezza: altezza? Number(altezza): null,
+      valore: Number(valore), contenuto: String(contenuto||'').trim(),
+      assicurazione: !!assicurazione, doganaInclusa: doganaInclusa!==false,
+      note: String(note||'').trim(),
+      preventivo,
+      stato: 'nuovo',
+      creatoIl: new Date().toISOString(),
+      aggiornatoIl: null,
+      prezzoFinale: null,
+      tracking: null,
+      noteInterna: null
+    };
+    quotes.push(entry);
+    writeQuotes(quotes);
+    // Notifica Telegram async (non blocca risposta)
+    notifyNewQuote(entry, preventivo).catch(e=> console.log('notify error',e.message));
+    // Email opzionale a admin (se configurata)
+    try{
+      const to = process.env.ADMIN_EMAIL;
+      const pass = (process.env.GMAIL_APP_PASS||'').replace(/\s/g,'');
+      const from = process.env.GMAIL_USER;
+      if(to && pass && from){
+        const nodemailer = (await import('nodemailer')).default;
+        const transporter = nodemailer.createTransport({service:'gmail', auth:{user:from, pass}});
+        const html = `<h2>📦 Nuovo preventivo ${codice}</h2><p><b>${entry.nome} ${entry.cognome}</b> • ${entry.email} • ${entry.telefono}</p><p><b>Direzione:</b> ${direzione} • <b>Servizio:</b> ${servizio} • <b>Peso:</b> ${peso}kg (fatt ${preventivo.pesoFatturabile}kg)</p><p><b>Da:</b> ${cittaPartenza} ${capPartenza} → <b>A:</b> ${cittaArrivo} ${capArrivo}</p><p><b>Valore:</b> €${valore} • <b>Contenuto:</b> ${contenuto}</p><p><b>Totale stimato: €${preventivo.totale.toFixed(2)}</b> (${preventivo.tempi.label})</p><p>Note: ${note||'-'}</p><p><a href="https://t.me/">Apri Telegram Bot</a> o gestisci da <a href="http://localhost:${PORT}/#admin">Area Admin</a></p>`;
+        transporter.sendMail({from:`"Spedizioni USA-IT" <${from}>`, to, subject:`📦 Nuovo preventivo ${codice} - ${entry.nome} - ${direzione}`, html}).catch(()=>{});
+      }
+    }catch(e){}
+    res.json({ok:true, codice, preventivo, stato:'nuovo'});
+  }catch(e){ res.status(500).json({error:e.message}); }
+});
+app.get('/api/preventivi', adminAuth, (req,res)=>{
+  try{
+    const filter = (req.query.filter||'tutte').toString();
+    let quotes = readQuotes();
+    if(filter !== 'tutte') quotes = quotes.filter(q=> q.stato===filter);
+    res.json(quotes);
+  }catch(e){ res.status(500).json({error:e.message}); }
+});
+app.get('/api/preventivi/:codice', (req,res)=>{
+  try{
+    const codice = req.params.codice.toUpperCase();
+    const quotes = readQuotes();
+    const q = quotes.find(x=> x.codice.toUpperCase()===codice);
+    if(!q) return res.status(404).json({error:'Preventivo non trovato'});
+    // se non è admin, oscura email/telefono parzialmente? Per ora lascia ma tracking pubblico.
+    res.json(q);
+  }catch(e){ res.status(500).json({error:e.message}); }
+});
+app.patch('/api/preventivi/:codice/stato', adminAuth, async (req,res)=>{
+  try{
+    const codice = req.params.codice.toUpperCase();
+    const {stato, noteInterna, tracking} = req.body||{};
+    const allowed = ['nuovo','in_lavorazione','preventivo_inviato','accettato','spedito','consegnato','rifiutato','annullato'];
+    if(!allowed.includes(stato)) return res.status(400).json({error:'Stato non valido'});
+    const quotes = readQuotes();
+    const idx = quotes.findIndex(x=> x.codice.toUpperCase()===codice);
+    if(idx===-1) return res.status(404).json({error:'Non trovato'});
+    quotes[idx].stato = stato;
+    if(noteInterna!==undefined) quotes[idx].noteInterna = String(noteInterna);
+    if(tracking!==undefined) quotes[idx].tracking = String(tracking);
+    quotes[idx].aggiornatoIl = new Date().toISOString();
+    writeQuotes(quotes);
+    // Notifica telegram
+    try{ await sendToAllAdmins(`🔄 <b>${codice}</b> → <b>${stato.toUpperCase()}</b>\nAggiornato da admin web`); }catch(e){}
+    res.json({ok:true, quote: quotes[idx]});
+  }catch(e){ res.status(500).json({error:e.message}); }
+});
+app.post('/api/preventivi/:codice/prezzo', adminAuth, async (req,res)=>{
+  try{
+    const codice = req.params.codice.toUpperCase();
+    const {prezzoFinale, nota} = req.body||{};
+    if(!prezzoFinale || isNaN(prezzoFinale)) return res.status(400).json({error:'Prezzo finale mancante'});
+    const quotes = readQuotes();
+    const idx = quotes.findIndex(x=> x.codice.toUpperCase()===codice);
+    if(idx===-1) return res.status(404).json({error:'Non trovato'});
+    quotes[idx].prezzoFinale = Number(prezzoFinale);
+    quotes[idx].stato = 'preventivo_inviato';
+    quotes[idx].noteInterna = nota? String(nota) : `Prezzo finale confermato: €${Number(prezzoFinale).toFixed(2)}`;
+    quotes[idx].aggiornatoIl = new Date().toISOString();
+    writeQuotes(quotes);
+    const q = quotes[idx];
+    // Notifica cliente via email se possibile
+    try{
+      const to = q.email;
+      const from = process.env.GMAIL_USER;
+      const pass = (process.env.GMAIL_APP_PASS||'').replace(/\s/g,'');
+      if(to && from && pass){
+        const nodemailer = (await import('nodemailer')).default;
+        const transporter = nodemailer.createTransport({service:'gmail', auth:{user:from, pass}});
+        await transporter.sendMail({from:`"Spedizioni USA-IT" <${from}>`, to, subject:`Preventivo ${codice} - Prezzo confermato €${Number(prezzoFinale).toFixed(2)}`, html:`<p>Ciao ${q.nome},</p><p>Il prezzo finale per il tuo preventivo <b>${codice}</b> (${q.direzione}) è <b>€${Number(prezzoFinale).toFixed(2)}</b>.</p><p>${nota||''}</p><p>Rispondi a questa email per confermare.</p>`});
+      }
+    }catch(e){ console.log('email prezzo error',e.message); }
+    try{ await sendToAllAdmins(`💶 <b>Prezzo finale</b> per <code>${codice}</code>: <b>€${Number(prezzoFinale).toFixed(2)}</b>\nInviato a ${q.email}`); }catch(e){}
+    res.json({ok:true, quote: q});
+  }catch(e){ res.status(500).json({error:e.message}); }
+});
+app.delete('/api/preventivi/:codice', adminAuth, (req,res)=>{
+  try{
+    const codice = req.params.codice.toUpperCase();
+    let quotes = readQuotes();
+    const before = quotes.length;
+    quotes = quotes.filter(x=> x.codice.toUpperCase()!==codice);
+    if(quotes.length===before) return res.status(404).json({error:'Non trovato'});
+    writeQuotes(quotes);
+    res.json({ok:true});
+  }catch(e){ res.status(500).json({error:e.message}); }
+});
+app.get('/api/telegram/test', adminAuth, async (req,res)=>{
+  const t = await testBot();
+  res.json(t);
+});
+app.get('/api/telegram/admins', adminAuth, (req,res)=>{
+  res.json({admins: getAdminIds()});
+});
+// Serve pagine spedizioni (nuovo sito separato - non tocca il gestionale LEGO)
+app.get('/spedizioni', (req,res)=> res.sendFile(path.join(__dirname,'spedizioni.html')));
+app.get('/spedizioni.html', (req,res)=> res.sendFile(path.join(__dirname,'spedizioni.html')));
+app.get('/preventivo', (req,res)=> res.sendFile(path.join(__dirname,'spedizioni.html')));
+app.get('/usa-italia', (req,res)=> res.sendFile(path.join(__dirname,'spedizioni.html')));
+app.get('/brickfig.html', (req,res)=> res.sendFile(path.join(__dirname,'brickfig.html')));
+app.get('/brickfig', (req,res)=> res.sendFile(path.join(__dirname,'brickfig.html')));
+app.get('/gestionale', (req,res)=> res.sendFile(path.join(__dirname,'brickfig.html')));
+// Fallback per SPA - RIPRISTINATO: gestionale LEGO originale su /
 app.get('*', (req, res) => {
+  if(req.path.startsWith('/api/')) return res.status(404).json({error:'API non trovata'});
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Avvio solo in locale - su Vercel esportiamo handler serverless
 if (!process.env.VERCEL) {
   app.listen(PORT, () => {
-    console.log(`\n🧱 BrickFig Manager Server avviato!`);
-    console.log(`📦 Gestionale: http://localhost:${PORT}`);
+    console.log(`\n🧱 BrickFig Manager Server avviato! (ripristinato originale)`);
+    console.log(`📦 Gestionale LEGO: http://localhost:${PORT}  (index.html originale)`);
+    console.log(`🚀 Nuovo sito spedizioni USA-Italia: http://localhost:${PORT}/spedizioni  (separato)`);
+    console.log(`🔌 API Preventivi: http://localhost:${PORT}/api/preventivi`);
     console.log(`🔌 API BrickLink: http://localhost:${PORT}/api/bricklink?code=col001`);
-    console.log(`   Esempi: /api/bricklink?code=sw1159  /api/bricklink?code=3001&type=P`);
     console.log(`\nPremi CTRL+C per fermare\n`);
+    initTelegramBot();
   });
+} else {
+  initTelegramBot();
 }
 
 export default app;
