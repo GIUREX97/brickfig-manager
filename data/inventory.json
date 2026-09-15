@@ -9958,26 +9958,6 @@
     "categoriaMacro": "Collezionabili"
   },
   {
-    "id": "atkt1yj",
-    "codice": "3001",
-    "nome": "Brick 2 x 4",
-    "categoria": "Brick",
-    "tipo": "Parte Sfusa",
-    "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/0/3001.png",
-    "prezzoAvgUsato": 0.11,
-    "prezzoVendita": 0.25,
-    "qta": 50,
-    "stato": "Disponibile",
-    "updated": 1789463212282,
-    "created": 1789463212282,
-    "variante": "",
-    "note": "",
-    "coloreId": "0",
-    "fotoExtra": [],
-    "categoriaMacro": "Brick"
-  },
-  {
     "id": "8gc18q2",
     "codice": "sw1159",
     "nome": "Fennec Shand - Helmet",
