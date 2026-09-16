@@ -1,5 +1,53 @@
 [
   {
+    "id": "glg3lbw",
+    "codice": "59",
+    "codiceBrickLink": "59",
+    "nome": "Minifigure, Weapon Sword, Greatsword Round",
+    "categoria": "Minifigure, Weapon",
+    "categoriaMacro": "Minifigure, Weapon",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/21/59.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/59.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/21/59.png"
+      },
+      {
+        "colorId": "21",
+        "colorName": "Chrome Gold",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/21/59.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/21/59.png"
+      },
+      {
+        "colorId": "22",
+        "colorName": "Chrome Silver",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/22/59.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/22/59.png"
+      }
+    ],
+    "prezzoAvgUsato": 3.3,
+    "prezzoVendita": 1,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 5.32,
+      "soldUsed": 3.3,
+      "currentNew": 10.7,
+      "currentUsed": 4.78,
+      "listinoUsato": 3.3
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789576097055,
+    "created": 1789576097055
+  },
+  {
     "id": "3slqm4n",
     "codice": "sw0711",
     "codiceBrickLink": "sw0711",
