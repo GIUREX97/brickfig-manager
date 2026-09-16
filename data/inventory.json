@@ -8,7 +8,7 @@
     "categoriaMacro": "Plate",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/69/91405.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/105/91405.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -216,21 +216,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/3/91405.png"
       }
     ],
-    "prezzoAvgUsato": 2.1,
+    "prezzoAvgUsato": 2.46,
     "prezzoVendita": 1,
-    "variante": "(Not Applicable)",
+    "variante": "Bright Light Blue",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "105",
     "prezziDettaglio": {
-      "soldNew": 2.86,
-      "soldUsed": 2.1,
-      "currentNew": 3.37,
-      "currentUsed": 2.52,
-      "listinoUsato": 2.1
+      "soldNew": 4.09,
+      "soldUsed": 2.46,
+      "currentNew": 4.58,
+      "currentUsed": 3.04,
+      "listinoUsato": 2.46
     },
     "qta": 10,
     "stato": "Prenotato",
-    "updated": 1789576503672,
+    "updated": 1789576544474,
     "created": 1789576503672
   },
   {
