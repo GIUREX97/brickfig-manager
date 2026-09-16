@@ -242,7 +242,7 @@
     "categoriaMacro": "Plate",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/69/91405.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/89/91405.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -450,21 +450,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/3/91405.png"
       }
     ],
-    "prezzoAvgUsato": 2.1,
+    "prezzoAvgUsato": 1.69,
     "prezzoVendita": 1,
-    "variante": "(Not Applicable)",
+    "variante": "Dark Purple",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "89",
     "prezziDettaglio": {
-      "soldNew": 2.86,
-      "soldUsed": 2.1,
-      "currentNew": 3.37,
-      "currentUsed": 2.52,
-      "listinoUsato": 2.1
+      "soldNew": 2.65,
+      "soldUsed": 1.69,
+      "currentNew": 4.41,
+      "currentUsed": 1.98,
+      "listinoUsato": 1.69
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789576632162,
+    "updated": 1789576651492,
     "created": 1789576632162
   },
   {
