@@ -1144,33 +1144,19 @@
     "nome": "Hockey Player, Series 4 (Minifigure Only without Stand and Accessories)",
     "categoria": "Collectible Minifigures > Series 4 Minifigures",
     "categoriaMacro": "Collezionabili",
-    "tipo": "Minifigure",
     "tipoCode": "M",
     "foto": "https://img.bricklink.com/ItemImage/MN/0/col056.png",
     "fotoExtra": [],
-    "fotoVarianti": [
-      {
-        "colorId": "0",
-        "colorName": "Multi",
-        "thumb": "https://img.bricklink.com/ItemImage/MT/0/col056.t1.png",
-        "image": "https://img.bricklink.com/ItemImage/MN/0/col056.png"
-      }
-    ],
+    "fotoVarianti": [],
     "prezzoAvgUsato": 5.85,
     "prezzoVendita": 5.49,
     "variante": "Col056 ? col056",
     "note": "",
     "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": 11.05,
-      "soldUsed": 5.85,
-      "currentNew": 15.14,
-      "currentUsed": 7.02,
-      "listinoUsato": 5.85
-    },
-    "qta": 2,
-    "stato": "Venduto",
-    "updated": 1789581728177,
+    "prezziDettaglio": null,
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1789581733744,
     "created": 1789333607061
   },
   {
