@@ -32,9 +32,9 @@
     ],
     "prezzoAvgUsato": 3.3,
     "prezzoVendita": 1,
-    "variante": "(Not Applicable)",
+    "variante": "Chrome Gold",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "21",
     "prezziDettaglio": {
       "soldNew": 5.32,
       "soldUsed": 3.3,
@@ -44,7 +44,7 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1789576097055,
+    "updated": 1789576103585,
     "created": 1789576097055
   },
   {
