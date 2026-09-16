@@ -8,7 +8,7 @@
     "categoriaMacro": "Plate",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/86/91405.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/69/91405.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -216,21 +216,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/3/91405.png"
       }
     ],
-    "prezzoAvgUsato": 1.57,
+    "prezzoAvgUsato": 2.1,
     "prezzoVendita": 1,
-    "variante": "Light Bluish Gray",
+    "variante": "Dark Tan",
     "note": "",
-    "coloreId": "86",
+    "coloreId": "69",
     "prezziDettaglio": {
-      "soldNew": 2.07,
-      "soldUsed": 1.57,
-      "currentNew": 2.8,
-      "currentUsed": 1.83,
-      "listinoUsato": 1.57
+      "soldNew": 2.86,
+      "soldUsed": 2.1,
+      "currentNew": 3.37,
+      "currentUsed": 2.52,
+      "listinoUsato": 2.1
     },
     "qta": 10,
     "stato": "Prenotato",
-    "updated": 1789576548067,
+    "updated": 1789576556708,
     "created": 1789576503672
   },
   {
