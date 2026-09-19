@@ -9597,8 +9597,8 @@
     "coloreId": "0",
     "prezziDettaglio": null,
     "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1789582435703,
+    "stato": "Venduto",
+    "updated": 1789852171742,
     "created": 1789338328354
   },
   {
@@ -9971,7 +9971,12 @@
     "qta": 2,
     "stato": "Disponibile",
     "updated": 1789847047059,
-    "created": 1789847047059
+    "created": 1789847047059,
+    "variante": "",
+    "note": "",
+    "coloreId": "0",
+    "fotoExtra": [],
+    "categoriaMacro": "Collezionabili"
   },
   {
     "id": "g703rko",
@@ -9986,6 +9991,11 @@
     "qta": 1,
     "stato": "Prenotato",
     "updated": 1789847047059,
-    "created": 1789847047059
+    "created": 1789847047059,
+    "variante": "",
+    "note": "",
+    "coloreId": "0",
+    "fotoExtra": [],
+    "categoriaMacro": "Star Wars"
   }
 ]
