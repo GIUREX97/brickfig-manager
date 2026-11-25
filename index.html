@@ -104,13 +104,6 @@ setTimeout(function(){
       <span class="text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold"><i class="fa-solid fa-bolt mr-1"></i>Online</span>
     </div>
     <div class="ml-auto flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center sm:justify-end mt-1 sm:mt-0">
-      <!-- Social header - visibile anche online -->
-      <div id="socialHeader" class="flex items-center gap-1 bg-zinc-50 border border-zinc-200 rounded-xl p-1">
-        <a id="socialFb" href="https://www.facebook.com/" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-[#1877F2] text-white flex items-center justify-center hover:brightness-110 hover:scale-105 transition" title="Facebook"><i class="fa-brands fa-facebook-f text-xs"></i></a>
-        <a id="socialVinted" href="https://www.vinted.it/" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-[#007782] text-white flex items-center justify-center hover:brightness-110 hover:scale-105 transition" title="Vinted"><span class="text-[10px] font-black tracking-tighter">V</span></a>
-        <a id="socialEbay" href="https://www.ebay.it/" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-[#0064D2] text-white flex items-center justify-center hover:brightness-110 hover:scale-105 transition" title="eBay"><i class="fa-brands fa-ebay text-xs"></i></a>
-        <button id="socialEditBtn" onclick="editSocialLinks()" class="hidden sm:flex w-8 h-8 rounded-lg bg-zinc-900 text-white items-center justify-center hover:bg-black admin-only-local" title="Modifica link social"><i class="fa-solid fa-pen text-[10px]"></i></button>
-      </div>
       <button onclick="openCart()" class="relative inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-white text-xs sm:text-sm font-bold shadow"><i class="fa-solid fa-cart-shopping"></i> <span class="hidden sm:inline">Carrello</span><span class="sm:hidden">Cart</span> <span id="cartCount" class="bg-lego-yellow text-zinc-900 text-xs font-bold px-1.5 py-0.5 rounded-full hidden">0</span></button>
       <button onclick="exportData()" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold admin-only-local"><i class="fa-solid fa-download"></i> Backup</button>
       <label class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-sm font-semibold cursor-pointer admin-only-local"><i class="fa-solid fa-upload"></i> Ripristina<input type="file" accept=".json" class="hidden" onchange="importData(event)"></label>
@@ -125,22 +118,6 @@ setTimeout(function(){
   <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm"><div class="text-[11px] font-bold tracking-widest text-amber-600 uppercase flex items-center gap-1"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>Prenotate</div><div class="text-2xl font-display font-bold mt-1 text-amber-600" id="statPren">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statPrenVal">� 0,00</div></div>
   <div class="bg-white rounded-2xl p-4 border border-zinc-200 shadow-sm vendute-only-local"><div class="text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Vendute</div><div class="text-2xl font-display font-bold mt-1 text-lego-red" id="statVend">0</div><div class="text-xs text-zinc-500 avg-only-local" id="statVendVal">� 0,00</div></div>
   <div class="bg-lego-yellow rounded-2xl p-4 border border-amber-200 shadow-sm col-span-2 lg:col-span-1 avg-only-local"><div class="text-[11px] font-bold tracking-widest text-zinc-700 uppercase">Valore Vendita</div><div class="text-2xl font-display font-bold mt-1" id="statValore">� 0,00</div><div class="text-xs text-zinc-700" id="statValoreAvg">AVG Usato � 0,00</div></div>
-</div>
-
-<div class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4 bg-white rounded-2xl border border-zinc-200 p-2.5 sm:p-3 flex flex-wrap gap-2 sm:gap-3 items-center shadow-sm">
-  <div class="relative flex-1 min-w-[140px] sm:min-w-[200px] w-full sm:w-auto order-1">
-    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm"></i>
-    <input id="searchInput" oninput="debouncedRender()" placeholder="Cerca codice, nome..." class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-lego-yellow">
-  </div>
-  <select id="filterStato" onchange="resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-2"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
-  <select id="filterTipo" onchange="resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-3"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
-  <select id="filterCategoria" onchange="resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none min-w-[130px] sm:min-w-[160px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-4"><option value="">Tutte le categorie</option></select>
-  <select id="sortBy" onchange="saveSortPref();resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm order-5"><option value="categoria-codice">Categoria → Codice</option><option value="recent">Pi� recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ?</option></select>
-  <div class="flex items-center gap-1 order-6"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="hidden sm:flex w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
-  <button onclick="updateAllPrices()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local order-7"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
-  <button id="btnPhotoWizard" onclick="openPhotoWizard()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold order-7"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
-  <button onclick="document.getElementById('bulkPhotoInput').click()" class="hidden px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-900 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Massivo</button>
-  <input type="file" id="bulkPhotoInput" accept="image/*" multiple class="hidden" onchange="handleBulkUpload(event)">
 </div>
 
 <div id="quickAddBand" class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4">
@@ -205,6 +182,22 @@ setTimeout(function(){
       <span>Puoi anche scrivere <code class="bg-zinc-100 px-1 rounded border font-mono">SFUSO-QUALSIASI-NOME</code> per creare al volo</span>
     </div>
   </div>
+</div>
+
+<div id="searchBar" class="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 mt-4 bg-white rounded-2xl border border-zinc-200 p-2.5 sm:p-3 flex flex-wrap gap-2 sm:gap-3 items-center shadow-sm">
+  <div class="relative flex-1 min-w-[140px] sm:min-w-[200px] w-full sm:w-auto order-1">
+    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm"></i>
+    <input id="searchInput" oninput="debouncedRender()" placeholder="Cerca codice, nome..." class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-lego-yellow">
+  </div>
+  <select id="filterStato" onchange="resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-2"><option value="">Tutti gli stati</option><option value="Disponibile">Disponibile</option><option value="Prenotato">Prenotato</option><option value="Venduto">Venduto</option></select>
+  <select id="filterTipo" onchange="resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none min-w-[110px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-3"><option value="">Tutti i tipi</option><option value="Minifigure">Minifigure</option><option value="Parte Sfusa">Parte Sfusa</option></select>
+  <select id="filterCategoria" onchange="resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none min-w-[130px] sm:min-w-[160px] px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm font-semibold order-4"><option value="">Tutte le categorie</option></select>
+  <select id="sortBy" onchange="saveSortPref();resetPaginationIfNeeded('');debouncedRender()" class="flex-1 sm:flex-none px-2.5 sm:px-3 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs sm:text-sm order-5"><option value="categoria-codice">Categoria → Codice</option><option value="recent">Pi� recenti</option><option value="codice">Codice</option><option value="categoria">Categoria</option><option value="nome">Nome</option><option value="prezzo-desc">Valore ?</option></select>
+  <div class="flex items-center gap-1 order-6"><button onclick="setView('grid')" id="btnGrid" class="w-9 h-9 rounded-xl bg-zinc-900 text-white flex items-center justify-center"><i class="fa-solid fa-grip"></i></button><button onclick="setView('table')" id="btnTable" class="hidden sm:flex w-9 h-9 rounded-xl bg-zinc-100 text-zinc-600 items-center justify-center"><i class="fa-solid fa-table"></i></button></div>
+  <button onclick="updateAllPrices()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-lego-blue hover:bg-blue-800 text-white text-sm font-semibold avg-only-local order-7"><i class="fa-solid fa-rotate mr-1"></i> Aggiorna AVG</button>
+  <button id="btnPhotoWizard" onclick="openPhotoWizard()" class="hidden sm:inline-flex px-3 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-sm font-semibold order-7"><i class="fa-solid fa-images mr-1"></i> Foto a step</button>
+  <button onclick="document.getElementById('bulkPhotoInput').click()" class="hidden px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-900 text-sm font-bold"><i class="fa-solid fa-upload mr-1"></i> Massivo</button>
+  <input type="file" id="bulkPhotoInput" accept="image/*" multiple class="hidden" onchange="handleBulkUpload(event)">
 </div>
 <datalist id="sfusoList">
   <option value="SFUSO-MISTO"></option>
@@ -491,11 +484,18 @@ setTimeout(function(){
           </div>
         </div>
         <div class="w-full bg-zinc-100 rounded-full h-2 overflow-hidden"><div id="wizardProgress" class="h-2 bg-emerald-500 transition-all" style="width:10%"></div></div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-bold tracking-widest uppercase text-zinc-500">Copertina BrickLink + le tue foto reali</span>
+            <span id="wizardFotoCount" class="text-[10px] font-bold text-zinc-500">0/5</span>
+          </div>
+          <div id="wizardPhotoStrip" class="flex gap-2 overflow-x-auto pb-1"></div>
+        </div>
         <div class="flex gap-2">
           <button onclick="wizardPrev()" id="wizardPrevBtn" class="flex-1 py-3 rounded-xl bg-zinc-100 font-bold text-sm">? Precedente</button>
           <button onclick="wizardNext()" id="wizardNextBtn" class="flex-1 py-3 rounded-xl bg-zinc-900 text-white font-bold text-sm">Successivo ?</button>
         </div>
-        <p class="text-[11px] text-center text-zinc-500">Le foto restano salvate anche se chiudi � puoi riprendere dopo</p>
+        <p class="text-[11px] text-center text-zinc-500">Le foto vengono salvate su disco: restano anche se chiudi e riapri il gestionale</p>
       </div>
     </div>
   </div>
@@ -653,14 +653,10 @@ async function syncFromCloud(){
             localMap.set(f.id,f);
           } else {
             const local = localMap.get(f.id);
-            const remoteFoto = Array.isArray(f.fotoExtra)? f.fotoExtra.length : 0;
-            const localFoto = Array.isArray(local.fotoExtra)? local.fotoExtra.length : 0;
-            // Se il cloud ha più foto originali, ripristinale (fix trim a 1)
-            if(remoteFoto > localFoto){
-              localMap.set(f.id, {...local, fotoExtra: f.fotoExtra, foto: f.foto, updated: Math.max(local.updated||0, f.updated||0)});
-            } else if((f.updated||0) > (local.updated||0)){
-              localMap.set(f.id,f);
-            }
+            // FIX 25-11-2026: le foto reali non si perdono mai - unione locale + cloud
+            const mergedExtra = mergeFotoLists(local.fotoExtra, f.fotoExtra);
+            const base = (f.updated||0) > (local.updated||0) ? {...local, ...f} : local;
+            localMap.set(f.id, {...base, fotoExtra: mergedExtra, foto: base.foto || local.foto || f.foto || '', updated: Math.max(local.updated||0, f.updated||0)});
           }
         });
         figs=[...localMap.values()];
@@ -668,11 +664,18 @@ async function syncFromCloud(){
         figs=figs.filter(f=>!deletedIds.has(f.id));
         // FIX: tieni TUTTE le inserzioni locali non in remote (creazioni locali non ancora pushato)
         // Prima cancellava dopo 2min causando perdita inserzioni se push falliva
-        const remoteIds=new Set(remote.map(r=>r.id));
-        const hasLocalOnly = figs.some(f=>!remoteIds.has(f.id));
+        const remoteById=new Map(remote.map(r=>[r.id,r]));
+        // Pusha se ci sono pezzi nuovi in locale OPPURE foto locali in piu' rispetto al cloud
+        const needsPush = figs.some(f=>{
+          const r=remoteById.get(f.id);
+          if(!r) return true;
+          const rn=Array.isArray(r.fotoExtra)?r.fotoExtra.length:0;
+          const ln=Array.isArray(f.fotoExtra)?f.fotoExtra.length:0;
+          return ln>rn;
+        });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(figs));
-        if(hasLocalOnly){
-          // Pusha in background le inserzioni locali non ancora su cloud
+        if(needsPush){
+          // Pusha in background le inserzioni/foto locali non ancora su cloud
           syncToCloud();
         }
         return true;
@@ -705,7 +708,21 @@ async function syncToCloud(){
     }catch(e){ console.warn('[sync] errore',e); _syncPending=true; }
   }, 900);
 }
-function flushSync(){ if(_syncTimer){ clearTimeout(_syncTimer); _syncTimer=null; } if(_syncPending){ _syncPending=false; try{ navigator.sendBeacon ? navigator.sendBeacon('/api/sync', new Blob([JSON.stringify(figs)],{type:'application/json'})) : fetch('/api/sync', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(figs), keepalive:true }).catch(()=>{}); }catch(e){} } }
+function flushSync(){
+  // FIX 25-11-2026: sendBeacon scarta in silenzio i payload >64KB (le foto base64
+  // non arrivavano mai al server alla chiusura). Ora le foto sono URL corti, ma
+  // per sicurezza usiamo sendBeacon solo se il payload e piccolo.
+  const payload=JSON.stringify(figs);
+  if(_syncTimer){ clearTimeout(_syncTimer); _syncTimer=null; }
+  _syncPending=false;
+  try{
+    if(payload.length < 60000 && navigator.sendBeacon){
+      navigator.sendBeacon('/api/sync', new Blob([payload],{type:'application/json'}));
+    } else {
+      fetch('/api/sync', { method:'POST', headers:{'Content-Type':'application/json'}, body: payload, keepalive:true }).catch(()=>{});
+    }
+  }catch(e){}
+}
 window.addEventListener('beforeunload', flushSync);
 window.addEventListener('pagehide', flushSync);
 function load(){
@@ -828,6 +845,58 @@ function save(){
 }
 function uid(){ return Math.random().toString(36).slice(2,9); }
 function euro(n){ return (Number(n)||0).toLocaleString('it-IT',{style:'currency',currency:'EUR'}); }
+// ===== FOTO REALI: archivio su disco (fix 25-11-2026) =====
+// Le foto non vengono piu salvate come base64 nel browser (quota ~5MB -> sparivano).
+// Vengono caricate sul server e nel pezzo resta solo l'indirizzo corto.
+const SERVER_PHOTO_PREFIX='/data/photos/';
+function isServerPhotoUrl(u){ return typeof u==='string' && u.indexOf(SERVER_PHOTO_PREFIX)===0; }
+async function storeRealPhoto(dataUrl, label){
+  if(!dataUrl || typeof dataUrl!=='string' || !dataUrl.startsWith('data:image/')) return dataUrl;
+  try{
+    const r=await fetch('/api/photo',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ data:dataUrl, filename:label||'' }) });
+    if(r.ok){ const j=await r.json(); if(j && j.url) return j.url; }
+  }catch(e){}
+  return dataUrl; // se il server non risponde teniamo il base64 (meglio che perdere la foto)
+}
+function mergeFotoLists(a,b){
+  const A=Array.isArray(a)?a.filter(Boolean):[];
+  const B=Array.isArray(b)?b.filter(Boolean):[];
+  const hasUrl=(list)=>list.some(isServerPhotoUrl);
+  const aUrl=hasUrl(A), bUrl=hasUrl(B);
+  const out=[];
+  const add=(list)=>{ for(const u of list){ if(u && out.indexOf(u)===-1) out.push(u); } };
+  if(aUrl && !bUrl) add(A);
+  else if(bUrl && !aUrl) add(B);
+  else { add(A); add(B); }
+  return out.slice(0,5);
+}
+// Sposta una sola volta le vecchie foto base64 su disco, cosi liberano il browser
+let _photoMigrationBusy=false;
+async function migratePhotoDataUrls(){
+  if(_photoMigrationBusy) return 0;
+  _photoMigrationBusy=true;
+  let moved=0, remaining=0;
+  try{
+    for(const f of figs){
+      if(Array.isArray(f.fotoExtra)){
+        for(let i=0;i<f.fotoExtra.length;i++){
+          const p=f.fotoExtra[i];
+          if(typeof p==='string' && p.startsWith('data:image/')){
+            const u=await storeRealPhoto(p, f.codice||'foto');
+            if(u && u!==p){ f.fotoExtra[i]=u; moved++; } else remaining++;
+          }
+        }
+      }
+      if(typeof f.foto==='string' && f.foto.startsWith('data:image/')){
+        const u=await storeRealPhoto(f.foto, (f.codice||'cover')+'-cover');
+        if(u && u!==f.foto){ f.foto=u; moved++; } else remaining++;
+      }
+    }
+    if(moved){ save(); render(); toast(moved+' foto spostate su archivio locale: non si perderanno piu'); }
+  }catch(e){}
+  _photoMigrationBusy=false;
+  return moved;
+}
 function getImageSrc(url){
   if(!url) return '';
   if(url.startsWith('data:')) return url;
@@ -1157,7 +1226,9 @@ async function handleUpload(e){
   const file=e.target.files[0]; if(!file) return;
   if(tempFotoExtra.length>=5) return toast('Max 5 foto reali (+ BrickLink)');
   toast('Comprimo foto...');
-  const url=await compressImageFile(file);
+  const compressed=await compressImageFile(file);
+  if(!compressed) return toast('Errore lettura foto');
+  const url=await storeRealPhoto(compressed, (document.getElementById('f_codice')||{}).value||'');
   if(!url) return toast('Errore lettura foto');
   tempFotoExtra.push(url);
   renderExtraGrid();
@@ -1171,8 +1242,9 @@ async function handleMainDrop(e){
   if(file && file.type.startsWith('image/')){
     if(tempFotoExtra.length>=5) return toast('Max 5 foto reali (+ BrickLink)');
     toast('Comprimo foto...');
-    const url=await compressImageFile(file);
-    if(!url) return toast('Errore foto');
+    const compressed=await compressImageFile(file);
+    if(!compressed) return toast('Errore foto');
+    const url=await storeRealPhoto(compressed, (document.getElementById('f_codice')||{}).value||'');
     tempFotoExtra.push(url);
     renderExtraGrid();
     toast('Foto reale aggiunta (scorrerà dopo BrickLink)');
@@ -1240,7 +1312,7 @@ async function handleExtraUpload(e){
   toast('Comprimo '+Math.min(files.length, slots)+' foto...');
   let added=0;
   const toLoad=files.slice(0,slots);
-  const results=await Promise.all(toLoad.map(f=>compressImageFile(f)));
+  const results=await Promise.all(toLoad.map(async f=>{ const d=await compressImageFile(f); return await storeRealPhoto(d, (document.getElementById('f_codice')||{}).value||''); }));
   results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
   renderExtraGrid();
   if(added) toast(added===1? '1 foto reale aggiunta' : added+' foto reali aggiunte');
@@ -1256,7 +1328,7 @@ async function handleExtraDrop(e){
   toast('Comprimo foto...');
   let added=0;
   const toLoad=files.slice(0,slots);
-  const results=await Promise.all(toLoad.map(f=>compressImageFile(f)));
+  const results=await Promise.all(toLoad.map(async f=>{ const d=await compressImageFile(f); return await storeRealPhoto(d, (document.getElementById('f_codice')||{}).value||''); }));
   results.forEach(url=>{ if(url){ tempFotoExtra.push(url); added++; } });
   renderExtraGrid();
   if(added) toast(added+' foto reali aggiunte');
@@ -2220,11 +2292,10 @@ function render(){
           <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2"><div class="text-[9px] font-bold tracking-widest uppercase text-emerald-700">Vendita</div><div class="font-display font-bold text-emerald-700 text-sm">${f.prezzoVendita? euro(f.prezzoVendita):'�'}</div></div>
         </div>
         ${isInLotto ? `<div class="mt-2 text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-center"><i class="fa-solid fa-lock mr-1"></i> In lotto — solo blocco</div>` : ''}
-        ${(f.categoriaMacro||getMacroCategoria(f.categoria||''))!=='Sfuso' ? `<div class="mt-2 flex items-center justify-center gap-1 bg-zinc-50 border border-zinc-100 rounded-full px-2 py-1.5"><span class="text-[8px] font-bold tracking-widest uppercase text-zinc-400">Cerca:</span><a href="https://www.ebay.it/sch/i.html?_nkw=lego+${encodeURIComponent(f.codice)}" target="_blank" rel="noopener" class="w-6 h-6 rounded-full bg-[#0064D2] text-white flex items-center justify-center hover:scale-110 transition" title="Cerca su eBay"><i class="fa-brands fa-ebay text-[9px]"></i></a><a href="https://www.vinted.it/catalog?search_text=lego+${encodeURIComponent(f.codice)}" target="_blank" rel="noopener" class="w-6 h-6 rounded-full bg-[#007782] text-white flex items-center justify-center hover:scale-110 transition" title="Cerca su Vinted"><span class="text-[8px] font-black">V</span></a><a href="https://www.facebook.com/marketplace/search/?query=lego%20${encodeURIComponent(f.codice)}" target="_blank" rel="noopener" class="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:scale-110 transition" title="Cerca su Facebook"><i class="fa-brands fa-facebook-f text-[9px]"></i></a></div>` : ''}
         <div class="mt-3 flex gap-1">
           <button onclick="addToCart('${f.id}')" class="flex-1 py-2 rounded-xl ${isInLotto?'bg-zinc-300 text-zinc-500 cursor-not-allowed':'bg-zinc-900 text-white hover:bg-black'} text-xs font-bold" ${isInLotto?'disabled':''}><i class="fa-solid fa-cart-plus mr-1"></i> ${isInLotto?'In lotto':'Carrello'}</button>
           <select onchange="quickStato('${f.id}', this.value)" class="stato-edit-only-local w-10 text-xs font-bold px-1 py-2 rounded-xl border border-zinc-200 bg-white" title="Cambia stato"><option value="Disponibile" ${f.stato==='Disponibile'?'selected':''}>D</option><option value="Prenotato" ${f.stato==='Prenotato'?'selected':''}>P</option><option value="Venduto" ${f.stato==='Venduto'?'selected':''}>V</option></select>
-          <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button>
+          <button onclick="delFig('${f.id}')" class="w-9 h-9 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 flex items-center justify-center" title="Elimina"><i class="fa-regular fa-trash-can text-xs"></i></button>
         </div>
       </div>
     </div>`;
@@ -2274,7 +2345,7 @@ function render(){
     } else { const f=item.fig;
     const photos=getAllPhotos(f);
     const hasExtra=photos.length>1;
-    return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" loading="lazy" decoding="async" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td>  <td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${!isOnline() && f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="mt-1 flex items-center gap-1 variant-only-local"><i class="fa-solid fa-palette text-amber-600 text-[10px]"></i><select onchange="changeCardVariant('${f.id}', this.value)" class="text-[11px] font-bold px-2 py-1 rounded-lg border-2 border-amber-200 bg-amber-50"><option value="">Cambia variante...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td>  <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-red-100 text-red-700 border-red-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700 avg-only-local">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100 admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 text-red-600 admin-only-local"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
+    return `<tr class="hover:bg-zinc-50"><td class="px-4 py-2"><div class="relative w-12 h-12 cursor-zoom-in" onclick="openGallery('${f.id}',0)"><img src="${getImageSrc(f.foto)}" loading="lazy" decoding="async" class="w-12 h-12 object-contain bg-zinc-100 rounded-xl border p-1" style="background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px); background-size: 8px 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/80/eeeeee/666666?text=${f.codice}'">${hasExtra? `<span class="absolute -top-1 -right-1 bg-zinc-900 text-white text-[8px] font-bold px-1 py-0.5 rounded-full border border-white">+${photos.length-1}</span><span class="absolute -bottom-1 -right-1 bg-amber-400 text-zinc-900 text-[7px] font-bold px-1 rounded-full">${photos.length}</span>` : ''}</div></td><td class="px-2 py-2 font-mono text-xs font-bold">${f.codice}<div class="text-[10px] text-zinc-500">${f.tipoCode}</div>${hasExtra? `<div class="text-[9px] font-bold text-emerald-600"><i class="fa-solid fa-images mr-0.5"></i>${photos.length} foto</div>` : ''}</td>  <td class="px-2 py-2"><div class="font-semibold text-sm leading-tight">${f.nome}</div><div class="text-xs text-zinc-500">${f.categoria||''}</div>${f.variante? `<div class="text-xs font-semibold text-amber-700">Var: ${f.variante}</div>`:''}${!isOnline() && f.fotoVarianti && f.fotoVarianti.length>1 ? `<div class="mt-1 flex items-center gap-1 variant-only-local"><i class="fa-solid fa-palette text-amber-600 text-[10px]"></i><select onchange="changeCardVariant('${f.id}', this.value)" class="text-[11px] font-bold px-2 py-1 rounded-lg border-2 border-amber-200 bg-amber-50"><option value="">Cambia variante...</option>${f.fotoVarianti.map(v=>`<option value="${v.colorId}" ${String(v.colorId)===String(f.coloreId)?'selected':''}>${v.colorName} [${v.colorId}]</option>`).join('')}</select></div>` : ''}${f.note? `<div class="text-xs text-zinc-600 bg-zinc-50 rounded px-1 py-0.5 mt-1 line-clamp-2">${f.note}</div>`:''}</td><td class="px-2 py-2 text-center font-bold">${f.qta}</td>  <td class="px-2 py-2"><span class="text-xs font-bold px-2 py-1 rounded-full border ${f.stato==='Disponibile'?'bg-emerald-100 text-emerald-700 border-emerald-200':f.stato==='Prenotato'?'bg-amber-100 text-amber-800 border-amber-200':'bg-red-100 text-red-700 border-red-200'}">${f.stato}</span></td><td class="px-2 py-2 text-right font-bold text-amber-700 avg-only-local">${f.prezzoAvgUsato? euro(f.prezzoAvgUsato):'—'}</td><td class="px-2 py-2 text-right font-bold text-emerald-700">${f.prezzoVendita? euro(f.prezzoVendita):'—'}</td><td class="px-4 py-2 text-right"><div class="inline-flex gap-1"><button onclick="openGallery('${f.id}',0)" class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700" title="Galleria"><i class="fa-solid fa-images text-xs"></i></button><button onclick="openModal('${f.id}')" class="w-7 h-7 rounded-lg bg-zinc-100 admin-only-local"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="delFig('${f.id}')" class="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 text-red-600" title="Elimina"><i class="fa-regular fa-trash-can text-xs"></i></button></div></td></tr>`;
     }
   }).join('');
   document.getElementById('emptyState').classList.toggle('hidden', totalUnified!==0);
@@ -2367,12 +2438,17 @@ let wizardIndex=0;
 let wizardList=[];
 function openPhotoWizard(){
   if(!figs.length) return toast('Inventario vuoto');
-  // Coda Minifigure + Parte Sfusa + Set/Gear con <2 foto reali (incl. col28-9/col28-11 tipo S), ordinate per categoria -> codice
+  // Coda Minifigure + Parte Sfusa + Set/Gear con meno di 5 foto reali
+  // (prima si fermava a 2: ora puoi completare fino a 5 foto tue per pezzo)
   const senzaFoto=[...figs].filter(f=>{
     const isValidTipo = ['M','P','S','G'].includes(f.tipoCode) || ['Minifigure','Parte Sfusa','Set','Gear'].includes(f.tipo);
     const extraLen = Array.isArray(f.fotoExtra) ? f.fotoExtra.length : 0;
-    return isValidTipo && extraLen < 2;
+    return isValidTipo && extraLen < 5;
   }).sort((a,b)=>{
+    const exA = Array.isArray(a.fotoExtra) ? a.fotoExtra.length : 0;
+    const exB = Array.isArray(b.fotoExtra) ? b.fotoExtra.length : 0;
+    // prima i pezzi con meno foto (da iniziare), poi categoria e codice
+    if(exA !== exB) return exA - exB;
     const catA = (a.categoriaMacro || getMacroCategoria(a.categoria||'')).toLowerCase();
     const catB = (b.categoriaMacro || getMacroCategoria(b.categoria||'')).toLowerCase();
     if(catA < catB) return -1;
@@ -2382,8 +2458,7 @@ function openPhotoWizard(){
   });
   if(senzaFoto.length===0){
     const total=figs.filter(f=> ['M','P','S','G'].includes(f.tipoCode) || ['Minifigure','Parte Sfusa','Set','Gear'].includes(f.tipo)).length;
-    const gestite=figs.filter(f=> (['M','P','S','G'].includes(f.tipoCode) || ['Minifigure','Parte Sfusa','Set','Gear'].includes(f.tipo)) && Array.isArray(f.fotoExtra) && f.fotoExtra.length>=2).length;
-    toast(`Tutti i pezzi gestiti ✅ (${gestite}/${total} con 2+ foto reali)`);
+    toast(`Tutti i pezzi hanno 5 foto reali ✅ (${total} pezzi)`);
     return;
   }
   wizardList=senzaFoto;
@@ -2424,6 +2499,64 @@ function renderWizard(){
   document.getElementById('wizardPrevBtn').disabled=wizardIndex===0;
   document.getElementById('wizardNextBtn').textContent=wizardIndex===total-1?'Fine ✓':'Successivo →';
   document.getElementById('wizardPrevBtn').classList.toggle('opacity-40', wizardIndex===0);
+  renderWizardPhotos(fig);
+}
+function renderWizardPhotos(fig){
+  const strip=document.getElementById('wizardPhotoStrip');
+  const countEl=document.getElementById('wizardFotoCount');
+  if(!strip) return;
+  strip.innerHTML='';
+  const extras=Array.isArray(fig.fotoExtra)?fig.fotoExtra:[];
+  if(countEl) countEl.textContent=extras.length+'/5';
+  if(fig.foto) strip.appendChild(wizardThumb(fig.foto,'BRICKLINK',-1));
+  extras.forEach((u,i)=> strip.appendChild(wizardThumb(u,'REALE '+(i+1),i)));
+  if(!fig.foto && !extras.length){
+    const d=document.createElement('div');
+    d.className='w-20 h-20 rounded-xl border-2 border-dashed border-zinc-300 flex items-center justify-center text-[9px] text-zinc-400 shrink-0 text-center';
+    d.textContent='Nessuna foto';
+    strip.appendChild(d);
+  }
+  if(extras.length<5){
+    const add=document.createElement('button');
+    add.type='button';
+    add.className='w-20 h-20 rounded-xl border-2 border-dashed border-emerald-300 bg-emerald-50 text-emerald-700 flex flex-col items-center justify-center gap-1 shrink-0 hover:bg-emerald-100';
+    add.innerHTML='<i class="fa-solid fa-plus"></i><span class="text-[9px] font-bold">Aggiungi</span>';
+    add.onclick=()=>{ const inp=document.getElementById('wizardFile'); if(inp) inp.click(); };
+    strip.appendChild(add);
+  }
+}
+function wizardThumb(src,label,idx){
+  const d=document.createElement('div');
+  d.className='relative w-20 h-20 rounded-xl overflow-hidden border border-zinc-200 bg-zinc-50 shrink-0';
+  const im=document.createElement('img');
+  im.src=getImageSrc(src); im.alt=''; im.className='w-full h-full object-cover';
+  im.onerror=()=>{ d.classList.add('opacity-40'); };
+  d.appendChild(im);
+  const b=document.createElement('span');
+  b.className='absolute bottom-0 left-0 right-0 text-center text-[8px] font-extrabold tracking-wide bg-zinc-900/85 text-white py-0.5';
+  b.textContent=label;
+  d.appendChild(b);
+  if(idx>=0){
+    const x=document.createElement('button');
+    x.type='button';
+    x.className='absolute top-0.5 right-0.5 w-5 h-5 rounded-full bg-red-600 text-white text-[9px] flex items-center justify-center shadow';
+    x.innerHTML='<i class="fa-solid fa-xmark"></i>';
+    x.title='Rimuovi questa foto';
+    x.onclick=(ev)=>{ ev.stopPropagation(); removeWizardPhoto(idx); };
+    d.appendChild(x);
+  }
+  return d;
+}
+function removeWizardPhoto(idx){
+  const fig=wizardList[wizardIndex];
+  if(!fig || !Array.isArray(fig.fotoExtra) || idx<0 || idx>=fig.fotoExtra.length) return;
+  if(!confirm('Rimuovere questa foto reale da '+(fig.codice||'')+'?')) return;
+  fig.fotoExtra.splice(idx,1);
+  fig.updated=Date.now();
+  const gi=figs.findIndex(x=>x.id===fig.id);
+  if(gi>=0) figs[gi]=fig;
+  save(); render(); renderWizard();
+  toast('Foto rimossa');
 }
 function wizardPrev(){ if(wizardIndex>0){ wizardIndex--; renderWizard(); } }
 function wizardNext(){
@@ -2453,7 +2586,7 @@ async function handleWizardFiles(files){
   if(!toLoad.length) return toast('Solo immagini');
   if(toLoad.length < files.length) toast(`Hai già ${fig.fotoExtra.length}/5 - carico solo ${toLoad.length} delle ${files.length} selezionate`);
   else toast(`Comprimo ${toLoad.length} foto...`);
-  const results = await Promise.all(toLoad.map(f=>compressImageFile(f)));
+  const results = await Promise.all(toLoad.map(async f=>{ const d=await compressImageFile(f); return await storeRealPhoto(d, fig.codice||''); }));
   let added=0;
   results.forEach(url=>{ if(url){ fig.fotoExtra.push(url); added++; } });
   if(added){
@@ -2519,6 +2652,7 @@ function openPhotoWizardFromCard(id){
   const doBgSync = async ()=>{
     try{ if(await syncFromCloud()) render(); }catch(e){}
     try{ if(await syncLottiFromCloud()) render(); }catch(e){}
+    try{ if(isLocal()) await migratePhotoDataUrls(); }catch(e){}
     checkServer();
   };
   if('requestIdleCallback' in window) requestIdleCallback(doBgSync,{timeout:1200});
@@ -2741,6 +2875,12 @@ if(typeof isOnline==='function' ? isOnline() : window.location.hostname.includes
   // Online: rimuovi Venduto dal filtro e forza filtro non-Venduto
   const fsEl=document.getElementById('filterStato');
   if(fsEl){ [...fsEl.options].forEach(o=>{ if(o.value==='Venduto') o.remove(); }); if(fsEl.value==='Venduto') fsEl.value=''; }
+  // Solo locale: inversione inserimento/barra ricerca - online ripristina ordine originale (cerca sopra)
+  try{
+    const sb=document.getElementById('searchBar');
+    const qa=document.getElementById('quickAddBand');
+    if(sb && qa && qa.parentNode) qa.parentNode.insertBefore(sb, qa);
+  }catch(e){}
 }
 </script>
 </body>

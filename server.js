@@ -5,6 +5,8 @@ import compression from 'compression';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as cheerio from 'cheerio';
+import crypto from 'crypto';
+import fs from 'fs';
 import { calcolaPreventivo, generaCodicePreventivo } from './spedizioni-logic.js';
 import { initTelegramBot, notifyNewQuote, sendToAllAdmins, testBot, getAdminIds } from './telegram-bot.js';
 
@@ -25,6 +27,7 @@ app.use(express.static(__dirname, {
   lastModified: true,
   setHeaders: (res, p) => {
     if (p.endsWith('.html')) { res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate'); }
+    else if (p.includes('/data/photos/') || p.includes('\\data\\photos\\')) { res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'); }
     else if (p.endsWith('.css') || p.endsWith('.js')) { res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'); }
     else if (p.includes('/data/')) { res.setHeader('Cache-Control', 'public, max-age=60, must-revalidate'); }
   }
@@ -628,15 +631,592 @@ app.post('/api/cart', express.json({ limit: '1mb' }), async (req, res) => {
   }
 });
 
+// ==================== DISNEY US vs EU COMPARATOR ====================
+const disneyCache = new Map();
+const DISNEY_TTL = 1000 * 60 * 30; // 30 min
+
+function cleanText(s){ return (s||'').replace(/\s+/g,' ').trim(); }
+
+function parseDisneyProduct(html, url){
+  try{
+    const $ = cheerio.load(html);
+    let rawTitle = $('meta[property="og:title"]').attr('content') || $('meta[name="og:title"]').attr('content') || $('meta[property="og:title"]').attr('content') || '';
+    let titleTag = cleanText($('title').text().split('|')[0].split('—')[0].trim());
+    // Sanitize titleTag: if contains icon spam or too long, ignore
+    if(titleTag && (titleTag.includes('Search Icon') || titleTag.includes('Icon') && titleTag.length>60 || titleTag.length>120)){
+      // try to extract first meaningful part before icon
+      const m = titleTag.match(/^(.+?)(Search Icon|Caret|Checkbox)/);
+      if(m) titleTag = cleanText(m[1]);
+      else titleTag='';
+    }
+    let title = cleanText(rawTitle || titleTag);
+    if(!title || title.toLowerCase().includes('page not found') && title.length<40) {
+      // keep as is for notFound detection but fallback to h1 if h1 exists and is not polluted
+      const h1 = cleanText($('h1').first().text());
+      if(h1 && !h1.includes('Search Icon') && h1.length<80) title = h1;
+    }
+    if(!title) title = cleanText($('h1').first().text());
+    // limit title length
+    if(title && title.length>120) title = title.slice(0,120).trim();
+    // Try JSON-LD
+    let ldTitle=null, ldPrice=null, ldCurrency=null, ldAvailability=null, ldImage=null, ldSku=null;
+    $('script[type="application/ld+json"]').each((i,el)=>{
+      try{
+        const raw = $(el).html();
+        if(!raw) return;
+        const data = JSON.parse(raw);
+        const arr = Array.isArray(data) ? data : [data];
+        arr.forEach(obj=>{
+          if(obj['@type']==='Product' || obj.name){
+            ldTitle = ldTitle || obj.name;
+            ldImage = ldImage || (Array.isArray(obj.image)? obj.image[0] : obj.image);
+            ldSku = ldSku || obj.sku || obj.mpSKU;
+            if(obj.offers){
+              const off = Array.isArray(obj.offers)? obj.offers[0] : obj.offers;
+              ldPrice = ldPrice || off.price || off.lowPrice;
+              ldCurrency = ldCurrency || off.priceCurrency;
+              ldAvailability = ldAvailability || off.availability;
+            }
+          }
+          // graph
+          if(obj['@graph']){
+            obj['@graph'].forEach(g=>{
+              if(g['@type']==='Product'){
+                ldTitle = ldTitle || g.name;
+                ldImage = ldImage || (Array.isArray(g.image)? g.image[0] : g.image);
+                ldSku = ldSku || g.sku;
+                if(g.offers){
+                  const off = Array.isArray(g.offers)? g.offers[0] : g.offers;
+                  ldPrice = ldPrice || off.price;
+                  ldCurrency = ldCurrency || off.priceCurrency;
+                  ldAvailability = ldAvailability || off.availability;
+                }
+              }
+            });
+          }
+        });
+      }catch(e){}
+    });
+    if(ldTitle) title = ldTitle;
+
+    // Price extraction
+    let price = ldPrice ? Number(String(ldPrice).replace(',','.')) : null;
+    let currency = ldCurrency || null;
+    let priceRaw = null;
+    if(!price){
+      // meta product:price
+      const metaPrice = $('meta[property="product:price:amount"]').attr('content') || $('meta[property="og:price:amount"]').attr('content');
+      const metaCurr = $('meta[property="product:price:currency"]').attr('content') || $('meta[property="og:price:currency"]').attr('content');
+      if(metaPrice){ price = Number(metaPrice.replace(',','.')); currency = metaCurr||currency; priceRaw = metaPrice; }
+    }
+    if(!price){
+      // DOM selectors
+      const priceSelectors = ['[data-testid*="price"]','[data-test*="price"]','.price','.product-price','.sales','.value','[class*="Price"]','[class*="price"]'];
+      for(const sel of priceSelectors){
+        const t = cleanText($(sel).first().text());
+        const m = t.match(/([€$£])\s*([\d,]+\.\d{2})|([\d,]+\.\d{2})\s*([€$£])|€\s*([\d.,]+)|\$\s*([\d.,]+)/);
+        if(m){
+          const numStr = (m[2]||m[3]||m[5]||m[6]||'').replace(/,/g,'');
+          const v = Number(numStr);
+          if(v>0 && v<10000){ price=v; priceRaw=t; currency = t.includes('€')?'EUR': t.includes('$')?'USD': t.includes('£')?'GBP': currency; break; }
+        }
+      }
+    }
+    if(!price){
+      // regex on whole html
+      const htmlPriceUSD = html.match(/\$\s*([\d,]+\.\d{2})/);
+      const htmlPriceEUR = html.match(/€\s*([\d.,]+)/);
+      if(htmlPriceEUR){ price = Number(htmlPriceEUR[1].replace(/\./g,'').replace(',','.')); currency='EUR'; priceRaw=htmlPriceEUR[0]; }
+      else if(htmlPriceUSD){ price = Number(htmlPriceUSD[1].replace(/,/g,'')); currency='USD'; priceRaw=htmlPriceUSD[0]; }
+    }
+
+    // Image
+    let image = ldImage || $('meta[property="og:image"]').attr('content') || $('meta[name="og:image"]').attr('content') || $('img').first().attr('src') || null;
+    if(image && image.startsWith('//')) image='https:'+image;
+
+    // Availability
+    const bodyText = cleanText($('body').text()).toLowerCase();
+    const htmlLower = html.toLowerCase();
+    let available = true;
+    let stockStatus = 'unknown';
+    const outOfStockSignals = ['out of stock','sold out','currently unavailable','temporarily out of stock','non disponibile','esaurito','aktuell nicht verf','actuellement indisponible','agotado','non disponibile al momento','out-of-stock','sold-out'];
+    const inStockSignals = ['add to bag','add to cart','aggiungi al carrello','ajouter au panier','in den warenkorb','añadir a la bolsa','add to basket'];
+    if(outOfStockSignals.some(s=> bodyText.includes(s) || htmlLower.includes(s))){
+      available=false; stockStatus='out_of_stock';
+    } else if(inStockSignals.some(s=> bodyText.includes(s))){
+      available=true; stockStatus='in_stock';
+    } else if(ldAvailability){
+      if(String(ldAvailability).toLowerCase().includes('outofstock') || String(ldAvailability).toLowerCase().includes('soldout')){ available=false; stockStatus='out_of_stock'; }
+      else if(String(ldAvailability).toLowerCase().includes('instock')){ available=true; stockStatus='in_stock'; }
+    }
+
+    // Region restriction detection
+    const restrictionPhrases = [
+      'not available to ship','cannot be shipped','cannot ship to','does not ship to','shipping restriction','international shipping not available','not available in your region','not available in your country','cannot be delivered to','us only','united states only','excluded from international shipping','international shipping is not available for this item',
+      'non può essere spedito','non disponibile per la spedizione internazionale','spedizione non disponibile','non spedibile in europa','non disponibile nel tuo paese','non disponibile nella tua regione','solo per gli stati uniti',
+      'nicht lieferbar nach','kann nicht nach europa versendet werden','nicht für den internationalen versand verfügbar',
+      'ne peut pas être expédié','non expédiable en europe','livraison internationale non disponible'
+    ];
+    let restricted = false;
+    let restrictedMsg = null;
+    for(const phrase of restrictionPhrases){
+      if(bodyText.includes(phrase)){
+        restricted=true;
+        // extract snippet
+        const idx = bodyText.indexOf(phrase);
+        restrictedMsg = cleanText(bodyText.slice(Math.max(0,idx-40), idx+phrase.length+80));
+        break;
+      }
+    }
+    // also check if html contains shipping-restriction JSON
+    if(!restricted && htmlLower.includes('shipping') && htmlLower.includes('restriction')){
+      const m = html.match(/shipping[^<]{0,120}restriction[^<]{0,120}/i);
+      if(m){ restricted=true; restrictedMsg=cleanText(m[0]); }
+    }
+
+    // Exclusive / limited edition detection
+    let exclusive = false;
+    let exclusiveLabel = null;
+    const exclusivePhrases = ['limited edition','limited release','exclusively at','shopdisney exclusive','parks exclusive','disney parks exclusive','exclusif','edizione limitata','edicion limitada','limited-edition'];
+    for(const p of exclusivePhrases){
+      if(bodyText.includes(p)){
+        exclusive=true;
+        exclusiveLabel=p;
+        break;
+      }
+    }
+
+    // Not found detection
+    const notFound = htmlLower.includes('page not found') || htmlLower.includes('404') && bodyText.includes('not found') || $('title').text().toLowerCase().includes('404') || bodyText.includes('oops!') && bodyText.includes('not found');
+
+    // SKU / ID extraction
+    let sku = ldSku || null;
+    if(!sku){
+      const skuMeta = $('meta[property="product:retailer_item_id"]').attr('content') || $('[data-sku]').attr('data-sku') || $('[data-product-id]').attr('data-product-id');
+      if(skuMeta) sku=skuMeta;
+    }
+    if(!sku){
+      const mSku = html.match(/["']sku["']\s*:\s*["']([^"']+)["']/i) || url.match(/(?:sku|product)[=\/]([^&\/\?]+)/i);
+      if(mSku) sku=mSku[1];
+    }
+
+    return { url, title: cleanText(title)||'Prodotto Disney', price, currency, priceRaw, image, available, stockStatus, restricted, restrictedMsg, exclusive, exclusiveLabel, sku, notFound, htmlLength: html.length };
+  }catch(e){
+    return { url, title: null, price: null, currency: null, image: null, available: false, stockStatus:'error', restricted:false, restrictedMsg:null, exclusive:false, notFound:false, error:e.message, htmlLength: 0 };
+  }
+}
+
+async function fetchDisneyWithCache(url){
+  const key = url.toLowerCase();
+  const cached = disneyCache.get(key);
+  if(cached && Date.now()-cached.ts < DISNEY_TTL) return cached.data;
+  let html=null;
+  let status=null;
+  let finalUrl=url;
+  try{
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language':'en-US,en;q=0.9,it;q=0.8,fr;q=0.7,de;q=0.6',
+        'Referer':'https://www.shopdisney.com/',
+        'Cache-Control':'no-cache'
+      },
+      redirect:'follow'
+    });
+    status=res.status;
+    finalUrl=res.url||url;
+    html= await res.text();
+    // detect WAF / bot block
+    const isBlock = html.includes('Access Denied') || html.includes('Akamai') && html.length<8000 || html.includes('Please enable cookies')|| html.includes('bot detection');
+    if(isBlock) throw new Error('Blocco anti-bot Disney');
+  }catch(e){
+    // try with different UA
+    try{
+      const r2 = await fetchWithHeaders(url, {'Accept-Language':'en-US,en;q=0.9'});
+      html=r2;
+      status=200;
+    }catch(e2){
+      return { html: null, status: status||0, error: e.message+' | '+e2.message, finalUrl };
+    }
+  }
+  const parsed = html ? parseDisneyProduct(html, finalUrl) : null;
+  if(status===404 || (parsed && parsed.notFound)) parsed.notFound=true;
+  const data = { html, status, finalUrl, parsed };
+  disneyCache.set(key, { ts: Date.now(), data });
+  return data;
+}
+
+function buildEUCandidates(inputUrl){
+  try{
+    const u = new URL(inputUrl);
+    const host = u.hostname.toLowerCase();
+    const path = u.pathname;
+    let slug = u.searchParams.get('q') || path.split('/').filter(Boolean).pop() || '';
+    slug = slug.replace(/\.html$/i,'');
+    const isSearch = u.pathname.includes('/search');
+    // Extract product name without numeric id
+    const candidates=[];
+    // 1) Direct host swap
+    if(host.includes('shopdisney.com') || host.includes('disneystore.com')){
+      candidates.push(`https://www.shopdisney.eu${path}${u.search}`);
+      candidates.push(`https://www.shopdisney.co.uk${path}${u.search}`);
+      candidates.push(`https://www.shopdisney.fr${path}${u.search}`);
+      candidates.push(`https://www.shopdisney.de${path}${u.search}`);
+      candidates.push(`https://www.disneystore.eu${path}${u.search}`);
+      candidates.push(`https://www.disneystore.co.uk${path}${u.search}`);
+      // search fallback
+      const q = isSearch ? encodeURIComponent(slug) : encodeURIComponent(slug.replace(/-/g,' ').replace(/\d+/g,'').trim() || slug);
+      if(!isSearch){
+        candidates.push(`https://www.shopdisney.eu/search?q=${q}`);
+        candidates.push(`https://www.shopdisney.co.uk/search?q=${q}`);
+      }
+    } else if(host.includes('disney')){
+      // assume EU -> try US
+      candidates.push(`https://www.shopdisney.com${path}${u.search}`);
+      if(!isSearch){
+        const q2 = encodeURIComponent(slug.replace(/-/g,' ').replace(/\d+/g,'').trim() || slug);
+        candidates.push(`https://www.shopdisney.com/search?q=${q2}`);
+      }
+    }
+    // also try without locale prefix (only if not already search)
+    if(!isSearch) candidates.push(`https://www.shopdisney.eu/search?q=${encodeURIComponent(slug)}`);
+    else candidates.push(`https://www.shopdisney.eu/search?q=${encodeURIComponent(slug)}`);
+    return [...new Set(candidates)];
+  }catch(e){ return []; }
+}
+
+function buildUSCandidates(inputUrl){
+  try{
+    const u = new URL(inputUrl);
+    const path = u.pathname;
+    let slug = u.searchParams.get('q') || path.split('/').filter(Boolean).pop() || '';
+    slug = slug.replace(/\.html$/i,'');
+    // for search URLs, keep original query as is, no dash removal
+    const isSearch = u.pathname.includes('/search');
+    const q = isSearch ? encodeURIComponent(slug) : encodeURIComponent(slug.replace(/-/g,' ').replace(/\d+/g,'').trim() || slug);
+    const list=[];
+    // direct
+    list.push(`https://www.shopdisney.com${path}${u.search}`);
+    // also try disneystore.com (new domain after migration)
+    list.push(`https://www.disneystore.com${path}${u.search}`);
+    // search fallbacks
+    if(!isSearch){
+      list.push(`https://www.shopdisney.com/search?q=${q}`);
+      list.push(`https://www.disneystore.com/search?q=${q}`);
+    }
+    // if input was EU, try to reconstruct US path without locale
+    if(slug && !isSearch) list.push(`https://www.shopdisney.com/search?q=${encodeURIComponent(slug)}`);
+    else if(isSearch && slug) {
+      // for search input, also try without path mangling
+      list.push(`https://www.shopdisney.com/search?q=${encodeURIComponent(slug)}`);
+      list.push(`https://www.disneystore.com/search?q=${encodeURIComponent(slug)}`);
+    }
+    return [...new Set(list)];
+  }catch(e){ return []; }
+}
+
+function decideVerdict(us, eu){
+  // us/eu are parsed objects or null
+  const usFound = us && !us.notFound && us.title;
+  const euFound = eu && !eu.notFound && eu.title;
+  const usAvail = usFound && us.available && !us.restricted;
+  const euAvail = euFound && eu.available && !eu.restricted;
+
+  if(!usFound && !euFound) return { verdict:'NON_TROVATO', label:'Prodotto non trovato', color:'zinc', detail:'Nessun risultato valido su US né EU. Prova con un altro link o con il nome esatto.' };
+  if(usFound && !euFound) {
+    if(us.restricted) return { verdict:'LIMITATO_USA', label:'Limitato al mercato USA 🇺🇸', color:'amber', detail:'Trovato solo su shopDisney US. Assente su EU → probabile esclusiva USA / Parks / spedizione solo USA.' };
+    if(!us.available) return { verdict:'US_ESCLUSIVO_ESAURITO', label:'Solo USA ma esaurito 🇺🇸', color:'amber', detail:'Esiste solo su US ma è out of stock. Su EU non esiste.' };
+    return { verdict:'US_ESCLUSIVO', label:'Esclusiva USA 🇺🇸', color:'red', detail:'Disponibile solo su shopDisney US. Non trovato su EU → esclusiva mercato americano.' };
+  }
+  if(!usFound && euFound){
+    if(eu.restricted) return { verdict:'LIMITATO_EU', label:'Limitato al mercato EU 🇪🇺', color:'blue', detail:'Trovato solo su EU. Assente su US.' };
+    return { verdict:'EU_ESCLUSIVO', label:'Esclusiva EU 🇪🇺', color:'blue', detail:'Disponibile solo su mercato europeo.' };
+  }
+  // both found
+  if(us.restricted && !eu.restricted) return { verdict:'BLOCCATO_US', label:'Bloccato per spedizione USA → EU', color:'amber', detail: us.restrictedMsg || 'US indica restrizione spedizione internazionale.' };
+  if(eu.restricted && !us.restricted) return { verdict:'BLOCCATO_EU', label:'Bloccato EU', color:'amber', detail: eu.restrictedMsg || 'EU indica restrizione.' };
+  if(!usAvail && euAvail) return { verdict:'SOLO_EU_DISPONIBILE', label:'Solo EU disponibile 🇪🇺', color:'blue', detail:'Su US è esaurito / non acquistabile, su EU è disponibile.' };
+  if(usAvail && !euAvail) return { verdict:'SOLO_US_DISPONIBILE', label:'Solo US disponibile 🇺🇸', color:'amber', detail:'Su EU è esaurito / non acquistabile, su US è disponibile.' };
+  if(usAvail && euAvail) {
+    // price diff
+    if(us.price && eu.price){
+      const diff = Math.abs(us.price - eu.price);
+      const sameCurrency = us.currency===eu.currency;
+      if(!sameCurrency) return { verdict:'DISPONIBILE_ENTRAMBI', label:'Disponibile in entrambi i mercati ✅', color:'emerald', detail:`Disponibile sia US ($${us.price}) che EU (€${eu.price}). Prezzi in valute diverse.` };
+      if(diff<1) return { verdict:'DISPONIBILE_ENTRAMBI', label:'Disponibile in entrambi i mercati ✅', color:'emerald', detail:`Disponibile sia US che EU a prezzo quasi identico (${us.currency} ${us.price} vs ${eu.price}).` };
+      return { verdict:'DISPONIBILE_ENTRAMBI_PREZZO_DIVERSO', label:'Disponibile entrambi - prezzo diverso', color:'emerald', detail:`Disponibile in entrambi. US: ${us.currency} ${us.price} vs EU: ${eu.currency} ${eu.price}.` };
+    }
+    return { verdict:'DISPONIBILE_ENTRAMBI', label:'Disponibile in entrambi i mercati ✅', color:'emerald', detail:'Prodotto acquistabile sia su shopDisney US che EU.' };
+  }
+  return { verdict:'ENTRAMBI_NON_DISPONIBILI', label:'Trovato ma non disponibile', color:'zinc', detail:'Esiste su entrambi ma risulta non disponibile / esaurito.' };
+}
+
 app.get('/api/health', (req, res) => res.json({ status: 'ok', cacheSize: cache.size }));
 
+// ---------------- Disney US vs EU API ----------------
+async function disneyCheckHandler(targetUrlInput, res){
+  let targetUrl = targetUrlInput;
+  if(!targetUrl || !targetUrl.trim()) return res.status(400).json({ error: 'Parametro url o q mancante. Es: /api/disney/check?url=https://www.shopdisney.com/mickey-plush-123' });
+  targetUrl = targetUrl.trim();
+  if(!targetUrl.startsWith('http')){
+    const encoded = encodeURIComponent(targetUrl);
+    targetUrl = `https://www.shopdisney.com/search?q=${encoded}`;
+  }
+  let isDisneyLike = targetUrl.includes('shopdisney') || targetUrl.includes('disneystore') || targetUrl.includes('disney.com');
+  const lowerUrl = targetUrl.toLowerCase();
+  const isUSInput = (lowerUrl.includes('shopdisney.com') || lowerUrl.includes('disneystore.com')) && !lowerUrl.includes('shopdisney.eu') && !lowerUrl.includes('shopdisney.co.uk') && !lowerUrl.includes('shopdisney.fr') && !lowerUrl.includes('shopdisney.de') && !lowerUrl.includes('disneystore.eu') && !lowerUrl.includes('disneystore.co.uk');
+  let usCandidates=[], euCandidates=[];
+  try{
+    if(isUSInput){
+      usCandidates = [targetUrl, ...buildUSCandidates(targetUrl).slice(1)];
+      euCandidates = buildEUCandidates(targetUrl);
+    } else {
+      euCandidates = [targetUrl];
+      usCandidates = buildUSCandidates(targetUrl);
+      const slug = (()=>{ try{ return new URL(targetUrl).searchParams.get('q') || new URL(targetUrl).pathname.split('/').filter(Boolean).pop() || ''; }catch(e){ return ''; }})();
+      if(slug) euCandidates = [targetUrl, `https://www.shopdisney.eu/search?q=${encodeURIComponent(slug)}`, `https://www.disneystore.eu/search?q=${encodeURIComponent(slug)}`];
+    }
+  }catch(e){
+    usCandidates=[targetUrl];
+    euCandidates=buildEUCandidates(targetUrl);
+  }
+  let usRaw=null, euRaw=null, usResult=null, euResult=null;
+  async function tryCandidates(list){
+    const isSearch = (u)=> u.includes('/search?q=') || u.includes('/search?');
+    for(const cand of list.slice(0,8)){
+      try{
+        const r = await fetchDisneyWithCache(cand);
+        if(!r || !r.parsed) continue;
+        if(isSearch(cand)){
+          if(r.html){
+            const $s = cheerio.load(r.html);
+            // Try multiple selectors for disneystore/shopDisney new layout
+            let firstLink = null;
+            // 1) look for product tiles with data attributes
+            firstLink = $s('a.product-tile[href], a[data-test*="product"][href], a.tile[href]').first().attr('href');
+            // 2) look for any .html link with numeric ID (disneystore pattern: /xxx-123456789012.html)
+            if(!firstLink){
+              $s('a[href$=".html"]').each((i,el)=>{
+                const h=$(el).attr('href');
+                if(h && /\d{8,}\.html/.test(h) && !h.includes('disney-visa') && !h.includes('help') && !h.includes('account')){
+                  firstLink=h;
+                  return false;
+                }
+              });
+            }
+            // 3) fallback: any href containing /search result but is .html
+            if(!firstLink){
+              $s('a[href*=".html"]').each((i,el)=>{
+                const h=$(el).attr('href');
+                if(h && h.includes('.html') && h.length>10 && !h.includes('disney-visa')){
+                  // avoid category pages like /toys-plush/ etc without ID, prefer those with id
+                  if(h.split('/').pop().includes('-') && /\d/.test(h)) { firstLink=h; return false; }
+                }
+              });
+            }
+            if(firstLink){
+              let abs = firstLink.startsWith('http') ? firstLink : (firstLink.startsWith('/') ? `https://${new URL(cand).hostname}${firstLink}` : `https://www.shopdisney.com/${firstLink}`);
+              // clean url: remove query after .html? keep isProductSearch param ok but we want base
+              try{ abs = abs.split('?')[0].split('#')[0]; if(!abs.endsWith('.html')) abs+='.html'; }catch(e){}
+              // But original link may need params; keep original if it had ?isProductSearch
+              if(firstLink.includes('?')) abs = firstLink.startsWith('http')? firstLink : `https://${new URL(cand).hostname}${firstLink}`;
+              if(abs.startsWith('/')) abs = `https://${new URL(cand).hostname}${abs}`;
+              if(abs.startsWith('//')) abs = 'https:'+abs;
+              // ensure absolute
+              if(!abs.startsWith('http')) abs = `https://www.disneystore.com${abs.startsWith('/')?'':'/'}${abs}`;
+              const det = await fetchDisneyWithCache(abs);
+              if(det && det.parsed && det.parsed.title && !det.parsed.notFound && !det.parsed.title.includes('Search Results')) return { r: det, cand: abs };
+              // if detail is still search results, continue
+            }
+          }
+          continue;
+        }
+        if(r.parsed && r.parsed.title && !r.parsed.notFound && !r.parsed.title.includes('Search Results') && r.parsed.title.length>3) return { r, cand };
+        if(r.status===404) continue;
+      }catch(e){}
+    }
+    // fallback: only if first cand is NOT a search page
+    if(list[0] && !isSearch(list[0])){
+      try{
+        const r = await fetchDisneyWithCache(list[0]);
+        // don't return search results as valid product
+        if(r.parsed && r.parsed.title && r.parsed.title.includes('Search Results')) return null;
+        return { r, cand:list[0]};
+      }catch(e){ return null; }
+    }
+    return null;
+  }
+  const usTry = await tryCandidates(usCandidates);
+  const euTry = await tryCandidates(euCandidates);
+  usRaw = usTry?.r || null;
+  euRaw = euTry?.r || null;
+  usResult = usRaw?.parsed || null;
+  euResult = euRaw?.parsed || null;
+  const verdict = decideVerdict(usResult, euResult);
+  res.json({
+    input: targetUrl,
+    us: usResult ? {
+      url: usTry?.cand || usCandidates[0] || null,
+      finalUrl: usRaw?.finalUrl || null,
+      status: usRaw?.status || null,
+      found: !!(usResult && !usResult.notFound && usResult.title),
+      title: usResult.title || null,
+      price: usResult.price || null,
+      currency: usResult.currency || null,
+      priceRaw: usResult.priceRaw || null,
+      image: usResult.image || null,
+      sku: usResult.sku || null,
+      available: usResult.available,
+      stockStatus: usResult.stockStatus,
+      restricted: usResult.restricted,
+      restrictedMsg: usResult.restrictedMsg,
+      exclusive: usResult.exclusive,
+      exclusiveLabel: usResult.exclusiveLabel
+    } : { url: usCandidates[0]||null, found:false, error:'Non trovato su US' },
+    eu: euResult ? {
+      url: euTry?.cand || euCandidates[0] || null,
+      finalUrl: euRaw?.finalUrl || null,
+      status: euRaw?.status || null,
+      found: !!(euResult && !euResult.notFound && euResult.title),
+      title: euResult.title || null,
+      price: euResult.price || null,
+      currency: euResult.currency || null,
+      priceRaw: euResult.priceRaw || null,
+      image: euResult.image || null,
+      sku: euResult.sku || null,
+      available: euResult.available,
+      stockStatus: euResult.stockStatus,
+      restricted: euResult.restricted,
+      restrictedMsg: euResult.restrictedMsg,
+      exclusive: euResult.exclusive,
+      exclusiveLabel: euResult.exclusiveLabel
+    } : { url: euCandidates[0]||null, found:false, error:'Non trovato su EU' },
+    verdict,
+    candidates: { us: usCandidates, eu: euCandidates },
+    cached: false
+  });
+}
+app.get('/api/disney/check', async (req,res)=>{
+  const rawUrl = (req.query.url||req.query.q||'').toString().trim();
+  await disneyCheckHandler(rawUrl, res);
+});
+app.post('/api/disney/check', express.json({limit:'200kb'}), async (req,res)=>{
+  const bodyUrl = (req.body.url||req.body.q||'').toString().trim();
+  await disneyCheckHandler(bodyUrl, res);
+});
+
+app.get('/api/disney/parse', async (req,res)=>{
+  const u = (req.query.url||'').toString().trim();
+  if(!u) return res.status(400).json({error:'url mancante'});
+  const r = await fetchDisneyWithCache(u);
+  if(!r || !r.parsed) return res.status(404).json({error:'Impossibile parsare', status:r?.status});
+  res.json(r.parsed);
+});
+
 // Sync automatico inventario tra locale e Vercel via GitHub
-import fs from 'fs';
 const DATA_PATH = path.join(__dirname, 'data', 'inventory.json');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_REPO = 'GIUREX97/brickfig-manager';
 
+// Unione delle foto: non perdere MAI una foto reale. Se un lato ha gia gli
+// indirizzi su disco (/data/photos/...) scartiamo i vecchi base64 duplicati.
+function mergeFotoLists(a, b){
+  const A = Array.isArray(a) ? a.filter(Boolean) : [];
+  const B = Array.isArray(b) ? b.filter(Boolean) : [];
+  const isUrl = (u) => typeof u === 'string' && u.indexOf('/data/photos/') === 0;
+  const aUrl = A.some(isUrl), bUrl = B.some(isUrl);
+  const out = [];
+  const add = (list) => { for(const u of list){ if(u && out.indexOf(u) === -1) out.push(u); } };
+  if(aUrl && !bUrl) add(A);
+  else if(bUrl && !aUrl) add(B);
+  else { add(A); add(B); }
+  return out.slice(0, 5);
+}
+
+// Merge inventario locale/cloud senza perdere foto ne pezzi creati in locale.
+function mergeInventory(localArr, remoteArr){
+  const local = Array.isArray(localArr) ? localArr : [];
+  const remote = Array.isArray(remoteArr) ? remoteArr : [];
+  const map = new Map();
+  for(const f of remote){ if(f && f.id) map.set(f.id, f); }
+  for(const l of local){
+    if(!l || !l.id) continue;
+    const r = map.get(l.id);
+    if(!r){ map.set(l.id, l); continue; }
+    const base = (r.updated || 0) > (l.updated || 0) ? { ...l, ...r } : l;
+    map.set(l.id, { ...base, fotoExtra: mergeFotoLists(l.fotoExtra, r.fotoExtra), foto: base.foto || l.foto || r.foto || '' });
+  }
+  return [...map.values()];
+}
+
+// ============================================================================
+// FOTO REALI SU DISCO (fix 25-11-2026)
+// Prima le foto venivano salvate come base64 dentro il localStorage del browser
+// (~5MB max): quando era pieno il browser le scartava e al riavvio sparivano.
+// Ora il file immagine vive su disco in data/photos e nel gestionale resta solo
+// l'indirizzo corto (/data/photos/xxxx.jpg), quindi niente piu quota piena.
+// ============================================================================
+const PHOTOS_DIR = path.join(__dirname, 'data', 'photos');
+try { fs.mkdirSync(PHOTOS_DIR, { recursive: true }); } catch(e){}
+
+// Backup best-effort della foto anche sul repo GitHub (cosi si vede pure online).
+// Se il token non e valido la foto resta comunque al sicuro in locale.
+async function backupPhotoToGithub(name, buf){
+  if(!GITHUB_TOKEN) return;
+  try{
+    const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/data/photos/${name}`;
+    const headers = { Authorization: `token ${GITHUB_TOKEN}`, 'User-Agent': 'brickfig-sync' };
+    let sha = null;
+    const get = await fetch(apiUrl, { headers });
+    if(get.ok){ const j = await get.json(); sha = j.sha; }
+    const put = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: { ...headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: `Foto reale ${name}`, content: buf.toString('base64'), sha: sha || undefined })
+    });
+    if(!put.ok){ const t = await put.text(); console.log('[foto] backup GitHub fallito:', put.status, t.slice(0,140)); }
+  }catch(e){ console.log('[foto] backup GitHub errore:', e.message); }
+}
+
+app.post('/api/photo', express.json({ limit: '25mb' }), async (req, res) => {
+  try{
+    const dataUrl = req.body && req.body.data;
+    if(typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) return res.status(400).json({ error: 'Formato foto non valido' });
+    const m = dataUrl.match(/^data:image\/([a-zA-Z0-9+.-]+);base64,([\s\S]+)$/);
+    if(!m) return res.status(400).json({ error: 'Base64 non valido' });
+    let ext = String(m[1]).toLowerCase();
+    if(ext === 'jpeg') ext = 'jpg';
+    if(!['jpg','png','webp','gif','avif','bmp'].includes(ext)) ext = 'jpg';
+    const buf = Buffer.from(m[2], 'base64');
+    if(!buf.length) return res.status(400).json({ error: 'Foto vuota' });
+    if(buf.length > 15*1024*1024) return res.status(413).json({ error: 'Foto troppo grande (max 15MB)' });
+    const hash = crypto.createHash('sha1').update(buf).digest('hex').slice(0,16);
+    const safe = String((req.body && req.body.filename) || '').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40);
+    const name = hash + (safe ? '-' + safe : '') + '.' + ext;
+    const filePath = path.join(PHOTOS_DIR, name);
+    if(!fs.existsSync(filePath)) fs.writeFileSync(filePath, buf);
+    // backup su GitHub in background: non blocchiamo la risposta
+    backupPhotoToGithub(name, buf);
+    res.json({ ok: true, url: '/data/photos/' + name, size: buf.length });
+  }catch(e){ res.status(500).json({ error: e.message }); }
+});
+
+// Elenco foto presenti su disco (diagnostica)
+app.get('/api/photos', (req, res) => {
+  try{
+    const files = fs.readdirSync(PHOTOS_DIR).filter(f => /\.(jpg|jpeg|png|webp|gif|avif|bmp)$/i.test(f));
+    res.json({ count: files.length, dir: PHOTOS_DIR, files: files.slice(-200) });
+  }catch(e){ res.json({ count: 0, error: e.message }); }
+});
+
 app.get('/api/sync', async (req, res) => {
+  const readLocal = () => { try{ if(fs.existsSync(DATA_PATH)) return JSON.parse(fs.readFileSync(DATA_PATH,'utf8') || '[]'); }catch(e){} return []; };
+  const saveMerged = (remoteArr) => {
+    const merged = mergeInventory(readLocal(), remoteArr);
+    try{ fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true }); fs.writeFileSync(DATA_PATH, JSON.stringify(merged, null, 2)); }catch(e){}
+    return merged;
+  };
   try {
     // 1) Prova GitHub API (fresco, no cache CDN) se token presente - gestisce file grandi >1MB via git blob
     if (GITHUB_TOKEN) {
@@ -656,10 +1236,7 @@ app.get('/api/sync', async (req, res) => {
               arr = JSON.parse(decoded2 || '[]');
             }
           }
-          if (arr) {
-            try { fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true }); fs.writeFileSync(DATA_PATH, JSON.stringify(arr, null, 2)); } catch(e){}
-            return res.json(arr);
-          }
+          if (arr) return res.json(saveMerged(arr));
         }
       } catch(e){}
     }
@@ -668,8 +1245,7 @@ app.get('/api/sync', async (req, res) => {
       const r = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/data/inventory.json?t=${Date.now()}`, { headers: { 'Cache-Control': 'no-cache' } });
       if (r.ok) {
         const j = await r.json();
-        try { fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true }); fs.writeFileSync(DATA_PATH, JSON.stringify(j, null, 2)); } catch(e){}
-        return res.json(j);
+        return res.json(saveMerged(j));
       }
     } catch(e){}
     // Fallback locale
@@ -1112,6 +1688,16 @@ app.get('/usa-italia', (req,res)=> res.sendFile(path.join(__dirname,'spedizioni.
 app.get('/brickfig.html', (req,res)=> res.sendFile(path.join(__dirname,'brickfig.html')));
 app.get('/brickfig', (req,res)=> res.sendFile(path.join(__dirname,'brickfig.html')));
 app.get('/gestionale', (req,res)=> res.sendFile(path.join(__dirname,'brickfig.html')));
+// Disney US vs EU checker
+app.get('/disney', (req,res)=> res.sendFile(path.join(__dirname,'disney.html')));
+app.get('/disney.html', (req,res)=> res.sendFile(path.join(__dirname,'disney.html')));
+app.get('/disney-check', (req,res)=> res.sendFile(path.join(__dirname,'disney.html')));
+app.get('/disney-extension.zip', (req,res)=>{
+  const zp = path.join(__dirname,'disney-extension.zip');
+  if(fs.existsSync(zp)) res.sendFile(zp);
+  else res.status(404).send('Estensione non ancora pacchettizzata - usa la cartella disney-extension/');
+});
+app.use('/disney-extension', express.static(path.join(__dirname,'disney-extension')));
 // Fallback per SPA - RIPRISTINATO: gestionale LEGO originale su /
 app.get('*', (req, res) => {
   if(req.path.startsWith('/api/')) return res.status(404).json({error:'API non trovata'});
