@@ -296,34 +296,6 @@
     "created": 1789304378022
   },
   {
-    "id": "1vdbzut",
-    "codice": "basilisk",
-    "codiceBrickLink": "basilisk",
-    "nome": "Snake, Harry Potter (Basilisk Sand Green with Scales) - Brick Built",
-    "categoria": "Animal, Land",
-    "categoriaMacro": "Animali",
-    "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/48/basilisk.png",
-    "fotoExtra": [],
-    "fotoVarianti": [],
-    "prezzoAvgUsato": 27.89,
-    "prezzoVendita": 21.49,
-    "variante": "(Not Applicable)",
-    "note": "",
-    "coloreId": "0",
-    "prezziDettaglio": {
-      "soldNew": null,
-      "soldUsed": 27.89,
-      "currentNew": 83.38,
-      "currentUsed": 36.65,
-      "listinoUsato": 27.89
-    },
-    "qta": 1,
-    "stato": "Disponibile",
-    "updated": 1795608521002,
-    "created": 1789304398704
-  },
-  {
     "id": "hpo0fpn",
     "codice": "cas037",
     "codiceBrickLink": "cas037",
