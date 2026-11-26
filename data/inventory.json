@@ -1,5 +1,47 @@
 [
   {
+    "id": "yzzpq4x",
+    "codice": "1935pb01",
+    "codiceBrickLink": "1935pb01",
+    "nome": "Horse, Skeletal Baby with White Eyes and Sand Blue Facial Lines Pattern (HP Thestral)",
+    "categoria": "Animal, Land",
+    "categoriaMacro": "Animali",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/11/1935pb01.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/1935pb01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/11/1935pb01.png"
+      },
+      {
+        "colorId": "11",
+        "colorName": "Black",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/11/1935pb01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/11/1935pb01.png"
+      }
+    ],
+    "prezzoAvgUsato": 2.03,
+    "prezzoVendita": 1.99,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 2.7,
+      "soldUsed": 2.03,
+      "currentNew": 3.32,
+      "currentUsed": 2.34,
+      "listinoUsato": 2.03
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1795726767098,
+    "created": 1795726767098
+  },
+  {
     "id": "o3vn2ip",
     "codice": "23946c01pb01",
     "codiceBrickLink": "23946c01pb01",
