@@ -26,9 +26,9 @@
     ],
     "prezzoAvgUsato": 2.03,
     "prezzoVendita": 1.99,
-    "variante": "(Not Applicable)",
+    "variante": "Black",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "11",
     "prezziDettaglio": {
       "soldNew": 2.7,
       "soldUsed": 2.03,
@@ -38,7 +38,7 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795726767098,
+    "updated": 1795726790611,
     "created": 1795726767098
   },
   {
