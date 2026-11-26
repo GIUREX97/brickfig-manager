@@ -7141,31 +7141,6 @@
     "created": 1789379116698
   },
   {
-    "id": "cn1p28j",
-    "codice": "sfuso-pg",
-    "codiceBrickLink": "sfuso-pg",
-    "nome": "Sfuso Pearl Gold",
-    "categoria": "Sfuso > Pearl Gold - al Kg",
-    "categoriaMacro": "Sfuso",
-    "tipoCode": "P",
-    "foto": "",
-    "fotoExtra": [
-      "/data/photos/433f64d8581a7135-sfuso-pg-1.jpg",
-      "/data/photos/1be6f8e21ff5f24a-sfuso-pg-2.jpg"
-    ],
-    "fotoVarianti": [],
-    "prezzoAvgUsato": 0,
-    "prezzoVendita": 40,
-    "variante": "Pearl Gold",
-    "note": "Sfuso Pearl Gold Misto al Kg, prelevato in modo del tutto casuale, dal lotto più grande in foto. Non verranno effettuate selezioni dei pezzi",
-    "coloreId": "",
-    "prezziDettaglio": null,
-    "qta": 2,
-    "stato": "Venduto",
-    "updated": 1795726291883,
-    "created": 1789379116698
-  },
-  {
     "id": "6vgszwt",
     "codice": "sfuso-tan",
     "codiceBrickLink": "sfuso-tan",
