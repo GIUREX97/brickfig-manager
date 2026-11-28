@@ -8,7 +8,7 @@
     "categoriaMacro": "Animali",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/2/67443pb01.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/48/67443pb01.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -30,21 +30,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/2/67443pb01.png"
       }
     ],
-    "prezzoAvgUsato": 4.39,
+    "prezzoAvgUsato": 7.27,
     "prezzoVendita": 4.29,
-    "variante": "(Not Applicable)",
+    "variante": "Sand Green",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "48",
     "prezziDettaglio": {
-      "soldNew": 6.46,
-      "soldUsed": 4.39,
-      "currentNew": 8.9,
-      "currentUsed": 5.46,
-      "listinoUsato": 4.39
+      "soldNew": null,
+      "soldUsed": null,
+      "currentNew": 14.37,
+      "currentUsed": 7.27,
+      "listinoUsato": 7.27
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795862188644,
+    "updated": 1795862191877,
     "created": 1795862188644
   },
   {
