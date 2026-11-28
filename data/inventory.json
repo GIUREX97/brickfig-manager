@@ -32,9 +32,9 @@
     ],
     "prezzoAvgUsato": 5.58,
     "prezzoVendita": 5.49,
-    "variante": "(Not Applicable)",
+    "variante": "Olive Green",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "155",
     "prezziDettaglio": {
       "soldNew": 8.47,
       "soldUsed": 5.58,
@@ -44,7 +44,7 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795862223103,
+    "updated": 1795862225357,
     "created": 1795862223103
   },
   {
