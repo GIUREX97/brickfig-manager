@@ -8,7 +8,7 @@
     "categoriaMacro": "Animali",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/6/30464.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/65/30464.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -50,9 +50,9 @@
     ],
     "prezzoAvgUsato": 1.05,
     "prezzoVendita": 2.79,
-    "variante": "(Not Applicable)",
+    "variante": "Metallic Gold",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "65",
     "prezziDettaglio": {
       "soldNew": 2.78,
       "soldUsed": 1.05,
