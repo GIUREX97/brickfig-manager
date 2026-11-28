@@ -26,9 +26,9 @@
     ],
     "prezzoAvgUsato": 10.39,
     "prezzoVendita": 10.39,
-    "variante": "(Not Applicable)",
+    "variante": "Medium Nougat",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "150",
     "prezziDettaglio": {
       "soldNew": 16.83,
       "soldUsed": 10.39,
@@ -38,7 +38,7 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795862207007,
+    "updated": 1795862208896,
     "created": 1795862207007
   },
   {
