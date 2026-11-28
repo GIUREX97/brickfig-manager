@@ -32,9 +32,9 @@
     ],
     "prezzoAvgUsato": 2.14,
     "prezzoVendita": 1.99,
-    "variante": "(Not Applicable)",
+    "variante": "Dark Bluish Gray",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "85",
     "prezziDettaglio": {
       "soldNew": 4,
       "soldUsed": 2.14,
@@ -44,7 +44,7 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795862101558,
+    "updated": 1795862108917,
     "created": 1795862101558
   },
   {
