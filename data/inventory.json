@@ -1,5 +1,47 @@
 [
   {
+    "id": "juav6iw",
+    "codice": "bb0916c01pb01",
+    "codiceBrickLink": "bb0916c01pb01",
+    "nome": "Wolf with Black Eyes and Nose, Tan Teeth, and Red Tips on Three Tails Pattern (Ninjago Akita)",
+    "categoria": "Animal, Land",
+    "categoriaMacro": "Animali",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/1/bb0916c01pb01.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/bb0916c01pb01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/1/bb0916c01pb01.png"
+      },
+      {
+        "colorId": "1",
+        "colorName": "White",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/1/bb0916c01pb01.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/1/bb0916c01pb01.png"
+      }
+    ],
+    "prezzoAvgUsato": 9.22,
+    "prezzoVendita": 9.19,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 23.24,
+      "soldUsed": 9.22,
+      "currentNew": 28.38,
+      "currentUsed": 11.21,
+      "listinoUsato": 9.22
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1795862214064,
+    "created": 1795862214064
+  },
+  {
     "id": "pumcwva",
     "codice": "bb0787c03pb01",
     "codiceBrickLink": "bb0787c03pb01",
