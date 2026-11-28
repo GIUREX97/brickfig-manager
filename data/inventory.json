@@ -1,5 +1,53 @@
 [
   {
+    "id": "frovo3k",
+    "codice": "4493c01pb05",
+    "codiceBrickLink": "4493c01pb05",
+    "nome": "Horse with Black Eyes, Silver Pupils and Black Bridle Pattern",
+    "categoria": "Animal, Land",
+    "categoriaMacro": "Animali",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/88/4493c01pb05.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/4493c01pb05.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/88/4493c01pb05.png"
+      },
+      {
+        "colorId": "8",
+        "colorName": "Brown",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/8/4493c01pb05.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/8/4493c01pb05.png"
+      },
+      {
+        "colorId": "88",
+        "colorName": "Reddish Brown",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/88/4493c01pb05.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/88/4493c01pb05.png"
+      }
+    ],
+    "prezzoAvgUsato": 3.92,
+    "prezzoVendita": 3.89,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 8.92,
+      "soldUsed": 3.92,
+      "currentNew": 14.41,
+      "currentUsed": 5.21,
+      "listinoUsato": 3.92
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1795862093334,
+    "created": 1795862093334
+  },
+  {
     "id": "yzzpq4x",
     "codice": "1935pb01",
     "codiceBrickLink": "1935pb01",
@@ -3664,8 +3712,8 @@
     "stato": "Disponibile",
     "updated": 1795608662802,
     "created": 1789335847496,
-    "lottoId": "miypcd9",
-    "soloLotto": true
+    "lottoId": null,
+    "soloLotto": false
   },
   {
     "id": "k8i1hyt",
@@ -3710,8 +3758,8 @@
     "stato": "Disponibile",
     "updated": 1795617040551,
     "created": 1789335878589,
-    "lottoId": "miypcd9",
-    "soloLotto": true
+    "lottoId": null,
+    "soloLotto": false
   },
   {
     "id": "slo2nsg",
@@ -3754,8 +3802,8 @@
     "stato": "Disponibile",
     "updated": 1795608664369,
     "created": 1789335907417,
-    "lottoId": "miypcd9",
-    "soloLotto": true
+    "lottoId": null,
+    "soloLotto": false
   },
   {
     "id": "2hct8f8",
