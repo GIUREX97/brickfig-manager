@@ -1,5 +1,53 @@
 [
   {
+    "id": "kjbjgm0",
+    "codice": "ptera05",
+    "codiceBrickLink": "ptera05",
+    "nome": "Dinosaur Pteranodon with 4 Studs with Dark Red Back and Small Oval Nostrils",
+    "categoria": "Animal, Dinosaur",
+    "categoriaMacro": "Animali",
+    "tipo": "Parte Sfusa",
+    "tipoCode": "P",
+    "foto": "https://img.bricklink.com/ItemImage/PN/155/ptera05.png",
+    "fotoExtra": [],
+    "fotoVarianti": [
+      {
+        "colorId": "0",
+        "colorName": "(Not Applicable)",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/0/ptera05.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/155/ptera05.png"
+      },
+      {
+        "colorId": "59",
+        "colorName": "Dark Red",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/59/ptera05.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/59/ptera05.png"
+      },
+      {
+        "colorId": "155",
+        "colorName": "Olive Green",
+        "thumb": "https://img.bricklink.com/ItemImage/PT/155/ptera05.t1.png",
+        "image": "https://img.bricklink.com/ItemImage/PN/155/ptera05.png"
+      }
+    ],
+    "prezzoAvgUsato": 5.71,
+    "prezzoVendita": 5.49,
+    "variante": "(Not Applicable)",
+    "note": "",
+    "coloreId": "0",
+    "prezziDettaglio": {
+      "soldNew": 7.47,
+      "soldUsed": 5.71,
+      "currentNew": 14.07,
+      "currentUsed": 7.17,
+      "listinoUsato": 5.71
+    },
+    "qta": 1,
+    "stato": "Disponibile",
+    "updated": 1795862230780,
+    "created": 1795862230780
+  },
+  {
     "id": "tl9zr8b",
     "codice": "dilo03",
     "codiceBrickLink": "dilo03",
