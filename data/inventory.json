@@ -32,9 +32,9 @@
     ],
     "prezzoAvgUsato": 1.88,
     "prezzoVendita": 1.79,
-    "variante": "(Not Applicable)",
+    "variante": "Dark Green",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "80",
     "prezziDettaglio": {
       "soldNew": 5.97,
       "soldUsed": 1.88,
@@ -44,7 +44,7 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795862118668,
+    "updated": 1795862126603,
     "created": 1795862118668
   },
   {
