@@ -361,20 +361,14 @@
     "fotoExtra": [],
     "fotoVarianti": [],
     "prezzoAvgUsato": 17.39,
-    "prezzoVendita": 17.99,
+    "prezzoVendita": 16.99,
     "variante": "Reddish Brown",
     "note": "",
     "coloreId": "88",
-    "prezziDettaglio": {
-      "soldNew": 27.36,
-      "soldUsed": 17.39,
-      "currentNew": 31.73,
-      "currentUsed": 23.6,
-      "listinoUsato": 17.39
-    },
+    "prezziDettaglio": null,
     "qta": 3,
     "stato": "Disponibile",
-    "updated": 1795608520100,
+    "updated": 1795862161677,
     "created": 1789304378022
   },
   {
