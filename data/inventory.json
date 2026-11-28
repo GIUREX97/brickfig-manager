@@ -26,9 +26,9 @@
     ],
     "prezzoAvgUsato": 2.49,
     "prezzoVendita": 2.49,
-    "variante": "(Not Applicable)",
+    "variante": "Dark Tan",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "69",
     "prezziDettaglio": {
       "soldNew": 3.28,
       "soldUsed": 2.49,
@@ -38,7 +38,7 @@
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795862145755,
+    "updated": 1795862148491,
     "created": 1795862145755
   },
   {
