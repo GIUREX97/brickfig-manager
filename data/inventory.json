@@ -8,7 +8,7 @@
     "categoriaMacro": "Animali",
     "tipo": "Parte Sfusa",
     "tipoCode": "P",
-    "foto": "https://img.bricklink.com/ItemImage/PN/0/tricera05.png",
+    "foto": "https://img.bricklink.com/ItemImage/PN/155/tricera05.png",
     "fotoExtra": [],
     "fotoVarianti": [
       {
@@ -30,21 +30,21 @@
         "image": "https://img.bricklink.com/ItemImage/PN/2/tricera05.png"
       }
     ],
-    "prezzoAvgUsato": 5.51,
+    "prezzoAvgUsato": 5.2,
     "prezzoVendita": 5.19,
-    "variante": "(Not Applicable)",
+    "variante": "Olive Green",
     "note": "",
-    "coloreId": "0",
+    "coloreId": "155",
     "prezziDettaglio": {
-      "soldNew": 6.16,
-      "soldUsed": 5.51,
-      "currentNew": 11.67,
-      "currentUsed": 6.66,
-      "listinoUsato": 5.51
+      "soldNew": null,
+      "soldUsed": 5.2,
+      "currentNew": null,
+      "currentUsed": 13.78,
+      "listinoUsato": 5.2
     },
     "qta": 1,
     "stato": "Disponibile",
-    "updated": 1795862240408,
+    "updated": 1795862242292,
     "created": 1795862240408
   },
   {
